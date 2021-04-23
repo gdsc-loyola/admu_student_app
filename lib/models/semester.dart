@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:admu_student_app/models/course.dart';
 
-import 'package:admu_student_app/models/Course.dart';
-
-class Semester extends ChangeNotifier {
+class Semester {
   int _semNum;
   int _units;
   double _qpi;
   List<Course> _courses = [];
+
+  int get semNum => _semNum;
 
   String get semString {
     switch (_semNum) {

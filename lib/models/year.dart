@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:admu_student_app/models/semester.dart';
 
-import 'package:admu_student_app/models/Semester.dart';
-
-class Year extends ChangeNotifier {
+class Year {
   int _yearNum;
   int _units;
   double _qpi;
   List<Semester> _sems = [];
+
+  int get yearNum => _yearNum;
 
   String get yearString {
     switch (_yearNum) {

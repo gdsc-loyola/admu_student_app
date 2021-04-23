@@ -1,25 +1,22 @@
-import 'package:flutter/material.dart';
+class Course {
+  String courseCode;
+  int units;
+  double qpi;
+  bool isIncludedInQPI;
 
-class Course extends ChangeNotifier {
-  String _courseCode;
-  int _units;
-  double _qpi;
-  bool _isIncludedInQPI;
+  // String get code => _courseCode;
+  // int get units => _units;
+  // double get qpi => _qpi;
+  // bool get isIncludedInQPI => _isIncludedInQPI;
 
-  String get code => _courseCode;
-  int get units => _units;
-  double get qpi => _qpi;
-  bool get isIncludedInQPI => _isIncludedInQPI;
-
-  set qpi(double newQPI) {
-    _qpi = newQPI;
-    notifyListeners();
-  }
+  // set qpi(double newQPI) {
+  //   _qpi = newQPI;
+  // }
 
   Course(String courseCode, int units, double qpi, bool isIncludedInQPI) {
-    _courseCode = courseCode;
-    _units = units;
-    _qpi = qpi;
-    _isIncludedInQPI = isIncludedInQPI;
+    this.courseCode = courseCode;
+    this.units = units;
+    this.qpi = qpi;
+    this.isIncludedInQPI = isIncludedInQPI;
   }
 }
