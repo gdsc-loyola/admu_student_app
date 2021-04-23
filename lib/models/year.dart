@@ -4,7 +4,7 @@ class Year {
   int _yearNum;
   int _units;
   double _qpi;
-  List<Semester> _sems = [];
+  List<Semester> sems = [];
 
   int get yearNum => _yearNum;
 
@@ -25,11 +25,22 @@ class Year {
     }
   }
 
+int get allUnits {
+    if (_units == null) {
+      int totalUnits = 0;
+
+      for (Semester s in sems) totalUnits += s.units;
+
+      return totalUnits;
+    } else
+      return _units;
+  }
+
   int get units {
     if (_units == null) {
       int totalUnits = 0;
 
-      for (Semester s in _sems) totalUnits += s.units;
+      for (Semester s in sems) totalUnits += s.units;
 
       return totalUnits;
     } else
@@ -41,7 +52,7 @@ class Year {
       double sumGrades = 0;
       int totalUnits = 0;
 
-      for (Semester s in _sems) {
+      for (Semester s in sems) {
         sumGrades += s.semestralQPI * s.units;
         totalUnits += s.units;
       }
@@ -52,11 +63,9 @@ class Year {
       return _qpi;
   }
 
-  List<Semester> get sems => _sems;
-
   Year(int num, List<Semester> sems) {
     _yearNum = num;
-    _sems = sems;
+    this.sems = sems;
   }
 
   Year.fromYear(int num, int units, double qpi) {

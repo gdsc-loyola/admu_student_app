@@ -4,7 +4,7 @@ class Semester {
   int _semNum;
   int _units;
   double _qpi;
-  List<Course> _courses = [];
+  List<Course> courses = [];
 
   int get semNum => _semNum;
 
@@ -17,15 +17,26 @@ class Semester {
       case 2:
         return 'Second Semester';
       default:
-        return '???';
+        return '?';
     }
+  }
+
+  int get allUnits {
+    if (_units == null) {
+      int totalUnits = 0;
+
+      for (Course c in courses) totalUnits += c.units;
+
+      return totalUnits;
+    } else
+      return _units;
   }
 
   int get units {
     if (_units == null) {
       int totalUnits = 0;
 
-      for (Course c in _courses) {
+      for (Course c in courses) {
         if (c.isIncludedInQPI) totalUnits += c.units;
       }
 
@@ -39,7 +50,7 @@ class Semester {
       double sumGrades = 0;
       int totalUnits = 0;
 
-      for (Course c in _courses) {
+      for (Course c in courses) {
         if (c.isIncludedInQPI) {
           sumGrades += c.qpi * c.units;
           totalUnits += c.units;
@@ -52,11 +63,9 @@ class Semester {
       return _qpi;
   }
 
-  List<Course> get courses => _courses;
-
   Semester(int num, List<Course> courses) {
     _semNum = num;
-    _courses = courses;
+    this.courses = courses;
   }
 
   Semester.fromSem(int num, int units, double qpi) {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/models/year.dart';
-import 'package:admu_student_app/models/semester.dart';
 import 'package:admu_student_app/models/course.dart';
+import 'package:admu_student_app/models/semester.dart';
+import 'package:admu_student_app/models/year.dart';
 
 class AcademicRecords extends ChangeNotifier {
+  // sample data for testing purposes
   List<Year> _years = [
     Year(1, [
       Semester(1, [
@@ -31,16 +32,14 @@ class AcademicRecords extends ChangeNotifier {
     ]),
   ];
 
-  // get years async {
-  // // query from database
-  // }
+  get years => _years;
 
+  // testing purposes
   get sems {
     // query from database
     return _years[0].sems;
   }
 
-  // get list of courses in specific year and sem
   List<Course> getCourses(int year, int sem) {
     if (year == 1 && sem == 1) {
       return _years[0].sems[0].courses;
@@ -77,9 +76,59 @@ class AcademicRecords extends ChangeNotifier {
     return 0.0;
   }
 
-  void editCourse(String code, double newQPI) {
-    // update in database with PRIMARY KEY code
+  void addYearlyQPI(int yearNum, int units, double qpi) async {
+    // add to database
+    // key YEAR_Y
 
+    _updateList();
+  }
+
+  void editYearlyQPI(int yearNum, int units, double qpi) async {
+    // edit from database
+    // key YEAR_Y
+
+    _updateList();
+  }
+
+  void deleteYearlyQPI(int yearNum) async {
+    // delete from database
+    // key YEAR_Y
+
+    _updateList();
+  }
+
+  void addSemestralQPI(int yearNum, int semNum, int units, double qpi) async {
+    // add to database
+    // key SEM_Y_S
+
+    _updateList();
+  }
+
+  void editSemestralQPI(int yearNum, int semNum, int units, double qpi) async {
+    // edit from database
+    // key SEM_Y_S
+  }
+
+  void deleteSemestralQPI(int yearNum, int semNum) async {
+    // delete from database
+    // key SEM_Y_S
+
+    _updateList();
+  }
+
+  void addCourse(int yearNum, int semNum, String code, int units, double qpi,
+      bool isIncludedInQPI) async {
+    // add to database
+    // key CODE
+
+    _updateList();
+  }
+
+  void editCourse(String code, double newQPI) {
+    // edit from database
+    // key CODE
+
+    // testing purposes
     for (Year y in _years) {
       for (Semester s in y.sems) {
         for (Course c in s.courses) {
@@ -95,9 +144,16 @@ class AcademicRecords extends ChangeNotifier {
     _updateList();
   }
 
-  void _updateList() {
-    // refresh inner list from database
-    // _years = years;
+  void deleteCourse(String code) async {
+    // delete from database
+    // key CODE
+
+    _updateList();
+  }
+
+  void _updateList() async {
+    // query from database: table of courses
+
     notifyListeners();
   }
 }
