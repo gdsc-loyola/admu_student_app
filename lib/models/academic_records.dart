@@ -9,13 +9,13 @@ class AcademicRecords extends ChangeNotifier {
   List<Year> _years = [
     Year(1, [
       Semester(1, [
-        Course('CSCI 20', 3, 4.0, true),
-        Course('CSCI 21', 3, 4.0, true),
-        Course('ENGL 11', 3, 4.0, true),
+        Course('CSCI 20', 3, 0.0, true),
+        Course('CSCI 21', 3, 1.0, true),
+        Course('ENGL 11', 3, 2.0, true),
         Course('FILI 12', 3, 2.5, true),
         Course('INTACT 11', 0, 0.0, false),
-        Course('MATH 10', 3, 4.0, true),
-        Course('MATH 21', 3, 4.0, true),
+        Course('MATH 10', 3, 3.0, true),
+        Course('MATH 21', 3, 3.5, true),
         Course('PHYED 111', 2, 4.0, false),
       ]),
       Semester(2, [
