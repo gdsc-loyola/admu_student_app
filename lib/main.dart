@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:admu_student_app/widgets/nav_bar.dart';
+
+import 'package:admu_student_app/screens/main_app.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
-const PrimaryColor = const Color(0xFF9873FF); //Color of App Bar and Navigation Bar
+const PrimaryColor =
+    const Color(0xFF9873FF); //Color of App Bar and Navigation Bar
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,8 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
       ),
-      home: NavBar(),
+      home: MainPage(), // change this to Splash screen
+      // Splash screen -> Login -> (Onboarding) -> Main Page
     );
   }
 }
-
