@@ -1,19 +1,25 @@
+import 'package:admu_student_app/screens/splash_page.dart';
 import 'package:flutter/material.dart';
-import 'package:admu_student_app/widgets/nav_bar.dart';
+import 'package:admu_student_app/screens/main_app.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
-const PrimaryColor = const Color(0xFF9873FF); //Color of App Bar and Navigation Bar
+const PrimaryColor =
+    const Color(0xFF855AFF); //Color of App Bar and Navigation Bar
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        textTheme: GoogleFonts.dmSansTextTheme(
+            Theme.of(context).textTheme,
+        ),
         primaryColor: PrimaryColor, //#AB8CFF
         // This is the theme of your application.
         //
@@ -25,8 +31,8 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
       ),
-      home: NavBar(),
+      home: SplashPage(), // change this to Splash screen
+      // Splash screen -> Login -> (Onboarding) -> Main Page
     );
   }
 }
-
