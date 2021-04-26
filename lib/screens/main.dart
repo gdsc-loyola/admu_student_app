@@ -1,7 +1,7 @@
-import 'package:admu_student_app/screens/login.dart';
-import 'package:admu_student_app/screens/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:admu_student_app/screens/login.dart';
 
 void main() {
   runApp(MyApp());

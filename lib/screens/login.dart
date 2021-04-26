@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:admu_student_app/screens/onboarding.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
       data: MediaQueryData(),
-      child: MaterialApp(
-        theme: ThemeData(
-            textTheme:
-                GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)),
-        home: Directionality(
+      child: Material(
+        child: Directionality(
           textDirection: TextDirection.ltr,
           child: Scaffold(
             body: Center(
@@ -19,16 +16,21 @@ class Login extends StatelessWidget {
                 //Parent Column
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
                       backgroundImage: AssetImage('onboarding.png'),
                       radius: 100,
                     ),
-                    Text('Welcome to Beadle!',
-                        style: TextStyle(
-                            color: Colors.deepPurple[300],
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold)),
+                    Text(
+                      'Welcome to Beadle!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.deepPurple[300],
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     // Container for Buttons
                     Container(
                       height: 136,
@@ -135,10 +137,9 @@ class Login extends StatelessWidget {
                             child: Text(
                               'Continue as Guest',
                               style: TextStyle(
-                                color: Colors.deepPurple[300],
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline
-                              ),
+                                  color: Colors.deepPurple[300],
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline),
                             ),
                           )
                         ],

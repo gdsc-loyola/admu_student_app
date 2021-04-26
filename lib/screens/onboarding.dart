@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+
 import 'package:admu_student_app/screens/main.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Onboarding extends StatefulWidget {
   @override
@@ -76,11 +76,8 @@ class _OnboardingState extends State<Onboarding> {
   Widget build(BuildContext context) {
     return MediaQuery(
       data: MediaQueryData(),
-      child: MaterialApp(
-        theme: ThemeData(
-            textTheme:
-                GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)),
-        home: Directionality(
+      child: Material(
+        child: Directionality(
           textDirection: TextDirection.ltr,
           child: Scaffold(
             body: Container(
