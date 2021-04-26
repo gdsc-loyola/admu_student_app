@@ -1,6 +1,6 @@
 import 'package:admu_student_app/screens/login.dart';
 import 'package:flutter/material.dart';
-import 'package:admu_student_app/screens/onboarding.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,8 +24,9 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)
       ),
-      home: login(),
+      home: Login(),
     );
   }
 }

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:admu_student_app/screens/onboarding.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class login extends StatelessWidget {
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
       data: MediaQueryData(),
-      child: Material(
-        child: Directionality(
+      child: MaterialApp(
+        theme: ThemeData(
+          textTheme: GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)
+        ),
+        home: Directionality(
           textDirection: TextDirection.ltr,
           child: Scaffold(
             body: Center(
@@ -105,7 +109,7 @@ class login extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => onboarding()),
+                            MaterialPageRoute(builder: (_) => Onboarding()),
                           );
                         },
                         child: Text(

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:admu_student_app/screens/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class onboarding extends StatefulWidget {
+class Onboarding extends StatefulWidget {
   @override
-  _onboardingState createState() => _onboardingState();
+  _OnboardingState createState() => _OnboardingState();
 }
 
 List<PageViewModel> listPagesViewModel = [
@@ -75,13 +76,16 @@ List<PageViewModel> listPagesViewModel = [
   )
 ];
 
-class _onboardingState extends State<onboarding> {
+class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
       data: MediaQueryData(),
-      child: Material(
-        child: Directionality(
+      child: MaterialApp(
+        theme: ThemeData(
+          textTheme: GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)
+        ),
+        home: Directionality(
           textDirection: TextDirection.ltr,
           child: Scaffold(
             body: Container(
