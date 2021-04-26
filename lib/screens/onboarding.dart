@@ -13,9 +13,8 @@ List<PageViewModel> listPagesViewModel = [
     title: "Hi, I'm Beadle!",
     body:
         "Your accessible companion for all your productivity and organization needs.",
-    image: const Center(
-      child:
-          Image(image: AssetImage('assets/onboarding.png'), fit: BoxFit.fill),
+    image: Container(
+      color: Colors.deepPurple[300],
     ),
     decoration: const PageDecoration(
         titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
@@ -26,9 +25,8 @@ List<PageViewModel> listPagesViewModel = [
     title: "Feature 1",
     body:
         "description of feature description of feature description of feature.",
-    image: const Center(
-      child:
-          Image(image: AssetImage('assets/onboarding.png'), fit: BoxFit.fill),
+    image: Container(
+      color: Colors.yellow,
     ),
     decoration: const PageDecoration(
         titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
@@ -39,9 +37,8 @@ List<PageViewModel> listPagesViewModel = [
     title: "Feature 2",
     body:
         "description of feature description of feature description of feature.",
-    image: const Center(
-      child:
-          Image(image: AssetImage('assets/onboarding.png'), fit: BoxFit.fill),
+    image: Container(
+      color: Colors.red,
     ),
     decoration: const PageDecoration(
         titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
@@ -52,9 +49,8 @@ List<PageViewModel> listPagesViewModel = [
     title: "Feature 3",
     body:
         "description of feature description of feature description of feature.",
-    image: const Center(
-      child:
-          Image(image: AssetImage('assets/onboarding.png'), fit: BoxFit.fill),
+    image: Container(
+      color: Colors.blue,
     ),
     decoration: const PageDecoration(
         titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
@@ -65,9 +61,8 @@ List<PageViewModel> listPagesViewModel = [
     title: "Feature 4",
     body:
         "description of feature description of feature description of feature.",
-    image: const Center(
-      child:
-          Image(image: AssetImage('assets/onboarding.png'), fit: BoxFit.fill),
+    image: Container(
+      color: Colors.green,
     ),
     decoration: const PageDecoration(
         titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
@@ -83,8 +78,8 @@ class _OnboardingState extends State<Onboarding> {
       data: MediaQueryData(),
       child: MaterialApp(
         theme: ThemeData(
-          textTheme: GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)
-        ),
+            textTheme:
+                GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)),
         home: Directionality(
           textDirection: TextDirection.ltr,
           child: Scaffold(

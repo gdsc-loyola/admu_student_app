@@ -9,16 +9,16 @@ class Login extends StatelessWidget {
       data: MediaQueryData(),
       child: MaterialApp(
         theme: ThemeData(
-          textTheme: GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)
-        ),
+            textTheme:
+                GoogleFonts.dmSansTextTheme(Theme.of(context).textTheme)),
         home: Directionality(
           textDirection: TextDirection.ltr,
           child: Scaffold(
             body: Center(
               child: Container(
-                padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
+                //Parent Column
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     CircleAvatar(
                       backgroundImage: AssetImage('onboarding.png'),
@@ -29,97 +29,121 @@ class Login extends StatelessWidget {
                             color: Colors.deepPurple[300],
                             fontSize: 40,
                             fontWeight: FontWeight.bold)),
-                    // Google Sign in
+                    // Container for Buttons
                     Container(
+                      height: 136,
                       width: 264,
-                      height: 56,
-                      color: Colors.transparent,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image(
-                                image: AssetImage('google.png'),
-                                width: 24,
-                                height: 24,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 40),
-                                child: Text(
-                                  'Sign In with Google',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                      // Column for Buttons
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 264,
+                            height: 56,
+                            color: Colors.transparent,
+                            child: TextButton(
+                              onPressed: () {},
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image(
+                                      image: AssetImage('google.png'),
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 40),
+                                      child: Text(
+                                        'Sign In with Google',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
+                              ),
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                          BeveledRectangleBorder>(
+                                      BeveledRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(2),
+                                          side:
+                                              BorderSide(color: Colors.blue)))),
+                            ),
                           ),
-                        ),
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                    BeveledRectangleBorder>(
-                                BeveledRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2),
-                                    side: BorderSide(color: Colors.blue)))),
+                          Container(
+                            width: 264,
+                            height: 56,
+                            color: Colors.transparent,
+                            child: TextButton(
+                              onPressed: () {},
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image(
+                                      image: AssetImage('apple.png'),
+                                      width: 24,
+                                      height: 24,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 40),
+                                      child: Text(
+                                        'Sign In with Apple',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                          BeveledRectangleBorder>(
+                                      BeveledRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(2),
+                                          side: BorderSide(
+                                              color: Colors.black)))),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    // Apple Sign in
+                    // Container for Bottom Text
                     Container(
-                      width: 264,
-                      height: 56,
-                      color: Colors.transparent,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image(
-                                image: AssetImage('apple.png'),
-                                width: 24,
-                                height: 24,
+                      width: 144,
+                      height: 52,
+                      // Column for Bottom Text
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('No account?'),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (_) => Onboarding()),
+                              );
+                            },
+                            child: Text(
+                              'Continue as Guest',
+                              style: TextStyle(
+                                color: Colors.deepPurple[300],
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline
                               ),
-                              Container(
-                                margin: EdgeInsets.only(left: 40),
-                                child: Text(
-                                  'Sign In with Apple',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                    BeveledRectangleBorder>(
-                                BeveledRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2),
-                                    side: BorderSide(color: Colors.black)))),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    // No Account?
-                    Text('No account?'),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => Onboarding()),
-                          );
-                        },
-                        child: Text(
-                          'Continue as Guest',
-                          style: TextStyle(
-                            color: Colors.deepPurple[300],
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ))
-                    // Continue as Guest
                   ],
                 ),
               ),
