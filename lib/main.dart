@@ -1,7 +1,8 @@
-import 'package:admu_student_app/screens/splash_page.dart';
 import 'package:flutter/material.dart';
-import 'package:admu_student_app/screens/main_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:admu_student_app/screens/main_app.dart';
+import 'package:admu_student_app/screens/splash_page.dart';
 
 void main() {
   runApp(App());
@@ -31,7 +32,7 @@ class App extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
       ),
-      home: SplashPage(), // change this to Splash screen
+      home: SplashPage(),
       // Splash screen -> Login -> (Onboarding) -> Main Page
     );
   }
