@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-import 'package:admu_student_app/screens/main.dart';
+import 'package:admu_student_app/screens/main_app.dart';
 
 class Onboarding extends StatefulWidget {
   @override
@@ -85,7 +85,7 @@ class _OnboardingState extends State<Onboarding> {
                 pages: listPagesViewModel,
                 onDone: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => MyHomePage()),
+                    MaterialPageRoute(builder: (_) => MainPage()),
                   );
                 },
                 showDoneButton: true,
