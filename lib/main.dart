@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/screens/splash_page.dart';
 
 void main() {
-  runApp(App());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => AcademicRecords()),
+    ],
+    child: App(),
+  ));
 }
 
 const PrimaryColor =
