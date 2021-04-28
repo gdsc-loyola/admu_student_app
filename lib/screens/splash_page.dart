@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:admu_student_app/main.dart';
 import 'package:flutter/material.dart';
-import 'main_app.dart';
+
+import 'package:admu_student_app/main.dart';
+import 'package:admu_student_app/screens/login.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -14,7 +15,6 @@ class StartState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return initScreen(context);
   }
-
 
   @override
   void initState() {
@@ -28,62 +28,53 @@ class StartState extends State<SplashPage> {
   }
 
   route() {
-    Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => MainPage(),
-    )
-    );
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ));
   }
 
   initScreen(BuildContext context) {
-
     return Scaffold(
       backgroundColor: PrimaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
             Padding(padding: EdgeInsets.only(bottom: 150.0)),
-
             Expanded(
-                child: Align(
-                  alignment: FractionalOffset.center,
-                  child: Container(
-                    decoration: new BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      //container can be changed to:
-                      //backgroundImage: NetworkImage("photo url"),
-                    ),
+              child: Align(
+                alignment: FractionalOffset.center,
+                child: Container(
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    //container can be changed to:
+                    //backgroundImage: NetworkImage("photo url"),
                   ),
                 ),
-                  //For icon, change to Image.asset("assets/Splash.png"),
-                ),
-
+              ),
+              //For icon, change to Image.asset("assets/Splash.png"),
+            ),
             Padding(padding: EdgeInsets.only(top: 50.0)),
-
             CircularProgressIndicator(
               backgroundColor: Colors.white,
               strokeWidth: 1,
             ),
-
             Expanded(
-              child: Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: Text(
-                  "Beadle",
-                  style: TextStyle(
-                      letterSpacing: 1,
-                      fontSize: 40.0,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white
-                  ),
-                ),
-              )
-            ),
-
+                child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Text(
+                "Beadle",
+                style: TextStyle(
+                    letterSpacing: 1,
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white),
+              ),
+            )),
             Padding(padding: EdgeInsets.only(top: 50.0)),
-
           ],
         ),
       ),

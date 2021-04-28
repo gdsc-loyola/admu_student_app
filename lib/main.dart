@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:admu_student_app/screens/main_app.dart';
 import 'package:admu_student_app/screens/splash_page.dart';
 
 void main() {
@@ -19,7 +18,7 @@ class App extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         textTheme: GoogleFonts.dmSansTextTheme(
-            Theme.of(context).textTheme,
+          Theme.of(context).textTheme,
         ),
         primaryColor: PrimaryColor, //#AB8CFF
         // This is the theme of your application.
@@ -31,9 +30,9 @@ class App extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
+        primarySwatch: Colors.blue,
       ),
       home: SplashPage(),
-      // Splash screen -> Login -> (Onboarding) -> Main Page
     );
   }
 }
