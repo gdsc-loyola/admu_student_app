@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/screens/onboarding.dart';
+import 'package:admu_student_app/screens/onboarding_page.dart';
 
-class Login extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
@@ -131,7 +131,8 @@ class Login extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).push(
-                                MaterialPageRoute(builder: (_) => Onboarding()),
+                                MaterialPageRoute(
+                                    builder: (_) => OnboardingPage()),
                               );
                             },
                             child: Text(

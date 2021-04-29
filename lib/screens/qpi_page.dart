@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:admu_student_app/main.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/year.dart';
-import 'package:admu_student_app/screens/qpi/semester.dart';
+import 'package:admu_student_app/screens/qpi/qpi_semester.dart';
 import 'package:admu_student_app/widgets/qpi/qpi_view.dart';
 
 class QPIPage extends StatefulWidget {
