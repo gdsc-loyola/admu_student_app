@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class QPIView extends StatelessWidget {
-  double _value = 0.0;
+import 'package:admu_student_app/main.dart';
 
-  QPIView(double val) {
-    _value = val;
-  }
+class QPIView extends StatelessWidget {
+  final double value;
+
+  QPIView({@required this.value});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-        color: Colors.blue,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        color: PrimaryColor,
       ),
       height: 80,
       child: Center(
@@ -21,10 +21,10 @@ class QPIView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                '${_value.toStringAsFixed(2)}',
-                style: GoogleFonts.dmSans(
+                '${value.toStringAsFixed(2)}',
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 32,
+                  fontSize: 32.0,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

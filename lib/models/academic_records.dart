@@ -30,6 +30,13 @@ class AcademicRecords extends ChangeNotifier {
         Course('THEO 11', 3, 4.0, false),
       ]),
     ]),
+    Year(2, [
+      Semester(0, [
+        Course('MATH NSCI TECH ELECTIVE', 3, 0.0, true),
+        Course('SocSc 12', 3, 1.0, true),
+        Course('MATH 30.24', 3, 2.0, true),
+      ]),
+    ]),
   ];
 
   get years => _years;

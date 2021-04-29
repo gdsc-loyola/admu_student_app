@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:admu_student_app/screens/home/pomodoro_page.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -8,8 +10,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('This is the Home Page'),
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => PomodoroPage()),
+            );
+          },
+          child: Text('Pomodoro'),
+        ),
+      ],
     );
   }
 }
