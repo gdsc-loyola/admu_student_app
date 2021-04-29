@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:admu_student_app/main.dart';
-import 'package:admu_student_app/screens/calendar_page.dart';
+import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/directory_page.dart';
-import 'package:admu_student_app/screens/home_page.dart';
-import 'package:admu_student_app/screens/qpi_page.dart';
-import 'package:admu_student_app/screens/schedule_page.dart';
+import 'package:admu_student_app/screens/home/home_page.dart';
+import 'package:admu_student_app/screens/qpi/qpi_page.dart';
+import 'package:admu_student_app/screens/schedule/schedule_page.dart';
 
 class MainPage extends StatefulWidget {
   @override
