@@ -136,7 +136,7 @@ class AcademicRecords extends ChangeNotifier {
         CentralDatabaseHelper.color: color,
         CentralDatabaseHelper.units: units,
         CentralDatabaseHelper.qpi: qpi,
-        CentralDatabaseHelper.isIncludedInQPI: isIncludedInQPI,
+        CentralDatabaseHelper.isIncludedInQPI: isIncludedInQPI ? 1 : 0,
       },
     );
 
@@ -187,10 +187,31 @@ class AcademicRecords extends ChangeNotifier {
   void _updateList() async {
     // get list of rows
     List<Map<String, dynamic>> tempRows =
-        await (await CentralDatabaseHelper.instance.database)
-            .query(CentralDatabaseHelper.tableName_courses);
+        await (await CentralDatabaseHelper.instance.database).query(
+            CentralDatabaseHelper.tableName_courses,
+            orderBy: '${CentralDatabaseHelper.year} ASC');
+
+    // create courses
+    List<Course> tempCourses = [];
+    tempRows.forEach((row) {
+      tempCourses.add(Course.fromMap(row));
+    });
+
+    // sort them into List<Year>
+    // for(Map<String, dynamic> m in tempRows) {
+    // }
 
     print(tempRows);
+    // print(tempCourses);
     notifyListeners();
+  }
+
+  void deleteAllData() async {
+    await (await CentralDatabaseHelper.instance.database)
+        .delete(CentralDatabaseHelper.tableName_courses);
+
+    print('deleted all course data');
+
+    _updateList();
   }
 }

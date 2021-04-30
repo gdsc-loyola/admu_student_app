@@ -23,7 +23,8 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^2.0.0
-  introduction_screen: ^2.1.0 
+  introduction_screen: ^2.1.0
+  path_provider: ^2.0.1
   provider: ^5.0.0
   sqflite: ^2.0.0
   unicons: ^2.0.1

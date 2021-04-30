@@ -88,6 +88,13 @@ class _QPIPageState extends State<QPIPage> {
               );
             },
           ),
+          ElevatedButton(
+            onPressed: () {
+              Provider.of<AcademicRecords>(context, listen: false)
+                  .addCourse(1, 1, 'TEST', 0, 3, 4.0, true);
+            },
+            child: Text('add new course'),
+          ),
         ],
       ),
     );

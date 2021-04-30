@@ -1,3 +1,5 @@
+import 'package:admu_student_app/models/central_database.dart';
+
 class Course {
   String courseCode;
   int units;
@@ -28,5 +30,14 @@ class Course {
       return 'F';
     else
       return '?';
+  }
+
+  factory Course.fromMap(Map map) {
+    return Course(
+      map[CentralDatabaseHelper.code],
+      map[CentralDatabaseHelper.units],
+      map[CentralDatabaseHelper.qpi],
+      map[CentralDatabaseHelper.isIncludedInQPI] == 1,
+    );
   }
 }

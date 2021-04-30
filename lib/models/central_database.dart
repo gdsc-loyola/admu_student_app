@@ -64,8 +64,8 @@ class CentralDatabaseHelper {
       $code TEXT NOT NULL,
       $year INTEGER NOT NULL,
       $sem INTEGER,
-      $color INTEGER NOT NULL,
-      $units INTEGER NOT NULL,
+      $color INTEGER,
+      $units INTEGER,
       $qpi REAL NOT NULL,
       $isIncludedInQPI INTEGER NOT NULL )
       ''');
@@ -81,7 +81,7 @@ class CentralDatabaseHelper {
       $days INTEGER NOT NULL,
       $start INTEGER NOT NULL,
       $end INTEGER NOT NULL,
-      $inEnlistment INTEGER NOT NULL
+      $inEnlistment INTEGER NOT NULL,
       $professor TEXT,
       $notes TEXT )
     ''');
