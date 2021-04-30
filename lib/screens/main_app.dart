@@ -32,6 +32,8 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _currentIndex, //Highlights which page the user is
         type: BottomNavigationBarType.fixed, //Shows page name even if unselected
         selectedItemColor: PrimaryColor,
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         items: [
           BottomNavigationBarItem(
             icon: _currentIndex == 0

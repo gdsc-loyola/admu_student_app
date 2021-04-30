@@ -62,11 +62,6 @@ class StartState extends State<SplashPage> {
 
             Padding(padding: EdgeInsets.only(top: 50.0)),
 
-            CircularProgressIndicator(
-              backgroundColor: Colors.white,
-              strokeWidth: 1,
-            ),
-
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
