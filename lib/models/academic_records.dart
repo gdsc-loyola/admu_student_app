@@ -7,38 +7,39 @@ import 'package:admu_student_app/models/year.dart';
 
 class AcademicRecords extends ChangeNotifier {
   // sample data for testing purposes
-  List<Year> _years = [
-    Year(1, [
-      Semester(1, [
-        Course('CSCI 20', 3, 0.0, true),
-        Course('CSCI 21', 3, 1.0, true),
-        Course('ENGL 11', 3, 2.0, true),
-        Course('FILI 12', 3, 2.5, true),
-        Course('INTACT 11', 0, 0.0, false),
-        Course('MATH 10', 3, 3.0, true),
-        Course('MATH 21', 3, 3.5, true),
-        Course('PHYED 111', 2, 4.0, false),
-      ]),
-      Semester(2, [
-        Course('CSCI 22', 3, 4.0, false),
-        Course('ENLIT 12', 3, 4.0, false),
-        Course('FILI 11', 3, 4.0, false),
-        Course('HISTO 11', 3, 4.0, false),
-        Course('INTACT 12', 0, 0.0, false),
-        Course('MATH 30.23', 3, 4.0, false),
-        Course('PHYED 143', 2, 4.0, false),
-        Course('SocSc 11', 3, 4.0, false),
-        Course('THEO 11', 3, 4.0, false),
-      ]),
-    ]),
-    Year(2, [
-      Semester(0, [
-        Course('MATH NSCI TECH ELECTIVE', 3, 0.0, true),
-        Course('SocSc 12', 3, 1.0, true),
-        Course('MATH 30.24', 3, 2.0, true),
-      ]),
-    ]),
-  ];
+  // List<Year> _years = [
+  //   Year(1, [
+  //     Semester(1, [
+  //       Course('CSCI 20', 3, 0.0, true),
+  //       Course('CSCI 21', 3, 1.0, true),
+  //       Course('ENGL 11', 3, 2.0, true),
+  //       Course('FILI 12', 3, 2.5, true),
+  //       Course('INTACT 11', 0, 0.0, false),
+  //       Course('MATH 10', 3, 3.0, true),
+  //       Course('MATH 21', 3, 3.5, true),
+  //       Course('PHYED 111', 2, 4.0, false),
+  //     ]),
+  //     Semester(2, [
+  //       Course('CSCI 22', 3, 4.0, false),
+  //       Course('ENLIT 12', 3, 4.0, false),
+  //       Course('FILI 11', 3, 4.0, false),
+  //       Course('HISTO 11', 3, 4.0, false),
+  //       Course('INTACT 12', 0, 0.0, false),
+  //       Course('MATH 30.23', 3, 4.0, false),
+  //       Course('PHYED 143', 2, 4.0, false),
+  //       Course('SocSc 11', 3, 4.0, false),
+  //       Course('THEO 11', 3, 4.0, false),
+  //     ]),
+  //   ]),
+  //   Year(2, [
+  //     Semester(0, [
+  //       Course('MATH NSCI TECH ELECTIVE', 3, 0.0, true),
+  //       Course('SocSc 12', 3, 1.0, true),
+  //       Course('MATH 30.24', 3, 2.0, true),
+  //     ]),
+  //   ]),
+  // ];
+  List<Year> _years = [];
 
   get years => _years;
 
@@ -191,26 +192,108 @@ class AcademicRecords extends ChangeNotifier {
             CentralDatabaseHelper.tableName_courses,
             orderBy: '${CentralDatabaseHelper.year} ASC');
 
+    _years = [];
+
     // create courses
     List<Course> tempCourses = [];
     tempRows.forEach((row) {
-      tempCourses.add(Course.fromMap(row));
+      String code = row[CentralDatabaseHelper.code];
+
+      if (code.startsWith('Y_')) {
+        // add year qpi
+        // Y_Y
+        bool foundYear = false;
+        int yearNum = int.parse(code[2]);
+
+        for (Year y in _years) {
+          if (y.yearNum == yearNum) {
+            foundYear = true;
+            y.qpi = row[CentralDatabaseHelper.qpi];
+            break;
+          }
+        }
+
+        if (!foundYear)
+          _years.add(new Year.fromYear(
+            yearNum,
+            row[CentralDatabaseHelper.units],
+            row[CentralDatabaseHelper.qpi],
+          ));
+      } else if (code.startsWith('S_')) {
+        // add sem qpi
+        // S_Y_S
+        bool foundYear = false;
+        int yearNum = int.parse(code[2]);
+        int semNum = int.parse(code[4]);
+        Semester newSem = Semester.fromSem(
+          row[CentralDatabaseHelper.sem],
+          row[CentralDatabaseHelper.units],
+          row[CentralDatabaseHelper.qpi],
+        );
+
+        for (Year y in _years) {
+          if (y.yearNum == yearNum) {
+            foundYear = true;
+            bool foundSem = false;
+            for (Semester s in y.sems) {
+              if (s.semNum == semNum) {
+                foundSem = true;
+                s.qpi = row[CentralDatabaseHelper.qpi];
+                break;
+              }
+            }
+
+            if (!foundSem) y.sems.add(newSem);
+
+            break;
+          }
+        }
+
+        if (!foundYear) _years.add(Year(yearNum, [newSem]));
+      } else {
+        // add course
+        bool foundYear = false;
+        int yearNum = row[CentralDatabaseHelper.year];
+        int semNum = row[CentralDatabaseHelper.sem];
+        Course newCourse = Course.fromMap(row);
+
+        for (Year y in _years) {
+          if (y.yearNum == yearNum) {
+            foundYear = true;
+            bool foundSem = false;
+
+            for (Semester s in y.sems) {
+              if (s.semNum == semNum) {
+                foundSem = true;
+                s.courses.add(newCourse);
+                break;
+              }
+            }
+
+            if (!foundSem) y.sems.add(Semester(semNum, [newCourse]));
+
+            break;
+          }
+        }
+
+        if (!foundYear)
+          _years.add(Year(yearNum, [
+            Semester(semNum, [newCourse])
+          ]));
+      }
     });
 
-    // sort them into List<Year>
-    // for(Map<String, dynamic> m in tempRows) {
-    // }
-
-    print(tempRows);
-    // print(tempCourses);
+    print(_years);
     notifyListeners();
   }
 
   void deleteAllData() async {
+    // await (await CentralDatabaseHelper.instance.database).execute(
+    //     'DROP TABLE IF EXISTS ${CentralDatabaseHelper.tableName_courses}');
     await (await CentralDatabaseHelper.instance.database)
         .delete(CentralDatabaseHelper.tableName_courses);
 
-    print('deleted all course data');
+    print('deleted and recreated all course data');
 
     _updateList();
   }

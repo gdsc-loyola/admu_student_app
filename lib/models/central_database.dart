@@ -57,7 +57,13 @@ class CentralDatabaseHelper {
     );
   }
 
-  void _onCreateDatabase(Database db, int version) async {
+  void _onCreateDatabase(Database db, int ver) async {
+    await _createCoursesTable(db, ver);
+    await _createSchedulesTable(db, ver);
+    await _createEventsTable(db, ver);
+  }
+
+  Future _createCoursesTable(Database db, int ver) async {
     await db.execute('''
       CREATE TABLE $tableName_courses(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -69,7 +75,9 @@ class CentralDatabaseHelper {
       $qpi REAL NOT NULL,
       $isIncludedInQPI INTEGER NOT NULL )
       ''');
+  }
 
+  Future _createSchedulesTable(Database db, int ver) async {
     await db.execute('''
       CREATE TABLE $tableName_schedule(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,7 +93,9 @@ class CentralDatabaseHelper {
       $professor TEXT,
       $notes TEXT )
     ''');
+  }
 
+  Future _createEventsTable(Database db, int ver) async {
     await db.execute('''
       CREATE TABLE $tableName_events(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
