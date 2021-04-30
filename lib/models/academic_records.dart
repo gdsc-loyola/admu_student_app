@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:admu_student_app/models/central_database.dart';
 import 'package:admu_student_app/models/course.dart';
 import 'package:admu_student_app/models/semester.dart';
 import 'package:admu_student_app/models/year.dart';
@@ -116,17 +117,34 @@ class AcademicRecords extends ChangeNotifier {
     _updateList();
   }
 
-  void addCourse(int yearNum, int semNum, String code, int units, double qpi,
-      bool isIncludedInQPI) async {
+  void addCourse(int yearNum, int semNum, String code, int color, int units,
+      double qpi, bool isIncludedInQPI) async {
     // add to database
-    // key CODE
+    int id = await (await CentralDatabaseHelper.instance.database).insert(
+      CentralDatabaseHelper.tableName_courses,
+      {
+        CentralDatabaseHelper.code: code,
+        CentralDatabaseHelper.year: yearNum,
+        CentralDatabaseHelper.sem: semNum,
+        CentralDatabaseHelper.color: color,
+        CentralDatabaseHelper.units: units,
+        CentralDatabaseHelper.qpi: qpi,
+        CentralDatabaseHelper.isIncludedInQPI: isIncludedInQPI,
+      },
+    );
+
+    print('added new course, id: $id');
 
     _updateList();
   }
 
-  void editCourse(String code, double newQPI) {
+  void editCourse(int yearNum, int semNum, String code, double newQPI) async {
     // edit from database
-    // key CODE
+    // await (await CentralDatabaseHelper.instance.database).update(
+    //     CentralDatabaseHelper.tableName_courses, {},
+    //     where:
+    //         '${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.code} = ?',
+    //     whereArgs: [yearNum, semNum, code]);
 
     // testing purposes
     for (Year y in _years) {
@@ -144,16 +162,28 @@ class AcademicRecords extends ChangeNotifier {
     _updateList();
   }
 
-  void deleteCourse(String code) async {
+  void deleteCourse(int yearNum, int semNum, String code) async {
     // delete from database
-    // key CODE
+    int numDeleted =
+        await (await CentralDatabaseHelper.instance.database).delete(
+      CentralDatabaseHelper.tableName_courses,
+      where:
+          '${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.code} = ?',
+      whereArgs: [yearNum, semNum, code],
+    );
+
+    print('deleted $numDeleted');
 
     _updateList();
   }
 
   void _updateList() async {
-    // query from database: table of courses
+    // get list of rows
+    List<Map<String, dynamic>> tempRows =
+        await (await CentralDatabaseHelper.instance.database)
+            .query(CentralDatabaseHelper.tableName_courses);
 
+    print(tempRows);
     notifyListeners();
   }
 }
