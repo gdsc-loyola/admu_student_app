@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:admu_student_app/main.dart';
 
@@ -21,8 +22,9 @@ class QPIView extends StatelessWidget {
             Expanded(
               child: Text(
                 '${value.toStringAsFixed(2)}',
-                style: TextStyle(
+                style: GoogleFonts.dmSans(
                   color: Colors.white,
+                  height: 1.0,
                   fontSize: 32.0,
                   fontWeight: FontWeight.bold,
                 ),
