@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:admu_student_app/main.dart';
+import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/directory_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _currentIndex, //Highlights which page the user is
         type:
             BottomNavigationBarType.fixed, //Shows page name even if unselected
-        selectedItemColor: PrimaryColor,
+        selectedItemColor: AppColors.PRIMARY_MAIN,
         items: [
           BottomNavigationBarItem(
             icon: _currentIndex == 0
@@ -125,7 +125,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               currentAccountPicture: CircleAvatar(
-                backgroundColor: PrimaryColor,
+                backgroundColor: AppColors.PRIMARY_MAIN,
                 child: new Container(
                   width: 100,
                   height: 100,

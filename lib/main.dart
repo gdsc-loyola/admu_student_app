@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/screens/splash_page.dart';
 
@@ -14,9 +15,6 @@ void main() {
   ));
 }
 
-const PrimaryColor =
-    const Color(0xFF855AFF); //Color of App Bar and Navigation Bar
-
 class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -27,7 +25,7 @@ class App extends StatelessWidget {
         textTheme: GoogleFonts.dmSansTextTheme(
           Theme.of(context).textTheme,
         ),
-        primaryColor: PrimaryColor, //#AB8CFF
+        primaryColor: AppColors.PRIMARY_MAIN, //#AB8CFF
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the

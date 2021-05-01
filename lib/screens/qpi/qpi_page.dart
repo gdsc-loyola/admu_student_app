@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'package:admu_student_app/main.dart';
+import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/year.dart';
 import 'package:admu_student_app/screens/qpi/qpi_semester.dart';
@@ -40,7 +40,7 @@ class _QPIPageState extends State<QPIPage> {
               ),
               CircleAvatar(
                 // placeholder, use new widget
-                backgroundColor: PrimaryColor,
+                backgroundColor: AppColors.PRIMARY_MAIN,
                 radius: 14,
               ),
             ],
