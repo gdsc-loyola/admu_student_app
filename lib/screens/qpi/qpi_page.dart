@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
@@ -30,12 +29,10 @@ class _QPIPageState extends State<QPIPage> {
               Expanded(
                 child: Text(
                   'Cumulative QPI',
-                  style: GoogleFonts.dmSans(
-                    color: Color(0xFF474747),
-                    height: 1.0,
-                    fontSize: 32.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      .copyWith(color: AppColors.GRAY_DARK[0]),
                 ),
               ),
               CircleAvatar(
@@ -50,12 +47,10 @@ class _QPIPageState extends State<QPIPage> {
           SizedBox(height: 48.0),
           Text(
             'QPI Overview',
-            style: GoogleFonts.dmSans(
-              color: Color(0xFF474747),
-              height: 1.0,
-              fontSize: 32.0,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(color: AppColors.GRAY_DARK[0]),
           ),
           SizedBox(height: 16.0),
           ListView.builder(

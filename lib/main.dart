@@ -22,8 +22,29 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        textTheme: GoogleFonts.dmSansTextTheme(
-          Theme.of(context).textTheme,
+        // textTheme: GoogleFonts.dmSansTextTheme(
+        //   Theme.of(context).textTheme,
+        // ),
+        fontFamily: GoogleFonts.dmSans().fontFamily,
+        textTheme: TextTheme(
+          headline4: GoogleFonts.dmSans(
+            fontSize: 32.0,
+            fontWeight: FontWeight.bold,
+            height: 1.0,
+          ),
+          headline5: GoogleFonts.dmSans(
+            fontSize: 24.0,
+            fontWeight: FontWeight.bold,
+            height: 1.0,
+          ),
+          headline6: GoogleFonts.dmSans(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            height: 1.0,
+          ),
+          bodyText1: GoogleFonts.dmSans(fontSize: 16.0),
+          bodyText2: GoogleFonts.dmSans(fontSize: 14.0),
+          caption: GoogleFonts.dmSans(fontSize: 14.0),
         ),
         primaryColor: AppColors.PRIMARY_MAIN, //#AB8CFF
         // This is the theme of your application.
