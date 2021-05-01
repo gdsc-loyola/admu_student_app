@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 
-class DateSelect extends StatelessWidget {
+class DateSelect extends StatefulWidget {
   final Color buttonColor;
   final Color textColor;
   final Color labelColor;
 
-  const DateSelect(this.labelColor, this.buttonColor, this.textColor);
+  DateSelect(this.labelColor, this.buttonColor, this.textColor);
+
+  @override
+  _DateSelectState createState() => _DateSelectState();
+}
+
+class _DateSelectState extends State<DateSelect> {
+  
+  bool _isSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,7 @@ class DateSelect extends StatelessWidget {
             children: [
               Text(
                 "Date",
-                style: TextStyle(color: labelColor),
+                style: TextStyle(color: widget.labelColor),
               )
             ],
           ),
@@ -33,64 +41,69 @@ class DateSelect extends StatelessWidget {
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: _isSelected ? Colors.blue:widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
                     child: Text(
                       'M',
-                      style: TextStyle(color: textColor),
+                      style: TextStyle(color: widget.textColor),
                     )),
               ),
               Container(
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('T', style: TextStyle(color: textColor))),
+                    child:
+                        Text('T', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('W', style: TextStyle(color: textColor))),
+                    child:
+                        Text('W', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('Th', style: TextStyle(color: textColor))),
+                    child:
+                        Text('Th', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('F', style: TextStyle(color: textColor))),
+                    child:
+                        Text('F', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('S', style: TextStyle(color: textColor))),
+                    child:
+                        Text('S', style: TextStyle(color: widget.textColor))),
               ),
             ],
           ),
@@ -100,18 +113,19 @@ class DateSelect extends StatelessWidget {
   }
 }
 
-// Data for the potential listview builder - unused
-class DateData {
-  static final getData = ["M", "T", "W", "Th", "F", "S", "Sun"];
-}
 
-class SemSelect extends StatelessWidget {
+class SemSelect extends StatefulWidget {
   final Color buttonColor;
   final Color textColor;
   final Color labelColor;
 
-  const SemSelect(this.labelColor, this.buttonColor, this.textColor);
+  SemSelect(this.labelColor, this.buttonColor, this.textColor);
 
+  @override
+  _SemSelectState createState() => _SemSelectState();
+}
+
+class _SemSelectState extends State<SemSelect> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -126,7 +140,7 @@ class SemSelect extends StatelessWidget {
             children: [
               Text(
                 "Semester",
-                style: TextStyle(color: labelColor),
+                style: TextStyle(color: widget.labelColor),
               ),
             ],
           ),
@@ -139,31 +153,31 @@ class SemSelect extends StatelessWidget {
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('1', style: TextStyle(color: textColor))),
+                    child: Text('1', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('2', style: TextStyle(color: textColor))),
+                    child: Text('2', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('IS', style: TextStyle(color: textColor))),
+                    child: Text('IS', style: TextStyle(color: widget.textColor))),
               ),
             ],
           ),
@@ -173,13 +187,18 @@ class SemSelect extends StatelessWidget {
   }
 }
 
-class QtrSelect extends StatelessWidget {
+class QtrSelect extends StatefulWidget {
   final Color buttonColor;
   final Color textColor;
   final Color labelColor;
 
-  const QtrSelect(this.labelColor, this.buttonColor, this.textColor);
+  QtrSelect(this.labelColor, this.buttonColor, this.textColor);
 
+  @override
+  _QtrSelectState createState() => _QtrSelectState();
+}
+
+class _QtrSelectState extends State<QtrSelect> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -194,7 +213,7 @@ class QtrSelect extends StatelessWidget {
             children: [
               Text(
                 "Quarter",
-                style: TextStyle(color: labelColor),
+                style: TextStyle(color: widget.labelColor),
               ),
             ],
           ),
@@ -207,41 +226,41 @@ class QtrSelect extends StatelessWidget {
                 width: 41,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('1', style: TextStyle(color: textColor))),
+                    child: Text('1', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 41,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('2', style: TextStyle(color: textColor))),
+                    child: Text('2', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 41,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('3', style: TextStyle(color: textColor))),
+                    child: Text('3', style: TextStyle(color: widget.textColor))),
               ),
               Container(
                 width: 41,
                 height: 54,
                 decoration: BoxDecoration(
-                    color: buttonColor,
+                    color: widget.buttonColor,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text('4', style: TextStyle(color: textColor))),
+                    child: Text('4', style: TextStyle(color: widget.textColor))),
               ),
             ],
           ),
