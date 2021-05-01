@@ -58,12 +58,17 @@ class CentralDatabaseHelper {
   }
 
   void _onCreateDatabase(Database db, int ver) async {
-    await _createCoursesTable(db, ver);
-    await _createSchedulesTable(db, ver);
-    await _createEventsTable(db, ver);
+    await createCoursesTable(db, ver);
+    await createSchedulesTable(db, ver);
+    await createEventsTable(db, ver);
   }
 
-  Future _createCoursesTable(Database db, int ver) async {
+  Future createCoursesTable(Database db, int ver) async {
+    if (db == null) db = await database;
+
+    await (await CentralDatabaseHelper.instance.database)
+        .execute('DROP TABLE IF EXISTS $tableName_courses');
+        
     await db.execute('''
       CREATE TABLE $tableName_courses(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -77,7 +82,12 @@ class CentralDatabaseHelper {
       ''');
   }
 
-  Future _createSchedulesTable(Database db, int ver) async {
+  Future createSchedulesTable(Database db, int ver) async {
+    if (db == null) db = await database;
+
+    await (await CentralDatabaseHelper.instance.database)
+        .execute('DROP TABLE IF EXISTS $tableName_schedule');
+
     await db.execute('''
       CREATE TABLE $tableName_schedule(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -95,7 +105,12 @@ class CentralDatabaseHelper {
     ''');
   }
 
-  Future _createEventsTable(Database db, int ver) async {
+  Future createEventsTable(Database db, int ver) async {
+    if (db == null) db = await database;
+
+    await (await CentralDatabaseHelper.instance.database)
+        .execute('DROP TABLE IF EXISTS $tableName_events');
+
     await db.execute('''
       CREATE TABLE $tableName_events(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
