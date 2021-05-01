@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/main.dart';
-import 'package:admu_student_app/screens/login.dart';
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/screens/login_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -31,13 +31,13 @@ class StartState extends State<SplashPage> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Login(),
+          builder: (context) => LoginPage(),
         ));
   }
 
   initScreen(BuildContext context) {
     return Scaffold(
-      backgroundColor: PrimaryColor,
+      backgroundColor: AppColors.PRIMARY_MAIN,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

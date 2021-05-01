@@ -1,11 +1,16 @@
+import 'package:admu_student_app/models/central_database.dart';
+
 class Course {
   String courseCode;
+  int color;
   int units;
   double qpi;
   bool isIncludedInQPI;
 
-  Course(String courseCode, int units, double qpi, bool isIncludedInQPI) {
+  Course(String courseCode, int color, int units, double qpi,
+      bool isIncludedInQPI) {
     this.courseCode = courseCode;
+    this.color = color;
     this.units = units;
     this.qpi = qpi;
     this.isIncludedInQPI = isIncludedInQPI;
@@ -28,5 +33,15 @@ class Course {
       return 'F';
     else
       return '?';
+  }
+
+  factory Course.fromMap(Map map) {
+    return Course(
+      map[CentralDatabaseHelper.code],
+      map[CentralDatabaseHelper.color],
+      map[CentralDatabaseHelper.units],
+      map[CentralDatabaseHelper.qpi],
+      map[CentralDatabaseHelper.isIncludedInQPI] == 1,
+    );
   }
 }
