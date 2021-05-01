@@ -14,7 +14,7 @@ class QPIView extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8)),
         color: AppColors.PRIMARY_MAIN,
       ),
-      height: 80,
+      height: 64,
       child: Center(
         child: Row(
           children: [
