@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/screens/schedule/enlistment/enlistment_semester.dart';
+import 'package:admu_student_app/screens/enlistment/enlistment_classes.dart';
 
 class EnlistmentPage extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => EnlistmentSemesterPage()),
+                MaterialPageRoute(builder: (_) => EnlistmentClassesPage()),
               );
             },
             child: Text('view semester'),

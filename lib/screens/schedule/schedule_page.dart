@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/screens/schedule/add_course.dart';
-import 'package:admu_student_app/screens/schedule/enlistment/enlistment_page.dart';
 
 class SchedulePage extends StatefulWidget {
   @override
@@ -20,14 +19,6 @@ class _SchedulePageState extends State<SchedulePage> {
             );
           },
           child: Text('add course'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => EnlistmentPage()),
-            );
-          },
-          child: Text('enlistment page'),
         ),
       ],
     );

@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
-import 'package:admu_student_app/screens/directory_page.dart';
+import 'package:admu_student_app/screens/drawer/about_page.dart';
+import 'package:admu_student_app/screens/drawer/directory_page.dart';
+import 'package:admu_student_app/screens/enlistment/enlistment_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
 import 'package:admu_student_app/screens/schedule/schedule_page.dart';
@@ -167,10 +169,11 @@ class _MainPageState extends State<MainPage> {
                     bottom: BorderSide(color: Colors.grey),
                   ),
                 ),
-                child: Text('Lorem Ipsum 2'),
+                child: Text('Lorem Ipsum 2 - ENLISTMENT'),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => EnlistmentPage()));
               },
             ),
 
@@ -183,10 +186,12 @@ class _MainPageState extends State<MainPage> {
                     bottom: BorderSide(color: Colors.grey),
                   ),
                 ),
-                child: Text('Lorem Ipsum 3'),
+                child: Text('Lorem Ipsum 3 - ABOUT'),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => AboutPage()),
+                );
               },
             ),
 

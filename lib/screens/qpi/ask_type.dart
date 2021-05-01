@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/screens/qpi/add_course_qpi.dart';
-import 'package:admu_student_app/screens/qpi/add_semester_qpi.dart';
-import 'package:admu_student_app/screens/qpi/add_year_qpi.dart';
+import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 
 class AskQPITypePage extends StatefulWidget {
   @override
@@ -20,7 +18,7 @@ class _AskQPITypePageState extends State<AskQPITypePage> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => AddYearQPIPage()),
+                MaterialPageRoute(builder: (_) => AddQPIPage()),
               );
             },
             child: Text('Yearly'),
@@ -28,7 +26,7 @@ class _AskQPITypePageState extends State<AskQPITypePage> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => AddSemesterQPIPage()),
+                MaterialPageRoute(builder: (_) => AddQPIPage()),
               );
             },
             child: Text('Semestral'),
@@ -36,8 +34,7 @@ class _AskQPITypePageState extends State<AskQPITypePage> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => AddCourseQPIPage(isEditing: false)),
+                MaterialPageRoute(builder: (_) => AddQPIPage()),
               );
             },
             child: Text('Course'),
