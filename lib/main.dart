@@ -1,7 +1,8 @@
 import 'package:admu_student_app/screens/splash_page.dart';
 import 'package:flutter/material.dart';
-import 'package:admu_student_app/screens/main_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:admu_student_app/screens/main_app.dart';
 
 void main() {
   runApp(App());

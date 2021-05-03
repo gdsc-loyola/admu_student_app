@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:admu_student_app/main.dart';
 import 'package:flutter/material.dart';
+
 import 'main_app.dart';
 
 class SplashPage extends StatefulWidget {

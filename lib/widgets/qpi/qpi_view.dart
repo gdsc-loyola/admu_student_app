@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:admu_student_app/models/year.dart';
+
 class QPIView extends StatelessWidget {
   double _value = 0.0;
 
