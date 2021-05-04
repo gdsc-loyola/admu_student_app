@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/screens/calendar/add_event.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
+import 'package:admu_student_app/screens/qpi/ask_type.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
+import 'package:admu_student_app/screens/schedule/add_course.dart';
 import 'package:admu_student_app/screens/schedule/schedule_page.dart';
+import 'package:admu_student_app/widgets/drawer_widget.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -21,10 +25,40 @@ class _MainPageState extends State<MainPage> {
     QPIPage(),
   ];
 
+  final actionPage = [
+    null,
+    AddEventPage(),
+    AddCoursePage(),
+    AskQPITypePage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        //The property and builder changes the DrawerWidget's icon to customize
+        automaticallyImplyLeading: false,
+        title: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu_rounded),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+        actions: _currentIndex == 0
+            ? []
+            : [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => actionPage[_currentIndex],
+                    ));
+                  },
+                  icon: Icon(Icons.add_rounded),
+                ),
+              ],
+      ),
       body: tabs[_currentIndex],
+      drawer: DrawerWidget(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, //Highlights which page the user is
         selectedFontSize: 12,
