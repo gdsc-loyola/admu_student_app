@@ -25,6 +25,7 @@ class _SmallEventCardState extends State<SmallEventCard> {
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [AppEffects.DEFAULT_SHADOW],
+        borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       child: Center(
         child: Row(
@@ -43,10 +44,11 @@ class _SmallEventCardState extends State<SmallEventCard> {
             Expanded(
               child: Text(
                 widget.text,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: AppColors.GRAY, decoration: TextDecoration.lineThrough),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: AppColors.GRAY,
+                    decoration: _isDone
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none),
               ),
             ),
             Text(
