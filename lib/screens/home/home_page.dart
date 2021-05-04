@@ -12,6 +12,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Text('This is the Home Page'),
         ElevatedButton(
           onPressed: () {
             Navigator.of(context).push(

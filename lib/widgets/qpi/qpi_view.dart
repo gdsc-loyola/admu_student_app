@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 
+import 'package:admu_student_app/models/year.dart';
+
 class QPIView extends StatelessWidget {
   final double value;
 

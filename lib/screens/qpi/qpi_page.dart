@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/year.dart';
-import 'package:admu_student_app/screens/qpi/qpi_semester.dart';
+// import 'package:admu_student_app/screens/qpi/qpi_semester.dart'; // commented and will edit
 import 'package:admu_student_app/widgets/qpi/qpi_view.dart';
+import 'package:admu_student_app/widgets/qpi/year_drop_down.dart';
 
 class QPIPage extends StatefulWidget {
   @override
@@ -53,38 +54,39 @@ class _QPIPageState extends State<QPIPage> {
                 .copyWith(color: AppColors.GRAY_DARK[0]),
           ),
           SizedBox(height: 16.0),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: years.length,
-            itemBuilder: (_, index) {
-              Year yr = years[index];
+          YearDropDown(),
+          // ListView.builder( // commented and will edit
+          //   physics: NeverScrollableScrollPhysics(),
+          //   shrinkWrap: true,
+          //   itemCount: years.length,
+          //   itemBuilder: (_, index) {
+          //     Year yr = years[index];
 
-              return Container(
-                margin: EdgeInsets.only(bottom: 16.0),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (_) => SemesterPage(sem: yr.sems[0])),
-                    );
-                  },
-                  child: Container(
-                    // placeholder for navigation, use new widget
-                    color: Colors.grey[300],
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(yr.yearString),
-                        ),
-                        Text('${yr.yearlyQPI}'),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+          //     return Container(
+          //       margin: EdgeInsets.only(bottom: 16.0),
+          //       child: GestureDetector(
+          //         onTap: () {
+          //           Navigator.of(context).push(
+          //             MaterialPageRoute(
+          //                 builder: (_) => SemesterPage(sem: yr.sems[0])),
+          //           );
+          //         },
+          //         child: Container(
+          //           // placeholder for navigation, use new widget
+          //           color: Colors.grey[300],
+          //           child: Row(
+          //             children: [
+          //               Expanded(
+          //                 child: Text(yr.yearString),
+          //               ),
+          //               Text('${yr.yearlyQPI}'),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
           ElevatedButton(
             onPressed: () {
               int yearNum = Random().nextInt(5) + 1;
