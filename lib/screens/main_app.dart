@@ -61,8 +61,8 @@ class _MainPageState extends State<MainPage> {
       drawer: DrawerWidget(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, //Highlights which page the user is
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
+        selectedFontSize: 16,
+        unselectedFontSize: 16,
         type:
             BottomNavigationBarType.fixed, //Shows page name even if unselected
         selectedItemColor: AppColors.PRIMARY_MAIN,
@@ -71,13 +71,13 @@ class _MainPageState extends State<MainPage> {
             icon: _currentIndex == 0
                 ? new Image.asset(
                     "assets/home_clicked.png",
-                    height: 32,
-                    width: 32,
+                    height: 36,
+                    width: 36,
                   )
                 : new Image.asset(
                     "assets/home_unclicked.png",
-                    height: 32,
-                    width: 32,
+                    height: 36,
+                    width: 36,
                   ),
             label: 'Home',
           ),
@@ -85,13 +85,13 @@ class _MainPageState extends State<MainPage> {
             icon: _currentIndex == 1
                 ? new Image.asset(
                     "assets/calendar_clicked.png",
-                    height: 32,
-                    width: 32,
+                    height: 36,
+                    width: 36,
                   )
                 : new Image.asset(
                     "assets/calendar_unclicked.png",
-                    height: 32,
-                    width: 32,
+                    height: 36,
+                    width: 36,
                   ),
             label: 'Calendar',
           ),
@@ -99,13 +99,13 @@ class _MainPageState extends State<MainPage> {
             icon: _currentIndex == 2
                 ? new Image.asset(
                     "assets/clock_clicked.png",
-                    height: 32,
-                    width: 32,
+                    height: 36,
+                    width: 36,
                   )
                 : new Image.asset(
                     "assets/clock_unclicked.png",
-                    height: 32,
-                    width: 32,
+                    height: 36,
+                    width: 36,
                   ),
             label: 'Schedule',
           ),
@@ -113,13 +113,13 @@ class _MainPageState extends State<MainPage> {
             icon: _currentIndex == 3
                 ? new Image.asset(
                     "assets/qpi_clicked.png",
-                    height: 32,
-                    width: 32,
+                    height: 36,
+                    width: 36,
                   )
                 : new Image.asset(
                     "assets/qpi_unclicked.png",
-                    height: 32,
-                    width: 32,
+                    height: 36,
+                    width: 36,
                   ),
             label: 'QPI',
           ),
