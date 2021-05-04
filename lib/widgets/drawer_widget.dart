@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:admu_student_app/main.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class DrawerWidget extends StatefulWidget {
   @override

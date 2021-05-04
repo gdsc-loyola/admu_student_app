@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/main.dart';
-
 class ExpandedTextField extends StatefulWidget {
   @override
   _ExpandedTextFieldState createState() => _ExpandedTextFieldState();

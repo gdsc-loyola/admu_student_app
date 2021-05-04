@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:admu_student_app/main.dart';
+
 import 'package:admu_student_app/screens/calendar_page.dart';
 import 'package:admu_student_app/screens/home_page.dart';
+import 'package:admu_student_app/main.dart';
 import 'package:admu_student_app/screens/qpi_page.dart';
 import 'package:admu_student_app/screens/schedule_page.dart';
 import 'package:google_fonts/google_fonts.dart';

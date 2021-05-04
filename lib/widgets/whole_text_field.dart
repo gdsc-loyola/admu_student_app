@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/main.dart';
-
 class WholeTextField extends StatefulWidget {
   @override
   _WholeTextFieldState createState() => _WholeTextFieldState();

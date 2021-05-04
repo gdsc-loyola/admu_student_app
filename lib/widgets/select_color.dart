@@ -1,10 +1,4 @@
-import 'package:admu_student_app/widgets/half_text_field.dart';
-import 'package:admu_student_app/widgets/select_semester.dart';
 import 'package:flutter/material.dart';
-
-import 'package:admu_student_app/main.dart';
-
-
 
 class SelectColor extends StatefulWidget {
   @override

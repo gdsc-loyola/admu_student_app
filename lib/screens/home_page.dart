@@ -1,5 +1,7 @@
-import 'package:admu_student_app/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'package:admu_student_app/widgets/drawer_widget.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,8 +12,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
+
         //The property and builder changes the DrawerWidget's icon to customize
         automaticallyImplyLeading: false,
         title: Builder(
