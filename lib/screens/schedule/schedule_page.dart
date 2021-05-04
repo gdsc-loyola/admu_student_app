@@ -1,12 +1,10 @@
-import 'package:admu_student_app/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/main.dart';
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/screens/schedule/add_course.dart';
 import 'package:admu_student_app/widgets/drawer_widget.dart';
+import 'package:admu_student_app/widgets/input_field.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
-
-
-
 
 class SchedulePage extends StatefulWidget {
   @override
@@ -21,45 +19,21 @@ class _SchedulePageState extends State<SchedulePage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: (){
-            //Navigate to AddQPIPage
-          }, icon: Icon(Icons.add_rounded))
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => AddCoursePage()),
+              );
+            },
+            icon: Icon(Icons.add_rounded),
+          )
         ],
       ),
-
       drawer: DrawerWidget(),
       body: Container(
-        color: PrimaryColor,
-
+        color: AppColors.PRIMARY_MAIN,
         child: Column(
           children: [
-
-            Row(
-              children: [
-                Container(height: 55,),
-              ],
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                Padding(padding: EdgeInsets.all(9)),
-
-                Container(
-                  width: MediaQuery.of(context).size.width/2.5,
-                  child: InputField(
-                    isMultiLined: false,
-                    length: 8,
-                  ),
-                ),
-
-
-                Padding(padding: EdgeInsets.all(8)),
-
-              ],
-            ),
-
             Row(
               children: [
                 Container(
@@ -67,15 +41,35 @@ class _SchedulePageState extends State<SchedulePage> {
                 ),
               ],
             ),
-
-            SelectColor(),
-
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(height: 55,),
+                Padding(padding: EdgeInsets.all(9)),
+                Container(
+                  width: MediaQuery.of(context).size.width / 2.5,
+                  child: InputField(
+                    isMultiLined: false,
+                    length: 8,
+                  ),
+                ),
+                Padding(padding: EdgeInsets.all(8)),
               ],
             ),
-
+            Row(
+              children: [
+                Container(
+                  height: 55,
+                ),
+              ],
+            ),
+            SelectColor(),
+            Row(
+              children: [
+                Container(
+                  height: 55,
+                ),
+              ],
+            ),
             Container(
               width: MediaQuery.of(context).size.width,
               child: InputField(
@@ -83,15 +77,13 @@ class _SchedulePageState extends State<SchedulePage> {
                 length: null,
               ),
             ),
-
             Container(
-              width: MediaQuery.of(context).size.width/2.5,
+              width: MediaQuery.of(context).size.width / 2.5,
               child: InputField(
                 isMultiLined: true,
                 length: null,
               ),
             ),
-
           ],
         ),
       ),

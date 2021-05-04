@@ -45,6 +45,10 @@ class Semester {
       return _units;
   }
 
+  set qpi(double qpi) {
+    _qpi = qpi;
+  }
+
   double get semestralQPI {
     if (_qpi == null) {
       double sumGrades = 0;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:admu_student_app/screens/calendar/add_event.dart';
 import 'package:admu_student_app/widgets/drawer_widget.dart';
-
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -13,7 +13,6 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         //The property and builder changes the DrawerWidget's icon to customize
         automaticallyImplyLeading: false,
         title: Builder(
@@ -24,12 +23,15 @@ class _CalendarPageState extends State<CalendarPage> {
         ),
 
         actions: [
-          IconButton(onPressed: (){
-            //Navigate to AddEventPage
-          }, icon: Icon(Icons.add_rounded))
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => AddEventPage()),
+                );
+              },
+              icon: Icon(Icons.add_rounded))
         ],
       ),
-
       drawer: DrawerWidget(),
       body: Container(
         child: Text('This is the Calendar Page'),
