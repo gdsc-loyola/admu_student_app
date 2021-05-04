@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 
-class HalfTextField extends StatefulWidget {
+class InputField extends StatefulWidget {
+
+  InputField({
+    Key key,
+    this.isMultiLined,
+    this.length,
+  }) : super(key: key);
+
+  bool isMultiLined;
+  int length;
+
   @override
-  _HalfTextFieldState createState() => _HalfTextFieldState();
+  _InputFieldState createState() => _InputFieldState();
 }
 
-class _HalfTextFieldState extends State<HalfTextField> {
+
+class _InputFieldState extends State<InputField> {
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width/2.5,
       child: TextField(
+        keyboardType: TextInputType.multiline, //expands when make lagpas
+        maxLines: widget.isMultiLined == true ? null : 1,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           hintText: 'Lorem Ipsum',
           counterText: "", //Disables maxLength showing in Field
         ),
-        maxLength: 15,
+        maxLength: widget.length,
       ),
       decoration: BoxDecoration(
         color: Colors.white,

@@ -1,12 +1,9 @@
+import 'package:admu_student_app/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/main.dart';
 import 'package:admu_student_app/widgets/drawer_widget.dart';
-import 'package:admu_student_app/widgets/expanded_text_field.dart';
-import 'package:admu_student_app/widgets/half_text_field.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
-import 'package:admu_student_app/widgets/select_semester.dart';
-import 'package:admu_student_app/widgets/whole_text_field.dart';
 
 
 
@@ -49,11 +46,14 @@ class _SchedulePageState extends State<SchedulePage> {
 
                 Padding(padding: EdgeInsets.all(9)),
 
-                HalfTextField(),
+                Container(
+                  width: MediaQuery.of(context).size.width/2.5,
+                  child: InputField(
+                    isMultiLined: false,
+                    length: 8,
+                  ),
+                ),
 
-                Expanded( child: Container(),),
-
-                SelectSemester(),
 
                 Padding(padding: EdgeInsets.all(8)),
 
@@ -76,9 +76,21 @@ class _SchedulePageState extends State<SchedulePage> {
               ],
             ),
 
-            WholeTextField(),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: InputField(
+                isMultiLined: false,
+                length: null,
+              ),
+            ),
 
-            ExpandedTextField(),
+            Container(
+              width: MediaQuery.of(context).size.width/2.5,
+              child: InputField(
+                isMultiLined: true,
+                length: null,
+              ),
+            ),
 
           ],
         ),

@@ -18,7 +18,6 @@ class _QPIPageState extends State<QPIPage> {
 
     return Scaffold(
         appBar: AppBar(
-
           //The property and builder changes the DrawerWidget's icon to customize
           automaticallyImplyLeading: false,
           title: Builder(
