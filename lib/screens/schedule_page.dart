@@ -1,3 +1,4 @@
+import 'package:admu_student_app/widgets/drawer_widget.dart';
 import 'package:admu_student_app/widgets/expanded_text_field.dart';
 import 'package:admu_student_app/widgets/half_text_field.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
@@ -19,56 +20,67 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: PrimaryColor,
-
-      child: Column(
-        children: [
-
-          Row(
-            children: [
-              Container(height: 55,),
-            ],
-          ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-
-              Padding(padding: EdgeInsets.all(9)),
-
-              HalfTextField(),
-
-              Expanded( child: Container(),),
-
-              SelectSemester(),
-
-              Padding(padding: EdgeInsets.all(8)),
-
-            ],
-          ),
-
-          Row(
-            children: [
-              Container(
-                height: 55,
-              ),
-            ],
-          ),
-
-          SelectColor(),
-
-          Row(
-            children: [
-              Container(height: 55,),
-            ],
-          ),
-
-          WholeTextField(),
-
-          ExpandedTextField(),
-
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: (){
+            //Navigate to AddQPIPage
+          }, icon: Icon(Icons.add_rounded))
         ],
+      ),
+
+      drawer: DrawerWidget(),
+      body: Container(
+        color: PrimaryColor,
+
+        child: Column(
+          children: [
+
+            Row(
+              children: [
+                Container(height: 55,),
+              ],
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Padding(padding: EdgeInsets.all(9)),
+
+                HalfTextField(),
+
+                Expanded( child: Container(),),
+
+                SelectSemester(),
+
+                Padding(padding: EdgeInsets.all(8)),
+
+              ],
+            ),
+
+            Row(
+              children: [
+                Container(
+                  height: 55,
+                ),
+              ],
+            ),
+
+            SelectColor(),
+
+            Row(
+              children: [
+                Container(height: 55,),
+              ],
+            ),
+
+            WholeTextField(),
+
+            ExpandedTextField(),
+
+          ],
+        ),
       ),
     );
   }

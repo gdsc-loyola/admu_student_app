@@ -2,26 +2,26 @@ import 'package:admu_student_app/models/year.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class QPIDropDown extends StatefulWidget {
+class YearDropDown extends StatefulWidget {
   @override
-  _QPIDropDownState createState() => _QPIDropDownState();
+  _YearDropDownState createState() => _YearDropDownState();
 }
 
-class _QPIDropDownState extends State<QPIDropDown> {
-  List<YearDropDown> _years = <YearDropDown>[
-    YearDropDown(
+class _YearDropDownState extends State<YearDropDown> {
+  List<YearExpansionPanel> _years = <YearExpansionPanel>[
+    YearExpansionPanel(
       header: "Year 1",
       body1: "FIRST SEMESTER",
       body2: "SECOND SEMESTER"
     ),
 
-    YearDropDown(
+    YearExpansionPanel(
       header: "Year 2",
       body1: "FIRST SEMESTER",
       body2: "SECOND SEMESTER"
     ),
 
-    YearDropDown(
+    YearExpansionPanel(
       header: "Year 3",
       body1: "FIRST SEMESTER",
       body2: "SECOND SEMESTER"
@@ -31,7 +31,7 @@ class _QPIDropDownState extends State<QPIDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ListView(
+      child: Column(
         children: [
           ExpansionPanelList(
             expansionCallback: (int index, bool isExpanded){
@@ -41,7 +41,7 @@ class _QPIDropDownState extends State<QPIDropDown> {
             },
 
             children:
-            _years.map((YearDropDown year){
+            _years.map((YearExpansionPanel year){
               return ExpansionPanel(
                   headerBuilder: (BuildContext context, bool isExpanded){
                     return Padding(
@@ -81,7 +81,7 @@ class _QPIDropDownState extends State<QPIDropDown> {
 
                       ExpansionTile(
                         title: Text(
-                          year.body2,
+                          year.body2  ,
                         ),
                         trailing: IconButton(
                           icon: Icon(
@@ -106,8 +106,8 @@ class _QPIDropDownState extends State<QPIDropDown> {
   }
 }
 
-class YearDropDown{
-  YearDropDown({this.isExpanded: false, this.header, this.body1, this.body2});
+class YearExpansionPanel{
+  YearExpansionPanel({this.isExpanded: false, this.header, this.body1, this.body2});
 
   bool isExpanded;
   final String header;
