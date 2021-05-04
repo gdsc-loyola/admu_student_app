@@ -36,6 +36,9 @@ class AppColors {
   static const Color SUCCESS_ALT = Color(0xFF71CFB7);
   static const Color SUCCESS_LIGHT = Color(0xFF8ED7C4);
 
+  static const Color GRAY = Color(0xFF333333);
+  static const Color GRAY_TRANSPARENT = Color(0x1A333333);
+
   static const List<Color> GRAY_LIGHT = [
     Color(0xFFD3D3D9),
     Color(0xFFE9E9EC),
