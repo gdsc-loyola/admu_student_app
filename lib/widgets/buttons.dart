@@ -66,8 +66,8 @@ class SquareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 54,
-      height: 54,
+      width: 56,
+      height: 56,
       decoration: BoxDecoration(
           color: buttonColor,
           borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -94,7 +94,7 @@ class ShrinkingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 41,
-      height: 54,
+      height: 56,
       decoration: BoxDecoration(
           color: buttonColor,
           borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -122,7 +122,7 @@ class _DropDownState extends State<DropDown> {
   Widget build(BuildContext context) {
     return Container(
       width: 185,
-      height: 54,
+      height: 56,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
         color: Colors.white,
