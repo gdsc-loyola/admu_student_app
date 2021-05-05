@@ -44,11 +44,13 @@ class _SmallEventCardState extends State<SmallEventCard> {
             Expanded(
               child: Text(
                 widget.text,
+                overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
                     color: AppColors.GRAY,
                     decoration: _isDone
                         ? TextDecoration.lineThrough
-                        : TextDecoration.none),
+                        : TextDecoration.none,
+                    decorationThickness: 2.0),
               ),
             ),
             Text(
@@ -56,7 +58,8 @@ class _SmallEventCardState extends State<SmallEventCard> {
                   ? ''
                   : (widget.start.hour.toString().padLeft(2, '0') +
                       ':' +
-                      widget.start.minute.toString().padLeft(2, '0')),
+                      widget.start.minute.toString().padLeft(2, '0') +
+                      (widget.start.hour < 12 ? ' AM' : ' PM')),
               style: Theme.of(context)
                   .textTheme
                   .caption

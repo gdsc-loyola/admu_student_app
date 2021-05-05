@@ -9,18 +9,46 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  List<String> _labels = ['Hello World 0', '', 'Hello World 2'];
-  List<String> _agendas = ['', 'Agenda 1', 'Agenda 2'];
-  List<String> _tags = ['Tag 1', 'Tag 2', 'Tag 3'];
+  // data for testing, will move to provider
+  List<String> _labels = [
+    'Hello World 0',
+    'Hello World 1',
+    'Super long text super long text super long text',
+    '',
+    'Task 1',
+    'Task 2',
+  ];
+  List<String> _agendas = [
+    'Agenda 0',
+    'Agenda 1',
+    'Super long text super long text super long text',
+    'Agenda 0',
+    '',
+    'Agenda 2',
+  ];
+  List<String> _tags = [
+    'Tag 0',
+    'Tag 1',
+    'Super long text super long text super long text',
+    'Tag 0',
+    'Tag 1',
+    ''
+  ];
   List<DateTime> _starts = [
     DateTime.now(),
     DateTime.now().add(Duration(hours: 2)),
-    null
+    DateTime.now().add(Duration(hours: 12)),
+    DateTime.now(),
+    null,
+    DateTime.now(),
   ];
   List<DateTime> _ends = [
     DateTime.now(),
     DateTime.now().add(Duration(hours: 5)),
-    null
+    DateTime.now().add(Duration(hours: 14)),
+    DateTime.now(),
+    DateTime.now(),
+    null,
   ];
 
   @override
@@ -28,40 +56,40 @@ class _CalendarPageState extends State<CalendarPage> {
     // get list from provider
     // listview builder from it
 
-    return Container(
+    return SingleChildScrollView(
       padding: EdgeInsets.all(16.0),
       child: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _labels.length,
-              itemBuilder: (_, index) {
-                return Container(
-                  margin: EdgeInsets.only(bottom: 8.0),
-                  child: SmallEventCard(
-                    text: _labels[index],
-                    start: _starts[index],
-                  ),
-                );
-              },
-            ),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: _labels.length,
+            itemBuilder: (_, index) {
+              return Container(
+                margin: EdgeInsets.only(bottom: 8.0),
+                child: SmallEventCard(
+                  text: _labels[index],
+                  start: _starts[index],
+                ),
+              );
+            },
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _labels.length,
-              itemBuilder: (_, index) {
-                return Container(
-                  margin: EdgeInsets.only(bottom: 8.0),
-                  child: EventCard(
-                    text: _labels[index],
-                    agenda: _agendas[index],
-                    tags: _tags[index],
-                    start: _starts[index],
-                    end: _ends[index],
-                  ),
-                );
-              },
-            ),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: _labels.length,
+            itemBuilder: (_, index) {
+              return Container(
+                margin: EdgeInsets.only(bottom: 8.0),
+                child: EventCard(
+                  text: _labels[index],
+                  agenda: _agendas[index],
+                  tags: _tags[index],
+                  start: _starts[index],
+                  end: _ends[index],
+                ),
+              );
+            },
           ),
         ],
       ),
