@@ -3,9 +3,9 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 import 'package:admu_student_app/screens/main_app.dart';
 
-class Onboarding extends StatefulWidget {
+class OnboardingPage extends StatefulWidget {
   @override
-  _OnboardingState createState() => _OnboardingState();
+  _OnboardingPageState createState() => _OnboardingPageState();
 }
 
 List<PageViewModel> listPagesViewModel = [
@@ -83,7 +83,7 @@ List<PageViewModel> listPagesViewModel = [
   )
 ];
 
-class _OnboardingState extends State<Onboarding> {
+class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(

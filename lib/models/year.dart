@@ -25,7 +25,7 @@ class Year {
     }
   }
 
-int get allUnits {
+  int get allUnits {
     if (_units == null) {
       int totalUnits = 0;
 
@@ -45,6 +45,10 @@ int get allUnits {
       return totalUnits;
     } else
       return _units;
+  }
+
+  set qpi(double qpi) {
+    _qpi = qpi;
   }
 
   double get yearlyQPI {
