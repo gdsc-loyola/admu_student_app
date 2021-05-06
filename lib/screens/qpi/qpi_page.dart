@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:admu_student_app/widgets/qpi/course_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -98,6 +99,7 @@ class _QPIPageState extends State<QPIPage> {
             },
             child: Text('add new course'),
           ),
+          CourseCard(Colors.green, Colors.green, 'HISTO12', 'A'),
           ElevatedButton(
             onPressed: () {
               Provider.of<AcademicRecords>(context, listen: false)
