@@ -88,6 +88,10 @@ class _QPIPageState extends State<QPIPage> {
           //     );
           //   },
           // ),
+
+          // CourseCard()
+          CourseCard(Colors.green, Colors.white, Colors.green, 'HISTO12', 'A'),
+
           ElevatedButton(
             onPressed: () {
               int yearNum = Random().nextInt(5) + 1;
@@ -99,7 +103,7 @@ class _QPIPageState extends State<QPIPage> {
             },
             child: Text('add new course'),
           ),
-          CourseCard(Colors.green, Colors.green, 'HISTO12', 'A'),
+          
           ElevatedButton(
             onPressed: () {
               Provider.of<AcademicRecords>(context, listen: false)
