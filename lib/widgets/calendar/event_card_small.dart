@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
+import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 class SmallEventCard extends StatefulWidget {
-  final String text;
-  final DateTime start;
+  final Event event;
 
-  SmallEventCard({this.text = '', this.start});
+  SmallEventCard({@required this.event});
 
   @override
   _SmallEventCardState createState() => _SmallEventCardState();
@@ -16,6 +16,13 @@ class SmallEventCard extends StatefulWidget {
 
 class _SmallEventCardState extends State<SmallEventCard> {
   bool _isDone = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isDone = widget.event.isDone;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,7 @@ class _SmallEventCardState extends State<SmallEventCard> {
             ),
             Expanded(
               child: Text(
-                widget.text,
+                widget.event.name,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
                     color: AppColors.GRAY,
@@ -53,17 +60,17 @@ class _SmallEventCardState extends State<SmallEventCard> {
                     decorationThickness: 2.0),
               ),
             ),
-            Text(
-              widget.start == null
-                  ? ''
-                  : (widget.start.hour.toString().padLeft(2, '0') +
-                      ':' +
-                      widget.start.minute.toString().padLeft(2, '0') +
-                      (widget.start.hour < 12 ? ' AM' : ' PM')),
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  .copyWith(color: AppColors.GRAY_DARK[2]),
+            Padding(
+              padding: EdgeInsets.only(left: 16.0),
+              child: Text(
+                widget.event.start == null
+                    ? ''
+                    : widget.event.getReadableStartTime(),
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .copyWith(color: AppColors.GRAY_DARK[2]),
+              ),
             ),
           ],
         ),

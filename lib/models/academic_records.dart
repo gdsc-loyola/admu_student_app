@@ -259,7 +259,6 @@ class AcademicRecords extends ChangeNotifier {
 
   void _updateList() async {
     if (kIsWeb) {
-      print(_years);
       notifyListeners();
       return;
     }
@@ -360,16 +359,10 @@ class AcademicRecords extends ChangeNotifier {
       }
     });
 
-    print(_years);
     notifyListeners();
   }
 
   void deleteAllData() async {
-    // await (await CentralDatabaseHelper.instance.database).execute(
-    //     'DROP TABLE IF EXISTS ${CentralDatabaseHelper.tableName_courses}');
-    // await (await CentralDatabaseHelper.instance.database)
-    //     .delete(CentralDatabaseHelper.tableName_courses);
-
     if (kIsWeb) {
       _years = _sampleData;
       print('deleted and recreated all course data - web');
