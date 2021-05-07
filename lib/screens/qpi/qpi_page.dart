@@ -54,39 +54,19 @@ class _QPIPageState extends State<QPIPage> {
                 .copyWith(color: AppColors.GRAY_DARK[0]),
           ),
           SizedBox(height: 16.0),
-          YearDropDown(),
-          // ListView.builder( // commented and will edit
-          //   physics: NeverScrollableScrollPhysics(),
-          //   shrinkWrap: true,
-          //   itemCount: years.length,
-          //   itemBuilder: (_, index) {
-          //     Year yr = years[index];
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: years.length,
+            itemBuilder: (_, index) {
+              Year yr = years[index];
 
-          //     return Container(
-          //       margin: EdgeInsets.only(bottom: 16.0),
-          //       child: GestureDetector(
-          //         onTap: () {
-          //           Navigator.of(context).push(
-          //             MaterialPageRoute(
-          //                 builder: (_) => SemesterPage(sem: yr.sems[0])),
-          //           );
-          //         },
-          //         child: Container(
-          //           // placeholder for navigation, use new widget
-          //           color: Colors.grey[300],
-          //           child: Row(
-          //             children: [
-          //               Expanded(
-          //                 child: Text(yr.yearString),
-          //               ),
-          //               Text('${yr.yearlyQPI}'),
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ),
+              return Container(
+                margin: EdgeInsets.only(bottom: 16.0),
+                child: YearDropDown(yearNum: yr.yearNum),
+              );
+            },
+          ),
           ElevatedButton(
             onPressed: () {
               int yearNum = Random().nextInt(5) + 1;

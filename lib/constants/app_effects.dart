@@ -8,4 +8,10 @@ class AppEffects {
     blurRadius: 10,
     offset: Offset(0, 2),
   );
+
+  static const BoxShadow SHADOW = BoxShadow(
+    color: AppColors.GRAY_TRANSPARENT20,
+    blurRadius: 10,
+    offset: Offset(0, 2),
+  );
 }

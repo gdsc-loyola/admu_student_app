@@ -39,6 +39,7 @@ class AcademicRecords extends ChangeNotifier {
         Course('MATH 30.24', 0, 3, 2.0, true),
       ]),
     ]),
+    Year.fromYear(3, 20, 4.0),
   ];
   List<Year> _years = [];
 
@@ -71,6 +72,14 @@ class AcademicRecords extends ChangeNotifier {
 
     if (totalUnits == 0) return 0.0;
     return sumGrades / totalUnits;
+  }
+
+  Year getYear(int yearNum) {
+    for (Year y in _years) {
+      if (y.yearNum == yearNum) return y;
+    }
+
+    return null;
   }
 
   double getSemestralQPI(int yearNum, int semNum) {

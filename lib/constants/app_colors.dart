@@ -38,6 +38,7 @@ class AppColors {
 
   static const Color GRAY = Color(0xFF333333);
   static const Color GRAY_TRANSPARENT = Color(0x1A333333);
+  static const Color GRAY_TRANSPARENT20 = Color(0x33333333);
 
   static const List<Color> GRAY_LIGHT = [
     Color(0xFFD3D3D9),
