@@ -125,48 +125,200 @@ class _DropDownState extends State<DropDown> {
       height: 56,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5))
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton(
+            value: _value,
+            items: [
+              DropdownMenuItem(
+                child: Text("A"),
+                value: 1,
+              ),
+              DropdownMenuItem(
+                child: Text("B+"),
+                value: 2,
+              ),
+              DropdownMenuItem(child: Text("B"), value: 3),
+              DropdownMenuItem(child: Text("C+"), value: 4),
+              DropdownMenuItem(child: Text("C"), value: 5),
+              DropdownMenuItem(child: Text("D"), value: 6),
+              DropdownMenuItem(child: Text("F/W"), value: 7)
+            ],
+            onChanged: (value) {
+              setState(() {
+                _value = value;
+              });
+            }),
       ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton(
-                value: _value,
-                items: [
-                  DropdownMenuItem(
-                    child: Text("A"),
-                    value: 1,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("B+"),
-                    value: 2,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("B"),
-                    value: 3
-                  ),
-                  DropdownMenuItem(
-                      child: Text("C+"),
-                      value: 4
-                  ),
-                  DropdownMenuItem(
-                      child: Text("C"),
-                      value: 5
-                  ),
-                  DropdownMenuItem(
-                      child: Text("D"),
-                      value: 6
-                  ),DropdownMenuItem(
-                      child: Text("F/W"),
-                      value: 7
-                  )
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _value = value;
-                  });
-                }),
+    );
+  }
+}
+
+class ButtonRow extends StatefulWidget {
+  final String text1;
+  final String text2;
+  final String text3;
+  final VoidCallback return1;
+  final VoidCallback return2;
+  final VoidCallback return3;
+
+  ButtonRow(this.text1, this.text2, this.text3, this.return1, this.return2,
+      this.return3);
+
+  @override
+  _ButtonRowState createState() => _ButtonRowState(this.text1, this.text2,
+      this.text3, this.return1, this.return2, this.return3);
+}
+
+class _ButtonRowState extends State<ButtonRow> {
+  bool isSelected1 = true;
+  bool isSelected2 = false;
+  bool isSelected3 = false;
+
+  final String text1;
+  final String text2;
+  final String text3;
+  final VoidCallback return1;
+  final VoidCallback return2;
+  final VoidCallback return3;
+
+  _ButtonRowState(this.text1, this.text2, this.text3, this.return1,
+      this.return2, this.return3);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        height: 36.54,
+        padding: EdgeInsets.fromLTRB(1.19, 1, 1.19, 2.54),
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
           ),
-        );
+        ),
+        child: Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              // Item 1
+              Expanded(
+                flex: 1,
+                child: Container(
+                  height: 33,
+                  decoration: BoxDecoration(
+                    // Not sure if follows figma design
+                    boxShadow: [
+                      BoxShadow(
+                          color: isSelected1
+                              ? Colors.grey.withOpacity(0.5)
+                              : Colors.transparent,
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3)),
+                    ],
+                    color: isSelected1 ? Colors.white : Colors.transparent,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isSelected1 = true;
+                        isSelected2 = false;
+                        isSelected3 = false;
+                        return1();
+                      });
+                    },
+                    child: Text(
+                      "${widget.text1}",
+                      style: TextStyle(
+                          color: isSelected1 ? Colors.black : Colors.grey[600]),
+                    ),
+                  ),
+                ),
+              ),
+              // Item 2
+              Expanded(
+                flex: 1,
+                child: Container(
+                  height: 33,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: isSelected2
+                              ? Colors.grey.withOpacity(0.5)
+                              : Colors.transparent,
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3)),
+                    ],
+                    color: isSelected2 ? Colors.white : Colors.transparent,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isSelected1 = false;
+                        isSelected2 = true;
+                        isSelected3 = false;
+                        return2();
+                      });
+                    },
+                    child: Text(
+                      "${widget.text2}",
+                      style: TextStyle(
+                          color: isSelected2 ? Colors.black : Colors.grey[600]),
+                    ),
+                  ),
+                ),
+              ),
+              // Item 3
+              Expanded(
+                flex: 1,
+                child: Container(
+                  height: 33,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: isSelected3
+                              ? Colors.grey.withOpacity(0.5)
+                              : Colors.transparent,
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3)),
+                    ],
+                    color: isSelected3 ? Colors.white : Colors.transparent,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isSelected1 = false;
+                        isSelected2 = false;
+                        isSelected3 = true;
+                        return3();
+                      });
+                    },
+                    child: Text(
+                      "${widget.text3}",
+                      style: TextStyle(
+                          color: isSelected3 ? Colors.black : Colors.grey[600]),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -450,4 +602,3 @@ class _DropDownState extends State<DropDown> {
 //     );
 //   }
 // }
-

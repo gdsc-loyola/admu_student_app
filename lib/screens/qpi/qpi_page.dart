@@ -10,6 +10,9 @@ import 'package:admu_student_app/models/year.dart';
 // import 'package:admu_student_app/screens/qpi/qpi_semester.dart'; // commented and will edit
 import 'package:admu_student_app/widgets/qpi/qpi_view.dart';
 import 'package:admu_student_app/widgets/qpi/year_drop_down.dart';
+// testing
+import 'package:admu_student_app/widgets/buttons.dart';
+import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 
 class QPIPage extends StatefulWidget {
   @override
@@ -89,7 +92,15 @@ class _QPIPageState extends State<QPIPage> {
           //   },
           // ),
 
-          CourseCard(Colors.green, Colors.white, Colors.green, 'HISTO12', 'A'),
+          CourseCard(Colors.green, Colors.white, Colors.green, 'HISTO12', 'A',
+              () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddQPIPage(),
+              ),
+            );
+          }),
 
           ElevatedButton(
             onPressed: () {
@@ -102,7 +113,7 @@ class _QPIPageState extends State<QPIPage> {
             },
             child: Text('add new course'),
           ),
-          
+
           ElevatedButton(
             onPressed: () {
               Provider.of<AcademicRecords>(context, listen: false)

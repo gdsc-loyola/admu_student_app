@@ -6,9 +6,10 @@ class CourseCard extends StatelessWidget {
   final Color gradeColor;
   final String courseTitle;
   final String grade;
+  final VoidCallback onPressed;
 
   CourseCard(this.borderColor, this.cardColor, this.gradeColor,
-      this.courseTitle, this.grade);
+      this.courseTitle, this.grade, this.onPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class CourseCard extends StatelessWidget {
                       Expanded(
                           flex: 2,
                           child: IconButton(
-                              icon: Icon(Icons.more_vert), onPressed: () {print('Icon Button was pressed');}))
+                              icon: Icon(Icons.more_vert), onPressed: () {onPressed();}))
                     ]),
               ),
             ),
