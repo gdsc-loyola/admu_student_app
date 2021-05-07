@@ -48,8 +48,9 @@ class CourseCard extends StatelessWidget {
                           flex: 10,
                           child: Text(
                             '$courseTitle',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 24),
+                            style: Theme.of(context)
+                            .textTheme
+                            .headline5
                           )),
                       Expanded(
                           flex: 1,

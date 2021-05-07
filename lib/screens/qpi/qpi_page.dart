@@ -89,7 +89,6 @@ class _QPIPageState extends State<QPIPage> {
           //   },
           // ),
 
-          // CourseCard()
           CourseCard(Colors.green, Colors.white, Colors.green, 'HISTO12', 'A'),
 
           ElevatedButton(
