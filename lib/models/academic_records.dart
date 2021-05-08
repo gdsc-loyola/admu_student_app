@@ -48,7 +48,7 @@ class AcademicRecords extends ChangeNotifier {
 
   AcademicRecords() {
     // sample data for testing
-    if (kIsWeb) _years = _sampleData;
+    if (kIsWeb) _years.addAll(_sampleData);
 
     _updateList();
   }
@@ -269,6 +269,23 @@ class AcademicRecords extends ChangeNotifier {
 
   void _updateList() async {
     if (kIsWeb) {
+      // sort years
+      _years.sort((a, b) => a.yearNum.compareTo(b.yearNum));
+
+      // sort sems
+      for (Year y in _years) {
+        if (y.sems.length > 0) {
+          y.sems.sort((a, b) => a.semNum.compareTo(b.semNum));
+          for (Semester s in y.sems) {
+            if (s.courses.length > 0) {
+              s.courses.sort((a, b) => a.courseCode.compareTo(b.courseCode));
+            }
+          }
+        }
+      }
+
+      // sort courses
+
       notifyListeners();
       return;
     }
@@ -374,7 +391,8 @@ class AcademicRecords extends ChangeNotifier {
 
   void deleteAllData() async {
     if (kIsWeb) {
-      _years = _sampleData;
+      _years.clear();
+      _years.addAll(_sampleData);
       print('deleted and recreated all course data - web');
       _updateList();
       return;
