@@ -130,7 +130,7 @@ class _YearDropDownState extends State<YearDropDown> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.white, // should be AppColors.GRAY_LIGHT[1]
             borderRadius: BorderRadius.all(Radius.circular(8)),
             boxShadow: [AppEffects.SHADOW],
           ),
@@ -148,7 +148,10 @@ class _YearDropDownState extends State<YearDropDown> {
                         fontWeight: FontWeight.w500),
                   ),
                 ),
-                _YearQPIView(qpi: year.yearlyQPI),
+                Padding(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: _SmallQPIView(qpi: year.yearlyQPI),
+                ),
                 IconButton(
                   icon: Icon(
                     year.isYearlyQPI
@@ -156,9 +159,9 @@ class _YearDropDownState extends State<YearDropDown> {
                             ? Icons.expand_less_rounded
                             : Icons.expand_more_rounded)
                         : Icons.more_vert,
-                    color: AppColors.GRAY_LIGHT[0],
+                    color: AppColors.GRAY_DARK[2],
                   ),
-                  iconSize: 32.0,
+                  iconSize: 36.0,
                   onPressed: () {
                     if (year.isYearlyQPI)
                       setState(() {
@@ -186,7 +189,7 @@ class _YearDropDownState extends State<YearDropDown> {
                     height: 56, // original 55
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      color: AppColors.PRIMARY_MAIN,
+                      color: AppColors.PRIMARY_ALT,
                       boxShadow: [AppEffects.SHADOW],
                     ),
                     child: Row(
@@ -202,20 +205,18 @@ class _YearDropDownState extends State<YearDropDown> {
                                     fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Text(
-                          '${year.sems[index].semestralQPI.toStringAsFixed(2)}',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: AppColors.GRAY_LIGHT[2],
-                              fontWeight: FontWeight.w500),
+                        _SmallQPIView(
+                          qpi: year.sems[index].semestralQPI,
+                          showBackground: false,
                         ),
                         IconButton(
                           icon: Icon(
-                            year.isYearlyQPI
-                                ? Icons.more_vert
-                                : Icons.arrow_forward_ios_rounded,
+                            year.sems[index].isSemestralQPI
+                                ? Icons.chevron_right_rounded // Icons.arrow_forward_ios_rounded
+                                : Icons.more_vert,
                             color: AppColors.GRAY_LIGHT[0],
                           ),
-                          iconSize: 24.0,
+                          iconSize: 36.0,
                           onPressed: () {
                             if (year.sems[index].isSemestralQPI)
                               Navigator.of(context).push(
@@ -242,16 +243,17 @@ class _YearDropDownState extends State<YearDropDown> {
   }
 }
 
-class _YearQPIView extends StatelessWidget {
+class _SmallQPIView extends StatelessWidget {
+  final bool showBackground;
   final double qpi;
 
-  _YearQPIView({@required this.qpi});
+  _SmallQPIView({@required this.qpi, this.showBackground = true});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.PRIMARY_LIGHT,
+        color: showBackground ? AppColors.PRIMARY_ALT : Colors.transparent,
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
       width: 75,

@@ -38,6 +38,7 @@ class AcademicRecords extends ChangeNotifier {
         Course('SocSc 12', 0, 3, 1.0, true),
         Course('MATH 30.24', 0, 3, 2.0, true),
       ]),
+      Semester.fromSem(1, 20, 3.5),
     ]),
     Year.fromYear(3, 20, 4.0),
   ];
