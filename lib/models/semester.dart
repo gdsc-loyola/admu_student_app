@@ -21,6 +21,8 @@ class Semester {
     }
   }
 
+  bool get isSemestralQPI => _qpi == null;
+
   int get allUnits {
     if (_units == null) {
       int totalUnits = 0;

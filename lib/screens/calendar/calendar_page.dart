@@ -18,7 +18,7 @@ class _CalendarPageState extends State<CalendarPage> {
         Provider.of<CalendarEvents>(context, listen: false).events;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0),
       child: Column(
         children: [
           ListView.builder(

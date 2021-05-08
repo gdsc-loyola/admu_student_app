@@ -18,199 +18,229 @@ class YearDropDown extends StatefulWidget {
 }
 
 class _YearDropDownState extends State<YearDropDown> {
-  // List<YearExpansionPanel> _years = <YearExpansionPanel>[
-  //   YearExpansionPanel(
-  //       header: "Year 1", body1: "FIRST SEMESTER", body2: "SECOND SEMESTER"),
-  //   YearExpansionPanel(
-  //       header: "Year 2", body1: "FIRST SEMESTER", body2: "SECOND SEMESTER"),
-  //   YearExpansionPanel(
-  //       header: "Year 3", body1: "FIRST SEMESTER", body2: "SECOND SEMESTER"),
-  // ];
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     Year year = Provider.of<AcademicRecords>(context, listen: false)
         .getYear(widget.yearNum);
 
-    if (year.isYearlyQPI)
-      return ExpansionTile(
-        backgroundColor: Colors.white,
-        collapsedBackgroundColor: Colors.white,
-        tilePadding: EdgeInsets.symmetric(horizontal: 16.0),
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Text(
-                year.yearString,
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                    color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
-              ),
-            ),
-            _YearQPIView(qpi: year.yearlyQPI),
-          ],
-        ),
-        children: [
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: year.sems.length,
-            itemBuilder: (_, index) {
-              return Container(
-                margin: EdgeInsets.only(left: 16.0, top: 16.0),
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                height: 56, // original 55
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  color: AppColors.PRIMARY_LIGHT,
-                  boxShadow: [AppEffects.SHADOW],
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        year.sems[index].semString,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            color: AppColors.GRAY_LIGHT[2],
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 36.0,
-                        color: AppColors.GRAY_LIGHT[0],
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => SemesterPage(sem: year.sems[index]),
-                        ));
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
-      );
-    else
-      return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [AppEffects.SHADOW],
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        height: 64,
-        child: Center(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Text(
-                  year.yearString,
-                  style: Theme.of(context).textTheme.headline6.copyWith(
-                      color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
-                ),
-              ),
-              _YearQPIView(qpi: year.yearlyQPI),
-              IconButton(
-                icon: Icon(
-                  Icons.more_vert,
-                  size: 36.0,
-                  color: AppColors.GRAY_LIGHT[0],
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => AddQPIPage(),
-                  ));
-                },
-              ),
-            ],
-          ),
-        ),
-      );
-
-    // return Container(
-    //   child: Column(
+    // if (year.isYearlyQPI)
+    //   return ExpansionTile(
+    //     backgroundColor: Colors.white,
+    //     collapsedBackgroundColor: Colors.white,
+    //     tilePadding: EdgeInsets.symmetric(horizontal: 16.0),
+    //     title: Row(
+    //       crossAxisAlignment: CrossAxisAlignment.center,
+    //       children: [
+    //         Expanded(
+    //           child: Text(
+    //             year.yearString,
+    //             style: Theme.of(context).textTheme.headline6.copyWith(
+    //                 color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
+    //           ),
+    //         ),
+    //         _YearQPIView(qpi: year.yearlyQPI),
+    //       ],
+    //     ),
     //     children: [
-    //       ExpansionPanelList(
-    //         expansionCallback: (int index, bool isExpanded) {
-    //           setState(() {
-    //             _years[index].isExpanded = !_years[index].isExpanded;
-    //           });
+    //       ListView.builder(
+    //         physics: NeverScrollableScrollPhysics(),
+    //         shrinkWrap: true,
+    //         itemCount: year.sems.length,
+    //         itemBuilder: (_, index) {
+    //           return Container(
+    //             margin: EdgeInsets.only(left: 16.0, top: 16.0),
+    //             padding: EdgeInsets.symmetric(horizontal: 16.0),
+    //             height: 56, // original 55
+    //             decoration: BoxDecoration(
+    //               borderRadius: BorderRadius.all(Radius.circular(8)),
+    //               color: AppColors.PRIMARY_LIGHT,
+    //               boxShadow: [AppEffects.SHADOW],
+    //             ),
+    //             child: Row(
+    //               children: [
+    //                 Expanded(
+    //                   child: Text(
+    //                     year.sems[index].semString,
+    //                     style: Theme.of(context).textTheme.bodyText1.copyWith(
+    //                         color: AppColors.GRAY_LIGHT[2],
+    //                         fontWeight: FontWeight.w500),
+    //                   ),
+    //                 ),
+    //                 IconButton(
+    //                   icon: Icon(
+    //                     Icons.arrow_forward_ios_rounded,
+    //                     size: 36.0,
+    //                     color: AppColors.GRAY_LIGHT[0],
+    //                   ),
+    //                   onPressed: () {
+    //                     Navigator.of(context).push(MaterialPageRoute(
+    //                       builder: (_) => SemesterPage(sem: year.sems[index]),
+    //                     ));
+    //                   },
+    //                 ),
+    //               ],
+    //             ),
+    //           );
     //         },
-    //         children: _years.map((YearExpansionPanel year) {
-    //           return ExpansionPanel(
-    //               headerBuilder: (BuildContext context, bool isExpanded) {
-    //                 return Padding(
-    //                   padding: const EdgeInsets.all(10.0),
-    //                   child: ListTile(
-    //                     title: Text(
-    //                       year.header,
-    //                       style: GoogleFonts.dmSans(
-    //                         textStyle: TextStyle(
-    //                           fontWeight: FontWeight.w500,
-    //                           fontSize: 24,
-    //                         ),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 );
-    //               },
-    //               isExpanded: year.isExpanded,
-
-    //               //BODY OF DROPDOWN WIDGET
-    //               body: Column(
-    //                 children: [
-    //                   ExpansionTile(
-    //                     title: Text(
-    //                       year.body1,
-    //                     ),
-    //                     trailing: IconButton(
-    //                       icon: Icon(
-    //                         Icons.arrow_forward_ios_rounded,
-    //                         size: 17,
-    //                       ),
-    //                       onPressed: () {
-    //                         //NAVIGATE TO NEW PAGE
-    //                       },
-    //                     ),
-    //                   ),
-    //                   ExpansionTile(
-    //                     title: Text(
-    //                       year.body2,
-    //                     ),
-    //                     trailing: IconButton(
-    //                       icon: Icon(
-    //                         Icons.arrow_forward_ios_rounded,
-    //                         size: 17,
-    //                       ),
-    //                       onPressed: () {
-    //                         //NAVIGATE TO NEW PAGE
-    //                       },
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ));
-    //         }).toList(),
-    //       )
+    //       ),
     //     ],
-    //     //basicTiles.map((tile) => BasicTileWidget(tile: tile)).toList(),
-    //   ),
-    // );
+    //   );
+    // else
+    //   return Container(
+    //     decoration: BoxDecoration(
+    //       color: Colors.white,
+    //       borderRadius: BorderRadius.all(Radius.circular(8)),
+    //       boxShadow: [AppEffects.SHADOW],
+    //     ),
+    //     padding: EdgeInsets.symmetric(horizontal: 16.0),
+    //     height: 64,
+    //     child: Center(
+    //       child: Row(
+    //         crossAxisAlignment: CrossAxisAlignment.center,
+    //         children: [
+    //           Expanded(
+    //             child: Text(
+    //               year.yearString,
+    //               style: Theme.of(context).textTheme.headline6.copyWith(
+    //                   color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
+    //             ),
+    //           ),
+    //           _YearQPIView(qpi: year.yearlyQPI),
+    //           IconButton(
+    //             icon: Icon(
+    //               Icons.more_vert,
+    //               size: 36.0,
+    //               color: AppColors.GRAY_LIGHT[0],
+    //             ),
+    //             onPressed: () {
+    //               Navigator.of(context).push(MaterialPageRoute(
+    //                 builder: (_) => AddQPIPage(),
+    //               ));
+    //             },
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   );
+
+    // basic widget, no animation
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            boxShadow: [AppEffects.SHADOW],
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          height: 64,
+          child: Center(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    year.yearString,
+                    style: Theme.of(context).textTheme.headline6.copyWith(
+                        color: AppColors.GRAY_DARK[0],
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+                _YearQPIView(qpi: year.yearlyQPI),
+                IconButton(
+                  icon: Icon(
+                    year.isYearlyQPI
+                        ? (_isExpanded
+                            ? Icons.expand_less_rounded
+                            : Icons.expand_more_rounded)
+                        : Icons.more_vert,
+                    color: AppColors.GRAY_LIGHT[0],
+                  ),
+                  iconSize: 32.0,
+                  onPressed: () {
+                    if (year.isYearlyQPI)
+                      setState(() {
+                        _isExpanded = !_isExpanded;
+                      });
+                    else
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => AddQPIPage(),
+                      ));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        _isExpanded
+            ? ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: year.sems.length,
+                itemBuilder: (_, index) {
+                  return Container(
+                    margin: EdgeInsets.only(left: 16.0, top: 16.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    height: 56, // original 55
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      color: AppColors.PRIMARY_MAIN,
+                      boxShadow: [AppEffects.SHADOW],
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            year.sems[index].semString,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(
+                                    color: AppColors.GRAY_LIGHT[2],
+                                    fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Text(
+                          '${year.sems[index].semestralQPI.toStringAsFixed(2)}',
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: AppColors.GRAY_LIGHT[2],
+                              fontWeight: FontWeight.w500),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            year.isYearlyQPI
+                                ? Icons.more_vert
+                                : Icons.arrow_forward_ios_rounded,
+                            color: AppColors.GRAY_LIGHT[0],
+                          ),
+                          iconSize: 24.0,
+                          onPressed: () {
+                            if (year.sems[index].isSemestralQPI)
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => AddQPIPage(),
+                                ),
+                              );
+                            else
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        SemesterPage(sem: year.sems[index])),
+                              );
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              )
+            : Container(),
+      ],
+    );
   }
 }
-
-// class YearExpansionPanel {
-//   YearExpansionPanel(
-//       {this.isExpanded: false, this.header, this.body1, this.body2});
-
-//   bool isExpanded;
-//   final String header;
-//   final String body1, body2;
-// }
 
 class _YearQPIView extends StatelessWidget {
   final double qpi;
