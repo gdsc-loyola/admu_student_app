@@ -122,7 +122,7 @@ class _DropDownState extends State<DropDown> {
   Widget build(BuildContext context) {
     return Container(
       width: 185,
-      height: 56,
+      height: 51,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -155,6 +155,7 @@ class _DropDownState extends State<DropDown> {
   }
 }
 
+
 class ButtonRow extends StatefulWidget {
   final String text1;
   final String text2;
@@ -167,24 +168,13 @@ class ButtonRow extends StatefulWidget {
       this.return3);
 
   @override
-  _ButtonRowState createState() => _ButtonRowState(this.text1, this.text2,
-      this.text3, this.return1, this.return2, this.return3);
+  _ButtonRowState createState() => _ButtonRowState();
 }
 
 class _ButtonRowState extends State<ButtonRow> {
   bool isSelected1 = true;
   bool isSelected2 = false;
   bool isSelected3 = false;
-
-  final String text1;
-  final String text2;
-  final String text3;
-  final VoidCallback return1;
-  final VoidCallback return2;
-  final VoidCallback return3;
-
-  _ButtonRowState(this.text1, this.text2, this.text3, this.return1,
-      this.return2, this.return3);
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +198,6 @@ class _ButtonRowState extends State<ButtonRow> {
                 child: Container(
                   height: 33,
                   decoration: BoxDecoration(
-                    // Not sure if follows figma design
                     boxShadow: [
                       BoxShadow(
                           color: isSelected1
@@ -229,7 +218,7 @@ class _ButtonRowState extends State<ButtonRow> {
                         isSelected1 = true;
                         isSelected2 = false;
                         isSelected3 = false;
-                        return1();
+                        widget.return1();
                       });
                     },
                     child: Text(
@@ -266,7 +255,7 @@ class _ButtonRowState extends State<ButtonRow> {
                         isSelected1 = false;
                         isSelected2 = true;
                         isSelected3 = false;
-                        return2();
+                        widget.return2();
                       });
                     },
                     child: Text(
@@ -303,7 +292,7 @@ class _ButtonRowState extends State<ButtonRow> {
                         isSelected1 = false;
                         isSelected2 = false;
                         isSelected3 = true;
-                        return3();
+                        widget.return3();
                       });
                     },
                     child: Text(
@@ -438,81 +427,70 @@ class _ButtonRowState extends State<ButtonRow> {
 
 //////
 
-// class SemSelect extends StatefulWidget {
-//   final Color buttonColor;
-//   final Color textColor;
-//   final Color labelColor;
+class SemSelect extends StatefulWidget {
+  final Color buttonColor;
+  final Color textColor;
 
-//   SemSelect(this.labelColor, this.buttonColor, this.textColor);
+  SemSelect(this.buttonColor, this.textColor);
 
-//   @override
-//   _SemSelectState createState() => _SemSelectState();
-// }
+  @override
+  _SemSelectState createState() => _SemSelectState();
+}
 
-// class _SemSelectState extends State<SemSelect> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: Colors.transparent,
-//       width: 177,
-//       height: 80,
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             children: [
-//               Text(
-//                 "Semester",
-//                 style: TextStyle(color: widget.labelColor),
-//               ),
-//             ],
-//           ),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               // same as DateSelect
-
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('1', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('2', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('IS', style: TextStyle(color: widget.textColor))),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+class _SemSelectState extends State<SemSelect> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
+      width: 177,
+      height: 54,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // same as DateSelect
+              Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                    color: widget.buttonColor,
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                child: TextButton(
+                    onPressed: () {},
+                    child:
+                        Text('1', style: TextStyle(color: widget.textColor))),
+              ),
+              Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                    color: widget.buttonColor,
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                child: TextButton(
+                    onPressed: () {},
+                    child:
+                        Text('2', style: TextStyle(color: widget.textColor))),
+              ),
+              Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                    color: widget.buttonColor,
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                child: TextButton(
+                    onPressed: () {},
+                    child:
+                        Text('IS', style: TextStyle(color: widget.textColor))),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 //////
 

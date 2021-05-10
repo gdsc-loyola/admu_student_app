@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CourseCard extends StatelessWidget {
   final Color borderColor;
@@ -47,22 +48,22 @@ class CourseCard extends StatelessWidget {
                       ),
                       Expanded(
                           flex: 10,
-                          child: Text(
-                            '$courseTitle',
-                            style: Theme.of(context)
-                            .textTheme
-                            .headline5
-                          )),
+                          child: Text('$courseTitle',
+                              style: Theme.of(context).textTheme.headline5)),
                       Expanded(
                           flex: 1,
-                          child: Text(
-                            '$grade',
-                            style: TextStyle(fontSize: 32, color: gradeColor),
-                          )),
+                          child: Text('$grade',
+                              style: GoogleFonts.dmSans(
+                                  fontSize: 32,
+                                  color: gradeColor,
+                                  fontWeight: FontWeight.bold))),
                       Expanded(
                           flex: 2,
                           child: IconButton(
-                              icon: Icon(Icons.more_vert), onPressed: () {onPressed();}))
+                              icon: Icon(Icons.more_vert),
+                              onPressed: () {
+                                onPressed();
+                              }))
                     ]),
               ),
             ),
