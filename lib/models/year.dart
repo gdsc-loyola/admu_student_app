@@ -10,7 +10,7 @@ class Year {
 
   String get yearString => 'Year $_yearNum';
 
-  bool get isYearlyQPI => _qpi == null;
+  bool get isYearlyQPI => _qpi != null;
 
   int get allUnits {
     if (_units == null) {

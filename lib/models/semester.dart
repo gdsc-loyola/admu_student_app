@@ -21,7 +21,7 @@ class Semester {
     }
   }
 
-  bool get isSemestralQPI => _qpi == null;
+  bool get isSemestralQPI => _qpi != null;
 
   int get allUnits {
     if (_units == null) {
