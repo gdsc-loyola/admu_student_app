@@ -36,7 +36,9 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
         elevation: 0,
         automaticallyImplyLeading: false,
         leading: IconButton(
+          color: AppColors.GRAY_LIGHT[2],
           icon: Icon(Icons.chevron_left_rounded),
+          iconSize: 36,
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -78,7 +80,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                       return Padding(
                         padding: EdgeInsets.only(bottom: 14),
                         child: CustomDropDown(
-                          childrenPadding: EdgeInsets.fromLTRB(24, 0, 24, 24),
+                          childrenPadding: EdgeInsets.fromLTRB(24, 0, 24, 48), // original 47 for bottom
                           title: Text(
                             categ['heading'],
                             style:
@@ -139,7 +141,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                       );
                     },
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 56), // original 54
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

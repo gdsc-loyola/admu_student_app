@@ -27,6 +27,7 @@ class App extends StatelessWidget {
         // textTheme: GoogleFonts.dmSansTextTheme(
         //   Theme.of(context).textTheme,
         // ),
+        scaffoldBackgroundColor: AppColors.GRAY_LIGHT[2],
         fontFamily: GoogleFonts.dmSans().fontFamily,
         textTheme: TextTheme(
           headline4: GoogleFonts.dmSans(
