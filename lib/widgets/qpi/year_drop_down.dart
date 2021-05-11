@@ -165,15 +165,15 @@ class _YearDropDownState extends State<YearDropDown>
                 qpi: year.sems[index].semestralQPI,
                 showBackground: false,
               ),
-              IconButton(
-                icon: Icon(
+              InkWell(
+                child: Icon(
                   year.sems[index].isSemestralQPI
                       ? Icons.more_vert
                       : Icons.chevron_right_rounded,
                   color: AppColors.GRAY_LIGHT[0],
+                  size: 36.0,
                 ),
-                iconSize: 36.0,
-                onPressed: () {
+                onTap: () {
                   if (year.sems[index].isSemestralQPI)
                     Navigator.of(context).push(
                       MaterialPageRoute(
