@@ -47,8 +47,8 @@ class LoginPage extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Image(
-                                      image: AssetImage('google.png'),
+                                    Image.asset(
+                                      'google.png',
                                       width: 24,
                                       height: 24,
                                     ),
@@ -86,8 +86,8 @@ class LoginPage extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Image(
-                                      image: AssetImage('apple.png'),
+                                    Image.asset(
+                                      'apple.png',
                                       width: 24,
                                       height: 24,
                                     ),
