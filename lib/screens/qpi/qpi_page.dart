@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:admu_student_app/widgets/help_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,7 @@ class _QPIPageState extends State<QPIPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center, //To center the icon and title
             children: [
               Expanded(
                 child: Text(
@@ -36,11 +38,7 @@ class _QPIPageState extends State<QPIPage> {
                       .copyWith(color: AppColors.GRAY_DARK[0]),
                 ),
               ),
-              CircleAvatar(
-                // placeholder, use new widget
-                backgroundColor: AppColors.PRIMARY_MAIN,
-                radius: 14,
-              ),
+              HelpButton(),
             ],
           ),
           SizedBox(height: 24.0),

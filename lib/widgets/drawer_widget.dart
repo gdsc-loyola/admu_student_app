@@ -19,38 +19,34 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
-            accountName: Text(
-              'LOREM I. PSUM',
-              style: GoogleFonts.dmSans(
-                textStyle: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
+          Container(
+            height: 216,
+            child: UserAccountsDrawerHeader(
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: AppColors.PRIMARY_MAIN,
+                child: new Container(
+                  width: 80,
+                  height: 80,
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    //container can be changed to:
+                    //backgroundImage: NetworkImage("photo url"),
+                  ),
                 ),
               ),
-            ),
-            accountEmail: Text(
-              'lorem.ipsum.@obf.ateneo.edu',
-              style: GoogleFonts.dmSans(
-                textStyle: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w100,
-                  color: Colors.white70,
+              accountName: Text(
+                'LOREM I. PSUM',
+                style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.white),
+              ),
+              accountEmail: Text(
+                'lorem.ipsum.@obf.ateneo.edu',
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: AppColors.GRAY_LIGHT[0],
+                  fontWeight: FontWeight.w100
                 ),
               ),
-            ),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: AppColors.PRIMARY_MAIN,
-              child: new Container(
-                width: 100,
-                height: 100,
-                decoration: new BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  //container can be changed to:
-                  //backgroundImage: NetworkImage("photo url"),
-                ),
-              ),
+
             ),
           ),
 
