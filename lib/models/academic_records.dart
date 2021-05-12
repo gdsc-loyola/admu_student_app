@@ -11,14 +11,14 @@ class AcademicRecords extends ChangeNotifier {
   final List<Year> _sampleData = [
     Year(1, [
       Semester(1, [
-        Course('CSCI 20', 0, 3, 0.0, true),
-        Course('CSCI 21', 0, 3, 1.0, true),
-        Course('ENGL 11', 0, 3, 2.0, true),
-        Course('FILI 12', 0, 3, 2.5, true),
-        Course('INTACT 11', 0, 0, 0.0, false),
-        Course('MATH 10', 0, 3, 3.0, true),
-        Course('MATH 21', 0, 3, 3.5, true),
-        Course('PHYED 111', 0, 2, 4.0, false),
+        Course('CSCI 20', 0xFFAE0000, 3, 0.0, true),
+        Course('CSCI 21', 0xFF00AE00, 3, 1.0, true),
+        Course('ENGL 11', 0xFF0000AE, 3, 2.0, true),
+        Course('FILI 12', 0xFFAE0000, 3, 2.5, true),
+        Course('INTACT 11', 0xFF00AE00, 0, 0.0, false),
+        Course('MATH 10', 0xFF0000AE, 3, 3.0, true),
+        Course('MATH 21', 0xFFAE0000, 3, 3.5, true),
+        Course('PHYED 111', 0xFF00AE00, 2, 4.0, false),
       ]),
       Semester(2, [
         Course('CSCI 22', 0, 3, 4.0, false),
@@ -78,6 +78,20 @@ class AcademicRecords extends ChangeNotifier {
   Year getYear(int yearNum) {
     for (Year y in _years) {
       if (y.yearNum == yearNum) return y;
+    }
+
+    return null;
+  }
+
+  Semester getSemester(int yearNum, int semNum) {
+    for (Year y in _years) {
+      if (y.yearNum == yearNum) {
+        for (Semester s in y.sems) {
+          if (s.semNum == semNum) {
+            return s;
+          }
+        }
+      }
     }
 
     return null;
