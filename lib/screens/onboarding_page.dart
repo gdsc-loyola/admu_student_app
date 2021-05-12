@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/screens/main_app.dart';
 
 class OnboardingPage extends StatefulWidget {

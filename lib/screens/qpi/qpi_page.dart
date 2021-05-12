@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:admu_student_app/widgets/qpi/course_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +8,9 @@ import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/year.dart';
 // import 'package:admu_student_app/screens/qpi/qpi_semester.dart'; // commented and will edit
 import 'package:admu_student_app/widgets/qpi/qpi_view.dart';
+import 'package:admu_student_app/widgets/qpi/course_widget.dart';
 import 'package:admu_student_app/widgets/qpi/year_drop_down.dart';
+import 'package:admu_student_app/widgets/help_button.dart';
 // testing
 import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
@@ -30,6 +31,7 @@ class _QPIPageState extends State<QPIPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center, //To center the icon and title
             children: [
               Expanded(
                 child: Text(
@@ -40,11 +42,7 @@ class _QPIPageState extends State<QPIPage> {
                       .copyWith(color: AppColors.GRAY_DARK[0]),
                 ),
               ),
-              CircleAvatar(
-                // placeholder, use new widget
-                backgroundColor: AppColors.PRIMARY_MAIN,
-                radius: 14,
-              ),
+              HelpButton(),
             ],
           ),
           SizedBox(height: 24.0),
@@ -58,13 +56,13 @@ class _QPIPageState extends State<QPIPage> {
                 .copyWith(color: AppColors.GRAY_DARK[0]),
           ),
           SizedBox(height: 16.0),
-          YearDropDown(),
-          // ListView.builder( // commented and will edit
-          //   physics: NeverScrollableScrollPhysics(),
-          //   shrinkWrap: true,
-          //   itemCount: years.length,
-          //   itemBuilder: (_, index) {
-          //     Year yr = years[index];
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: years.length,
+            itemBuilder: (_, index) {
+              Year yr = years[index];
+
 
           //     return Container(
           //       margin: EdgeInsets.only(bottom: 16.0),
@@ -102,7 +100,7 @@ class _QPIPageState extends State<QPIPage> {
               ),
             );
           }),
-
+              
           ElevatedButton(
             onPressed: () {
               int yearNum = Random().nextInt(5) + 1;

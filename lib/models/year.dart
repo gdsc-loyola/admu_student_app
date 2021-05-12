@@ -8,22 +8,9 @@ class Year {
 
   int get yearNum => _yearNum;
 
-  String get yearString {
-    switch (_yearNum) {
-      case 1:
-        return 'Freshman Year';
-      case 2:
-        return 'Sophomore Year';
-      case 3:
-        return 'Junior Year';
-      case 4:
-        return 'Senior Year';
-      case 5:
-        return 'Super Senior Year';
-      default:
-        return 'Year $_yearNum';
-    }
-  }
+  String get yearString => 'Year $_yearNum';
+
+  bool get isYearlyQPI => _qpi != null;
 
   int get allUnits {
     if (_units == null) {

@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:admu_student_app/models/calendar_events.dart';
+import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/widgets/calendar/event_card.dart';
+import 'package:admu_student_app/widgets/calendar/event_card_small.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -8,8 +14,37 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('This is the Calendar Page'),
+    List<Event> _events =
+        Provider.of<CalendarEvents>(context, listen: false).events;
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0),
+      child: Column(
+        children: [
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: _events.length,
+            itemBuilder: (_, index) {
+              return Container(
+                margin: EdgeInsets.only(bottom: 8.0),
+                child: SmallEventCard(event: _events[index]),
+              );
+            },
+          ),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: _events.length,
+            itemBuilder: (_, index) {
+              return Container(
+                margin: EdgeInsets.only(bottom: 8.0),
+                child: EventCard(event: _events[index]),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

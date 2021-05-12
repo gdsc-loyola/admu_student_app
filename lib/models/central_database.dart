@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 
 class CentralDatabaseHelper {
   static final _dbName = 'centralDatabase.db';
-  static final _dbVersion = 1;
+  static final _dbVersion = 2;
 
   static final tableName_courses = 'courses';
   static final tableName_schedule = 'schedules';
@@ -28,9 +28,11 @@ class CentralDatabaseHelper {
   static final professor = 'professor';
   static final notes = 'notes';
   static final name = 'name';
-  static final description = 'description';
+  static final agenda = 'agenda';
+  static final tags = 'tags';
   static final isTask = 'is_task';
   static final isDone = 'is_done';
+  static final inAcademicCalendar = 'in_academic_calendar';
 
   // singleton class
   CentralDatabaseHelper._privateConstructor();
@@ -52,8 +54,18 @@ class CentralDatabaseHelper {
       path,
       version: _dbVersion,
       onCreate: _onCreateDatabase,
-      onUpgrade: (_, __, ___) {},
-      onDowngrade: (_, __, ___) {},
+      onUpgrade: (_, __, ___) async {
+        // testing, don't actually do this
+        await createCoursesTable(null, _dbVersion);
+        await createSchedulesTable(null, _dbVersion);
+        await createEventsTable(null, _dbVersion);
+      },
+      onDowngrade: (_, __, ___) async {
+        // testing, don't actually do this
+        await createCoursesTable(null, _dbVersion);
+        await createSchedulesTable(null, _dbVersion);
+        await createEventsTable(null, _dbVersion);
+      },
     );
   }
 
@@ -68,7 +80,7 @@ class CentralDatabaseHelper {
 
     await (await CentralDatabaseHelper.instance.database)
         .execute('DROP TABLE IF EXISTS $tableName_courses');
-        
+
     await db.execute('''
       CREATE TABLE $tableName_courses(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -115,11 +127,13 @@ class CentralDatabaseHelper {
       CREATE TABLE $tableName_events(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
       $name TEXT NOT NULL,
-      $description TEXT,
+      $agenda TEXT,
+      $tags TEXT,
       $start TEXT,
       $end TEXT,
       $isTask INTEGER,
-      $isDone INTEGER )
+      $isDone INTEGER,
+      $inAcademicCalendar INTEGER )
     ''');
   }
 }
