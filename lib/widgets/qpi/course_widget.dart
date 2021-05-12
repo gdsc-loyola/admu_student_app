@@ -78,7 +78,12 @@ class CourseCard extends StatelessWidget {
                       Expanded(
                           flex: 1,
                           child: Text('$grade',
-                              style: Theme.of(context).textTheme.headline4.copyWith(color: gradeColor))),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline4
+                                  .copyWith(
+                                      color: gradeColor,
+                                      fontWeight: FontWeight.bold))),
                       Expanded(
                           flex: 2,
                           child: IconButton(
