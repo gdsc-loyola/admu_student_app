@@ -38,7 +38,9 @@ class AcademicRecords extends ChangeNotifier {
         Course('SocSc 12', 0, 3, 1.0, true),
         Course('MATH 30.24', 0, 3, 2.0, true),
       ]),
+      Semester.fromSem(1, 20, 3.5),
     ]),
+    Year.fromYear(3, 20, 4.0),
   ];
   List<Year> _years = [];
 
@@ -46,7 +48,7 @@ class AcademicRecords extends ChangeNotifier {
 
   AcademicRecords() {
     // sample data for testing
-    if (kIsWeb) _years = _sampleData;
+    if (kIsWeb) _years.addAll(_sampleData);
 
     _updateList();
   }
@@ -71,6 +73,14 @@ class AcademicRecords extends ChangeNotifier {
 
     if (totalUnits == 0) return 0.0;
     return sumGrades / totalUnits;
+  }
+
+  Year getYear(int yearNum) {
+    for (Year y in _years) {
+      if (y.yearNum == yearNum) return y;
+    }
+
+    return null;
   }
 
   double getSemestralQPI(int yearNum, int semNum) {
@@ -259,7 +269,23 @@ class AcademicRecords extends ChangeNotifier {
 
   void _updateList() async {
     if (kIsWeb) {
-      print(_years);
+      // sort years
+      _years.sort((a, b) => a.yearNum.compareTo(b.yearNum));
+
+      // sort sems
+      for (Year y in _years) {
+        if (y.sems.length > 0) {
+          y.sems.sort((a, b) => a.semNum.compareTo(b.semNum));
+          for (Semester s in y.sems) {
+            if (s.courses.length > 0) {
+              s.courses.sort((a, b) => a.courseCode.compareTo(b.courseCode));
+            }
+          }
+        }
+      }
+
+      // sort courses
+
       notifyListeners();
       return;
     }
@@ -360,18 +386,13 @@ class AcademicRecords extends ChangeNotifier {
       }
     });
 
-    print(_years);
     notifyListeners();
   }
 
   void deleteAllData() async {
-    // await (await CentralDatabaseHelper.instance.database).execute(
-    //     'DROP TABLE IF EXISTS ${CentralDatabaseHelper.tableName_courses}');
-    // await (await CentralDatabaseHelper.instance.database)
-    //     .delete(CentralDatabaseHelper.tableName_courses);
-
     if (kIsWeb) {
-      _years = _sampleData;
+      _years.clear();
+      _years.addAll(_sampleData);
       print('deleted and recreated all course data - web');
       _updateList();
       return;

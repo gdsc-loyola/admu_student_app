@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:admu_student_app/screens/main_app.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';

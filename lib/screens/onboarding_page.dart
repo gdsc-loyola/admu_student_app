@@ -69,6 +69,18 @@ List<PageViewModel> listPagesViewModel = [
         titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
         bodyTextStyle: TextStyle(fontSize: 15),
         imageFlex: 2),
+  ),
+    PageViewModel(
+    title: "Feature 5",
+    body:
+        "description of feature description of feature description of feature.",
+    image: Container(
+      color: Colors.pink,
+    ),
+    decoration: const PageDecoration(
+        titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+        bodyTextStyle: TextStyle(fontSize: 15),
+        imageFlex: 2),
   )
 ];
 
@@ -85,7 +97,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: IntroductionScreen(
                 pages: listPagesViewModel,
                 onDone: () {
-                  Navigator.of(context).push(
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (_) => MainPage()),
                   );
                 },
