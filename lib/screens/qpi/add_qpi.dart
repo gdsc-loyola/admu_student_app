@@ -34,20 +34,18 @@ class _AddQPIPageState extends State<AddQPIPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Done',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(color: AppColors.GRAY_LIGHT[2])),
-              )
-            ],
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Done',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(color: AppColors.GRAY_LIGHT[2])),
+            ),
           ),
         ],
         title: IconButton(
