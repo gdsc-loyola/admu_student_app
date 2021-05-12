@@ -1,4 +1,5 @@
 import 'package:admu_student_app/models/year.dart';
+import 'package:admu_student_app/screens/qpi/qpi_semester.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,20 +12,20 @@ class _YearDropDownState extends State<YearDropDown> {
   List<YearExpansionPanel> _years = <YearExpansionPanel>[
     YearExpansionPanel(
       header: "Year 1",
-      body1: "FIRST SEMESTER",
-      body2: "SECOND SEMESTER"
+        body1: "First Semester",
+        body2: "Second Semester"
     ),
 
     YearExpansionPanel(
       header: "Year 2",
-      body1: "FIRST SEMESTER",
-      body2: "SECOND SEMESTER"
+        body1: "First Semester",
+        body2: "Second Semester"
     ),
 
     YearExpansionPanel(
       header: "Year 3",
-      body1: "FIRST SEMESTER",
-      body2: "SECOND SEMESTER"
+        body1: "First Semester",
+        body2: "Second Semester"
     ),
   ];
 
@@ -49,12 +50,7 @@ class _YearDropDownState extends State<YearDropDown> {
                       child: ListTile(
                         title: Text(
                           year.header,
-                          style: GoogleFonts.dmSans(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 24,
-                            ),
-                          ),
+                          style: Theme.of(context).textTheme.headline6
                         ),
                       ),
                     );
@@ -69,12 +65,15 @@ class _YearDropDownState extends State<YearDropDown> {
                           year.body1,
                         ),
                         trailing: IconButton(
+                          iconSize: 17,
                           icon: Icon(
                             Icons.arrow_forward_ios_rounded,
-                            size: 17,
                           ),
                           onPressed: (){
-                            //NAVIGATE TO NEW PAGE
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SemesterPage(yearNum: 1, semNum: 1)),
+                            );
                           },
                         ),
                       ),
