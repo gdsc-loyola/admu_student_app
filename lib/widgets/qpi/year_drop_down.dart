@@ -29,7 +29,7 @@ class _YearDropDownState extends State<YearDropDown> {
 
   void _onSemesterTap(Semester s) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => SemesterPage(sem: s)),
+      MaterialPageRoute(builder: (_) => SemesterPage(yearNum: widget.yearNum, semNum: s.semNum)),
     );
   }
 
