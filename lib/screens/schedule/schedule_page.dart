@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/widgets/schedule/schedule_timetable.dart';
 import 'package:admu_student_app/widgets/input_field.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
 
@@ -14,7 +15,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    /*return Container(
       color: AppColors.PRIMARY_MAIN,
       child: Column(
         children: [
@@ -67,6 +68,18 @@ class _SchedulePageState extends State<SchedulePage> {
               isMultiLined: true,
               length: null,
             ),
+          ),
+        ],
+      ),
+    );*/
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+      child: Column(
+        children: [
+          Expanded(
+            // child: Container(color: Colors.green),
+            child: ScheduleTimetable(type: 0),
           ),
         ],
       ),
