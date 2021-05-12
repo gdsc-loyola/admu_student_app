@@ -5,7 +5,6 @@ import 'package:admu_student_app/models/course.dart';
 import 'package:admu_student_app/widgets/input_field.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AddQPIPage extends StatefulWidget {
   // final bool isEditing;
@@ -33,7 +32,29 @@ class _AddQPIPageState extends State<AddQPIPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ADD QPI'),
+        automaticallyImplyLeading: false,
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Done',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: AppColors.GRAY_LIGHT[2])),
+              )
+            ],
+          ),
+        ],
+        title: IconButton(
+            icon: Icon(Icons.keyboard_arrow_left),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         elevation: 0,
       ),
       body: Center(
@@ -43,18 +64,19 @@ class _AddQPIPageState extends State<AddQPIPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Text(
-                    'Add $title QPI',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.bold,
-                      height: 1.0,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
+              Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                child: Row(
+                  children: [
+                    Text(
+                      'Add $title QPI',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                    )
+                  ],
+                ),
               ),
               ButtonRow('Year', 'Semester', 'Course', () {
                 // Item 1 Clicked
@@ -114,10 +136,10 @@ class YearAddQPI extends StatelessWidget {
             children: [
               Text(
                 'Year Level',
-                style: GoogleFonts.dmSans(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: AppColors.GRAY_LIGHT[2]),
               ),
               SizedBox(
                 height: 8,
@@ -135,11 +157,11 @@ class YearAddQPI extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Cummulative QPI',
-                style: GoogleFonts.dmSans(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                ),
+                'Yearly QPI',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: AppColors.GRAY_LIGHT[2]),
               ),
               SizedBox(
                 height: 8,
@@ -177,10 +199,10 @@ class SemesterAddQPI extends StatelessWidget {
                 children: [
                   Text(
                     'Year Level',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
                   ),
                   SizedBox(
                     height: 8,
@@ -199,11 +221,11 @@ class SemesterAddQPI extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Cummulative QPI',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
+                    'Semestral QPI',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
                   ),
                   SizedBox(
                     height: 8,
@@ -222,7 +244,10 @@ class SemesterAddQPI extends StatelessWidget {
           SizedBox(height: 16),
           Text(
             'Semester',
-            style: GoogleFonts.dmSans(fontSize: 16, color: Colors.white),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1
+                .copyWith(color: AppColors.GRAY_LIGHT[2]),
           ),
           SizedBox(
             height: 8,
@@ -252,10 +277,10 @@ class CourseAddQPI extends StatelessWidget {
                 children: [
                   Text(
                     'Year Level',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
                   ),
                   SizedBox(
                     height: 8,
@@ -275,10 +300,10 @@ class CourseAddQPI extends StatelessWidget {
                 children: [
                   Text(
                     'Letter Grade',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
                   ),
                   SizedBox(
                     height: 8,
@@ -298,8 +323,10 @@ class CourseAddQPI extends StatelessWidget {
                 children: [
                   Text(
                     'Semester',
-                    style:
-                        GoogleFonts.dmSans(fontSize: 16, color: Colors.white),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
                   ),
                   SizedBox(
                     height: 8,
@@ -312,10 +339,10 @@ class CourseAddQPI extends StatelessWidget {
                 children: [
                   Text(
                     'Units',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
                   ),
                   SizedBox(
                     height: 8,
@@ -338,7 +365,10 @@ class CourseAddQPI extends StatelessWidget {
             children: [
               Text(
                 'Color Code',
-                style: GoogleFonts.dmSans(fontSize: 16, color: Colors.white),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: AppColors.GRAY_LIGHT[2]),
               ),
               SizedBox(
                 height: 10,

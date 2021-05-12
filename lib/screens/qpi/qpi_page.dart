@@ -92,7 +92,8 @@ class _QPIPageState extends State<QPIPage> {
           //   },
           // ),
 
-          CourseCard(Colors.green, Colors.white, Colors.green, 'HISTO12', 'A',
+          // CourseCard(borderColor, cardColor, tagColor, gradeColor, courseTitle, grade, onPressed)
+          CourseCard(Colors.green, Colors.white, Colors.green[100], Colors.green, 'HISTO12', 3, 'A',
               () {
             Navigator.push(
               context,

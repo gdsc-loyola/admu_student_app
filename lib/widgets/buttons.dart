@@ -122,7 +122,7 @@ class _DropDownState extends State<DropDown> {
   Widget build(BuildContext context) {
     return Container(
       width: 185,
-      height: 51,
+      height: 56,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
           color: Colors.white,
