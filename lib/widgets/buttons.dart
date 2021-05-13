@@ -155,7 +155,6 @@ class _DropDownState extends State<DropDown> {
   }
 }
 
-
 class ButtonRow extends StatefulWidget {
   final String text1;
   final String text2;
@@ -428,6 +427,8 @@ class _ButtonRowState extends State<ButtonRow> {
 //////
 
 class SemSelect extends StatefulWidget {
+  // final int selected;
+
   final Color buttonColor;
   final Color textColor;
 

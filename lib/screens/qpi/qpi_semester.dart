@@ -44,22 +44,18 @@ class _SemesterPageState extends State<SemesterPage> {
         ),
         title: Text(
           'Year ${widget.yearNum.toString()}',
-          style:
-              Theme.of(context).textTheme.caption.copyWith(color: Colors.white),
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .copyWith(color: AppColors.GRAY_LIGHT[2]),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: Text('Edit'),
-            style: TextButton.styleFrom(primary: Colors.white),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(16.0, 48.0, 24.0, 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // semester and edit button
             Row(
               children: [
                 Expanded(
@@ -77,7 +73,7 @@ class _SemesterPageState extends State<SemesterPage> {
                     );
                   },
                   icon: Icon(
-                    Icons.add_rounded,
+                    Icons.more_vert,
                     color: AppColors.GRAY_DARK[2],
                   ),
                   iconSize: 36,
@@ -85,10 +81,12 @@ class _SemesterPageState extends State<SemesterPage> {
               ],
             ),
             SizedBox(height: 24.0),
+            // semester qpi
             QPIView(
                 value: Provider.of<AcademicRecords>(context, listen: false)
                     .getSemestralQPI(widget.yearNum, widget.semNum)),
             SizedBox(height: 48.0),
+            // classes, select, and add course
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -126,7 +124,7 @@ class _SemesterPageState extends State<SemesterPage> {
                 IconButton(
                   icon: Icon(Icons.add_rounded),
                   iconSize: 36,
-                  color: AppColors.GRAY_DARK[1],
+                  color: AppColors.GRAY_DARK[2],
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => AddQPIPage()),
@@ -143,6 +141,8 @@ class _SemesterPageState extends State<SemesterPage> {
               itemBuilder: (_, index) => Container(
                 margin: EdgeInsets.only(bottom: 16),
                 child: CourseCard(
+                    yearNum: widget.yearNum,
+                    semNum: widget.semNum,
                     course: courses[index],
                     isEditing: _isEditing,
                     onSelect: () {
@@ -154,6 +154,19 @@ class _SemesterPageState extends State<SemesterPage> {
           ],
         ),
       ),
+      floatingActionButton: _isEditing
+          ? FloatingActionButton(
+              onPressed: () {
+                // delete selected
+                _isEditing = false;
+              },
+              child: Icon(
+                Icons.delete_outline_rounded,
+                size: 36,
+                color: AppColors.GRAY_LIGHT[2],
+              ),
+            )
+          : Container(),
     );
   }
 }

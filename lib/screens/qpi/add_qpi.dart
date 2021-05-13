@@ -7,6 +7,19 @@ import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
 
 class AddQPIPage extends StatefulWidget {
+  final int yearNum;
+  final int semNum;
+  final Course course;
+
+  final int units;
+
+  AddQPIPage({
+    this.yearNum,
+    this.semNum,
+    this.course,
+    this.units,
+  });
+
   // final bool isEditing;
 
   // // template, to add a new course
@@ -23,10 +36,42 @@ class AddQPIPage extends StatefulWidget {
 }
 
 class _AddQPIPageState extends State<AddQPIPage> {
+  bool _isEditing;
+
+  TextEditingController _yearController = TextEditingController();
+  TextEditingController _qpiController = TextEditingController();
+  TextEditingController _unitsController = TextEditingController();
+
+  int _sem;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.yearNum != null ||
+        widget.semNum != null ||
+        widget.course != null) {
+      _isEditing = true;
+    } else
+      _isEditing = false;
+
+    if (widget.yearNum != null) _yearController.text = '${widget.yearNum}';
+    if (widget.semNum != null) _sem = widget.semNum;
+
+    if (widget.units != null) _unitsController.text = '${widget.units}';
+  }
+
   bool yearSelected = true;
   bool semesterSelected = false;
   bool courseSelected = false;
   String title = 'Year';
+
+  void _onSave() {
+    print('year: ${_yearController.text}');
+    print('sem: $_sem');
+    print('qpi: ${_qpiController.text}');
+    print('units: ${_unitsController.text}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +82,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
             child: TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: _onSave,
               child: Text('Done',
                   style: Theme.of(context)
                       .textTheme
@@ -67,7 +110,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
                 child: Row(
                   children: [
                     Text(
-                      'Add $title QPI',
+                      '${_isEditing ? 'Edit' : 'Add'} $title QPI',
                       style: Theme.of(context)
                           .textTheme
                           .headline4
@@ -107,9 +150,26 @@ class _AddQPIPageState extends State<AddQPIPage> {
               SizedBox(
                 height: 24,
               ),
-              yearSelected ? YearAddQPI() : SizedBox(),
-              semesterSelected ? SemesterAddQPI() : SizedBox(),
-              courseSelected ? CourseAddQPI() : SizedBox(),
+              yearSelected
+                  ? YearAddQPI(
+                      yearController: _yearController,
+                      qpiController: _qpiController,
+                      unitsController: _unitsController,
+                    )
+                  : SizedBox(),
+              semesterSelected
+                  ? SemesterAddQPI(
+                      yearController: _yearController,
+                      qpiController: _qpiController,
+                      unitsController: _unitsController,
+                    )
+                  : SizedBox(),
+              courseSelected
+                  ? CourseAddQPI(
+                      yearController: _yearController,
+                      unitsController: _unitsController,
+                    )
+                  : SizedBox(),
               Spacer(),
               LongButton('Delete', Colors.orange, Colors.white, () {
                 Navigator.pop(context);
@@ -123,6 +183,16 @@ class _AddQPIPageState extends State<AddQPIPage> {
 }
 
 class YearAddQPI extends StatelessWidget {
+  final TextEditingController yearController;
+  final TextEditingController qpiController;
+  final TextEditingController unitsController;
+
+  YearAddQPI({
+    @required this.yearController,
+    @required this.qpiController,
+    @required this.unitsController,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -145,6 +215,7 @@ class YearAddQPI extends StatelessWidget {
               Container(
                 width: 181,
                 child: InputField(
+                  controller: yearController,
                   isMultiLined: false,
                   length: null,
                 ),
@@ -167,6 +238,7 @@ class YearAddQPI extends StatelessWidget {
               Container(
                 width: 181,
                 child: InputField(
+                  controller: qpiController,
                   isMultiLined: false,
                   length: null,
                 ),
@@ -180,6 +252,18 @@ class YearAddQPI extends StatelessWidget {
 }
 
 class SemesterAddQPI extends StatelessWidget {
+  final TextEditingController yearController;
+  final int semNum;
+  final TextEditingController qpiController;
+  final TextEditingController unitsController;
+
+  SemesterAddQPI({
+    @required this.yearController,
+    this.semNum,
+    @required this.qpiController,
+    @required this.unitsController,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -208,6 +292,7 @@ class SemesterAddQPI extends StatelessWidget {
                   Container(
                     width: 181,
                     child: InputField(
+                      controller: yearController,
                       isMultiLined: false,
                       length: null,
                     ),
@@ -231,6 +316,7 @@ class SemesterAddQPI extends StatelessWidget {
                   Container(
                     width: 181,
                     child: InputField(
+                      controller: qpiController,
                       isMultiLined: false,
                       length: null,
                     ),
@@ -258,6 +344,18 @@ class SemesterAddQPI extends StatelessWidget {
 }
 
 class CourseAddQPI extends StatelessWidget {
+  final TextEditingController yearController;
+  final int semNum;
+  final int grade;
+  final TextEditingController unitsController;
+
+  CourseAddQPI({
+    @required this.yearController,
+    this.semNum,
+    this.grade,
+    @required this.unitsController,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -286,6 +384,7 @@ class CourseAddQPI extends StatelessWidget {
                   Container(
                     width: 181,
                     child: InputField(
+                      controller: yearController,
                       isMultiLined: false,
                       length: null,
                     ),
@@ -348,6 +447,7 @@ class CourseAddQPI extends StatelessWidget {
                   Container(
                     width: 181,
                     child: InputField(
+                      controller: unitsController,
                       isMultiLined: false,
                       length: null,
                     ),

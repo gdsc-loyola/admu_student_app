@@ -71,16 +71,17 @@ class _YearDropDownState extends State<YearDropDown>
   }
 
   void _onSemesterTap(Semester s) {
-    // should actually pass yearnum and semnum
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => SemesterPage(yearNum: widget.yearNum, semNum: s.semNum)),
+      MaterialPageRoute(
+          builder: (_) =>
+              SemesterPage(yearNum: widget.yearNum, semNum: s.semNum)),
     );
   }
 
   Widget _buildHeader(BuildContext context, Year year) {
     Widget header = Container(
       decoration: BoxDecoration(
-        color: Colors.white, // should be AppColors.GRAY_LIGHT[1]
+        color: AppColors.GRAY_LIGHT[2],
         borderRadius: BorderRadius.all(Radius.circular(8)),
         boxShadow: [AppEffects.SHADOW],
       ),

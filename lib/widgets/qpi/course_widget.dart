@@ -7,6 +7,9 @@ import 'package:admu_student_app/models/course.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 
 class CourseCard extends StatelessWidget {
+  final int yearNum;
+  final int semNum;
+
   final Course course;
   final bool isEditing;
   final VoidCallback onSelect;
@@ -23,13 +26,19 @@ class CourseCard extends StatelessWidget {
   // CourseCard(this.borderColor, this.cardColor, this.tagColor, this.gradeColor,
   //     this.courseTitle, this.units, this.grade, this.onPressed);
 
-  CourseCard({@required this.course, this.isEditing = false, this.onSelect});
+  CourseCard({
+    @required this.yearNum,
+    @required this.semNum,
+    @required this.course,
+    this.isEditing = false,
+    this.onSelect,
+  });
 
   @override
   Widget build(BuildContext context) {
     Widget card = Container(
       decoration: BoxDecoration(
-        color: AppColors.GRAY_LIGHT[1],
+        color: AppColors.GRAY_LIGHT[2],
         borderRadius: BorderRadius.all(Radius.circular(4)),
         boxShadow: [AppEffects.SHADOW],
       ),
@@ -92,24 +101,30 @@ class CourseCard extends StatelessWidget {
             iconSize: 36,
             color: AppColors.GRAY_LIGHT[0],
             onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (_) => AddQPIPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => AddQPIPage(
+                        yearNum: yearNum,
+                        semNum: semNum,
+                        course: course,
+                      )));
             },
           ),
         ],
       ),
     );
 
-    /*if (isEditing)
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircularCheckMark(onTap: onSelect),
-          SizedBox(width: 10),
-          card,
-        ],
+    if (isEditing)
+      return Container(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircularCheckMark(onTap: onSelect),
+            SizedBox(width: 10),
+            card,
+          ],
+        ),
       );
-    else*/
+    else
       return card;
 
     /*return Container(

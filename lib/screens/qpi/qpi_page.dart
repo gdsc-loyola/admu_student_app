@@ -65,16 +65,7 @@ class _QPIPageState extends State<QPIPage> {
               );
             },
           ),
-          /*CourseCard(Colors.green, Colors.white, Colors.green[100],
-              Colors.green, 'HISTO12', 3, 'A', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddQPIPage(),
-              ),
-            );
-          }),
-          ElevatedButton(
+          /*ElevatedButton(
             onPressed: () {
               int yearNum = Random().nextInt(5) + 1;
               int semNum = Random().nextInt(3);
