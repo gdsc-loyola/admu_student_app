@@ -1,12 +1,14 @@
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/add_qpi_notifier.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'package:admu_student_app/models/course.dart';
 import 'package:admu_student_app/widgets/input_field.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
 
-class AddQPIPage extends StatefulWidget {
+class AddQPIPage extends StatelessWidget {
   final int yearNum;
   final int semNum;
   final Course course;
@@ -20,29 +22,44 @@ class AddQPIPage extends StatefulWidget {
     this.units,
   });
 
-  // final bool isEditing;
-
-  // // template, to add a new course
-  // final int yearNum;
-  // final int semNum;
-
-  // // for editing
-  // final Course course;
-
-  // AddQPIPage({this.isEditing, this.yearNum, this.semNum, this.course});
-
   @override
-  _AddQPIPageState createState() => _AddQPIPageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => AddQPINotifier(),
+      child: _AddQPI(
+        yearNum: yearNum,
+        semNum: semNum,
+        course: course,
+        units: units,
+      ),
+    );
+  }
 }
 
-class _AddQPIPageState extends State<AddQPIPage> {
+class _AddQPI extends StatefulWidget {
+  final int yearNum;
+  final int semNum;
+  final Course course;
+
+  final int units;
+
+  _AddQPI({
+    this.yearNum,
+    this.semNum,
+    this.course,
+    this.units,
+  });
+
+  @override
+  _AddQPIState createState() => _AddQPIState();
+}
+
+class _AddQPIState extends State<_AddQPI> {
   bool _isEditing;
 
   TextEditingController _yearController = TextEditingController();
   TextEditingController _qpiController = TextEditingController();
   TextEditingController _unitsController = TextEditingController();
-
-  int _sem;
 
   @override
   void initState() {
@@ -56,7 +73,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
       _isEditing = false;
 
     if (widget.yearNum != null) _yearController.text = '${widget.yearNum}';
-    if (widget.semNum != null) _sem = widget.semNum;
+    // if (widget.semNum != null) _sem = widget.semNum;
 
     if (widget.units != null) _unitsController.text = '${widget.units}';
   }
@@ -66,15 +83,19 @@ class _AddQPIPageState extends State<AddQPIPage> {
   bool courseSelected = false;
   String title = 'Year';
 
-  void _onSave() {
+  void _onSave(int semNum, int gradeVal) {
+    // use values from provider
     print('year: ${_yearController.text}');
-    print('sem: $_sem');
+    print('sem: $semNum');
     print('qpi: ${_qpiController.text}');
     print('units: ${_unitsController.text}');
   }
 
   @override
   Widget build(BuildContext context) {
+    int sem = Provider.of<AddQPINotifier>(context, listen: false).semNum;
+    int gradeVal = Provider.of<AddQPINotifier>(context, listen: false).gradeVal;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -82,7 +103,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
             child: TextButton(
-              onPressed: _onSave,
+              onPressed: () => _onSave(sem, gradeVal),
               child: Text('Done',
                   style: Theme.of(context)
                       .textTheme
@@ -253,13 +274,11 @@ class YearAddQPI extends StatelessWidget {
 
 class SemesterAddQPI extends StatelessWidget {
   final TextEditingController yearController;
-  final int semNum;
   final TextEditingController qpiController;
   final TextEditingController unitsController;
 
   SemesterAddQPI({
     @required this.yearController,
-    this.semNum,
     @required this.qpiController,
     @required this.unitsController,
   });
@@ -336,7 +355,7 @@ class SemesterAddQPI extends StatelessWidget {
           SizedBox(
             height: 8,
           ),
-          SemSelect(Colors.white, Colors.black)
+          SemSelect(),
         ],
       ),
     );
@@ -345,14 +364,10 @@ class SemesterAddQPI extends StatelessWidget {
 
 class CourseAddQPI extends StatelessWidget {
   final TextEditingController yearController;
-  final int semNum;
-  final int grade;
   final TextEditingController unitsController;
 
   CourseAddQPI({
     @required this.yearController,
-    this.semNum,
-    this.grade,
     @required this.unitsController,
   });
 
@@ -428,7 +443,7 @@ class CourseAddQPI extends StatelessWidget {
                   SizedBox(
                     height: 8,
                   ),
-                  SemSelect(Colors.white, Colors.black),
+                  SemSelect(),
                 ],
               ),
               Column(

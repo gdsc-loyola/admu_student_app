@@ -120,7 +120,7 @@ class CourseCard extends StatelessWidget {
           children: [
             CircularCheckMark(onTap: onSelect),
             SizedBox(width: 10),
-            card,
+            Expanded(child: card),
           ],
         ),
       );

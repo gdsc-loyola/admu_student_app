@@ -1,4 +1,8 @@
+import 'package:admu_student_app/models/add_qpi_notifier.dart';
 import 'package:flutter/material.dart';
+
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:provider/provider.dart';
 
 class LongButton extends StatelessWidget {
   final String text;
@@ -56,28 +60,40 @@ class ShortButton extends StatelessWidget {
   }
 }
 
+// used in date and sem buttons
 class SquareButton extends StatelessWidget {
   final String text;
-  final Color buttonColor;
-  final Color textColor;
+  // final Color buttonColor;
+  // final Color textColor;
   final VoidCallback onPressed;
 
-  SquareButton(this.text, this.buttonColor, this.textColor, this.onPressed);
+  final bool selected;
+
+  SquareButton({
+    this.text = '',
+    // this.buttonColor = Colors.white,
+    // this.textColor = Colors.black,
+    this.onPressed,
+    this.selected = false,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 56,
       height: 56,
       decoration: BoxDecoration(
-          color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+        color: AppColors.GRAY_LIGHT[2],
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: selected ? Border.all(color: Colors.black) : null, // temporary
+      ),
       child: TextButton(
           onPressed: () {
-            onPressed();
+            if (onPressed != null) onPressed();
           },
           child: Text(
             '$text',
-            style: TextStyle(color: textColor),
+            style: TextStyle(color: AppColors.GRAY_DARK[0]),
           )),
     );
   }
@@ -429,22 +445,42 @@ class _ButtonRowState extends State<ButtonRow> {
 class SemSelect extends StatefulWidget {
   // final int selected;
 
-  final Color buttonColor;
-  final Color textColor;
+  // final Color buttonColor;
+  // final Color textColor;
 
-  SemSelect(this.buttonColor, this.textColor);
+  // SemSelect({
+  // this.buttonColor,
+  // this.textColor,
+  //   this.selected = -1,
+  // });
 
   @override
   _SemSelectState createState() => _SemSelectState();
 }
 
 class _SemSelectState extends State<SemSelect> {
+  // int selected;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   this.selected = widget.selected;
+  // }
+
+  // void _onSelect(int i) {
+  //   setState(() {
+  //     selected = i;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    int selected = Provider.of<AddQPINotifier>(context).semNum;
+
     return Container(
       color: Colors.transparent,
-      width: 177,
-      height: 54,
+      // width: 177,
+      // height: 54,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -452,7 +488,29 @@ class _SemSelectState extends State<SemSelect> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // same as DateSelect
-              Container(
+              // this should be SquareButton
+              SquareButton(
+                selected: selected == 0 ? true : false,
+                text: 'IS',
+                onPressed: () =>
+                    Provider.of<AddQPINotifier>(context, listen: false).semNum =
+                        0,
+              ),
+              SquareButton(
+                selected: selected == 1 ? true : false,
+                text: '1',
+                onPressed: () =>
+                    Provider.of<AddQPINotifier>(context, listen: false).semNum =
+                        1,
+              ),
+              SquareButton(
+                selected: selected == 2 ? true : false,
+                text: '2',
+                onPressed: () =>
+                    Provider.of<AddQPINotifier>(context, listen: false).semNum =
+                        2,
+              ),
+              /*Container(
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
@@ -484,7 +542,7 @@ class _SemSelectState extends State<SemSelect> {
                     onPressed: () {},
                     child:
                         Text('IS', style: TextStyle(color: widget.textColor))),
-              ),
+              ),*/
             ],
           ),
         ],
