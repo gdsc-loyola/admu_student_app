@@ -178,132 +178,134 @@ class _ButtonRowState extends State<ButtonRow> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 36.54,
-        padding: EdgeInsets.fromLTRB(1.19, 1, 1.19, 2.54),
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
+    return Expanded(
+      child: Center(
+        child: Container(
+          height: 36.54,
+          padding: EdgeInsets.fromLTRB(1.19, 1, 1.19, 2.54),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
           ),
-        ),
-        child: Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // Item 1
-              Expanded(
-                flex: 1,
-                child: Container(
-                  height: 33,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: isSelected1
-                              ? Colors.grey.withOpacity(0.5)
-                              : Colors.transparent,
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3)),
-                    ],
-                    color: isSelected1 ? Colors.white : Colors.transparent,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+          child: Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // Item 1
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 33,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: isSelected1
+                                ? Colors.grey.withOpacity(0.5)
+                                : Colors.transparent,
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3)),
+                      ],
+                      color: isSelected1 ? Colors.white : Colors.transparent,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        isSelected1 = true;
-                        isSelected2 = false;
-                        isSelected3 = false;
-                        widget.return1();
-                      });
-                    },
-                    child: Text(
-                      "${widget.text1}",
-                      style: TextStyle(
-                          color: isSelected1 ? Colors.black : Colors.grey[600]),
-                    ),
-                  ),
-                ),
-              ),
-              // Item 2
-              Expanded(
-                flex: 1,
-                child: Container(
-                  height: 33,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: isSelected2
-                              ? Colors.grey.withOpacity(0.5)
-                              : Colors.transparent,
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3)),
-                    ],
-                    color: isSelected2 ? Colors.white : Colors.transparent,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        isSelected1 = false;
-                        isSelected2 = true;
-                        isSelected3 = false;
-                        widget.return2();
-                      });
-                    },
-                    child: Text(
-                      "${widget.text2}",
-                      style: TextStyle(
-                          color: isSelected2 ? Colors.black : Colors.grey[600]),
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          isSelected1 = true;
+                          isSelected2 = false;
+                          isSelected3 = false;
+                          widget.return1();
+                        });
+                      },
+                      child: Text(
+                        "${widget.text1}",
+                        style: TextStyle(
+                            color: isSelected1 ? Colors.black : Colors.grey[600]),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              // Item 3
-              Expanded(
-                flex: 1,
-                child: Container(
-                  height: 33,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: isSelected3
-                              ? Colors.grey.withOpacity(0.5)
-                              : Colors.transparent,
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3)),
-                    ],
-                    color: isSelected3 ? Colors.white : Colors.transparent,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+                // Item 2
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 33,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: isSelected2
+                                ? Colors.grey.withOpacity(0.5)
+                                : Colors.transparent,
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3)),
+                      ],
+                      color: isSelected2 ? Colors.white : Colors.transparent,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        isSelected1 = false;
-                        isSelected2 = false;
-                        isSelected3 = true;
-                        widget.return3();
-                      });
-                    },
-                    child: Text(
-                      "${widget.text3}",
-                      style: TextStyle(
-                          color: isSelected3 ? Colors.black : Colors.grey[600]),
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          isSelected1 = false;
+                          isSelected2 = true;
+                          isSelected3 = false;
+                          widget.return2();
+                        });
+                      },
+                      child: Text(
+                        "${widget.text2}",
+                        style: TextStyle(
+                            color: isSelected2 ? Colors.black : Colors.grey[600]),
+                      ),
                     ),
                   ),
                 ),
-              )
-            ],
+                // Item 3
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 33,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: isSelected3
+                                ? Colors.grey.withOpacity(0.5)
+                                : Colors.transparent,
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3)),
+                      ],
+                      color: isSelected3 ? Colors.white : Colors.transparent,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          isSelected1 = false;
+                          isSelected2 = false;
+                          isSelected3 = true;
+                          widget.return3();
+                        });
+                      },
+                      child: Text(
+                        "${widget.text3}",
+                        style: TextStyle(
+                            color: isSelected3 ? Colors.black : Colors.grey[600]),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

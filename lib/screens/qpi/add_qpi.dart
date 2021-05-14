@@ -76,34 +76,37 @@ class _AddQPIPageState extends State<AddQPIPage> {
                   ],
                 ),
               ),
-              ButtonRow('Year', 'Semester', 'Course', () {
-                // Item 1 Clicked
-                setState(() {
-                  yearSelected = true;
-                  semesterSelected = false;
-                  courseSelected = false;
+              Container(
+                height: 36.5,
+                child: ButtonRow('Year', 'Semester', 'Course', () {
+                  // Item 1 Clicked
+                  setState(() {
+                    yearSelected = true;
+                    semesterSelected = false;
+                    courseSelected = false;
 
-                  title = 'Year';
-                });
-              }, () {
-                // Item 2 Clicked
-                setState(() {
-                  yearSelected = false;
-                  semesterSelected = true;
-                  courseSelected = false;
+                    title = 'Year';
+                  });
+                }, () {
+                  // Item 2 Clicked
+                  setState(() {
+                    yearSelected = false;
+                    semesterSelected = true;
+                    courseSelected = false;
 
-                  title = 'Semester';
-                });
-              }, () {
-                // Item 3 Clicked
-                setState(() {
-                  yearSelected = false;
-                  semesterSelected = false;
-                  courseSelected = true;
+                    title = 'Semester';
+                  });
+                }, () {
+                  // Item 3 Clicked
+                  setState(() {
+                    yearSelected = false;
+                    semesterSelected = false;
+                    courseSelected = true;
 
-                  title = 'Course';
-                });
-              }),
+                    title = 'Course';
+                  });
+                }),
+              ),
               SizedBox(
                 height: 24,
               ),
