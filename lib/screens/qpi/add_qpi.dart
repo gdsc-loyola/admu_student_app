@@ -1,3 +1,4 @@
+import 'package:admu_student_app/models/academic_records.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -130,21 +131,62 @@ class _AddQPIState extends State<_AddQPI> {
       CourseAddQPI(
         yearController: _yearCtrl,
         unitsController: _unitsCtrl,
-        // codeController: _codeController,
+        codeController: _codeCtrl,
       ),
     ];
 
     selected = widget.selected > 2 ? 0 : widget.selected;
   }
 
-  void _onSave(int semNum, int gradeVal) {
+  void _onSave(int semNum, int gradeVal) async {
     // use values from provider
     // todo
-    print('year: ${_yearCtrl.text}');
-    print('sem: $semNum');
-    print('qpi: ${_qpiCtrl.text}');
-    print('units: ${_unitsCtrl.text}');
-    print('code: ${_codeCtrl.text}');
+
+    if (selected == 0) {
+      int year = int.parse(_yearCtrl.text);
+      double qpi = double.parse(_qpiCtrl.text);
+      int units = 20; //double.parse(_unitsCtrl.text);
+
+      print('year: $year');
+      print('qpi: $qpi');
+      print('units: $units');
+
+      if (widget.isEditing)
+        Provider.of<AcademicRecords>(context, listen: false).editYearlyQPI(
+          widget.year,
+          year,
+          units,
+          qpi,
+        );
+      else
+        Provider.of<AcademicRecords>(context, listen: false).addYearlyQPI(
+          year,
+          units,
+          qpi,
+        );
+    } else if (selected == 1) {
+      print('year: ${_yearCtrl.text}');
+      print('sem: $semNum');
+      print('qpi: ${_qpiCtrl.text}');
+      print('units: ${_unitsCtrl.text}');
+    } else if (selected == 2) {
+      print('year: ${_yearCtrl.text}');
+      print('qpi: ${_qpiCtrl.text}');
+      print('units: ${_unitsCtrl.text}');
+      print('code: ${_codeCtrl.text}');
+      // also get what color is used
+    }
+
+    Navigator.of(context).pop();
+  }
+
+  void _onDelete() async {
+    if (selected == 0) {
+      Provider.of<AcademicRecords>(context, listen: false)
+          .deleteYearlyQPI(int.parse(_yearCtrl.text));
+
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -215,9 +257,7 @@ class _AddQPIState extends State<_AddQPI> {
               SizedBox(height: 24),
               screens[selected],
               Spacer(),
-              LongButton('Delete', Colors.orange, Colors.white, () {
-                Navigator.pop(context);
-              })
+              LongButton('Delete', Colors.orange, Colors.white, _onDelete),
             ],
           ),
         ),

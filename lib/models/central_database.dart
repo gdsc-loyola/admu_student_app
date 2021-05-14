@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 
 class CentralDatabaseHelper {
   static final _dbName = 'centralDatabase.db';
-  static final _dbVersion = 2;
+  static final _dbVersion = 1;
 
   static final tableName_courses = 'courses';
   static final tableName_schedule = 'schedules';

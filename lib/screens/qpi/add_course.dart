@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/widgets/groups/input_units.dart';
+import 'package:admu_student_app/widgets/groups/input_year.dart';
+import 'package:admu_student_app/widgets/groups/select_semester.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
-import 'package:admu_student_app/widgets/input_field.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
 
 class CourseAddQPI extends StatelessWidget {
   final TextEditingController yearController;
   final TextEditingController unitsController;
+  final TextEditingController codeController;
 
   CourseAddQPI({
     @required this.yearController,
     @required this.unitsController,
+    @required this.codeController,
   });
 
   @override
@@ -27,24 +31,25 @@ class CourseAddQPI extends StatelessWidget {
             children: [
               // Text Field at the Left
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Year Level',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                    ),
-                    SizedBox(height: 8),
-                    InputField(
-                      controller: yearController,
-                      isMultiLined: false,
-                      length: null,
-                    ),
-                  ],
-                ),
+                child: InputYearGroup(yearController),
+                // child: Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Text(
+                //       'Year Level',
+                //       style: Theme.of(context)
+                //           .textTheme
+                //           .bodyText1
+                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                //     ),
+                //     SizedBox(height: 8),
+                //     InputField(
+                //       controller: yearController,
+                //       isMultiLined: false,
+                //       length: null,
+                //     ),
+                //   ],
+                // ),
               ),
               SizedBox(width: 20),
               // DropDown at the Right
@@ -72,41 +77,43 @@ class CourseAddQPI extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Semester',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                    ),
-                    SizedBox(height: 8),
-                    SemSelect(),
-                  ],
-                ),
+                child: SelectSemesterGroup(),
+                // child: Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Text(
+                //       'Semester',
+                //       style: Theme.of(context)
+                //           .textTheme
+                //           .bodyText1
+                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                //     ),
+                //     SizedBox(height: 8),
+                //     SemSelect(),
+                //   ],
+                // ),
               ),
               SizedBox(width: 20),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Units',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                    ),
-                    SizedBox(height: 8),
-                    InputField(
-                      controller: unitsController,
-                      isMultiLined: false,
-                      length: null,
-                    ),
-                  ],
-                ),
+                child: InputUnitsGroup(unitsController),
+                // child: Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Text(
+                //       'Units',
+                //       style: Theme.of(context)
+                //           .textTheme
+                //           .bodyText1
+                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                //     ),
+                //     SizedBox(height: 8),
+                //     InputField(
+                //       controller: unitsController,
+                //       isMultiLined: false,
+                //       length: null,
+                //     ),
+                //   ],
+                // ),
               ),
             ],
           ),

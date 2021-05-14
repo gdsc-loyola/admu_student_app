@@ -115,12 +115,58 @@ class AcademicRecords extends ChangeNotifier {
     // add to database
     // key YEAR_Y
 
+    print('trying to add year qpi');
+
+    int id = await (await CentralDatabaseHelper.instance.database).insert(
+      CentralDatabaseHelper.tableName_courses,
+      {
+        CentralDatabaseHelper.code: 'Y_$yearNum',
+        CentralDatabaseHelper.year: yearNum,
+        CentralDatabaseHelper.units: units,
+        CentralDatabaseHelper.qpi: qpi,
+        CentralDatabaseHelper.isIncludedInQPI: 1,
+      },
+    );
+
+    print('added year qpi, id: $id');
+
     _updateList();
   }
 
-  void editYearlyQPI(int yearNum, int units, double qpi) async {
+  void editYearlyQPI(Year year, int yearNum, int units, double qpi) async {
     // edit from database
     // key YEAR_Y
+
+    if (kIsWeb) {
+      for (Year y in _years) {
+        if (y.yearNum == year.yearNum) {
+          y.yearNum = yearNum;
+          y.units = units;
+          y.qpi = qpi;
+
+          _updateList();
+          return;
+        }
+      }
+    }
+
+    int updated = await (await CentralDatabaseHelper.instance.database).update(
+      CentralDatabaseHelper.tableName_courses,
+      {
+        CentralDatabaseHelper.code: yearNum,
+        CentralDatabaseHelper.units: units,
+        CentralDatabaseHelper.qpi: qpi,
+      },
+      where:
+          '${CentralDatabaseHelper.code} = ?, ${CentralDatabaseHelper.units} = ?, ${CentralDatabaseHelper.qpi} = ?',
+      whereArgs: [
+        'Y_${year.yearNum}',
+        year.units,
+        year.yearlyQPI,
+      ],
+    );
+
+    print('updated $updated');
 
     _updateList();
   }
@@ -128,6 +174,25 @@ class AcademicRecords extends ChangeNotifier {
   void deleteYearlyQPI(int yearNum) async {
     // delete from database
     // key YEAR_Y
+
+    if (kIsWeb) {
+      for (Year y in _years) {
+        if (y.yearNum == yearNum) {
+          _years.remove(y);
+
+          _updateList();
+          return;
+        }
+      }
+    }
+
+    int deleted = await (await CentralDatabaseHelper.instance.database).delete(
+      CentralDatabaseHelper.tableName_courses,
+      where: '${CentralDatabaseHelper.code} = ?',
+      whereArgs: ['Y_$yearNum'],
+    );
+
+    print('deleted $deleted');
 
     _updateList();
   }

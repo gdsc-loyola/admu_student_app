@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/models/course.dart';
-import 'package:admu_student_app/models/semester.dart';
-import 'package:admu_student_app/models/year.dart';
 
 class AddQPINotifier extends ChangeNotifier {
   int _semNum = -1;
