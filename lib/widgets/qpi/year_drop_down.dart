@@ -110,8 +110,14 @@ class _YearDropDownState extends State<YearDropDown>
                       size: 36,
                     ),
                     onTap: () {
+                      // edit year
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => AddQPIPage(),
+                        builder: (_) => AddQPIPage(
+                          yearNum: year.yearNum,
+                          year: year,
+                          isEditing: true,
+                          selected: 0,
+                        ),
                       ));
                     },
                   )
@@ -176,9 +182,16 @@ class _YearDropDownState extends State<YearDropDown>
                 ),
                 onTap: () {
                   if (year.sems[index].isSemestralQPI)
+                    // edit sem
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => AddQPIPage(),
+                        builder: (_) => AddQPIPage(
+                          yearNum: year.yearNum,
+                          semNum: year.sems[index].semNum,
+                          semester: year.sems[index],
+                          isEditing: true,
+                          selected: 1,
+                        ),
                       ),
                     );
                   else

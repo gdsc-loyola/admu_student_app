@@ -61,9 +61,10 @@ class _SemesterPageState extends State<SemesterPage> {
                 Expanded(
                   child: Text(
                     '${Provider.of<AcademicRecords>(context, listen: false).getSemester(widget.yearNum, widget.semNum).semString}',
-                    style: Theme.of(context).textTheme.headline4.copyWith(
-                          color: AppColors.GRAY_DARK[0],
-                        ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        .copyWith(color: AppColors.GRAY_DARK[0]),
                   ),
                 ),
                 IconButton(
@@ -126,14 +127,21 @@ class _SemesterPageState extends State<SemesterPage> {
                   iconSize: 36,
                   color: AppColors.GRAY_DARK[2],
                   onPressed: () {
+                    // add course
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => AddQPIPage()),
+                      MaterialPageRoute(
+                          builder: (_) => AddQPIPage(
+                                yearNum: widget.yearNum,
+                                semNum: widget.semNum,
+                                selected: 2,
+                              )),
                     );
                   },
                 ),
               ],
             ),
             SizedBox(height: 24),
+            // courses
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),

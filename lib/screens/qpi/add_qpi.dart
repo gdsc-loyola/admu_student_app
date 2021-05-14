@@ -1,36 +1,63 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/add_qpi_notifier.dart';
-import 'package:flutter/material.dart';
-
-import 'package:provider/provider.dart';
 import 'package:admu_student_app/models/course.dart';
-import 'package:admu_student_app/widgets/input_field.dart';
+import 'package:admu_student_app/models/semester.dart';
+import 'package:admu_student_app/models/year.dart';
+import 'package:admu_student_app/screens/qpi/add_course.dart';
+import 'package:admu_student_app/screens/qpi/add_semester.dart';
+import 'package:admu_student_app/screens/qpi/add_year.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
-import 'package:admu_student_app/widgets/select_color.dart';
 
 class AddQPIPage extends StatelessWidget {
   final int yearNum;
   final int semNum;
+
+  final Year year;
+  final Semester semester;
   final Course course;
 
   final int units;
 
+  final bool isEditing;
+  // 0 = year
+  // 1 = sem
+  // 2 = course
+  final int selected;
+
   AddQPIPage({
-    this.yearNum,
-    this.semNum,
+    this.yearNum = 1,
+    this.semNum = 1,
+    this.year,
+    this.semester,
     this.course,
     this.units,
+    this.isEditing = false,
+    this.selected = 0,
   });
 
   @override
   Widget build(BuildContext context) {
+    AddQPINotifier provider;
+
+    if (course != null)
+      provider = AddQPINotifier.fromCourse(semNum, course);
+    else
+      provider = AddQPINotifier.fromYearSem(
+          semester != null ? semester.semNum : semNum);
+
     return ChangeNotifierProvider(
-      create: (_) => AddQPINotifier(),
+      create: (_) => provider,
       child: _AddQPI(
         yearNum: yearNum,
-        semNum: semNum,
+        year: year,
+        semester: semester,
         course: course,
         units: units,
+        isEditing: isEditing,
+        selected: selected,
       ),
     );
   }
@@ -38,16 +65,24 @@ class AddQPIPage extends StatelessWidget {
 
 class _AddQPI extends StatefulWidget {
   final int yearNum;
-  final int semNum;
+
+  final Year year;
+  final Semester semester;
   final Course course;
 
   final int units;
 
+  final bool isEditing;
+  final int selected;
+
   _AddQPI({
     this.yearNum,
-    this.semNum,
+    this.year,
+    this.semester,
     this.course,
     this.units,
+    this.isEditing,
+    this.selected,
   });
 
   @override
@@ -55,46 +90,67 @@ class _AddQPI extends StatefulWidget {
 }
 
 class _AddQPIState extends State<_AddQPI> {
-  bool _isEditing;
+  TextEditingController _yearCtrl = TextEditingController();
+  TextEditingController _qpiCtrl = TextEditingController();
+  TextEditingController _unitsCtrl = TextEditingController();
+  TextEditingController _codeCtrl = TextEditingController();
 
-  TextEditingController _yearController = TextEditingController();
-  TextEditingController _qpiController = TextEditingController();
-  TextEditingController _unitsController = TextEditingController();
+  int selected = 0;
+  final List<String> titles = ['Year', 'Semester', 'Course'];
+  List<Widget> screens = [];
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.yearNum != null ||
-        widget.semNum != null ||
-        widget.course != null) {
-      _isEditing = true;
-    } else
-      _isEditing = false;
+    if (widget.yearNum != null) {
+      _yearCtrl.text = '${widget.yearNum}';
+    }
+    if (widget.units != null) {
+      _unitsCtrl.text = '${widget.units}';
+    }
+    if (widget.isEditing && widget.selected == 0) {
+      _yearCtrl.text = '${widget.year.yearNum}';
+      _qpiCtrl.text = '${widget.year.yearlyQPI}';
+    } else if (widget.isEditing && widget.selected == 1) {
+      _qpiCtrl.text = '${widget.semester.semestralQPI}';
+    }
 
-    if (widget.yearNum != null) _yearController.text = '${widget.yearNum}';
-    // if (widget.semNum != null) _sem = widget.semNum;
+    screens = [
+      YearAddQPI(
+        yearController: _yearCtrl,
+        unitsController: _unitsCtrl,
+        qpiController: _qpiCtrl,
+      ),
+      SemesterAddQPI(
+        yearController: _yearCtrl,
+        unitsController: _unitsCtrl,
+        qpiController: _qpiCtrl,
+      ),
+      CourseAddQPI(
+        yearController: _yearCtrl,
+        unitsController: _unitsCtrl,
+        // codeController: _codeController,
+      ),
+    ];
 
-    if (widget.units != null) _unitsController.text = '${widget.units}';
+    selected = widget.selected > 2 ? 0 : widget.selected;
   }
-
-  bool yearSelected = true;
-  bool semesterSelected = false;
-  bool courseSelected = false;
-  String title = 'Year';
 
   void _onSave(int semNum, int gradeVal) {
     // use values from provider
-    print('year: ${_yearController.text}');
+    // todo
+    print('year: ${_yearCtrl.text}');
     print('sem: $semNum');
-    print('qpi: ${_qpiController.text}');
-    print('units: ${_unitsController.text}');
+    print('qpi: ${_qpiCtrl.text}');
+    print('units: ${_unitsCtrl.text}');
+    print('code: ${_codeCtrl.text}');
   }
 
   @override
   Widget build(BuildContext context) {
-    int sem = Provider.of<AddQPINotifier>(context, listen: false).semNum;
-    int gradeVal = Provider.of<AddQPINotifier>(context, listen: false).gradeVal;
+    int sem = Provider.of<AddQPINotifier>(context).semNum;
+    int gradeVal = Provider.of<AddQPINotifier>(context).gradeVal;
 
     return Scaffold(
       appBar: AppBar(
@@ -131,7 +187,7 @@ class _AddQPIState extends State<_AddQPI> {
                 child: Row(
                   children: [
                     Text(
-                      '${_isEditing ? 'Edit' : 'Add'} $title QPI',
+                      '${widget.isEditing ? 'Edit' : 'Add'} ${titles[selected]} QPI',
                       style: Theme.of(context)
                           .textTheme
                           .headline4
@@ -143,54 +199,21 @@ class _AddQPIState extends State<_AddQPI> {
               ButtonRow('Year', 'Semester', 'Course', () {
                 // Item 1 Clicked
                 setState(() {
-                  yearSelected = true;
-                  semesterSelected = false;
-                  courseSelected = false;
-
-                  title = 'Year';
+                  selected = 0;
                 });
               }, () {
                 // Item 2 Clicked
                 setState(() {
-                  yearSelected = false;
-                  semesterSelected = true;
-                  courseSelected = false;
-
-                  title = 'Semester';
+                  selected = 1;
                 });
               }, () {
                 // Item 3 Clicked
                 setState(() {
-                  yearSelected = false;
-                  semesterSelected = false;
-                  courseSelected = true;
-
-                  title = 'Course';
+                  selected = 2;
                 });
-              }),
-              SizedBox(
-                height: 24,
-              ),
-              yearSelected
-                  ? YearAddQPI(
-                      yearController: _yearController,
-                      qpiController: _qpiController,
-                      unitsController: _unitsController,
-                    )
-                  : SizedBox(),
-              semesterSelected
-                  ? SemesterAddQPI(
-                      yearController: _yearController,
-                      qpiController: _qpiController,
-                      unitsController: _unitsController,
-                    )
-                  : SizedBox(),
-              courseSelected
-                  ? CourseAddQPI(
-                      yearController: _yearController,
-                      unitsController: _unitsController,
-                    )
-                  : SizedBox(),
+              }, selected),
+              SizedBox(height: 24),
+              screens[selected],
               Spacer(),
               LongButton('Delete', Colors.orange, Colors.white, () {
                 Navigator.pop(context);
@@ -198,298 +221,6 @@ class _AddQPIState extends State<_AddQPI> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class YearAddQPI extends StatelessWidget {
-  final TextEditingController yearController;
-  final TextEditingController qpiController;
-  final TextEditingController unitsController;
-
-  YearAddQPI({
-    @required this.yearController,
-    @required this.qpiController,
-    @required this.unitsController,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Year Level',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: AppColors.GRAY_LIGHT[2]),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Container(
-                width: 181,
-                child: InputField(
-                  controller: yearController,
-                  isMultiLined: false,
-                  length: null,
-                ),
-              )
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Yearly QPI',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: AppColors.GRAY_LIGHT[2]),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Container(
-                width: 181,
-                child: InputField(
-                  controller: qpiController,
-                  isMultiLined: false,
-                  length: null,
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class SemesterAddQPI extends StatelessWidget {
-  final TextEditingController yearController;
-  final TextEditingController qpiController;
-  final TextEditingController unitsController;
-
-  SemesterAddQPI({
-    @required this.yearController,
-    @required this.qpiController,
-    @required this.unitsController,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        // Main Column for Widgets
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Row for Text Fields
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Text Field at the Left
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Year Level',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    width: 181,
-                    child: InputField(
-                      controller: yearController,
-                      isMultiLined: false,
-                      length: null,
-                    ),
-                  )
-                ],
-              ),
-              // Text Field at the Right
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Semestral QPI',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    width: 181,
-                    child: InputField(
-                      controller: qpiController,
-                      isMultiLined: false,
-                      length: null,
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(height: 16),
-          Text(
-            'Semester',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(color: AppColors.GRAY_LIGHT[2]),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          SemSelect(),
-        ],
-      ),
-    );
-  }
-}
-
-class CourseAddQPI extends StatelessWidget {
-  final TextEditingController yearController;
-  final TextEditingController unitsController;
-
-  CourseAddQPI({
-    @required this.yearController,
-    @required this.unitsController,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        // Main Column for Widgets
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Row for Text Fields
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Text Field at the Left
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Year Level',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    width: 181,
-                    child: InputField(
-                      controller: yearController,
-                      isMultiLined: false,
-                      length: null,
-                    ),
-                  )
-                ],
-              ),
-              // DropDown at the Right
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Letter Grade',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  DropDown()
-                ],
-              )
-            ],
-          ),
-          SizedBox(height: 16),
-          // 2nd row of widgets
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Semester',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  SemSelect(),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Units',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    width: 181,
-                    child: InputField(
-                      controller: unitsController,
-                      isMultiLined: false,
-                      length: null,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          SizedBox(height: 16),
-          // 3rd Row of Widgets
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Color Code',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: AppColors.GRAY_LIGHT[2]),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              SelectColor()
-            ],
-          )
-        ],
       ),
     );
   }
