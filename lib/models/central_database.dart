@@ -55,24 +55,30 @@ class CentralDatabaseHelper {
       version: _dbVersion,
       onCreate: _onCreateDatabase,
       onUpgrade: (_, __, ___) async {
+        print('upgrading database...');
         // testing, don't actually do this
-        await createCoursesTable(null, _dbVersion);
-        await createSchedulesTable(null, _dbVersion);
-        await createEventsTable(null, _dbVersion);
+        // await createCoursesTable(null, _dbVersion);
+        // await createSchedulesTable(null, _dbVersion);
+        // await createEventsTable(null, _dbVersion);
+        print('upgraded database');
       },
       onDowngrade: (_, __, ___) async {
+        print('downgrading database...');
         // testing, don't actually do this
-        await createCoursesTable(null, _dbVersion);
-        await createSchedulesTable(null, _dbVersion);
-        await createEventsTable(null, _dbVersion);
+        // await createCoursesTable(null, _dbVersion);
+        // await createSchedulesTable(null, _dbVersion);
+        // await createEventsTable(null, _dbVersion);
+        print('downgraded database');
       },
     );
   }
 
   void _onCreateDatabase(Database db, int ver) async {
+    print('creating database...');
     await createCoursesTable(db, ver);
     await createSchedulesTable(db, ver);
     await createEventsTable(db, ver);
+    print('created database');
   }
 
   Future createCoursesTable(Database db, int ver) async {
@@ -95,10 +101,10 @@ class CentralDatabaseHelper {
   }
 
   Future createSchedulesTable(Database db, int ver) async {
-    if (db == null) db = await database;
+    // if (db == null) db = await database;
 
-    await (await CentralDatabaseHelper.instance.database)
-        .execute('DROP TABLE IF EXISTS $tableName_schedule');
+    // await (await CentralDatabaseHelper.instance.database)
+    //     .execute('DROP TABLE IF EXISTS $tableName_schedule');
 
     await db.execute('''
       CREATE TABLE $tableName_schedule(
@@ -118,10 +124,10 @@ class CentralDatabaseHelper {
   }
 
   Future createEventsTable(Database db, int ver) async {
-    if (db == null) db = await database;
+    // if (db == null) db = await database;
 
-    await (await CentralDatabaseHelper.instance.database)
-        .execute('DROP TABLE IF EXISTS $tableName_events');
+    // await (await CentralDatabaseHelper.instance.database)
+    //     .execute('DROP TABLE IF EXISTS $tableName_events');
 
     await db.execute('''
       CREATE TABLE $tableName_events(

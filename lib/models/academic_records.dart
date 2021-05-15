@@ -319,7 +319,7 @@ class AcademicRecords extends ChangeNotifier {
     int deleted = await (await CentralDatabaseHelper.instance.database).delete(
       CentralDatabaseHelper.tableName_courses,
       where: '${CentralDatabaseHelper.code} = ?',
-      whereArgs: ['Y_${yearNum}_$semNum'],
+      whereArgs: ['S_${yearNum}_$semNum'],
     );
 
     print('deleted $deleted from sem');
@@ -424,10 +424,10 @@ class AcademicRecords extends ChangeNotifier {
         CentralDatabaseHelper.color: color,
         CentralDatabaseHelper.units: units,
         CentralDatabaseHelper.qpi: qpi,
-        CentralDatabaseHelper.isIncludedInQPI: isIncludedInQPI ? 1 : 0,
+        CentralDatabaseHelper.isIncludedInQPI: (isIncludedInQPI ? 1 : 0),
       },
       where:
-          '${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.code} = ?',
+          '${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ?',
       whereArgs: [
         oldYearNum,
         oldSemNum,
@@ -463,7 +463,7 @@ class AcademicRecords extends ChangeNotifier {
     int deleted = await (await CentralDatabaseHelper.instance.database).delete(
       CentralDatabaseHelper.tableName_courses,
       where:
-          '${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.code} = ?',
+          '${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ?',
       whereArgs: [
         yearNum,
         semNum,
@@ -611,7 +611,10 @@ class AcademicRecords extends ChangeNotifier {
       return;
     }
 
-    await CentralDatabaseHelper.instance.createCoursesTable(null, 0);
+    await CentralDatabaseHelper.instance.createCoursesTable(
+      await CentralDatabaseHelper.instance.database,
+      0,
+    );
 
     print('deleted and recreated all course data');
     _updateList();

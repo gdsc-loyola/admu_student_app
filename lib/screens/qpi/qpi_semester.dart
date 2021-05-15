@@ -5,6 +5,7 @@ import 'package:admu_student_app/constants/app_colors.dart';
 
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/course.dart';
+import 'package:admu_student_app/models/semester.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
 import 'package:admu_student_app/widgets/qpi/course_widget.dart';
@@ -48,6 +49,9 @@ class _SemesterPageState extends State<SemesterPage> {
     List<Course> courses = Provider.of<AcademicRecords>(context)
         .getCourses(widget.yearNum, widget.semNum);
 
+    Semester sem = Provider.of<AcademicRecords>(context, listen: false)
+        .getSemester(widget.yearNum, widget.semNum);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -79,7 +83,7 @@ class _SemesterPageState extends State<SemesterPage> {
               children: [
                 Expanded(
                   child: Text(
-                    '${Provider.of<AcademicRecords>(context, listen: false).getSemester(widget.yearNum, widget.semNum).semString}',
+                    '${sem == null ? 'Semester' : sem.semString}',
                     // overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .textTheme
