@@ -75,14 +75,14 @@ class _QPIPageState extends State<QPIPage> {
                   .addCourse(yearNum, semNum, 'TEST 123', 0, 3, qpi, true);
             },
             child: Text('add new course'),
-          ),
+          ),*/
           ElevatedButton(
             onPressed: () {
               Provider.of<AcademicRecords>(context, listen: false)
                   .deleteAllData();
             },
             child: Text('delete rows'),
-          ),*/
+          ),
         ],
       ),
     );

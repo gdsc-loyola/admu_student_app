@@ -137,6 +137,7 @@ class _GradeDropDownState extends State<GradeDropDown> {
   Widget build(BuildContext context) {
     return Container(
       // width: 185,
+      width: double.infinity,
       height: 56,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
@@ -174,9 +175,10 @@ class ButtonRow extends StatefulWidget {
   // final Function(int) onSelect;
   // sample: onSelect: (val) { setState--- sel = val; }
   final int selected;
+  final bool blocked;
 
   ButtonRow(this.text1, this.text2, this.text3, this.return1, this.return2,
-      this.return3, this.selected);
+      this.return3, this.selected, this.blocked);
 
   @override
   _ButtonRowState createState() => _ButtonRowState();
@@ -229,6 +231,7 @@ class _ButtonRowState extends State<ButtonRow> {
               child: TextButton(
                 onPressed: () {
                   setState(() {
+                    if (widget.blocked) return;
                     selected = 0;
                     widget.return1();
                   });
@@ -236,7 +239,7 @@ class _ButtonRowState extends State<ButtonRow> {
                 child: Text(
                   "${widget.text1}",
                   style: TextStyle(
-                      color: isSelected1 ? Colors.black : Colors.grey[600]),
+                      color: selected == 0 ? Colors.black : Colors.grey[600]),
                 ),
               ),
             ),
@@ -262,6 +265,7 @@ class _ButtonRowState extends State<ButtonRow> {
               child: TextButton(
                 onPressed: () {
                   setState(() {
+                    if (widget.blocked) return;
                     selected = 1;
                     widget.return2();
                   });
@@ -269,7 +273,7 @@ class _ButtonRowState extends State<ButtonRow> {
                 child: Text(
                   "${widget.text2}",
                   style: TextStyle(
-                      color: isSelected2 ? Colors.black : Colors.grey[600]),
+                      color: selected == 1 ? Colors.black : Colors.grey[600]),
                 ),
               ),
             ),
@@ -295,6 +299,7 @@ class _ButtonRowState extends State<ButtonRow> {
               child: TextButton(
                 onPressed: () {
                   setState(() {
+                    if (widget.blocked) return;
                     selected = 2;
                     widget.return3();
                   });
@@ -302,7 +307,7 @@ class _ButtonRowState extends State<ButtonRow> {
                 child: Text(
                   "${widget.text3}",
                   style: TextStyle(
-                      color: isSelected3 ? Colors.black : Colors.grey[600]),
+                      color: selected == 2 ? Colors.black : Colors.grey[600]),
                 ),
               ),
             ),
@@ -428,52 +433,6 @@ class _ButtonRowState extends State<ButtonRow> {
 // }
 
 //////
-
-// class SemSelect extends StatefulWidget {
-//   @override
-//   _SemSelectState createState() => _SemSelectState();
-// }
-
-// class _SemSelectState extends State<SemSelect> {
-//   @override
-//   Widget build(BuildContext context) {
-//     int selected = Provider.of<AddQPINotifier>(context).semNum;
-
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//       children: [
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             // same as DateSelect
-//             // this should be SquareButton
-//             SquareButton(
-//               selected: selected == 0 ? true : false,
-//               text: 'IS',
-//               onPressed: () =>
-//                   Provider.of<AddQPINotifier>(context, listen: false).semNum =
-//                       0,
-//             ),
-//             SquareButton(
-//               selected: selected == 1 ? true : false,
-//               text: '1',
-//               onPressed: () =>
-//                   Provider.of<AddQPINotifier>(context, listen: false).semNum =
-//                       1,
-//             ),
-//             SquareButton(
-//               selected: selected == 2 ? true : false,
-//               text: '2',
-//               onPressed: () =>
-//                   Provider.of<AddQPINotifier>(context, listen: false).semNum =
-//                       2,
-//             ),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-// }
 
 //////
 

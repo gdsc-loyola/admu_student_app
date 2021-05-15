@@ -23,10 +23,29 @@ class SemesterPage extends StatefulWidget {
 class _SemesterPageState extends State<SemesterPage> {
   bool _isEditing = false;
   int _selected = 0;
+  List<bool> _cSelected; // = List.generate(6, (index) => false);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _onDelete(BuildContext context, List<Course> courses) async {
+    for (int i = _cSelected.length - 1; i >= 0; i--) {
+      if(_cSelected[i]) {
+        await Provider.of<AcademicRecords>(context, listen: false)
+          .deleteCourse(widget.yearNum, widget.semNum, courses[i].courseCode);
+      }
+    }
+
+    setState(() {
+      _isEditing = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Course> courses = Provider.of<AcademicRecords>(context, listen: false)
+    List<Course> courses = Provider.of<AcademicRecords>(context)
         .getCourses(widget.yearNum, widget.semNum);
 
     return Scaffold(
@@ -61,6 +80,7 @@ class _SemesterPageState extends State<SemesterPage> {
                 Expanded(
                   child: Text(
                     '${Provider.of<AcademicRecords>(context, listen: false).getSemester(widget.yearNum, widget.semNum).semString}',
+                    // overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -104,6 +124,7 @@ class _SemesterPageState extends State<SemesterPage> {
                     setState(() {
                       _isEditing = !_isEditing;
                       _selected = 0;
+                      _cSelected = List.generate(courses.length, (index) => false);
                     });
                   },
                   child: Container(
@@ -153,8 +174,13 @@ class _SemesterPageState extends State<SemesterPage> {
                     semNum: widget.semNum,
                     course: courses[index],
                     isEditing: _isEditing,
+                    selected: _isEditing ? _cSelected[index] : false,
                     onSelect: () {
-                      _selected++;
+                      setState(() {
+                        if (_cSelected[index]) _selected--;
+                        else _selected++;
+                        _cSelected[index] = !_cSelected[index];
+                      });
                     }),
               ),
             ),
@@ -164,10 +190,13 @@ class _SemesterPageState extends State<SemesterPage> {
       ),
       floatingActionButton: _isEditing
           ? FloatingActionButton(
-              onPressed: () {
-                // delete selected
-                _isEditing = false;
-              },
+              onPressed: () => _onDelete(context, courses),
+              /* onPressed: () {
+                // delete selected, todo
+                setState(() {
+                  _isEditing = false;
+                });
+              },*/ 
               child: Icon(
                 Icons.delete_outline_rounded,
                 size: 36,

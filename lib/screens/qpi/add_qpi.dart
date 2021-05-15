@@ -53,6 +53,7 @@ class AddQPIPage extends StatelessWidget {
       create: (_) => provider,
       child: _AddQPI(
         yearNum: yearNum,
+        semNum: semNum,
         year: year,
         semester: semester,
         course: course,
@@ -66,6 +67,7 @@ class AddQPIPage extends StatelessWidget {
 
 class _AddQPI extends StatefulWidget {
   final int yearNum;
+  final int semNum;
 
   final Year year;
   final Semester semester;
@@ -78,6 +80,7 @@ class _AddQPI extends StatefulWidget {
 
   _AddQPI({
     this.yearNum,
+    this.semNum,
     this.year,
     this.semester,
     this.course,
@@ -107,8 +110,15 @@ class _AddQPIState extends State<_AddQPI> {
     if (widget.yearNum != null) {
       _yearCtrl.text = '${widget.yearNum}';
     }
-    if (widget.units != null) {
-      _unitsCtrl.text = '${widget.units}';
+    if (widget.year != null) {
+      _unitsCtrl.text = '${widget.year.units}';
+    }
+    if (widget.semester != null) {
+      _unitsCtrl.text = '${widget.semester.units}';
+    }
+    if (widget.course != null) {
+      _unitsCtrl.text = '${widget.course.units}';
+      _codeCtrl.text = widget.course.courseCode;
     }
     if (widget.isEditing && widget.selected == 0) {
       _yearCtrl.text = '${widget.year.yearNum}';
@@ -139,54 +149,87 @@ class _AddQPIState extends State<_AddQPI> {
   }
 
   void _onSave(int semNum, int gradeVal) async {
-    // use values from provider
-    // todo
+    const List<double> GRADES = [4.0, 3.5, 3.0, 2.5, 2.0, 1.0, 0.0];
+
+    // no error handling
+    int yearNum = int.parse(_yearCtrl.text);
+    int units = int.parse(_unitsCtrl.text);
+    String code = _codeCtrl.text;
 
     if (selected == 0) {
-      int year = int.parse(_yearCtrl.text);
       double qpi = double.parse(_qpiCtrl.text);
-      int units = 20; //double.parse(_unitsCtrl.text);
-
-      print('year: $year');
-      print('qpi: $qpi');
-      print('units: $units');
-
       if (widget.isEditing)
         Provider.of<AcademicRecords>(context, listen: false).editYearlyQPI(
           widget.year,
-          year,
+          yearNum,
           units,
           qpi,
         );
       else
         Provider.of<AcademicRecords>(context, listen: false).addYearlyQPI(
-          year,
+          yearNum,
           units,
           qpi,
         );
     } else if (selected == 1) {
-      print('year: ${_yearCtrl.text}');
-      print('sem: $semNum');
-      print('qpi: ${_qpiCtrl.text}');
-      print('units: ${_unitsCtrl.text}');
+      double qpi = double.parse(_qpiCtrl.text);
+      if (widget.isEditing)
+        Provider.of<AcademicRecords>(context, listen: false).editSemestralQPI(
+          widget.yearNum,
+          widget.semester,
+          yearNum,
+          semNum,
+          units,
+          qpi,
+        );
+      else
+        Provider.of<AcademicRecords>(context, listen: false).addSemestralQPI(
+          yearNum,
+          semNum,
+          units,
+          qpi,
+        );
     } else if (selected == 2) {
-      print('year: ${_yearCtrl.text}');
-      print('qpi: ${_qpiCtrl.text}');
-      print('units: ${_unitsCtrl.text}');
-      print('code: ${_codeCtrl.text}');
-      // also get what color is used
+      if (widget.isEditing)
+        Provider.of<AcademicRecords>(context, listen: false).editCourse(
+          widget.yearNum,
+          widget.semNum,
+          widget.course,
+          yearNum,
+          semNum,
+          code,
+          0xFF0000A0, // sample color
+          units,
+          GRADES[gradeVal - 1],
+          true, // no handling
+        );
+      else
+        Provider.of<AcademicRecords>(context, listen: false).addCourse(
+          yearNum,
+          semNum,
+          code,
+          0xFF0000A0, // sample color
+          units,
+          GRADES[gradeVal - 1],
+          true, // no handling for non-included
+        );
     }
 
     Navigator.of(context).pop();
   }
 
   void _onDelete() async {
-    if (selected == 0) {
+    if (selected == 0)
       Provider.of<AcademicRecords>(context, listen: false)
-          .deleteYearlyQPI(int.parse(_yearCtrl.text));
+          .deleteYearlyQPI(widget.yearNum);
+    else if (selected == 1)
+      Provider.of<AcademicRecords>(context, listen: false)
+          .deleteSemestralQPI(widget.yearNum, widget.semester.semNum);
+    else if (selected == 2)
+      Provider.of<AcademicRecords>(context, listen: false).deleteCourse(
+          widget.yearNum, widget.semNum, widget.course.courseCode);
 
-      Navigator.of(context).pop();
-    }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -195,6 +238,7 @@ class _AddQPIState extends State<_AddQPI> {
     int gradeVal = Provider.of<AddQPINotifier>(context).gradeVal;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
@@ -220,7 +264,7 @@ class _AddQPIState extends State<_AddQPI> {
       body: Center(
         child: Container(
           color: AppColors.PRIMARY_MAIN,
-          padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 96.0),
+          padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 48.0), // bot 96
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -253,11 +297,13 @@ class _AddQPIState extends State<_AddQPI> {
                 setState(() {
                   selected = 2;
                 });
-              }, selected),
+              }, selected, widget.isEditing),
               SizedBox(height: 24),
               screens[selected],
               Spacer(),
-              LongButton('Delete', Colors.orange, Colors.white, _onDelete),
+              widget.isEditing
+                  ? LongButton('Delete', Colors.orange, Colors.white, _onDelete)
+                  : Container(),
             ],
           ),
         ),

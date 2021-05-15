@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/widgets/groups/input_code.dart';
 import 'package:admu_student_app/widgets/groups/input_units.dart';
 import 'package:admu_student_app/widgets/groups/input_year.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
@@ -30,27 +31,7 @@ class CourseAddQPI extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Text Field at the Left
-              Expanded(
-                child: InputYearGroup(yearController),
-                // child: Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'Year Level',
-                //       style: Theme.of(context)
-                //           .textTheme
-                //           .bodyText1
-                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                //     ),
-                //     SizedBox(height: 8),
-                //     InputField(
-                //       controller: yearController,
-                //       isMultiLined: false,
-                //       length: null,
-                //     ),
-                //   ],
-                // ),
-              ),
+              Expanded(child: InputYearGroup(yearController)),
               SizedBox(width: 20),
               // DropDown at the Right
               Expanded(
@@ -76,48 +57,21 @@ class CourseAddQPI extends StatelessWidget {
           Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: SelectSemesterGroup(),
-                // child: Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'Semester',
-                //       style: Theme.of(context)
-                //           .textTheme
-                //           .bodyText1
-                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                //     ),
-                //     SizedBox(height: 8),
-                //     SemSelect(),
-                //   ],
-                // ),
-              ),
+              Expanded(child: SelectSemesterGroup()),
               SizedBox(width: 20),
-              Expanded(
-                child: InputUnitsGroup(unitsController),
-                // child: Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'Units',
-                //       style: Theme.of(context)
-                //           .textTheme
-                //           .bodyText1
-                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                //     ),
-                //     SizedBox(height: 8),
-                //     InputField(
-                //       controller: unitsController,
-                //       isMultiLined: false,
-                //       length: null,
-                //     ),
-                //   ],
-                // ),
-              ),
+              Expanded(child: InputUnitsGroup(unitsController)),
             ],
           ),
           SizedBox(height: 16),
+          // temporary for code
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(child: InputCodeGroup(codeController)),
+              SizedBox(width: 20),
+              Expanded(child: Container()),
+            ],
+          ),
           Text(
             'Color Code',
             style: Theme.of(context)

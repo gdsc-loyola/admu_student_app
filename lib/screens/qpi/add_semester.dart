@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/widgets/groups/input_qpi.dart';
+import 'package:admu_student_app/widgets/groups/input_units.dart';
 import 'package:admu_student_app/widgets/groups/input_year.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
 
@@ -27,50 +28,10 @@ class SemesterAddQPI extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Text Field at the Left
-              Expanded(
-                child: InputYearGroup(yearController),
-                // child: Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'Year Level',
-                //       style: Theme.of(context)
-                //           .textTheme
-                //           .bodyText1
-                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                //     ),
-                //     SizedBox(height: 8),
-                //     InputField(
-                //       controller: yearController,
-                //       isMultiLined: false,
-                //       length: null,
-                //     ),
-                //   ],
-                // ),
-              ),
+              Expanded(child: InputYearGroup(yearController)),
               SizedBox(width: 20),
               // Text at the Right
-              Expanded(
-                child: InputQPIGroup('Semestral', qpiController),
-                // child: Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'Semestral QPI',
-                //       style: Theme.of(context)
-                //           .textTheme
-                //           .bodyText1
-                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                //     ),
-                //     SizedBox(height: 8),
-                //     InputField(
-                //       controller: qpiController,
-                //       isMultiLined: false,
-                //       length: null,
-                //     ),
-                //   ],
-                // ),
-              ),
+              Expanded(child: InputQPIGroup('Semestral', qpiController)),
             ],
           ),
           SizedBox(height: 16),
@@ -78,25 +39,9 @@ class SemesterAddQPI extends StatelessWidget {
           Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: SelectSemesterGroup(),
-                // child: Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'Semester',
-                //       style: Theme.of(context)
-                //           .textTheme
-                //           .bodyText1
-                //           .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                //     ),
-                //     SizedBox(height: 8),
-                //     // SemSelect(),
-                //   ],
-                // ),
-              ),
+              Expanded(child: SelectSemesterGroup()),
               SizedBox(width: 20),
-              Expanded(child: Container()),
+              Expanded(child: InputUnitsGroup(unitsController)),
             ],
           ),
         ],

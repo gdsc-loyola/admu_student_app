@@ -21,7 +21,13 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   }
 
   void _loadData() async {
-    String jsonText = await rootBundle.loadString('text/privacy_policy.json');
+    String jsonText;
+    try {
+      jsonText = await rootBundle.loadString('assets/text/privacy_policy.json');
+    } catch (error) {
+      jsonText = await rootBundle.loadString('text/privacy_policy.json');
+    }
+
     setState(() {
       _data = json.decode(jsonText);
     });

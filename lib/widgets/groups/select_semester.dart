@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/add_qpi_notifier.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
@@ -17,6 +18,14 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
+        Text(
+          'Semester',
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(color: AppColors.GRAY_LIGHT[2]),
+        ),
+        SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -88,7 +88,7 @@ class CentralDatabaseHelper {
       $year INTEGER NOT NULL,
       $sem INTEGER,
       $color INTEGER,
-      $units INTEGER,
+      $units INTEGER NOT NULL,
       $qpi REAL NOT NULL,
       $isIncludedInQPI INTEGER NOT NULL )
       ''');

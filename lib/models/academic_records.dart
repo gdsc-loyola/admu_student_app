@@ -54,12 +54,17 @@ class AcademicRecords extends ChangeNotifier {
   }
 
   List<Course> getCourses(int year, int sem) {
-    if (year == 1 && sem == 1) {
-      return _years[0].sems[0].courses;
-    } else if (year == 1 && sem == 2) {
-      return _years[0].sems[1].courses;
-    } else
-      return [];
+    for (Year y in _years) {
+      if (y.yearNum == year) {
+        for (Semester s in y.sems) {
+          if (s.semNum == sem) {
+            return s.courses;
+          }
+        }
+      }
+    }
+
+    return [];
   }
 
   double get cumulativeQPI {
@@ -112,10 +117,24 @@ class AcademicRecords extends ChangeNotifier {
   }
 
   void addYearlyQPI(int yearNum, int units, double qpi) async {
-    // add to database
-    // key YEAR_Y
+    if (kIsWeb) {
+      bool foundYear = false;
+      Year newYear = Year.fromYear(yearNum, units, qpi);
 
-    print('trying to add year qpi');
+      for (Year y in _years) {
+        if (y.yearNum == yearNum) {
+          y.units = units;
+          y.qpi = qpi;
+          foundYear = true;
+          break;
+        }
+      }
+
+      if (!foundYear) _years.add(newYear);
+
+      _updateList();
+      return;
+    }
 
     int id = await (await CentralDatabaseHelper.instance.database).insert(
       CentralDatabaseHelper.tableName_courses,
@@ -134,9 +153,6 @@ class AcademicRecords extends ChangeNotifier {
   }
 
   void editYearlyQPI(Year year, int yearNum, int units, double qpi) async {
-    // edit from database
-    // key YEAR_Y
-
     if (kIsWeb) {
       for (Year y in _years) {
         if (y.yearNum == year.yearNum) {
@@ -153,28 +169,28 @@ class AcademicRecords extends ChangeNotifier {
     int updated = await (await CentralDatabaseHelper.instance.database).update(
       CentralDatabaseHelper.tableName_courses,
       {
-        CentralDatabaseHelper.code: yearNum,
+        CentralDatabaseHelper.code: 'Y_$yearNum',
+        CentralDatabaseHelper.year: yearNum,
         CentralDatabaseHelper.units: units,
         CentralDatabaseHelper.qpi: qpi,
+        CentralDatabaseHelper.isIncludedInQPI: 1,
       },
       where:
-          '${CentralDatabaseHelper.code} = ?, ${CentralDatabaseHelper.units} = ?, ${CentralDatabaseHelper.qpi} = ?',
+          '${CentralDatabaseHelper.code} = ?', // , ${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.units} = ?, ${CentralDatabaseHelper.qpi} = ?',
       whereArgs: [
         'Y_${year.yearNum}',
-        year.units,
-        year.yearlyQPI,
+        // year.yearNum,
+        // year.units,
+        // year.yearlyQPI,
       ],
     );
 
-    print('updated $updated');
+    print('updated $updated from year');
 
     _updateList();
   }
 
   void deleteYearlyQPI(int yearNum) async {
-    // delete from database
-    // key YEAR_Y
-
     if (kIsWeb) {
       for (Year y in _years) {
         if (y.yearNum == yearNum) {
@@ -192,35 +208,138 @@ class AcademicRecords extends ChangeNotifier {
       whereArgs: ['Y_$yearNum'],
     );
 
-    print('deleted $deleted');
+    print('deleted $deleted from year');
 
     _updateList();
   }
 
   void addSemestralQPI(int yearNum, int semNum, int units, double qpi) async {
-    // add to database
-    // key SEM_Y_S
+    if (kIsWeb) {
+      bool foundYear = false;
+      Semester newSem = Semester.fromSem(semNum, units, qpi);
+
+      for (Year y in _years) {
+        if (y.yearNum == yearNum) {
+          foundYear = true;
+          y.sems.add(newSem);
+          break;
+        }
+      }
+
+      if (!foundYear) _years.add(Year(yearNum, [newSem]));
+
+      _updateList();
+      return;
+    }
+
+    int id = await (await CentralDatabaseHelper.instance.database).insert(
+      CentralDatabaseHelper.tableName_courses,
+      {
+        CentralDatabaseHelper.code: 'S_${yearNum}_$semNum',
+        CentralDatabaseHelper.year: yearNum,
+        CentralDatabaseHelper.sem: semNum,
+        CentralDatabaseHelper.units: units,
+        CentralDatabaseHelper.qpi: qpi,
+        CentralDatabaseHelper.isIncludedInQPI: 1,
+      },
+    );
+
+    print('added sem qpi, id: $id');
 
     _updateList();
   }
 
-  void editSemestralQPI(int yearNum, int semNum, int units, double qpi) async {
-    // edit from database
-    // key SEM_Y_S
+  void editSemestralQPI(
+    int oldYearNum,
+    Semester sem,
+    int newYearNum,
+    int newSemNum,
+    int units,
+    double qpi,
+  ) async {
+    if (kIsWeb) {
+      for (Year y in _years) {
+        if (y.yearNum == oldYearNum) {
+          for (Semester s in y.sems) {
+            if (s.semNum == sem.semNum) {
+              // for web, the yearnum and semnum aren't updated for now
+              s.units = units;
+              s.qpi = qpi;
+            }
+          }
+        }
+      }
+
+      _updateList();
+      return;
+    }
+
+    int updated = await (await CentralDatabaseHelper.instance.database).update(
+      CentralDatabaseHelper.tableName_courses,
+      {
+        CentralDatabaseHelper.code: 'S_${newYearNum}_$newSemNum',
+        CentralDatabaseHelper.year: newYearNum,
+        CentralDatabaseHelper.sem: newSemNum,
+        CentralDatabaseHelper.units: units,
+        CentralDatabaseHelper.qpi: qpi,
+        CentralDatabaseHelper.isIncludedInQPI: 1,
+      },
+      where:
+          '${CentralDatabaseHelper.code} = ?', // , ${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.units} = ?, ${CentralDatabaseHelper.qpi} = ?',
+      whereArgs: [
+        'S_${oldYearNum}_${sem.semNum}',
+        // oldYearNum,
+        // sem.semNum,
+        // sem.units,
+        // sem.semestralQPI,
+      ],
+    );
+
+    print('updated $updated from sem');
+
+    _updateList();
   }
 
   void deleteSemestralQPI(int yearNum, int semNum) async {
-    // delete from database
-    // key SEM_Y_S
+    if (kIsWeb) {
+      for (Year y in _years) {
+        if (y.yearNum == yearNum) {
+          for (Semester s in y.sems) {
+            if (s.semNum == semNum) {
+              y.sems.remove(s);
+
+              _updateList();
+              return;
+            }
+          }
+        }
+      }
+    }
+
+    int deleted = await (await CentralDatabaseHelper.instance.database).delete(
+      CentralDatabaseHelper.tableName_courses,
+      where: '${CentralDatabaseHelper.code} = ?',
+      whereArgs: ['Y_${yearNum}_$semNum'],
+    );
+
+    print('deleted $deleted from sem');
 
     _updateList();
   }
 
-  void addCourse(int yearNum, int semNum, String code, int color, int units,
-      double qpi, bool isIncludedInQPI) async {
+  void addCourse(
+    int yearNum,
+    int semNum,
+    String code,
+    int color,
+    int units,
+    double qpi,
+    bool isIncludedInQPI,
+  ) async {
     if (kIsWeb) {
       bool foundYear = false;
       Course newCourse = Course(code, color, units, qpi, isIncludedInQPI);
+
       for (Year y in _years) {
         if (y.yearNum == yearNum) {
           foundYear = true;
@@ -246,7 +365,6 @@ class AcademicRecords extends ChangeNotifier {
       return;
     }
 
-    // add to database
     int id = await (await CentralDatabaseHelper.instance.database).insert(
       CentralDatabaseHelper.tableName_courses,
       {
@@ -266,53 +384,58 @@ class AcademicRecords extends ChangeNotifier {
   }
 
   void editCourse(
-      int oldYearNum,
-      int oldSemNum,
-      String oldCode,
-      int newYearNum,
-      int newSemNum,
-      String newCode,
-      int newColor,
-      int newUnits,
-      double newQPI,
-      bool newIsIncludedInQPI) async {
-    // edit from database
-    // await (await CentralDatabaseHelper.instance.database).update(
-    //     CentralDatabaseHelper.tableName_courses, {},
-    //     where:
-    //         '${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.code} = ?',
-    //     whereArgs: [yearNum, semNum, code]);
+    int oldYearNum,
+    int oldSemNum,
+    Course course,
+    int newYearNum,
+    int newSemNum,
+    String code,
+    int color,
+    int units,
+    double qpi,
+    bool isIncludedInQPI,
+  ) async {
+    if (kIsWeb) {
+      for (Year y in _years) {
+        for (Semester s in y.sems) {
+          for (Course c in s.courses) {
+            if (c.courseCode == course.courseCode) {
+              // for web, yearnum and semnum not updated
+              c.courseCode = code;
+              c.units = units;
+              c.qpi = qpi;
+              c.color = Color(color);
+              c.isIncludedInQPI = isIncludedInQPI;
 
-    // query row
-    // int changed = await (await CentralDatabaseHelper.instance.database).update(
-    //   CentralDatabaseHelper.tableName_courses,
-    //   {
-    //     CentralDatabaseHelper.code: newCode,
-    //     CentralDatabaseHelper.year: newYearNum,
-    //     CentralDatabaseHelper.sem: newSemNum,
-    //     CentralDatabaseHelper.color: newColor,
-    //     CentralDatabaseHelper.units: newUnits,
-    //     CentralDatabaseHelper.qpi: newQPI,
-    //     CentralDatabaseHelper.isIncludedInQPI: newIsIncludedInQPI ? 1 : 0,
-    //   },
-    //   where:
-    //       '${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.code} = ?',
-    //   whereArgs: [oldYearNum, oldSemNum, oldCode],
-    // );
-    // update
-
-    // testing purposes, to edit
-    for (Year y in _years) {
-      for (Semester s in y.sems) {
-        for (Course c in s.courses) {
-          if (c.courseCode == oldCode) {
-            c.qpi = newQPI;
-            _updateList();
-            return;
+              _updateList();
+              return;
+            }
           }
         }
       }
     }
+
+    int updated = await (await CentralDatabaseHelper.instance.database).update(
+      CentralDatabaseHelper.tableName_courses,
+      {
+        CentralDatabaseHelper.code: code,
+        CentralDatabaseHelper.year: newYearNum,
+        CentralDatabaseHelper.sem: newSemNum,
+        CentralDatabaseHelper.color: color,
+        CentralDatabaseHelper.units: units,
+        CentralDatabaseHelper.qpi: qpi,
+        CentralDatabaseHelper.isIncludedInQPI: isIncludedInQPI ? 1 : 0,
+      },
+      where:
+          '${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.code} = ?',
+      whereArgs: [
+        oldYearNum,
+        oldSemNum,
+        course.courseCode,
+      ],
+    );
+
+    print('updated $updated from course');
 
     _updateList();
   }
@@ -323,48 +446,57 @@ class AcademicRecords extends ChangeNotifier {
         if (y.yearNum == yearNum) {
           for (Semester s in y.sems) {
             if (s.semNum == semNum) {
-              // s.courses.remove();
-              _updateList();
-              return;
+              for (Course c in s.courses) {
+                if (c.courseCode == code) {
+                  s.courses.remove(c);
+
+                  _updateList();
+                  return;
+                }
+              }
             }
           }
         }
       }
     }
 
-    // delete from database
-    int numDeleted =
-        await (await CentralDatabaseHelper.instance.database).delete(
+    int deleted = await (await CentralDatabaseHelper.instance.database).delete(
       CentralDatabaseHelper.tableName_courses,
       where:
           '${CentralDatabaseHelper.year} = ?, ${CentralDatabaseHelper.sem} = ?, ${CentralDatabaseHelper.code} = ?',
-      whereArgs: [yearNum, semNum, code],
+      whereArgs: [
+        yearNum,
+        semNum,
+        code,
+      ],
     );
 
-    print('deleted $numDeleted');
+    print('deleted $deleted course');
 
     _updateList();
   }
 
-  void _updateList() async {
-    if (kIsWeb) {
-      // sort years
-      _years.sort((a, b) => a.yearNum.compareTo(b.yearNum));
+  void _sortAll() {
+    // sort years
+    _years.sort((a, b) => a.yearNum.compareTo(b.yearNum));
 
+    for (Year y in _years) {
       // sort sems
-      for (Year y in _years) {
-        if (y.sems.length > 0) {
-          y.sems.sort((a, b) => a.semNum.compareTo(b.semNum));
-          for (Semester s in y.sems) {
-            if (s.courses.length > 0) {
-              s.courses.sort((a, b) => a.courseCode.compareTo(b.courseCode));
-            }
+      if (y.sems.length > 0) {
+        y.sems.sort((a, b) => a.semNum.compareTo(b.semNum));
+        for (Semester s in y.sems) {
+          // sort courses
+          if (s.courses.length > 0) {
+            s.courses.sort((a, b) => a.courseCode.compareTo(b.courseCode));
           }
         }
       }
+    }
+  }
 
-      // sort courses
-
+  void _updateList() async {
+    if (kIsWeb) {
+      _sortAll();
       notifyListeners();
       return;
     }
@@ -464,6 +596,8 @@ class AcademicRecords extends ChangeNotifier {
           ]));
       }
     });
+
+    _sortAll();
 
     notifyListeners();
   }

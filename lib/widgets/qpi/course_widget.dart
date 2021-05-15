@@ -12,6 +12,7 @@ class CourseCard extends StatelessWidget {
 
   final Course course;
   final bool isEditing;
+  final bool selected;
   final VoidCallback onSelect;
 
   CourseCard({
@@ -19,6 +20,7 @@ class CourseCard extends StatelessWidget {
     @required this.semNum,
     @required this.course,
     this.isEditing = false,
+    this.selected = false,
     this.onSelect,
   });
 
@@ -50,6 +52,7 @@ class CourseCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('${course.courseCode}',
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
                       .headline5
@@ -110,7 +113,7 @@ class CourseCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularCheckMark(onTap: onSelect),
+            CircularCheckMark(isDone: selected, onTap: onSelect),
             SizedBox(width: 10),
             Expanded(child: card),
           ],
