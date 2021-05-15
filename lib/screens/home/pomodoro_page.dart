@@ -29,7 +29,6 @@ class _PomodoroPageState extends State<PomodoroPage> {
       _start = timerDuration;
     });
     const oneSec = const Duration(seconds: 1);
-    print('test');
     _timer = new Timer.periodic(
       oneSec,
       (Timer timer) => setState(
@@ -60,7 +59,6 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
   @override
   Widget build(BuildContext context) {
-
     var dur = Duration(seconds: _start);
 
     String _printDuration(Duration duration) {
@@ -71,8 +69,15 @@ class _PomodoroPageState extends State<PomodoroPage> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.PRIMARY_LIGHT,
-      appBar: AppBar(),
+      backgroundColor: AppColors.PRIMARY_ALT,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: IconButton(
+            icon: Icon(Icons.arrow_back_ios_rounded),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -80,7 +85,14 @@ class _PomodoroPageState extends State<PomodoroPage> {
             Container(
               padding: EdgeInsets.fromLTRB(16, 71, 16, 0),
               child: Row(
-                children: [Text('Pomodoro Technique ')],
+                children: [
+                  Text(
+                    'Pomodoro Technique ',
+                    style: Theme.of(context).textTheme.headline4.copyWith(
+                          color: AppColors.GRAY_LIGHT[2],
+                        ),
+                  )
+                ],
               ),
             ),
             // Container for the Gray Box
@@ -136,12 +148,22 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       ),
 
                       // Container for Timer
-                      Text("${_printDuration(dur)}", style: Theme.of(context).textTheme.bodyText1.copyWith(color: AppColors.PRIMARY_MAIN, fontSize: 100),),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(24, 36, 24, 36),
+                        child: Text(
+                          "${_printDuration(dur)}",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: AppColors.PRIMARY_MAIN,
+                                fontSize: 100,
+                              ),
+                        ),
+                      ),
                       // Container for short buttons
                       Container(
                         padding: EdgeInsets.fromLTRB(35, 0, 35, 40),
                         child: Row(
                           children: [
+                            // Start/Pause Button
                             Expanded(
                               child: ShortButton(
                                 '$buttontitle',
@@ -163,6 +185,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                             SizedBox(
                               width: 25,
                             ),
+                            // Clear Button
                             Expanded(
                               child: ShortButton(
                                   'Clear',

@@ -49,7 +49,7 @@ class ShortButton extends StatelessWidget {
         },
         child: Text(
           text,
-          style: TextStyle(color: textColor),
+          style: Theme.of(context).textTheme.headline6.copyWith(color: textColor),
         ),
       ),
     );
