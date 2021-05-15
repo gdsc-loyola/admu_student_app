@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/central_database.dart';
 import 'package:admu_student_app/models/course.dart';
 import 'package:admu_student_app/models/semester.dart';
@@ -11,32 +12,32 @@ class AcademicRecords extends ChangeNotifier {
   final List<Year> _sampleData = [
     Year(1, [
       Semester(1, [
-        Course('CSCI 20', 0xFFAE0000, 3, 0.0, true),
-        Course('CSCI 21', 0xFF00AE00, 3, 1.0, true),
-        Course('ENGL 11', 0xFF0000AE, 3, 2.0, true),
-        Course('FILI 12', 0xFFAE0000, 3, 2.5, true),
-        Course('INTACT 11', 0xFF00AE00, 0, 0.0, false),
-        Course('MATH 10', 0xFF0000AE, 3, 3.0, true),
-        Course('MATH 21', 0xFFAE0000, 3, 3.5, true),
-        Course('PHYED 111', 0xFF00AE00, 2, 4.0, false),
+        Course('CSCI 20', AppColors.ACCENTS[0].value, 3, 0.0, true),
+        Course('CSCI 21', AppColors.ACCENTS[1].value, 3, 1.0, true),
+        Course('ENGL 11', AppColors.ACCENTS[2].value, 3, 2.0, true),
+        Course('FILI 12', AppColors.ACCENTS[3].value, 3, 2.5, true),
+        Course('INTACT 11', AppColors.ACCENTS[4].value, 0, 0.0, false),
+        Course('MATH 10', AppColors.ACCENTS[0].value, 3, 3.0, true),
+        Course('MATH 21', AppColors.ACCENTS[1].value, 3, 3.5, true),
+        Course('PHYED 111', AppColors.ACCENTS[2].value, 2, 4.0, false),
       ]),
       Semester(2, [
-        Course('CSCI 22', 0, 3, 4.0, false),
-        Course('ENLIT 12', 0, 3, 4.0, false),
-        Course('FILI 11', 0, 3, 4.0, false),
-        Course('HISTO 11', 0, 3, 4.0, false),
-        Course('INTACT 12', 0, 0, 0.0, false),
-        Course('MATH 30.23', 0, 3, 4.0, false),
-        Course('PHYED 143', 0, 2, 4.0, false),
-        Course('SocSc 11', 0, 3, 4.0, false),
-        Course('THEO 11', 0, 3, 4.0, false),
+        Course('CSCI 22', AppColors.ACCENTS[0].value, 3, 4.0, false),
+        Course('ENLIT 12', AppColors.ACCENTS[1].value, 3, 4.0, false),
+        Course('FILI 11', AppColors.ACCENTS[2].value, 3, 4.0, false),
+        Course('HISTO 11', AppColors.ACCENTS[3].value, 3, 4.0, false),
+        Course('INTACT 12', AppColors.ACCENTS[4].value, 0, 0.0, false),
+        Course('MATH 30.23', AppColors.ACCENTS[0].value, 3, 4.0, false),
+        Course('PHYED 143', AppColors.ACCENTS[1].value, 2, 4.0, false),
+        Course('SocSc 11', AppColors.ACCENTS[2].value, 3, 4.0, false),
+        Course('THEO 11', AppColors.ACCENTS[3].value, 3, 4.0, false),
       ]),
     ]),
     Year(2, [
       Semester(0, [
-        Course('MATH NSCI TECH ELECTIVE', 0, 3, 0.0, true),
-        Course('SocSc 12', 0, 3, 1.0, true),
-        Course('MATH 30.24', 0, 3, 2.0, true),
+        Course('MATH NSCI TECH ELECTIVE', AppColors.ACCENTS[0].value, 3, 0.0, true),
+        Course('SocSc 12', AppColors.ACCENTS[1].value, 3, 1.0, true),
+        Course('MATH 30.24', AppColors.ACCENTS[2].value, 3, 2.0, true),
       ]),
       Semester.fromSem(1, 20, 3.5),
     ]),

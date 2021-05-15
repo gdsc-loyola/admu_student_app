@@ -44,7 +44,7 @@ class CourseCard extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             width: 10,
-            height: 64,
+            height: 72, // from 64
           ),
           // text and units
           Column(

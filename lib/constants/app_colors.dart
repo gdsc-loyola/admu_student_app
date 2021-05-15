@@ -53,4 +53,13 @@ class AppColors {
     const Color(0xFF7A7A7A),
     const Color(0xFF9E9E9E),
   ];
+
+
+  static const List<Color> ACCENTS = [
+    const Color(0xFFFF8591),
+    const Color(0xFFFFE0A5),
+    const Color(0xFFA0E7D5),
+    const Color(0xFF86CCFF),
+    const Color(0xFFB99FFF),
+  ];
 }

@@ -79,7 +79,7 @@ class _SchedulePageState extends State<SchedulePage> {
         children: [
           Expanded(
             // child: Container(color: Colors.green),
-            child: ScheduleTimetable(type: 0),
+            child: ScheduleTimetable(yearNum: 1, semNum: 2, qtrNum: 4),
           ),
         ],
       ),

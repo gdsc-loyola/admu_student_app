@@ -1,23 +1,25 @@
+import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/subject.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ScheduleTimetable extends StatelessWidget {
-  // 0 = enlistment
-  // 1 = sem OR q1 OR q3
-  // 2 = sem OR q2 OR q4
-  final int type;
+  final int yearNum; // if 0, enlistment
+  final int semNum; // if 0, enlistment
+  final int qtrNum; // if 0, enlistment
 
-  ScheduleTimetable({@required this.type});
+  ScheduleTimetable({
+    @required this.yearNum,
+    @required this.semNum,
+    this.qtrNum = 0,
+  });
 
   final List<String> DAYS = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 
-  Widget _buildBackground(BuildContext context) {
-    // get first and last hours
-    int firstHr = 9;
-    int lastHr = 15;
-
+  Widget _buildBackground(BuildContext context, Map data) {
     List<Widget> children = [Container(height: 32)];
 
-    for (int i = firstHr; i <= lastHr; i++)
+    for (int i = data['start']; i <= data['end']; i++)
       children.add(
         Expanded(
           child: Container(
@@ -36,18 +38,12 @@ class ScheduleTimetable extends StatelessWidget {
     return Column(children: children);
   }
 
-  Widget _buildTimetable(BuildContext context) {
-    // get schedule, list of subjects from provider
-
-    // get first and last hours
-    int firstHr = 9;
-    int lastHr = 15;
-
+  Widget _buildTimetable(BuildContext context, Map data) {
     List<Widget> cols = [];
 
     // generate hour column
     List<Widget> hourCol = [Container(height: 32)];
-    for (int i = firstHr; i <= lastHr; i++)
+    for (int i = data['start']; i <= data['end']; i++)
       hourCol.add(
         Expanded(
           child: Container(
@@ -86,9 +82,50 @@ class ScheduleTimetable extends StatelessWidget {
       );
 
       // build schedule
-      colWidgets.add(
-        Expanded(child: Container()),
-      );
+      List<Subject> subjs = data['subjects'][i];
+      for (int j = 0; j < subjs.length; j++) {
+        // colWidgets.add();
+        if (j == 0) {
+          // add spacer before first class
+
+          int minsbw = ClassSchedule.getMinutesBetween(
+              data['start'] * 100, subjs[j].start);
+
+          if (minsbw > 0)
+            colWidgets.add(Flexible(flex: minsbw, child: Container()));
+        } else {
+          // spacer between classes
+
+          int minsbw =
+              ClassSchedule.getMinutesBetween(subjs[j - 1].end, subjs[j].start);
+
+          if (minsbw > 0)
+            colWidgets.add(Flexible(flex: minsbw, child: Container()));
+        }
+
+        int duration =
+            ClassSchedule.getMinutesBetween(subjs[j].start, subjs[j].end);
+
+        if (duration > 0)
+          colWidgets.add(
+            Flexible(
+              flex: duration,
+              child: _SubjectBlock(
+                color: subjs[j].color,
+                courseCode: subjs[j].code,
+              ),
+            ),
+          );
+      }
+
+      // add space between last subject and end
+      if (subjs.length > 0) {
+        int lastmin = ClassSchedule.getMinutesBetween(
+            subjs[subjs.length - 1].end, (data['end'] + 1) * 100);
+
+        if (lastmin > 0)
+          colWidgets.add(Flexible(flex: lastmin, child: Container()));
+      }
 
       cols.add(
         Expanded(
@@ -104,20 +141,17 @@ class ScheduleTimetable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // get schedule, list of subjects from provider
-
-    // get first and last hours
-    // int firstHr = 9;
-    // int lastHr = 15;
+    Map<String, dynamic> data = Provider.of<ClassSchedule>(context)
+        .getSubjects(yearNum, semNum, qtrNum);
 
     return Stack(
       children: [
-        // testing bounds
+        // no data, empty state
         // Positioned.fill(child: Container(color: Colors.green)),
         // background
-        Positioned.fill(child: _buildBackground(context)),
+        Positioned.fill(child: _buildBackground(context, data)),
         // foreground, timetable
-        Positioned.fill(child: _buildTimetable(context)),
+        Positioned.fill(child: _buildTimetable(context, data)),
       ],
     );
   }
@@ -133,12 +167,14 @@ class _SubjectBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        color: color,
         borderRadius: BorderRadius.all(Radius.circular(8)), // original 7
       ),
       padding: EdgeInsets.all(4),
       child: Center(
         child: Text(
           courseCode,
+          textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
               .caption
