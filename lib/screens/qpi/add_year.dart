@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/widgets/groups/input_qpi.dart';
-import 'package:admu_student_app/widgets/groups/input_units.dart';
-import 'package:admu_student_app/widgets/groups/input_year.dart';
+import 'package:admu_student_app/widgets/groups/input_group.dart';
 
 class YearAddQPI extends StatelessWidget {
   final TextEditingController yearController;
@@ -18,17 +16,25 @@ class YearAddQPI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          // Text Field at the Left
-          Expanded(child: InputYearGroup(yearController)),
-          SizedBox(width: 20),
-          // Text at the Right
-          Expanded(child: InputQPIGroup('Yearly', qpiController)),
-          // testing for units
-          SizedBox(width: 20),
-          Expanded(child: InputUnitsGroup(unitsController)),
+          Row(
+            children: [
+              // Text Field at the Left
+              Expanded(child: InputGroup('Year Level', yearController)),
+              SizedBox(width: 20),
+              // Text at the Right
+              Expanded(child: InputGroup('Yearly QPI', qpiController)),
+            ],
+          ),
+          SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: InputGroup('Units', unitsController)),
+              SizedBox(width: 20),
+              Expanded(child: Container()),
+            ],
+          ),
         ],
       ),
     );

@@ -16,7 +16,7 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
     int selected = Provider.of<AddQPINotifier>(context).semNum;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Semester',

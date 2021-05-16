@@ -7,24 +7,21 @@ import 'package:admu_student_app/models/subject.dart';
 
 class ClassSchedule extends ChangeNotifier {
   final List<Subject> _sampleData = [
-    Subject('SocSc 11', 1, 2, 3, AppColors.ACCENTS[0].value, 101010, 0900, 1000),
-    Subject('INTACT 12', 1, 2, 0, AppColors.ACCENTS[1].value, 100000, 1000, 1100),
+    Subject(
+        'SocSc 11', 1, 2, 3, AppColors.ACCENTS[0].value, 101010, 0900, 1000),
+    Subject(
+        'INTACT 12', 1, 2, 0, AppColors.ACCENTS[1].value, 100000, 1000, 1100),
     Subject('THEO 11', 1, 2, 3, AppColors.ACCENTS[2].value, 101010, 1100, 1200),
     Subject('CSCI 22', 1, 2, 0, AppColors.ACCENTS[3].value, 010100, 0900, 1100),
-    Subject('MATH 30.23', 1, 2, 0, AppColors.ACCENTS[4].value, 010100, 1230, 1400),
+    Subject(
+        'MATH 30.23', 1, 2, 0, AppColors.ACCENTS[4].value, 010100, 1230, 1400),
     Subject('FILI 11', 1, 2, 3, AppColors.ACCENTS[0].value, 010100, 1400, 1530),
-    Subject('HISTO 11', 1, 2, 4, AppColors.ACCENTS[1].value, 101010, 0900, 1000),
-    Subject('PHYED 143', 1, 2, 4, AppColors.ACCENTS[2].value, 101010, 1300, 1400),
-    Subject('ENLIT 12', 1, 2, 4, AppColors.ACCENTS[3].value, 101010, 1400, 1500),
-    /*Subject('SocSc 11', 1, 2, 3, 0xFFA00000, 101010, 0900, 1000),
-    Subject('INTACT 12', 1, 2, 0, 0xFF00A000, 100000, 1000, 1100),
-    Subject('THEO 11', 1, 2, 3, 0xFF0000A0, 101010, 1100, 1200),
-    Subject('CSCI 22', 1, 2, 0, 0xFFA0A000, 010100, 0900, 1100),
-    Subject('MATH 30.23', 1, 2, 0, 0xFFA000A0, 010100, 1230, 1400),
-    Subject('FILI 11', 1, 2, 3, 0xFF00A0A0, 010100, 1400, 1530),
-    Subject('HISTO 11', 1, 2, 4, 0xFFA00000, 101010, 0900, 1000),
-    Subject('PHYED 143', 1, 2, 4, 0xFFA000A0, 101010, 1300, 1400),
-    Subject('ENLIT 12', 1, 2, 4, 0xFF0000A0, 101010, 1400, 1500),*/
+    Subject(
+        'HISTO 11', 1, 2, 4, AppColors.ACCENTS[1].value, 101010, 0900, 1000),
+    Subject(
+        'PHYED 143', 1, 2, 4, AppColors.ACCENTS[2].value, 101010, 1300, 1400),
+    Subject(
+        'ENLIT 12', 1, 2, 4, AppColors.ACCENTS[3].value, 101010, 1400, 1500),
   ];
   List<Subject> _subjects = [];
 

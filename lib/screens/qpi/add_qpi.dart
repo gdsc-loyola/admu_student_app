@@ -198,7 +198,7 @@ class _AddQPIState extends State<_AddQPI> {
           yearNum,
           semNum,
           code,
-          0xFF0000A0, // sample color
+          Provider.of<AddQPINotifier>(context, listen: false).color.value,
           units,
           GRADES[gradeVal - 1],
           true, // no handling
@@ -208,7 +208,7 @@ class _AddQPIState extends State<_AddQPI> {
           yearNum,
           semNum,
           code,
-          0xFF0000A0, // sample color
+          Provider.of<AddQPINotifier>(context, listen: false).color.value,
           units,
           GRADES[gradeVal - 1],
           true, // no handling for non-included

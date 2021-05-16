@@ -5,9 +5,11 @@ import 'package:admu_student_app/models/course.dart';
 class AddQPINotifier extends ChangeNotifier {
   int _semNum = -1;
   int _gradeVal = 1;
+  Color _color = Colors.white;
 
   get semNum => _semNum;
   get gradeVal => _gradeVal;
+  get color => _color;
 
   set semNum(int semNum) {
     _semNum = semNum;
@@ -16,6 +18,11 @@ class AddQPINotifier extends ChangeNotifier {
 
   set gradeVal(int gradeVal) {
     _gradeVal = gradeVal;
+    notifyListeners();
+  }
+
+  set color(Color color) {
+    _color = color;
     notifyListeners();
   }
 

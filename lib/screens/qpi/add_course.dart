@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/widgets/groups/input_code.dart';
-import 'package:admu_student_app/widgets/groups/input_units.dart';
-import 'package:admu_student_app/widgets/groups/input_year.dart';
+import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
-import 'package:admu_student_app/widgets/select_color.dart';
+import 'package:admu_student_app/widgets/groups/select_color.dart';
 
 class CourseAddQPI extends StatelessWidget {
   final TextEditingController yearController;
@@ -28,10 +26,9 @@ class CourseAddQPI extends StatelessWidget {
         children: [
           // Row for Text Fields
           Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Text Field at the Left
-              Expanded(child: InputYearGroup(yearController)),
+              Expanded(child: InputGroup('Year Level', yearController)),
               SizedBox(width: 20),
               // DropDown at the Right
               Expanded(
@@ -55,23 +52,22 @@ class CourseAddQPI extends StatelessWidget {
           SizedBox(height: 16),
           // 2nd row of widgets
           Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(child: SelectSemesterGroup()),
               SizedBox(width: 20),
-              Expanded(child: InputUnitsGroup(unitsController)),
+              Expanded(child: InputGroup('Units', unitsController)),
             ],
           ),
           SizedBox(height: 16),
           // temporary for code
           Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: InputCodeGroup(codeController)),
+              Expanded(child: InputGroup('Course Code', codeController)),
               SizedBox(width: 20),
               Expanded(child: Container()),
             ],
           ),
+          SizedBox(height: 16),
           Text(
             'Color Code',
             style: Theme.of(context)
@@ -79,7 +75,7 @@ class CourseAddQPI extends StatelessWidget {
                 .bodyText1
                 .copyWith(color: AppColors.GRAY_LIGHT[2]),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 8),
           SelectColor(),
         ],
       ),

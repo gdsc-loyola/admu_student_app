@@ -3,10 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/input_field.dart';
 
-class InputCodeGroup extends StatelessWidget {
+class InputGroup extends StatelessWidget {
+  final String label;
   final TextEditingController controller;
+  final bool isMultilined;
+  final int length;
 
-  InputCodeGroup(this.controller);
+  InputGroup(
+    this.label,
+    this.controller, {
+    this.isMultilined = false,
+    this.length,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +22,7 @@ class InputCodeGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Course Code',
+          label,
           style: Theme.of(context)
               .textTheme
               .bodyText1
@@ -23,8 +31,10 @@ class InputCodeGroup extends StatelessWidget {
         SizedBox(height: 8),
         InputField(
           controller: controller,
-          isMultiLined: false,
-          length: null,
+          // isMultiLined: false,
+          // length: null,
+          isMultiLined: isMultilined,
+          length: length,
         ),
       ],
     );

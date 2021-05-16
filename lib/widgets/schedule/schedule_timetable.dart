@@ -1,7 +1,8 @@
-import 'package:admu_student_app/models/class_schedule.dart';
-import 'package:admu_student_app/models/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/subject.dart';
 
 class ScheduleTimetable extends StatelessWidget {
   final int yearNum; // if 0, enlistment
