@@ -37,7 +37,7 @@ class AcademicRecords extends ChangeNotifier {
       Semester(0, [
         Course('MATH NSCI TECH ELECTIVE', AppColors.ACCENTS[0].value, 3, 0.0, true),
         Course('SocSc 12', AppColors.ACCENTS[1].value, 3, 1.0, true),
-        Course('MATH 30.24', AppColors.ACCENTS[2].value, 3, 2.0, true),
+        Course('MATH 30.24', 0xFF006060, 3, 2.0, true), // custom test for color
       ]),
       Semester.fromSem(1, 20, 3.5),
     ]),

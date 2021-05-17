@@ -28,6 +28,7 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
         SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
             // same as DateSelect
             // this should be SquareButton
@@ -38,6 +39,7 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
                   Provider.of<AddQPINotifier>(context, listen: false).semNum =
                       0,
             ),
+            SizedBox(width: 4),
             SquareButton(
               selected: selected == 1 ? true : false,
               text: '1',
@@ -45,6 +47,7 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
                   Provider.of<AddQPINotifier>(context, listen: false).semNum =
                       1,
             ),
+            SizedBox(width: 4),
             SquareButton(
               selected: selected == 2 ? true : false,
               text: '2',

@@ -6,6 +6,7 @@ class AddQPINotifier extends ChangeNotifier {
   int _semNum = -1;
   int _gradeVal = 1;
   Color _color = Colors.white;
+  bool hasOldColor = false;
 
   get semNum => _semNum;
   get gradeVal => _gradeVal;
@@ -47,5 +48,8 @@ class AddQPINotifier extends ChangeNotifier {
       gradeVal = 2;
     else
       gradeVal = 1;
+
+    _color = course.color;
+    hasOldColor = true;
   }
 }

@@ -31,8 +31,6 @@ class InputGroup extends StatelessWidget {
         SizedBox(height: 8),
         InputField(
           controller: controller,
-          // isMultiLined: false,
-          // length: null,
           isMultiLined: isMultilined,
           length: length,
         ),

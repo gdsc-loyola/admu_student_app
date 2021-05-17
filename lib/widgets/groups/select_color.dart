@@ -11,7 +11,23 @@ class SelectColor extends StatefulWidget {
 
 class _SelectColorState extends State<SelectColor> {
   int _selected = -1;
-  // List<bool> colorSelected = List.generate(6, (index) => false);
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (Provider.of<AddQPINotifier>(context, listen: false).hasOldColor) {
+      Color c = Provider.of<AddQPINotifier>(context, listen: false).color;
+      for (int i = 0; i < AppColors.ACCENTS.length; i++) {
+        if (c.value == AppColors.ACCENTS[i].value) {
+          _selected = i;
+          break;
+        }
+      }
+
+      if (_selected == -1) _selected = 5;
+    }
+  }
 
   void _onSelect(BuildContext context, int index) async {
     setState(() {
@@ -46,6 +62,7 @@ class _SelectColorState extends State<SelectColor> {
           ),
           onTap: () => _onSelect(context, 0),
         ),
+        SizedBox(width: 8),
         InkWell(
           child: _CustomIcon(
             isSelected: _selected == 1,
@@ -53,6 +70,7 @@ class _SelectColorState extends State<SelectColor> {
           ),
           onTap: () => _onSelect(context, 1),
         ),
+        SizedBox(width: 8),
         InkWell(
           child: _CustomIcon(
             isSelected: _selected == 2,
@@ -60,6 +78,7 @@ class _SelectColorState extends State<SelectColor> {
           ),
           onTap: () => _onSelect(context, 2),
         ),
+        SizedBox(width: 8),
         InkWell(
           child: _CustomIcon(
             isSelected: _selected == 3,
@@ -67,6 +86,7 @@ class _SelectColorState extends State<SelectColor> {
           ),
           onTap: () => _onSelect(context, 3),
         ),
+        SizedBox(width: 8),
         InkWell(
           child: _CustomIcon(
             isSelected: _selected == 4,
@@ -74,6 +94,7 @@ class _SelectColorState extends State<SelectColor> {
           ),
           onTap: () => _onSelect(context, 4),
         ),
+        SizedBox(width: 8),
         InkWell(
           onTap: () => _onSelect(context, 5),
           child: _CustomIcon(
@@ -83,7 +104,9 @@ class _SelectColorState extends State<SelectColor> {
               size: 36,
             ),
             isSelected: _selected == 5,
-            bgColor: Provider.of<AddQPINotifier>(context).color,
+            bgColor: _selected == 5
+                ? Provider.of<AddQPINotifier>(context).color
+                : Colors.white,
           ),
         ),
       ],
@@ -162,17 +185,20 @@ class _CustomIconState extends State<_CustomIcon> {
   @override
   Widget build(BuildContext context) {
     Widget child = Container(
-      width: 56,
+      // width: 56,
+      constraints: BoxConstraints(maxWidth: 56),
       height: 56,
       decoration: BoxDecoration(
-        // border: Border.all(width: 2, color: Colors.white),
         borderRadius: const BorderRadius.all(Radius.circular(7)),
         color: Colors.white,
       ),
       child: Center(
         child: Container(
-          width: 54, // original 55x55, to-change
-          height: 54,
+          margin: EdgeInsets.all(2.0),
+          // width: 54, // original 55x55, to-change
+          // height: 54,
+          width: double.infinity,
+          height: double.infinity,
           decoration: BoxDecoration(
             color: widget.bgColor,
             borderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -186,21 +212,21 @@ class _CustomIconState extends State<_CustomIcon> {
       return Stack(
         children: [
           child,
-          Positioned(
-            left: 0,
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(7)),
-                color: Colors.white,
-              ),
-              width: 56,
-              height: 32,
-              child: Center(
-                child: Icon(
-                  Icons.check_rounded,
-                  color: AppColors.GRAY_DARK[0],
-                  size: 24,
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(7)),
+                  color: Colors.white,
+                ),
+                height: 32,
+                child: Center(
+                  child: Icon(
+                    Icons.check_rounded,
+                    color: AppColors.GRAY_DARK[0],
+                    size: 24,
+                  ),
                 ),
               ),
             ),
@@ -209,38 +235,5 @@ class _CustomIconState extends State<_CustomIcon> {
       );
     else
       return child;
-
-    /*return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: Container(
-            width: 55,
-            height: 55,
-            decoration: BoxDecoration(
-              border: widget.isSelected
-                  ? Border.all(width: 2, color: Colors.grey)
-                  : Border.all(width: 2, color: Colors.white),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(7),
-              ),
-            ),
-            child: Center(
-              child: Container(
-                width: 55,
-                height: 55,
-                decoration: BoxDecoration(
-                  color: widget.bgColor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                ),
-                child: widget.icon,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );*/
   }
 }
