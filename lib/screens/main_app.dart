@@ -4,7 +4,7 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/screens/calendar/add_event.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
-import 'package:admu_student_app/screens/qpi/ask_type.dart';
+import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
 import 'package:admu_student_app/screens/schedule/add_course.dart';
 import 'package:admu_student_app/screens/schedule/schedule_page.dart';
@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
     null,
     AddEventPage(),
     AddCoursePage(),
-    AskQPITypePage(),
+    AddQPIPage(),
   ];
 
   @override
