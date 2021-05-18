@@ -38,7 +38,10 @@ class _QPIPageState extends State<QPIPage> {
                       .copyWith(color: AppColors.GRAY_DARK[0]),
                 ),
               ),
-              HelpButton(),
+
+              HelpButton(
+                isInverted: false,
+              ),
             ],
           ),
           SizedBox(height: 24.0),
