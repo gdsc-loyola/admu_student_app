@@ -4,6 +4,7 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/input_field.dart';
 import 'package:admu_student_app/widgets/select_color.dart';
 
+import 'package:admu_student_app/widgets/help_button.dart';
 class SchedulePage extends StatefulWidget {
   @override
   _SchedulePageState createState() => _SchedulePageState();
@@ -35,6 +36,9 @@ class _SchedulePageState extends State<SchedulePage> {
                   isMultiLined: false,
                   length: 8,
                 ),
+              ),
+              HelpButton(
+                isInverted: true,
               ),
               Padding(padding: EdgeInsets.all(8)),
             ],

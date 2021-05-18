@@ -12,7 +12,8 @@ class Pomodoro extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width-32,
-      height: 104,
+      height: MediaQuery.of(context).size.height/8.615,
+      alignment: Alignment.center,
       child: ListTile(
         leading: Image.asset("apple.png"),
         title: Text("Pomodoro Timer",
@@ -21,7 +22,8 @@ class Pomodoro extends StatelessWidget {
         subtitle: Text("Press to Begin",
           style: Theme.of(context).textTheme.bodyText1,
         ),
-        contentPadding: EdgeInsets.fromLTRB(37.04, 21, 89.94, 24),
+        horizontalTitleGap: 23.28,
+        contentPadding: EdgeInsets.only(left: 37.04, right: 89.94),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => PomodoroPage()),
@@ -32,7 +34,8 @@ class Pomodoro extends StatelessWidget {
         border: Border.all(
           color: AppColors.SECONDARY_MAIN,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
 
     );
