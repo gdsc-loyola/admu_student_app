@@ -25,8 +25,8 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Container(
-                  width: 50.0,
-                  height: 50.0,
+                  width: 80.0,
+                  height: 80.0,
                   decoration: new BoxDecoration(
                     color: AppColors.PRIMARY_LIGHT,
                     shape: BoxShape.circle,

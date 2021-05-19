@@ -110,7 +110,7 @@ class _QPIPageState extends State<QPIPage> {
                 children: [
                   Container(
                     child: Image.asset(
-                      'apple.png',
+                      'compsat_logo.png',
                       height: 36,
                       width: 36,
                     ),

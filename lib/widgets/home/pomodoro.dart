@@ -15,7 +15,7 @@ class Pomodoro extends StatelessWidget {
       height: MediaQuery.of(context).size.height/8.615,
       alignment: Alignment.center,
       child: ListTile(
-        leading: Image.asset("apple.png"),
+        leading: Image.asset("tomato.png"),
         title: Text("Pomodoro Timer",
           style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.SECONDARY_MAIN),
         ),
