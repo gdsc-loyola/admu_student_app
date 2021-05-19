@@ -21,6 +21,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
             Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Enlistment Preparer',
                         style: Theme.of(context)
@@ -28,8 +29,18 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                             .headline4
                             .copyWith(color: AppColors.GRAY_DARK[0])),
                     CircleAvatar(
-                      radius: 13.5,
-                    )
+                    radius: 13.5,
+                    backgroundColor: AppColors.PRIMARY_MAIN,
+                    child: Center(
+                      child: Text(
+                        '?',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                  )
                   ],
                 ),
                 Container(

@@ -85,12 +85,26 @@ class _PomodoroPageState extends State<PomodoroPage> {
             Container(
               padding: EdgeInsets.fromLTRB(16, 71, 16, 0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Pomodoro Technique ',
                     style: Theme.of(context).textTheme.headline4.copyWith(
                           color: AppColors.GRAY_LIGHT[2],
                         ),
+                  ),
+                  CircleAvatar(
+                    radius: 13.5,
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Text(
+                        '?',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(color: AppColors.PRIMARY_MAIN),
+                      ),
+                    ),
                   )
                 ],
               ),
