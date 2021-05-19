@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
@@ -26,7 +25,7 @@ class _HomeEventCardState extends State<HomeEventCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    Widget card = Container(
       height: 65, // including border
       padding: EdgeInsets.symmetric(horizontal: 16), // original is 18/24, 9?
       decoration: BoxDecoration(
@@ -79,6 +78,13 @@ class _HomeEventCardState extends State<HomeEventCard> {
           ],
         ),
       ),
+    );
+
+    return InkWell(
+      onTap: () {
+        print('on tap');
+      },
+      child: card,
     );
   }
 }

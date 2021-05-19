@@ -24,19 +24,37 @@ class SemesterAddQPI extends StatelessWidget {
           Row(
             children: [
               // Text Field at the Left
-              Expanded(child: InputGroup('Year Level', yearController)),
+              Expanded(
+                child: InputGroup(
+                  'Year Level',
+                  yearController,
+                  hint: '1',
+                ),
+              ),
               SizedBox(width: 20),
               // Text at the Right
-              Expanded(child: InputGroup('Semestral QPI', qpiController)),
+              Expanded(
+                child: InputGroup(
+                  'Semestral QPI',
+                  qpiController,
+                  hint: '4.0',
+                ),
+              ),
             ],
           ),
           SizedBox(height: 16),
           // 2nd row of widgets
           Row(
             children: [
-              Expanded(child: SelectSemesterGroup()),
+              Expanded(
+                child: InputGroup(
+                  'Units',
+                  unitsController,
+                  hint: '3',
+                ),
+              ),
               SizedBox(width: 20),
-              Expanded(child: InputGroup('Units', unitsController)),
+              Expanded(child: SelectSemesterGroup()),
             ],
           ),
         ],

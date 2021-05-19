@@ -16,7 +16,8 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
     int selected = 0;
 
     bool shouldShrink =
-        (MediaQuery.of(context).size.width - 16 * 2 - 20) / 4 < 64 * 4 + 8 * 3;
+        ((MediaQuery.of(context).size.width - 16 * 2 - 20) / 2) <
+            (56 * 4 + 8 * 3);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

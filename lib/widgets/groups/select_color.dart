@@ -52,6 +52,9 @@ class _SelectColorState extends State<SelectColor> {
 
   @override
   Widget build(BuildContext context) {
+    bool shouldShrink =
+        MediaQuery.of(context).size.width - 16 * 2 < 56 * 6 + 8 * 5;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -59,6 +62,7 @@ class _SelectColorState extends State<SelectColor> {
           child: _CustomIcon(
             isSelected: _selected == 0,
             bgColor: AppColors.ACCENTS[0],
+            shrink: shouldShrink,
           ),
           onTap: () => _onSelect(context, 0),
         ),
@@ -67,6 +71,7 @@ class _SelectColorState extends State<SelectColor> {
           child: _CustomIcon(
             isSelected: _selected == 1,
             bgColor: AppColors.ACCENTS[1],
+            shrink: shouldShrink,
           ),
           onTap: () => _onSelect(context, 1),
         ),
@@ -75,6 +80,7 @@ class _SelectColorState extends State<SelectColor> {
           child: _CustomIcon(
             isSelected: _selected == 2,
             bgColor: AppColors.ACCENTS[2],
+            shrink: shouldShrink,
           ),
           onTap: () => _onSelect(context, 2),
         ),
@@ -83,6 +89,7 @@ class _SelectColorState extends State<SelectColor> {
           child: _CustomIcon(
             isSelected: _selected == 3,
             bgColor: AppColors.ACCENTS[3],
+            shrink: shouldShrink,
           ),
           onTap: () => _onSelect(context, 3),
         ),
@@ -91,6 +98,7 @@ class _SelectColorState extends State<SelectColor> {
           child: _CustomIcon(
             isSelected: _selected == 4,
             bgColor: AppColors.ACCENTS[4],
+            shrink: shouldShrink,
           ),
           onTap: () => _onSelect(context, 4),
         ),
@@ -106,63 +114,12 @@ class _SelectColorState extends State<SelectColor> {
             isSelected: _selected == 5,
             bgColor: _selected == 5
                 ? Provider.of<AddQPINotifier>(context).color
-                : Colors.white,
+                : AppColors.GRAY_LIGHT[2],
+            shrink: shouldShrink,
           ),
         ),
       ],
     );
-
-    // this code can be used for day select?
-    /*return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        ToggleButtons(
-          children: [
-            CustomIcon(
-              isSelected: colorSelected[0],
-              bgColor: const Color(0xffFF8591),
-            ),
-            CustomIcon(
-              isSelected: colorSelected[1],
-              bgColor: const Color(0xffFFE0A5),
-            ),
-            CustomIcon(
-              isSelected: colorSelected[2],
-              bgColor: const Color(0xffA0E7D5),
-            ),
-            CustomIcon(
-              isSelected: colorSelected[3],
-              bgColor: const Color(0xff86CCFF),
-            ),
-            CustomIcon(
-              isSelected: colorSelected[4],
-              bgColor: const Color(0xffB99FFF),
-            ),
-            CustomIcon(
-              icon: const Icon(Icons.add_rounded, color: Colors.grey, size: 40),
-              isSelected: colorSelected[5],
-              bgColor: Colors.white,
-            ),
-          ],
-          onPressed: (int index) {
-            setState(() {
-              for (int buttonIndex = 0;
-              buttonIndex < colorSelected.length;
-              buttonIndex++) {
-                if (buttonIndex == index) {
-                  colorSelected[buttonIndex] = !colorSelected[buttonIndex];
-                } else {
-                  colorSelected[buttonIndex] = false;
-                }
-              }
-            });
-          },
-          isSelected: colorSelected,
-          renderBorder: false,
-          fillColor: Colors.transparent,
-        ),
-      ],
-    );*/
   }
 }
 
@@ -170,12 +127,14 @@ class _CustomIcon extends StatefulWidget {
   final Icon icon;
   final bool isSelected;
   final Color bgColor;
+  final bool shrink;
 
   const _CustomIcon({
     Key key,
     this.icon,
     this.isSelected = false,
     this.bgColor = Colors.white,
+    this.shrink = true,
   }) : super(key: key);
   @override
   _CustomIconState createState() => _CustomIconState();
@@ -185,18 +144,15 @@ class _CustomIconState extends State<_CustomIcon> {
   @override
   Widget build(BuildContext context) {
     Widget child = Container(
-      // width: 56,
-      constraints: BoxConstraints(maxWidth: 56),
+      width: widget.shrink ? null : 56,
       height: 56,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(7)),
-        color: Colors.white,
+        color: AppColors.GRAY_LIGHT[2],
       ),
       child: Center(
         child: Container(
           margin: EdgeInsets.all(2.0),
-          // width: 54, // original 55x55, to-change
-          // height: 54,
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
@@ -208,8 +164,8 @@ class _CustomIconState extends State<_CustomIcon> {
       ),
     );
 
-    if (widget.isSelected)
-      return Stack(
+    if (widget.isSelected) {
+      Widget full = Stack(
         children: [
           child,
           Positioned.fill(
@@ -217,8 +173,11 @@ class _CustomIconState extends State<_CustomIcon> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(7)),
-                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(7),
+                    bottomRight: Radius.circular(7),
+                  ),
+                  color: AppColors.GRAY_LIGHT[2],
                 ),
                 height: 32,
                 child: Center(
@@ -233,7 +192,16 @@ class _CustomIconState extends State<_CustomIcon> {
           ),
         ],
       );
-    else
-      return child;
+
+      if (widget.shrink)
+        return Expanded(child: full);
+      else
+        return full;
+    } else {
+      if (widget.shrink)
+        return Expanded(child: child);
+      else
+        return child;
+    }
   }
 }

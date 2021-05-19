@@ -137,7 +137,7 @@ class _YearDropDownState extends State<YearDropDown>
     if (year.isYearlyQPI)
       return header;
     else
-      return GestureDetector(
+      return InkWell(
         onTap: _handleTap,
         child: header,
       );
@@ -205,7 +205,7 @@ class _YearDropDownState extends State<YearDropDown>
         if (year.sems[index].isSemestralQPI)
           return semCard;
         else
-          return GestureDetector(
+          return InkWell(
             onTap: () => _onSemesterTap(year.sems[index]),
             child: semCard,
           );

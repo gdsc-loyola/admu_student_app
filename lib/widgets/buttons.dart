@@ -60,7 +60,7 @@ class ShortButton extends StatelessWidget {
   }
 }
 
-// used in date and sem buttons
+// used?
 class SquareButton extends StatelessWidget {
   final String text;
   // final Color buttonColor;
@@ -117,7 +117,6 @@ class ShrinkingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget button = Container(
-      // width: 41, // temporary?
       width: shrink ? null : 56,
       height: 56,
       decoration: BoxDecoration(
