@@ -1,0 +1,41 @@
+{
+    "title": "Beadle Privacy Policy",
+    "info": "Posted: [Date]\nEffective: [Date]",
+    "text": "Thanks for using Beadle! In this Privacy Policy, we, Developer Student Clubs Loyola (“DSC Loyola”) inform you of our policies regarding how we collect, use, and protect personal data received from users of Beadle (the  “App”) and its services (“Services”). For the purposes of this privacy policy, “we”, “us”, and “our” refer to DSC Loyola while “you”, “your”, and “user” refer to you, a user of Beadle.",
+    "categories": [
+        {
+            "heading": "1.0 Information Collection and Use",
+            "text": "Data from and about users of the App is collected:\nDirectly from you when you provide it to us\nAutomatically when you use the App",
+            "subcategories": [
+                {
+                    "subheading": "1.1 What Information and Data We Collect",
+                    "text": "Beadle is accessible online via email address. When you sign in or use the App, we collect and store the following information:\nPersonal information by which you may be identified and/or contacted, including but not limited to your full name, email address, and provided user image (“Personal Information”)\nActivity data generated from your use of our Services including but not limited to your in-app calendar events and tasks, academic grades, and course and class information (“Activity Data”)"
+                }, {
+                    "subheading": "1.2 What We Use It For",
+                    "text": "We use the information collected from you or provided by you to:\nProvide you with the App and its Services, which include but are not limited to generating class schedules based on user data, calculating a user’s academic quality point index, and syncing a user’s in-app calendar events with their Google Calendar\nInform you of any available App updates and of changes to our Services"
+                }
+            ]
+        }, {
+            "heading": "2.0 Security and Data Protection",
+            "text": "Data and personal information is stored, used, and protected using reasonable security measures. All data and information is stored offline in the device’s local storage. Users, however, have the option to upload and sync their in-app calendar information to their Google Calendar. Otherwise, no other information is stored or sent online.",
+            "subcategories": [
+                {
+                    "subheading": "2.1 Storing Data",
+                    "text": "Data is not stored in an online database and, instead, is stored in the local storage of the device used to access the App. The data provided and generated in-app is then accessible only via the device used to access the App."
+                }
+            ]
+        }, {
+            "heading": "3.0 Information Disclosure",
+            "text": "No data is shared with any third-party apps and/or organizations."
+        }, {
+            "heading": "4.0 Privacy Policy Amendments",
+            "text": "The privacy policy was last amended on [Date]"
+        }, {
+            "heading": "5.0 User Rights",
+            "text": "As a user of the App, you have the following rights:\n\nThe Right to Be Informed\nUser data will not be collected, stored, or processed without the user’s explicit consent. In addition, Developer Student Clubs Loyola will provide users with fair processing information via the App’s privacy policy.\n\nRight to Access and Right to Rectify\nThe App does not store user information or data online. A user’s data and information is stored directly in their device’s local storage, giving the user full control."
+        }, {
+            "heading": "6.0 Questions and Concerns",
+            "text": "For questions and concerns regarding Beadle’s Privacy Policy, please contact us through dsc.ateneo@gmail.com."
+        }
+    ]
+}

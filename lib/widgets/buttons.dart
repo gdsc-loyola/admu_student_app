@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/add_qpi_notifier.dart';
 
 class LongButton extends StatelessWidget {
   final String text;
@@ -56,72 +60,131 @@ class ShortButton extends StatelessWidget {
   }
 }
 
+// used in date and sem buttons
 class SquareButton extends StatelessWidget {
   final String text;
-  final Color buttonColor;
-  final Color textColor;
+  // final Color buttonColor;
+  // final Color textColor;
   final VoidCallback onPressed;
 
-  SquareButton(this.text, this.buttonColor, this.textColor, this.onPressed);
+  final bool selected;
+
+  SquareButton({
+    this.text = '',
+    // this.buttonColor = Colors.white,
+    // this.textColor = Colors.black,
+    this.onPressed,
+    this.selected = false,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 56,
       height: 56,
       decoration: BoxDecoration(
-          color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+        color: AppColors.GRAY_LIGHT[2],
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: selected ? Border.all(color: Colors.black) : null, // temporary
+      ),
       child: TextButton(
-          onPressed: () {
-            onPressed();
-          },
-          child: Text(
-            '$text',
-            style: TextStyle(color: textColor),
-          )),
+        onPressed: () {
+          if (onPressed != null) onPressed();
+        },
+        child: Text(
+          '$text',
+          style: TextStyle(color: AppColors.GRAY_DARK[0]),
+        ),
+      ),
     );
   }
 }
 
+// used in quarter?
 class ShrinkingButton extends StatelessWidget {
   final String text;
-  final Color buttonColor;
-  final Color textColor;
+  final double maxWidth;
   final VoidCallback onPressed;
+  final bool selected;
 
-  ShrinkingButton(this.text, this.buttonColor, this.textColor, this.onPressed);
+  ShrinkingButton({
+    this.text = '',
+    this.maxWidth = 56,
+    this.onPressed,
+    this.selected,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 41,
+      // width: 41, // temporary?
+      // constraints: BoxConstraints(maxWidth: maxWidth, minWidth: 16),
       height: 56,
+      width: double.infinity,
       decoration: BoxDecoration(
-          color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+        color: AppColors.GRAY_LIGHT[2],
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: selected ? Border.all(color: Colors.black) : null, // temporary
+      ),
       child: TextButton(
-          onPressed: () {
-            onPressed();
-          },
-          child: Text(
-            '$text',
-            style: TextStyle(color: textColor),
-          )),
+        onPressed: () {
+          if (onPressed != null) onPressed();
+        },
+        child: Text(
+          '$text',
+          style: TextStyle(color: AppColors.GRAY_DARK[0]),
+        ),
+      ),
     );
+
+    /*return Expanded(
+      child: Align(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxWidth),
+          child: SquareButton(
+            text: text,
+            onPressed: onPressed,
+            selected: selected,
+          ),
+        ),
+      ),
+    );*/
   }
 }
 
-class DropDown extends StatefulWidget {
+/*
+                Expanded(
+                  child: Align(child: Container(child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 216),
+                    child: Container(
+                      width: 128,
+                      height: 64,
+                      color: Colors.blue,
+                    ),
+                  ),),),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Align(child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 216),
+                    child: Container(
+                      height: 64,
+                      color: Colors.red,
+                    ),
+                  ),),
+                ),
+*/
+
+class GradeDropDown extends StatefulWidget {
   @override
-  _DropDownState createState() => _DropDownState();
+  _GradeDropDownState createState() => _GradeDropDownState();
 }
 
-class _DropDownState extends State<DropDown> {
-  int _value = 1;
-
+class _GradeDropDownState extends State<GradeDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 185,
+      // width: 185,
+      width: double.infinity,
       height: 56,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
@@ -129,16 +192,10 @@ class _DropDownState extends State<DropDown> {
           borderRadius: BorderRadius.all(Radius.circular(5))),
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
-            value: _value,
+            value: Provider.of<AddQPINotifier>(context).gradeVal,
             items: [
-              DropdownMenuItem(
-                child: Text("A"),
-                value: 1,
-              ),
-              DropdownMenuItem(
-                child: Text("B+"),
-                value: 2,
-              ),
+              DropdownMenuItem(child: Text("A"), value: 1),
+              DropdownMenuItem(child: Text("B+"), value: 2),
               DropdownMenuItem(child: Text("B"), value: 3),
               DropdownMenuItem(child: Text("C+"), value: 4),
               DropdownMenuItem(child: Text("C"), value: 5),
@@ -146,168 +203,9 @@ class _DropDownState extends State<DropDown> {
               DropdownMenuItem(child: Text("F/W"), value: 7)
             ],
             onChanged: (value) {
-              setState(() {
-                _value = value;
-              });
+              Provider.of<AddQPINotifier>(context, listen: false).gradeVal =
+                  value;
             }),
-      ),
-    );
-  }
-}
-
-
-class ButtonRow extends StatefulWidget {
-  final String text1;
-  final String text2;
-  final String text3;
-  final VoidCallback return1;
-  final VoidCallback return2;
-  final VoidCallback return3;
-
-  ButtonRow(this.text1, this.text2, this.text3, this.return1, this.return2,
-      this.return3);
-
-  @override
-  _ButtonRowState createState() => _ButtonRowState();
-}
-
-class _ButtonRowState extends State<ButtonRow> {
-  bool isSelected1 = true;
-  bool isSelected2 = false;
-  bool isSelected3 = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
-        child: Container(
-          height: 36.54,
-          padding: EdgeInsets.fromLTRB(1.19, 1, 1.19, 2.54),
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-          ),
-          child: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                // Item 1
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 33,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: isSelected1
-                                ? Colors.grey.withOpacity(0.5)
-                                : Colors.transparent,
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3)),
-                      ],
-                      color: isSelected1 ? Colors.white : Colors.transparent,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isSelected1 = true;
-                          isSelected2 = false;
-                          isSelected3 = false;
-                          widget.return1();
-                        });
-                      },
-                      child: Text(
-                        "${widget.text1}",
-                        style: TextStyle(
-                            color: isSelected1 ? Colors.black : Colors.grey[600]),
-                      ),
-                    ),
-                  ),
-                ),
-                // Item 2
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 33,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: isSelected2
-                                ? Colors.grey.withOpacity(0.5)
-                                : Colors.transparent,
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3)),
-                      ],
-                      color: isSelected2 ? Colors.white : Colors.transparent,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isSelected1 = false;
-                          isSelected2 = true;
-                          isSelected3 = false;
-                          widget.return2();
-                        });
-                      },
-                      child: Text(
-                        "${widget.text2}",
-                        style: TextStyle(
-                            color: isSelected2 ? Colors.black : Colors.grey[600]),
-                      ),
-                    ),
-                  ),
-                ),
-                // Item 3
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 33,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: isSelected3
-                                ? Colors.grey.withOpacity(0.5)
-                                : Colors.transparent,
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3)),
-                      ],
-                      color: isSelected3 ? Colors.white : Colors.transparent,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isSelected1 = false;
-                          isSelected2 = false;
-                          isSelected3 = true;
-                          widget.return3();
-                        });
-                      },
-                      child: Text(
-                        "${widget.text3}",
-                        style: TextStyle(
-                            color: isSelected3 ? Colors.black : Colors.grey[600]),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -428,71 +326,6 @@ class _ButtonRowState extends State<ButtonRow> {
 // }
 
 //////
-
-class SemSelect extends StatefulWidget {
-  final Color buttonColor;
-  final Color textColor;
-
-  SemSelect(this.buttonColor, this.textColor);
-
-  @override
-  _SemSelectState createState() => _SemSelectState();
-}
-
-class _SemSelectState extends State<SemSelect> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      width: 177,
-      height: 54,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // same as DateSelect
-              Container(
-                width: 54,
-                height: 54,
-                decoration: BoxDecoration(
-                    color: widget.buttonColor,
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: TextButton(
-                    onPressed: () {},
-                    child:
-                        Text('1', style: TextStyle(color: widget.textColor))),
-              ),
-              Container(
-                width: 54,
-                height: 54,
-                decoration: BoxDecoration(
-                    color: widget.buttonColor,
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: TextButton(
-                    onPressed: () {},
-                    child:
-                        Text('2', style: TextStyle(color: widget.textColor))),
-              ),
-              Container(
-                width: 54,
-                height: 54,
-                decoration: BoxDecoration(
-                    color: widget.buttonColor,
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: TextButton(
-                    onPressed: () {},
-                    child:
-                        Text('IS', style: TextStyle(color: widget.textColor))),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 //////
 

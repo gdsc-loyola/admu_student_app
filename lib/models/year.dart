@@ -34,6 +34,14 @@ class Year {
       return _units;
   }
 
+  set yearNum(int nYearNum) {
+    this._yearNum = nYearNum;
+  }
+
+  set units(int nUnits) {
+    _units = nUnits;
+  }
+
   set qpi(double qpi) {
     _qpi = qpi;
   }

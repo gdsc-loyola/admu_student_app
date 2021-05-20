@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_effects.dart';
 
 class QPIView extends StatelessWidget {
   final double value;
@@ -13,6 +14,7 @@ class QPIView extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         color: AppColors.PRIMARY_LIGHT,
+        boxShadow: [AppEffects.SHADOW],
       ),
       height: 64,
       child: Center(
