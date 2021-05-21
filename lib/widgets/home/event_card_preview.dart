@@ -82,7 +82,7 @@ class _HomeEventCardState extends State<HomeEventCard> {
 
     return InkWell(
       onTap: () {
-        print('on tap');
+        print('on tap prv');
       },
       child: card,
     );

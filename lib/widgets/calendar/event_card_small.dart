@@ -79,7 +79,7 @@ class _SmallEventCardState extends State<SmallEventCard> {
 
     return InkWell(
       onTap: () {
-        print('on tap ');
+        print('on tap small');
       },
       child: card,
     );

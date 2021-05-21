@@ -146,7 +146,7 @@ class _EventCardState extends State<EventCard> {
       onTap: () {
         print('on tap');
       },
-      child: card,
+      child: Ink(child: card),
     );
   }
 }

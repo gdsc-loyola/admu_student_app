@@ -58,65 +58,53 @@ class _SelectColorState extends State<SelectColor> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        InkWell(
-          child: _CustomIcon(
-            isSelected: _selected == 0,
-            bgColor: AppColors.ACCENTS[0],
-            shrink: shouldShrink,
-          ),
+        _CustomIcon(
+          isSelected: _selected == 0,
+          bgColor: AppColors.ACCENTS[0],
+          shrink: shouldShrink,
           onTap: () => _onSelect(context, 0),
         ),
         SizedBox(width: 8),
-        InkWell(
-          child: _CustomIcon(
-            isSelected: _selected == 1,
-            bgColor: AppColors.ACCENTS[1],
-            shrink: shouldShrink,
-          ),
+        _CustomIcon(
+          isSelected: _selected == 1,
+          bgColor: AppColors.ACCENTS[1],
+          shrink: shouldShrink,
           onTap: () => _onSelect(context, 1),
         ),
         SizedBox(width: 8),
-        InkWell(
-          child: _CustomIcon(
-            isSelected: _selected == 2,
-            bgColor: AppColors.ACCENTS[2],
-            shrink: shouldShrink,
-          ),
+        _CustomIcon(
+          isSelected: _selected == 2,
+          bgColor: AppColors.ACCENTS[2],
+          shrink: shouldShrink,
           onTap: () => _onSelect(context, 2),
         ),
         SizedBox(width: 8),
-        InkWell(
-          child: _CustomIcon(
-            isSelected: _selected == 3,
-            bgColor: AppColors.ACCENTS[3],
-            shrink: shouldShrink,
-          ),
+        _CustomIcon(
+          isSelected: _selected == 3,
+          bgColor: AppColors.ACCENTS[3],
+          shrink: shouldShrink,
           onTap: () => _onSelect(context, 3),
         ),
         SizedBox(width: 8),
-        InkWell(
-          child: _CustomIcon(
-            isSelected: _selected == 4,
-            bgColor: AppColors.ACCENTS[4],
-            shrink: shouldShrink,
-          ),
+        _CustomIcon(
+          isSelected: _selected == 4,
+          bgColor: AppColors.ACCENTS[4],
+          shrink: shouldShrink,
           onTap: () => _onSelect(context, 4),
         ),
         SizedBox(width: 8),
-        InkWell(
-          onTap: () => _onSelect(context, 5),
-          child: _CustomIcon(
-            icon: Icon(
-              Icons.add_rounded,
-              color: AppColors.GRAY_LIGHT[0],
-              size: 36,
-            ),
-            isSelected: _selected == 5,
-            bgColor: _selected == 5
-                ? Provider.of<AddQPINotifier>(context).color
-                : AppColors.GRAY_LIGHT[2],
-            shrink: shouldShrink,
+        _CustomIcon(
+          icon: Icon(
+            Icons.add_rounded,
+            color: AppColors.GRAY_LIGHT[0],
+            size: 36,
           ),
+          isSelected: _selected == 5,
+          bgColor: _selected == 5
+              ? Provider.of<AddQPINotifier>(context).color
+              : AppColors.GRAY_LIGHT[2],
+          shrink: shouldShrink,
+          onTap: () => _onSelect(context, 5),
         ),
       ],
     );
@@ -128,6 +116,7 @@ class _CustomIcon extends StatefulWidget {
   final bool isSelected;
   final Color bgColor;
   final bool shrink;
+  final VoidCallback onTap;
 
   const _CustomIcon({
     Key key,
@@ -135,6 +124,7 @@ class _CustomIcon extends StatefulWidget {
     this.isSelected = false,
     this.bgColor = Colors.white,
     this.shrink = true,
+    this.onTap,
   }) : super(key: key);
   @override
   _CustomIconState createState() => _CustomIconState();
@@ -153,16 +143,18 @@ class _CustomIconState extends State<_CustomIcon> {
       child: Center(
         child: Container(
           margin: EdgeInsets.all(2.0),
-          width: double.infinity,
-          height: double.infinity,
           decoration: BoxDecoration(
             color: widget.bgColor,
             borderRadius: const BorderRadius.all(Radius.circular(5)),
           ),
-          child: widget.icon,
+          child: Center(
+            child: widget.icon == null ? Container() : widget.icon,
+          ),
         ),
       ),
     );
+
+    Widget iconButton;
 
     if (widget.isSelected) {
       Widget full = Stack(
@@ -194,14 +186,35 @@ class _CustomIconState extends State<_CustomIcon> {
       );
 
       if (widget.shrink)
-        return Expanded(child: full);
+        return Expanded(
+          child: InkWell(
+            onTap: () {
+              if (widget.onTap != null) widget.onTap();
+            },
+            child: full,
+          ),
+        );
       else
-        return full;
+        iconButton = full;
     } else {
       if (widget.shrink)
-        return Expanded(child: child);
+        return Expanded(
+          child: InkWell(
+            onTap: () {
+              if (widget.onTap != null) widget.onTap();
+            },
+            child: child,
+          ),
+        );
       else
-        return child;
+        iconButton = child;
     }
+
+    return InkWell(
+      onTap: () {
+        if (widget.onTap != null) widget.onTap();
+      },
+      child: Ink(child: iconButton),
+    );
   }
 }
