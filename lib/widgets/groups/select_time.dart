@@ -35,7 +35,9 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
 
       TimeOfDay nTime = await showTimePicker(
         context: context,
-        initialTime: _time == null ? TimeOfDay.now() : _time,
+        initialTime: _time == null
+            ? TimeOfDay(hour: TimeOfDay.now().hour, minute: 0)
+            : _time,
       );
 
       if (nTime != null) {
