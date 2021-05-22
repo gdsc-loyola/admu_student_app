@@ -1,39 +1,49 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 
 class SelectTimeGroup extends StatefulWidget {
   final String label;
+  final TimeOfDay time;
 
-  SelectTimeGroup(this.label);
+  SelectTimeGroup(this.label, {this.time});
 
   @override
   _SelectTimeGroupState createState() => _SelectTimeGroupState();
 }
 
 class _SelectTimeGroupState extends State<SelectTimeGroup> {
-  DateTime _time;
+  TimeOfDay _time;
+  // DateTime _time;
 
   @override
   void initState() {
     super.initState();
 
-    _time = DateTime.now();
+    if (widget.time != null) _time = widget.time;
   }
 
-  void _onTap() {
-    /*if (Platform.isIOS) {
-      // show cupertino
-      print('show cupertino time picker');
-    } else {
+  void _onTap(BuildContext context) async {
+    if (kIsWeb || !Platform.isIOS) {
       // show material
       print('show material time picker');
-    }*/
-    setState(() {
-      _time = _time.add(Duration(hours: 1));
-    });
+
+      TimeOfDay nTime = await showTimePicker(
+        context: context,
+        initialTime: _time == null ? TimeOfDay.now() : _time,
+      );
+
+      if (nTime != null)
+        setState(() {
+          _time = nTime;
+        });
+    } else {
+      // show cupertino
+      print('show cupertino time picker');
+    }
   }
 
   @override
@@ -52,7 +62,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
         SizedBox(height: 8),
         // buttons
         InkWell(
-          onTap: _onTap,
+          onTap: () => _onTap(context),
           child: Row(
             children: [
               // time
@@ -65,11 +75,15 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                   height: 56,
                   child: Center(
                     child: Text(
-                      '${_time.hour > 12 ? (_time.hour - 12) : _time.hour}:${_time.minute.toString().padLeft(2, '0')}',
+                      _time == null
+                          ? '00:00'
+                          : '${_time.hour > 12 ? (_time.hour - 12) : _time.hour}:${_time.minute.toString().padLeft(2, '0')}',
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
-                          .copyWith(color: AppColors.GRAY_DARK[0]),
+                          .copyWith(color: _time == null
+                              ? AppColors.GRAY_DARK[2]
+                              : AppColors.GRAY_DARK[0]),
                     ),
                   ),
                 ),
@@ -91,7 +105,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                         color: AppColors.GRAY_LIGHT[2],
-                        boxShadow: _time.hour >= 12
+                        boxShadow: _time == null || (_time.hour >= 12)
                             ? []
                             : [
                                 BoxShadow(
@@ -111,7 +125,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                         child: Text(
                           'AM',
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: _time.hour >= 12
+                              color: _time == null || (_time.hour >= 12)
                                   ? AppColors.GRAY_DARK[2]
                                   : AppColors.GRAY_DARK[0]),
                         ),
@@ -122,7 +136,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                         color: AppColors.GRAY_LIGHT[2],
-                        boxShadow: _time.hour >= 12
+                        boxShadow: _time == null || (_time.hour >= 12)
                             ? [
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.12),
@@ -142,7 +156,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                         child: Text(
                           'PM',
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: _time.hour >= 12
+                              color: _time == null || (_time.hour >= 12)
                                   ? AppColors.GRAY_DARK[0]
                                   : AppColors.GRAY_DARK[2]),
                         ),

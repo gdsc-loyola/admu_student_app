@@ -1,13 +1,15 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 
 class SelectDateGroup extends StatefulWidget {
   final String label;
+  final DateTime date;
 
-  SelectDateGroup(this.label);
+  SelectDateGroup(this.label, {this.date});
 
   @override
   _SelectDateGroupState createState() => _SelectDateGroupState();
@@ -20,20 +22,29 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
   void initState() {
     super.initState();
 
-    _date = DateTime.now();
+    if (widget.date != null) _date = widget.date;
   }
 
-  void _onTap() {
-    /*if (Platform.isIOS) {
-      // show cupertino
-      print('show cupertino time picker');
-    } else {
+  void _onTap(BuildContext context) async {
+    if (kIsWeb || !Platform.isIOS) {
       // show material
       print('show material time picker');
-    }*/
-    setState(() {
-      _date = _date.add(Duration(days: 1));
-    });
+
+      DateTime nDate = await showDatePicker(
+        context: context,
+        initialDate: _date == null ? DateTime.now() : _date,
+        firstDate: DateTime(DateTime.now().year - 10),
+        lastDate: DateTime(DateTime.now().year + 10),
+      );
+
+      if (nDate != null)
+        setState(() {
+          _date = nDate;
+        });
+    } else {
+      // show cupertino
+      print('show cupertino time picker');
+    }
   }
 
   @override
@@ -52,7 +63,7 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
         SizedBox(height: 8),
         // button
         InkWell(
-          onTap: _onTap,
+          onTap: () => _onTap(context),
           child: Container(
             decoration: BoxDecoration(
               color: AppColors.GRAY_LIGHT[2],
@@ -63,11 +74,13 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${_date.month.toString().padLeft(2, '0')}/${_date.day.toString().padLeft(2, '0')}/${_date.year.toString().padLeft(4, '0')}',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: AppColors.GRAY_DARK[0]),
+                _date == null
+                    ? 'MM/DD/YYYY'
+                    : '${_date.month.toString().padLeft(2, '0')}/${_date.day.toString().padLeft(2, '0')}/${_date.year.toString().padLeft(4, '0')}',
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    color: _date == null
+                        ? AppColors.GRAY_DARK[2]
+                        : AppColors.GRAY_DARK[0]),
               ),
             ),
           ),

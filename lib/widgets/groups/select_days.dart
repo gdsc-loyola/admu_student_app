@@ -28,81 +28,76 @@ class _SelectDaysGroupState extends State<SelectDaysGroup> {
               .copyWith(color: AppColors.GRAY_LIGHT[2]),
         ),
         SizedBox(height: 8),
-        ToggleButtons(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ShrinkingButton(
               selected: _selected[0],
               text: 'M',
               shrink: shouldShrink,
+              onPressed: () {
+                setState(() {
+                  _selected[0] = !_selected[0];
+                });
+              },
             ),
-            // SizedBox(width: 4),
+            SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[1],
               text: 'T',
               shrink: shouldShrink,
+              onPressed: () {
+                setState(() {
+                  _selected[1] = !_selected[1];
+                });
+              },
             ),
-            // SizedBox(width: 4),
+            SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[2],
               text: 'W',
               shrink: shouldShrink,
+              onPressed: () {
+                setState(() {
+                  _selected[2] = !_selected[2];
+                });
+              },
             ),
-            // SizedBox(width: 4),
+            SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[3],
               text: 'Th',
               shrink: shouldShrink,
+              onPressed: () {
+                setState(() {
+                  _selected[3] = !_selected[3];
+                });
+              },
             ),
-            // SizedBox(width: 4),
+            SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[4],
               text: 'F',
               shrink: shouldShrink,
+              onPressed: () {
+                setState(() {
+                  _selected[4] = !_selected[4];
+                });
+              },
             ),
-            // SizedBox(width: 4),
+            SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[5],
               text: 'S',
               shrink: shouldShrink,
+              onPressed: () {
+                setState(() {
+                  _selected[5] = !_selected[5];
+                });
+              },
             ),
           ],
-          onPressed: (i) {
-            setState(() {
-              _selected[i] = !_selected[i];
-            });
-          },
-          isSelected: _selected,
-          renderBorder: false,
-          fillColor: Colors.transparent,
         ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //   children: [
-        //     ShrinkingButton(
-        //       selected: selected == 0 ? true : false,
-        //       text: 'M',
-        //       shrink: shouldShrink,
-        //     ),
-        //     SizedBox(width: 4),
-        //     ShrinkingButton(
-        //       selected: selected == 1 ? true : false,
-        //       text: 'T',
-        //       shrink: shouldShrink,
-        //     ),
-        //     SizedBox(width: 4),
-        //     ShrinkingButton(
-        //       selected: selected == 2 ? true : false,
-        //       text: 'W',
-        //       shrink: shouldShrink,
-        //     ),
-        //     SizedBox(width: 4),
-        //     ShrinkingButton(
-        //       selected: selected == 3 ? true : false,
-        //       text: 'Th',
-        //       shrink: shouldShrink,
-        //     ),
-        //   ],
-        // ),
       ],
     );
   }

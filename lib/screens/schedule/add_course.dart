@@ -14,32 +14,32 @@ class _AddCoursePageState extends State<AddCoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        elevation: 0,
+      ),
+      backgroundColor: AppColors.PRIMARY_MAIN,
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 48.0),
-        child: Container(
-          color: AppColors.PRIMARY_MAIN,
-          child: Column(
-            children: [
-              SelectDaysGroup(),
-              SelectDateGroup('Label'),
-              SelectTimeGroup('Label'),
-              Row(
-                children: [
-                  Expanded(child: SelectDateGroup('Label')),
-                  SizedBox(width: 20), // temp
-                  Expanded(child: SelectTimeGroup('Label')),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(child: SelectTimeGroup('Label')),
-                  SizedBox(width: 20), // temp
-                  Expanded(child: SelectTimeGroup('Label')),
-                ],
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            SelectDaysGroup(),
+            SelectDateGroup('Label'),
+            SelectTimeGroup('Label'),
+            Row(
+              children: [
+                Expanded(child: SelectDateGroup('Label')),
+                SizedBox(width: 20), // temp
+                Expanded(child: SelectTimeGroup('Label')),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(child: SelectTimeGroup('Label')),
+                SizedBox(width: 20), // temp
+                Expanded(child: SelectTimeGroup('Label')),
+              ],
+            ),
+          ],
         ),
       ),
     );
