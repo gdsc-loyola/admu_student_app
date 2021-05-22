@@ -262,51 +262,50 @@ class _AddQPIState extends State<_AddQPI> {
             }),
         elevation: 0,
       ),
-      body: Center(
-        child: Container(
-          color: AppColors.PRIMARY_MAIN,
-          padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 48.0), // bot 96
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
-                child: Row(
-                  children: [
-                    Text(
-                      '${widget.isEditing ? 'Edit' : 'Add'} ${titles[selected]} QPI',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                    )
-                  ],
-                ),
+      backgroundColor: AppColors.PRIMARY_MAIN,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 48.0), // bot 96
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
+              child: Row(
+                children: [
+                  Text(
+                    '${widget.isEditing ? 'Edit' : 'Add'} ${titles[selected]} QPI',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                  )
+                ],
               ),
-              ButtonRow('Year', 'Semester', 'Course', () {
-                // Item 1 Clicked
-                setState(() {
-                  selected = 0;
-                });
-              }, () {
-                // Item 2 Clicked
-                setState(() {
-                  selected = 1;
-                });
-              }, () {
-                // Item 3 Clicked
-                setState(() {
-                  selected = 2;
-                });
-              }, selected, widget.isEditing),
-              SizedBox(height: 24),
-              screens[selected],
-              Spacer(),
-              widget.isEditing
-                  ? LongButton('Delete', Colors.orange, Colors.white, _onDelete)
-                  : Container(),
-            ],
-          ),
+            ),
+            ButtonRow('Year', 'Semester', 'Course', () {
+              // Item 1 Clicked
+              setState(() {
+                selected = 0;
+              });
+            }, () {
+              // Item 2 Clicked
+              setState(() {
+                selected = 1;
+              });
+            }, () {
+              // Item 3 Clicked
+              setState(() {
+                selected = 2;
+              });
+            }, selected, widget.isEditing),
+            SizedBox(height: 24),
+            screens[selected],
+            // Spacer(),
+            SizedBox(height: 96),
+            widget.isEditing
+                ? LongButton('Delete', Colors.orange, Colors.white, _onDelete)
+                : Container(),
+          ],
         ),
       ),
     );

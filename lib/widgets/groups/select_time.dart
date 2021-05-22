@@ -9,7 +9,9 @@ class SelectTimeGroup extends StatefulWidget {
   final String label;
   final TimeOfDay time;
 
-  SelectTimeGroup(this.label, {this.time});
+  final Function(TimeOfDay) onTimeChange;
+
+  SelectTimeGroup(this.label, {this.time, this.onTimeChange});
 
   @override
   _SelectTimeGroupState createState() => _SelectTimeGroupState();
@@ -36,10 +38,13 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
         initialTime: _time == null ? TimeOfDay.now() : _time,
       );
 
-      if (nTime != null)
+      if (nTime != null) {
         setState(() {
           _time = nTime;
         });
+
+        if (widget.onTimeChange != null) widget.onTimeChange(_time);
+      }
     } else {
       // show cupertino
       print('show cupertino time picker');
@@ -78,10 +83,8 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                       _time == null
                           ? '00:00'
                           : '${_time.hour > 12 ? (_time.hour - 12) : _time.hour}:${_time.minute.toString().padLeft(2, '0')}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(color: _time == null
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: _time == null
                               ? AppColors.GRAY_DARK[2]
                               : AppColors.GRAY_DARK[0]),
                     ),

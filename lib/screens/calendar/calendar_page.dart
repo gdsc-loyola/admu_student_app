@@ -25,7 +25,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     List<Event> _events =
-        Provider.of<CalendarEvents>(context, listen: false).events;
+        Provider.of<CalendarEvents>(context).getEventsByDay(_date);
 
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0),
@@ -33,19 +33,8 @@ class _CalendarPageState extends State<CalendarPage> {
         children: [
           CalendarMonth(
             date: _date,
-            onPressedLeft: () {
-              print('pressed left');
-              setState(() {
-                _date = _date.subtract(Duration(days: 30));
-              });
-            },
-            onPressedRight: () {
-              print('pressed right');
-              setState(() {
-                _date = _date.add(Duration(days: 30));
-              });
-            },
-            onPressedDay: (date) {
+            onDateChange: (DateTime date) {
+              print('on date change');
               setState(() {
                 _date = date;
               });

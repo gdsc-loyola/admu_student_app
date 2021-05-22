@@ -5,6 +5,10 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class SelectDaysGroup extends StatefulWidget {
+  final Function(List<bool>) onChange;
+
+  SelectDaysGroup({this.onChange});
+
   @override
   _SelectDaysGroupState createState() => _SelectDaysGroupState();
 }

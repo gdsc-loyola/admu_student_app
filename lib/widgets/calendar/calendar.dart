@@ -6,7 +6,20 @@ import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
 
-class CalendarMonth extends StatelessWidget {
+class CalendarMonth extends StatefulWidget {
+  final DateTime date;
+  final Function(DateTime) onDateChange;
+
+  CalendarMonth({
+    this.date,
+    this.onDateChange,
+  });
+
+  @override
+  _CalendarMonthState createState() => _CalendarMonthState();
+}
+
+class _CalendarMonthState extends State<CalendarMonth> {
   final List<String> _MONTHS = [
     'January',
     'February',
@@ -23,18 +36,17 @@ class CalendarMonth extends StatelessWidget {
   ];
   final List<String> _DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-  final DateTime date;
+  DateTime _date;
 
-  final VoidCallback onPressedLeft;
-  final VoidCallback onPressedRight;
-  final Function(DateTime) onPressedDay;
+  @override
+  void initState() {
+    super.initState();
 
-  CalendarMonth({
-    @required this.date,
-    @required this.onPressedLeft,
-    @required this.onPressedRight,
-    @required this.onPressedDay,
-  });
+    if (widget.date != null)
+      _date = widget.date;
+    else
+      _date = DateTime.now();
+  }
 
   Widget _buildDays(BuildContext context) {
     List<Widget> children = [];
@@ -54,14 +66,13 @@ class CalendarMonth extends StatelessWidget {
 
     return Row(children: children);
   }
-
+  
   Widget _buildDates(BuildContext context, List<Event> events) {
     List<Widget> mainChildren = [];
 
-    DateTime tDate = DateTime(date.year, date.month);
+    DateTime tDate = DateTime(_date.year, _date.month);
 
     // build per row
-
     List<Widget> allDays = [];
 
     if (tDate.weekday != DateTime.sunday) {
@@ -72,12 +83,20 @@ class CalendarMonth extends StatelessWidget {
       }
     }
 
-    while (tDate.month == date.month) {
+    // generate days
+    List<DateTime> daysOfTheMonth = [];
+
+    while (tDate.month == _date.month) {
+      daysOfTheMonth.add(tDate);
+      tDate = tDate.add(Duration(days: 1));
+    }
+
+    for(DateTime dt in daysOfTheMonth) {
       // find if day has events
       bool hasEvent = false;
       for (Event e in events) {
         if (e.start == null) continue;
-        if (e.start.day == tDate.day) {
+        if (e.start.day == dt.day) {
           hasEvent = true;
           break;
         }
@@ -88,23 +107,41 @@ class CalendarMonth extends StatelessWidget {
         child: Column(
           children: [
             // container for text and background
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: tDate.day == date.day
-                    ? AppColors.PRIMARY_MAIN
-                    : Colors.transparent,
-              ),
-              width: 32,
-              height: 32,
-              child: Center(
-                child:Text(
-                  '${tDate.day}',
-                  style: Theme.of(context).textTheme.caption.copyWith(
-                      color: tDate.day == date.day
-                          ? AppColors.GRAY_LIGHT[2]
-                          : AppColors.GRAY_DARK[0]),
-                 ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  // change date
+                  _date = dt;
+
+                  if (widget.onDateChange != null) widget.onDateChange(_date);
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: dt.day == _date.day
+                      ? AppColors.PRIMARY_MAIN
+                      : Colors.transparent,
+                  border: Border.all(
+                    color: (dt.year == DateTime.now().year)
+                               && (dt.month == DateTime.now().month)
+                               && (dt.day == DateTime.now().day)
+                                   ? AppColors.PRIMARY_MAIN
+                                   : Colors.transparent,
+                    width: 1.0,
+                  ),
+                ),
+                width: 32,
+                height: 32,
+                child: Center(
+                  child: Text(
+                    '${dt.day}',
+                    style: Theme.of(context).textTheme.caption.copyWith(
+                        color: dt.day == _date.day
+                            ? AppColors.GRAY_LIGHT[2]
+                            : AppColors.GRAY_DARK[0]),
+                  ),
+                ),
               ),
             ),
             // indicator
@@ -118,10 +155,8 @@ class CalendarMonth extends StatelessWidget {
               height: 8,
             ),
           ],
-        ),// ),
+        ), // ),
       ));
-
-      tDate = tDate.add(Duration(days: 1));
     }
 
     int counter = 0;
@@ -156,13 +191,14 @@ class CalendarMonth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Event> events =
-        Provider.of<CalendarEvents>(context).getEventsByMonth(date);
+        Provider.of<CalendarEvents>(context).getEventsByMonth(_date);
 
-    return Container(
+    return Ink(
       // height: 382,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        color: AppColors.GRAY_LIGHT[2],
+        // color: AppColors.GRAY_LIGHT[2],
+        color: Colors.white, // temporary
         boxShadow: [AppEffects.DEFAULT_SHADOW],
       ),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -173,25 +209,38 @@ class CalendarMonth extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Text(
-                  '${_MONTHS[date.month - 1]} ${date.year}',
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headline4
-                      .copyWith(color: AppColors.GRAY_DARK[0])
-                ),
+                child: Text('${_MONTHS[_date.month - 1]} ${_date.year}',
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        .copyWith(color: AppColors.GRAY_DARK[0])),
               ),
-              // Spacer(),
               IconButton(
                 icon: Icon(Icons.arrow_back_ios_rounded),
                 iconSize: 24,
                 color: AppColors.GRAY_DARK[0],
-                onPressed: onPressedLeft,
+                onPressed: () {
+                  setState(() {
+                    // minus date
+                    _date = DateTime(_date.year, _date.month - 1, 1);
+
+                    if (widget.onDateChange != null) widget.onDateChange(_date);
+                  });
+                },
               ),
               IconButton(
                 icon: Icon(Icons.arrow_forward_ios_rounded),
                 iconSize: 24,
                 color: AppColors.GRAY_DARK[0],
-                onPressed: onPressedRight,
+                onPressed: () {
+                  setState(() {
+                    // add date
+                    _date = DateTime(_date.year, _date.month + 1, 1);
+
+                    if (widget.onDateChange != null) widget.onDateChange(_date);
+                  });
+                },
               ),
             ],
           ),

@@ -9,7 +9,9 @@ class SelectDateGroup extends StatefulWidget {
   final String label;
   final DateTime date;
 
-  SelectDateGroup(this.label, {this.date});
+  final Function(DateTime) onDateChange;
+
+  SelectDateGroup(this.label, {this.date, this.onDateChange});
 
   @override
   _SelectDateGroupState createState() => _SelectDateGroupState();
@@ -37,10 +39,13 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
         lastDate: DateTime(DateTime.now().year + 10),
       );
 
-      if (nDate != null)
+      if (nDate != null) {
         setState(() {
           _date = nDate;
         });
+
+        if (widget.onDateChange != null) widget.onDateChange(_date);
+      }
     } else {
       // show cupertino
       print('show cupertino time picker');
