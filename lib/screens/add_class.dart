@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/screens/notes.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
 import 'package:admu_student_app/widgets/groups/select_color.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
@@ -41,7 +42,11 @@ class _AddClassPageState extends State<AddClassPage> {
                 }),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => NotesPage(),
+                  ),
+                );
               },
               child: Text(
                 'Done',

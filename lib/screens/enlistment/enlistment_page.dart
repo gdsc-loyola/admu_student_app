@@ -60,6 +60,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                         borderRadius: BorderRadius.all(Radius.circular(100))),
                     child: InkWell(
                       onTap: () {},
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
                       child: Ink(
                         child: Container(
                           height: 24,
