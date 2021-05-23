@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,6 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
   void _onTap(BuildContext context) async {
     if (kIsWeb || !Platform.isIOS) {
       // show material
-      print('show material time picker');
 
       DateTime nDate = await showDatePicker(
         context: context,
@@ -48,7 +48,36 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
       }
     } else {
       // show cupertino
-      print('show cupertino time picker');
+
+      DateTime nDate;
+
+      await showCupertinoModalPopup<void>(
+        context: context,
+        builder: (ctx) {
+          return SizedBox(
+            height: 256,
+            child: CupertinoDatePicker(
+              backgroundColor: AppColors.GRAY_LIGHT[2],
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: (dt) {
+                nDate = dt;
+              },
+              initialDateTime: _date == null ? DateTime(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day) : _date,
+              minimumDate: DateTime(DateTime.now().year - 10),
+              maximumDate: DateTime(DateTime.now().year + 10),
+            ),
+          );
+        },
+      );
+
+      if (nDate != null) {
+        setState(() {
+          _date = nDate;
+        });
+
+        if (widget.onDateChange != null) widget.onDateChange(_date);
+      }
     }
   }
 

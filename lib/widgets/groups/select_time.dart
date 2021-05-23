@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,6 @@ class SelectTimeGroup extends StatefulWidget {
 
 class _SelectTimeGroupState extends State<SelectTimeGroup> {
   TimeOfDay _time;
-  // DateTime _time;
 
   @override
   void initState() {
@@ -31,7 +31,6 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
   void _onTap(BuildContext context) async {
     if (kIsWeb || !Platform.isIOS) {
       // show material
-      print('show material time picker');
 
       TimeOfDay nTime = await showTimePicker(
         context: context,
@@ -49,7 +48,37 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
       }
     } else {
       // show cupertino
-      print('show cupertino time picker');
+
+      TimeOfDay nTime;
+
+      await showCupertinoModalPopup<void>(
+        context: context,
+        builder: (ctx) {
+          return SizedBox(
+            height: 256,
+            child: CupertinoDatePicker(
+              backgroundColor: AppColors.GRAY_LIGHT[2],
+              mode: CupertinoDatePickerMode.time,
+              onDateTimeChanged: (dt) {
+                nTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
+              },
+              initialDateTime: _time == null
+                  ? DateTime(DateTime.now().year,
+                    DateTime.now().month, DateTime.now().day)
+                  : DateTime(DateTime.now().year,
+                    DateTime.now().month, DateTime.now().day, _time.hour, _time.minute),
+            ),
+          );
+        },
+      );
+
+      if (nTime != null) {
+        setState(() {
+          _time = nTime;
+        });
+
+        if (widget.onTimeChange != null) widget.onTimeChange(_time);
+      }
     }
   }
 
@@ -84,7 +113,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                     child: Text(
                       _time == null
                           ? '00:00'
-                          : '${_time.hour > 12 ? (_time.hour - 12) : _time.hour}:${_time.minute.toString().padLeft(2, '0')}',
+                          : '${_time.hour > 12 ? (_time.hour - 12) : (_time.hour == 0 ? 12 : _time.hour)}:${_time.minute.toString().padLeft(2, '0')}',
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: _time == null
                               ? AppColors.GRAY_DARK[2]
