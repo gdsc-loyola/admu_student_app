@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage('onboarding.png'),
+                      backgroundImage: AssetImage('assets/onboarding.png'),
                       radius: 100,
                     ),
                     Text(
@@ -47,8 +47,8 @@ class LoginPage extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Image(
-                                      image: AssetImage('google.png'),
+                                    Image.asset(
+                                      'assets/google.png',
                                       width: 24,
                                       height: 24,
                                     ),
@@ -86,8 +86,8 @@ class LoginPage extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Image(
-                                      image: AssetImage('apple.png'),
+                                    Image.asset(
+                                      'assets/apple.png',
                                       width: 24,
                                       height: 24,
                                     ),

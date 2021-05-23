@@ -16,144 +16,185 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            height: 216,
-            child: UserAccountsDrawerHeader(
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: AppColors.PRIMARY_MAIN,
-                child: new Container(
-                  width: 80,
-                  height: 80,
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    //container can be changed to:
-                    //backgroundImage: NetworkImage("photo url"),
+      child: Container(
+        child: Column(
+          children: [
+            Container(
+              height: 64,
+              color: AppColors.PRIMARY_MAIN,
+              padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      })
+                ],
+              ),
+            ),
+            Container(
+              height: 216,
+              child: UserAccountsDrawerHeader(
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: AppColors.PRIMARY_MAIN,
+                  child: new Container(
+                    width: 80,
+                    height: 80,
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      //container can be changed to:
+                      //backgroundImage: NetworkImage("photo url"),
+                    ),
                   ),
                 ),
-              ),
-              accountName: Text(
-                'LOREM I. PSUM',
-                style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.white),
-              ),
-              accountEmail: Text(
-                'lorem.ipsum.@obf.ateneo.edu',
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                  color: AppColors.GRAY_LIGHT[0],
-                  fontWeight: FontWeight.w100
+                accountName: Text(
+                  'LOREM I. PSUM',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      .copyWith(color: Colors.white),
+                ),
+                accountEmail: Text(
+                  'lorem.ipsum.@obf.ateneo.edu',
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: AppColors.GRAY_LIGHT[0],
+                      fontWeight: FontWeight.w100),
                 ),
               ),
-
             ),
-          ),
 
-          //LIST TILE 1
-          ListTile(
-            title: Container(
-              padding: EdgeInsets.fromLTRB(0, 50, 0, 20),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey),
+            //LIST TILE 1
+            ListTile(
+              title: Container(
+                padding: EdgeInsets.fromLTRB(0, 44, 0, 11.5),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: AppColors.GRAY_LIGHT[1]),
+                  ),
+                ),
+                child: Text(
+                  'Enlistment',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(color: AppColors.GRAY_DARK[0], fontSize: 20),
                 ),
               ),
-              child: Text('Lorem Ipsum 1 - LS DIRECTORY'),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => EnlistmentPage()));
+              },
             ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => DirectoryPage()),
-              );
-            },
-          ),
 
-          //LIST TILE 2
-          ListTile(
-            title: Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey),
+            //LIST TILE 2
+            ListTile(
+              title: Container(
+                padding: EdgeInsets.symmetric(vertical: 18),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: AppColors.GRAY_LIGHT[1]),
+                  ),
+                ),
+                child: Text(
+                  'LS Adress Book',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(color: AppColors.GRAY_DARK[0], fontSize: 20),
                 ),
               ),
-              child: Text('Lorem Ipsum 2 - ENLISTMENT'),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => DirectoryPage()));
+              },
             ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => EnlistmentPage()),
-              );
-            },
-          ),
 
-          //LIST TILE 3
-          ListTile(
-            title: Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey),
+            //LIST TILE 3
+            ListTile(
+              title: Container(
+                padding: EdgeInsets.symmetric(vertical: 18),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: AppColors.GRAY_LIGHT[1]),
+                  ),
+                ),
+                child: Text(
+                  'About',
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: AppColors.GRAY_DARK[0],
+                        fontSize: 20
+                      ),
                 ),
               ),
-              child: Text('Lorem Ipsum 3 - ABOUT'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => AboutPage()),
+                );
+              },
             ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => AboutPage()),
-              );
-            },
-          ),
 
-          //LIST TILE 4
-          ListTile(
-            title: Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey),
+            //LIST TILE 4
+            ListTile(
+              title: Container(
+                padding: EdgeInsets.symmetric(vertical: 18),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: AppColors.GRAY_LIGHT[1]),
+                  ),
+                ),
+                child: Text(
+                  'Log out',
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: AppColors.GRAY_DARK[0],
+                        fontSize: 20
+                      ),
                 ),
               ),
-              child: Text('Lorem Ipsum 4 - FAQS'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => FAQsPage()),
+                );
+              },
             ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => FAQsPage()),
-              );
-            },
-          ),
 
-          //LIST TILE 5
-          ListTile(
-            title: Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey),
-                ),
-              ),
-              child: Text('Lorem Ipsum 5'),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
+            Spacer(),
 
-          //LIST TILE 6
-          ListTile(
-            title: Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey),
-                ),
+            Container(
+              padding: EdgeInsets.fromLTRB(16, 0, 0, 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Made by:',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(color: AppColors.GRAY_DARK[2]),
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                          width: 36, height: 36, color: AppColors.PRIMARY_MAIN),
+                      Text(
+                        'Developer Student Clubs Loyola',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .copyWith(color: AppColors.GRAY_DARK[2]),
+                      )
+                    ],
+                  )
+                ],
               ),
-              child: Text('Log Out'),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

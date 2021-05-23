@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/add_qpi_notifier.dart';
 
 class LongButton extends StatelessWidget {
   final String text;
@@ -49,124 +53,161 @@ class ShortButton extends StatelessWidget {
         },
         child: Text(
           text,
-          style: TextStyle(color: textColor),
+          style: Theme.of(context).textTheme.headline6.copyWith(color: textColor),
         ),
       ),
     );
   }
 }
 
+// used in date and sem buttons
 class SquareButton extends StatelessWidget {
   final String text;
-  final Color buttonColor;
-  final Color textColor;
+  // final Color buttonColor;
+  // final Color textColor;
   final VoidCallback onPressed;
 
-  SquareButton(this.text, this.buttonColor, this.textColor, this.onPressed);
+  final bool selected;
+
+  SquareButton({
+    this.text = '',
+    // this.buttonColor = Colors.white,
+    // this.textColor = Colors.black,
+    this.onPressed,
+    this.selected = false,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 56,
       height: 56,
       decoration: BoxDecoration(
-          color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+        color: AppColors.GRAY_LIGHT[2],
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: selected ? Border.all(color: Colors.black) : null, // temporary
+      ),
       child: TextButton(
-          onPressed: () {
-            onPressed();
-          },
-          child: Text(
-            '$text',
-            style: TextStyle(color: textColor),
-          )),
+        onPressed: () {
+          if (onPressed != null) onPressed();
+        },
+        child: Text(
+          '$text',
+          style: TextStyle(color: AppColors.GRAY_DARK[0]),
+        ),
+      ),
     );
   }
 }
 
+// used in quarter?
 class ShrinkingButton extends StatelessWidget {
   final String text;
-  final Color buttonColor;
-  final Color textColor;
+  final double maxWidth;
   final VoidCallback onPressed;
+  final bool selected;
 
-  ShrinkingButton(this.text, this.buttonColor, this.textColor, this.onPressed);
+  ShrinkingButton({
+    this.text = '',
+    this.maxWidth = 56,
+    this.onPressed,
+    this.selected,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 41,
+      // width: 41, // temporary?
+      // constraints: BoxConstraints(maxWidth: maxWidth, minWidth: 16),
       height: 56,
+      width: double.infinity,
       decoration: BoxDecoration(
-          color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+        color: AppColors.GRAY_LIGHT[2],
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: selected ? Border.all(color: Colors.black) : null, // temporary
+      ),
       child: TextButton(
-          onPressed: () {
-            onPressed();
-          },
-          child: Text(
-            '$text',
-            style: TextStyle(color: textColor),
-          )),
+        onPressed: () {
+          if (onPressed != null) onPressed();
+        },
+        child: Text(
+          '$text',
+          style: TextStyle(color: AppColors.GRAY_DARK[0]),
+        ),
+      ),
     );
+
+    /*return Expanded(
+      child: Align(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxWidth),
+          child: SquareButton(
+            text: text,
+            onPressed: onPressed,
+            selected: selected,
+          ),
+        ),
+      ),
+    );*/
   }
 }
 
-class DropDown extends StatefulWidget {
+/*
+                Expanded(
+                  child: Align(child: Container(child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 216),
+                    child: Container(
+                      width: 128,
+                      height: 64,
+                      color: Colors.blue,
+                    ),
+                  ),),),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Align(child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 216),
+                    child: Container(
+                      height: 64,
+                      color: Colors.red,
+                    ),
+                  ),),
+                ),
+*/
+
+class GradeDropDown extends StatefulWidget {
   @override
-  _DropDownState createState() => _DropDownState();
+  _GradeDropDownState createState() => _GradeDropDownState();
 }
 
-class _DropDownState extends State<DropDown> {
-  int _value = 1;
-
+class _GradeDropDownState extends State<GradeDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 185,
+      // width: 185,
+      width: double.infinity,
       height: 56,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(5))
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton(
+            value: Provider.of<AddQPINotifier>(context).gradeVal,
+            items: [
+              DropdownMenuItem(child: Text("A"), value: 1),
+              DropdownMenuItem(child: Text("B+"), value: 2),
+              DropdownMenuItem(child: Text("B"), value: 3),
+              DropdownMenuItem(child: Text("C+"), value: 4),
+              DropdownMenuItem(child: Text("C"), value: 5),
+              DropdownMenuItem(child: Text("D"), value: 6),
+              DropdownMenuItem(child: Text("F/W"), value: 7)
+            ],
+            onChanged: (value) {
+              Provider.of<AddQPINotifier>(context, listen: false).gradeVal =
+                  value;
+            }),
       ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton(
-                value: _value,
-                items: [
-                  DropdownMenuItem(
-                    child: Text("A"),
-                    value: 1,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("B+"),
-                    value: 2,
-                  ),
-                  DropdownMenuItem(
-                    child: Text("B"),
-                    value: 3
-                  ),
-                  DropdownMenuItem(
-                      child: Text("C+"),
-                      value: 4
-                  ),
-                  DropdownMenuItem(
-                      child: Text("C"),
-                      value: 5
-                  ),
-                  DropdownMenuItem(
-                      child: Text("D"),
-                      value: 6
-                  ),DropdownMenuItem(
-                      child: Text("F/W"),
-                      value: 7
-                  )
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _value = value;
-                  });
-                }),
-          ),
-        );
+    );
   }
 }
 
@@ -286,82 +327,6 @@ class _DropDownState extends State<DropDown> {
 
 //////
 
-// class SemSelect extends StatefulWidget {
-//   final Color buttonColor;
-//   final Color textColor;
-//   final Color labelColor;
-
-//   SemSelect(this.labelColor, this.buttonColor, this.textColor);
-
-//   @override
-//   _SemSelectState createState() => _SemSelectState();
-// }
-
-// class _SemSelectState extends State<SemSelect> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: Colors.transparent,
-//       width: 177,
-//       height: 80,
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             children: [
-//               Text(
-//                 "Semester",
-//                 style: TextStyle(color: widget.labelColor),
-//               ),
-//             ],
-//           ),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               // same as DateSelect
-
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('1', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('2', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('IS', style: TextStyle(color: widget.textColor))),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 //////
 
 // class QtrSelect extends StatefulWidget {
@@ -450,4 +415,3 @@ class _DropDownState extends State<DropDown> {
 //     );
 //   }
 // }
-

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
+import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/screens/splash_page.dart';
 
 void main() {
@@ -12,6 +13,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => AcademicRecords()),
       ChangeNotifierProvider(create: (_) => CalendarEvents()),
+      ChangeNotifierProvider(create: (_) => ClassSchedule()),
     ],
     child: App(),
   ));
@@ -27,6 +29,7 @@ class App extends StatelessWidget {
         // textTheme: GoogleFonts.dmSansTextTheme(
         //   Theme.of(context).textTheme,
         // ),
+        scaffoldBackgroundColor: AppColors.GRAY_LIGHT[2],
         fontFamily: GoogleFonts.dmSans().fontFamily,
         textTheme: TextTheme(
           headline4: GoogleFonts.dmSans(

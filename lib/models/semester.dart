@@ -47,6 +47,10 @@ class Semester {
       return _units;
   }
 
+  set units(int nUnits) {
+    _units = units;
+  }
+
   set qpi(double qpi) {
     _qpi = qpi;
   }

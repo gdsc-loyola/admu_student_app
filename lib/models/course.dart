@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
 import 'package:admu_student_app/models/central_database.dart';
 
 class Course {
   String courseCode;
-  int color;
+  Color color;
   int units;
   double qpi;
   bool isIncludedInQPI;
@@ -10,7 +12,7 @@ class Course {
   Course(String courseCode, int color, int units, double qpi,
       bool isIncludedInQPI) {
     this.courseCode = courseCode;
-    this.color = color;
+    this.color = Color(color);
     this.units = units;
     this.qpi = qpi;
     this.isIncludedInQPI = isIncludedInQPI;

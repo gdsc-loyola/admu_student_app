@@ -2,8 +2,13 @@ import 'package:intl/intl.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:admu_student_app/models/calendar_events.dart';
+import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/screens/home/pomodoro_page.dart';
 import 'package:admu_student_app/widgets/home/pomodoro.dart';
+import 'package:admu_student_app/widgets/home/event_card_preview.dart';
 
 class HomePage extends StatefulWidget {
   final String today = DateFormat.yMMMMEEEEd('en_US').format(DateTime.now());
@@ -87,6 +92,29 @@ class _HomePageState extends State<HomePage> {
           child: Pomodoro(),
         ),
       ],
+    /*List<Event> _events =
+        Provider.of<CalendarEvents>(context, listen: false).events;
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+      child: Column(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: _events.length,
+            itemBuilder: (_, index) => HomeEventCard(event: _events[index]),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => PomodoroPage()),
+              );
+            },
+            child: Text('Pomodoro'),
+          ),
+        ],
+      ),*/
     );
   }
 }

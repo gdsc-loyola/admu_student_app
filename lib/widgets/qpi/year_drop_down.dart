@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
@@ -9,138 +10,78 @@ import 'package:admu_student_app/models/year.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_semester.dart';
 
-class YearDropDown extends StatefulWidget {
-  final int yearNum;
+// modified from the original ExpansionTile
+const Duration _kExpand = Duration(milliseconds: 200);
 
-  YearDropDown({@required this.yearNum});
+class YearDropDown extends StatefulWidget {
+  const YearDropDown({
+    Key key,
+    @required this.yearNum,
+  }) : super(key: key);
+
+  final int yearNum;
 
   @override
   _YearDropDownState createState() => _YearDropDownState();
 }
 
-class _YearDropDownState extends State<YearDropDown> {
+class _YearDropDownState extends State<YearDropDown>
+    with SingleTickerProviderStateMixin {
+  static final Animatable<double> _easeInTween =
+      CurveTween(curve: Curves.easeIn);
+  static final Animatable<double> _halfTween =
+      Tween<double>(begin: 0.0, end: 0.5);
+
+  AnimationController _controller;
+  Animation<double> _iconTurns;
+  Animation<double> _heightFactor;
+
   bool _isExpanded = false;
 
-  void _onHeaderTap() {
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(duration: _kExpand, vsync: this);
+    _heightFactor = _controller.drive(_easeInTween);
+    _iconTurns = _controller.drive(_halfTween.chain(_easeInTween));
+    if (_isExpanded) _controller.value = 1.0;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _handleTap() {
     setState(() {
       _isExpanded = !_isExpanded;
+      if (_isExpanded) {
+        _controller.forward();
+      } else {
+        _controller.reverse().then<void>((void value) {
+          if (!mounted) return;
+          setState(() {
+            // Rebuild without widget.children.
+          });
+        });
+      }
+      PageStorage.of(context)?.writeState(context, _isExpanded);
     });
   }
 
   void _onSemesterTap(Semester s) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => SemesterPage(yearNum: widget.yearNum, semNum: s.semNum)),
+      MaterialPageRoute(
+          builder: (_) =>
+              SemesterPage(yearNum: widget.yearNum, semNum: s.semNum)),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    Year year = Provider.of<AcademicRecords>(context, listen: false)
-        .getYear(widget.yearNum);
-
-    // if (year.isYearlyQPI)
-    //   return ExpansionTile(
-    //     backgroundColor: Colors.white,
-    //     collapsedBackgroundColor: Colors.white,
-    //     tilePadding: EdgeInsets.symmetric(horizontal: 16.0),
-    //     title: Row(
-    //       crossAxisAlignment: CrossAxisAlignment.center,
-    //       children: [
-    //         Expanded(
-    //           child: Text(
-    //             year.yearString,
-    //             style: Theme.of(context).textTheme.headline6.copyWith(
-    //                 color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
-    //           ),
-    //         ),
-    //         _YearQPIView(qpi: year.yearlyQPI),
-    //       ],
-    //     ),
-    //     children: [
-    //       ListView.builder(
-    //         physics: NeverScrollableScrollPhysics(),
-    //         shrinkWrap: true,
-    //         itemCount: year.sems.length,
-    //         itemBuilder: (_, index) {
-    //           return Container(
-    //             margin: EdgeInsets.only(left: 16.0, top: 16.0),
-    //             padding: EdgeInsets.symmetric(horizontal: 16.0),
-    //             height: 56, // original 55
-    //             decoration: BoxDecoration(
-    //               borderRadius: BorderRadius.all(Radius.circular(8)),
-    //               color: AppColors.PRIMARY_LIGHT,
-    //               boxShadow: [AppEffects.SHADOW],
-    //             ),
-    //             child: Row(
-    //               children: [
-    //                 Expanded(
-    //                   child: Text(
-    //                     year.sems[index].semString,
-    //                     style: Theme.of(context).textTheme.bodyText1.copyWith(
-    //                         color: AppColors.GRAY_LIGHT[2],
-    //                         fontWeight: FontWeight.w500),
-    //                   ),
-    //                 ),
-    //                 IconButton(
-    //                   icon: Icon(
-    //                     Icons.arrow_forward_ios_rounded,
-    //                     size: 36.0,
-    //                     color: AppColors.GRAY_LIGHT[0],
-    //                   ),
-    //                   onPressed: () {
-    //                     Navigator.of(context).push(MaterialPageRoute(
-    //                       builder: (_) => SemesterPage(sem: year.sems[index]),
-    //                     ));
-    //                   },
-    //                 ),
-    //               ],
-    //             ),
-    //           );
-    //         },
-    //       ),
-    //     ],
-    //   );
-    // else
-    //   return Container(
-    //     decoration: BoxDecoration(
-    //       color: Colors.white,
-    //       borderRadius: BorderRadius.all(Radius.circular(8)),
-    //       boxShadow: [AppEffects.SHADOW],
-    //     ),
-    //     padding: EdgeInsets.symmetric(horizontal: 16.0),
-    //     height: 64,
-    //     child: Center(
-    //       child: Row(
-    //         crossAxisAlignment: CrossAxisAlignment.center,
-    //         children: [
-    //           Expanded(
-    //             child: Text(
-    //               year.yearString,
-    //               style: Theme.of(context).textTheme.headline6.copyWith(
-    //                   color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
-    //             ),
-    //           ),
-    //           _YearQPIView(qpi: year.yearlyQPI),
-    //           IconButton(
-    //             icon: Icon(
-    //               Icons.more_vert,
-    //               size: 36.0,
-    //               color: AppColors.GRAY_LIGHT[0],
-    //             ),
-    //             onPressed: () {
-    //               Navigator.of(context).push(MaterialPageRoute(
-    //                 builder: (_) => AddQPIPage(),
-    //               ));
-    //             },
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-
+  Widget _buildHeader(BuildContext context, Year year) {
     Widget header = Container(
       decoration: BoxDecoration(
-        color: Colors.white, // should be AppColors.GRAY_LIGHT[1]
+        color: AppColors.GRAY_LIGHT[2],
         borderRadius: BorderRadius.all(Radius.circular(8)),
         boxShadow: [AppEffects.SHADOW],
       ),
@@ -161,72 +102,55 @@ class _YearDropDownState extends State<YearDropDown> {
               padding: EdgeInsets.only(right: 10.0),
               child: _SmallQPIView(qpi: year.yearlyQPI),
             ),
-            IconButton(
-              icon: Icon(
-                year.isYearlyQPI
-                    ? Icons.more_vert
-                    : (_isExpanded
-                        ? Icons.expand_less_rounded
-                        : Icons.expand_more_rounded),
-                color: AppColors.GRAY_DARK[2],
-              ),
-              iconSize: 36.0,
-              onPressed: () {
-                if (year.isYearlyQPI)
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => AddQPIPage(),
-                  ));
-                else
-                  _onHeaderTap();
-              },
-            ),
+            year.isYearlyQPI
+                ? InkWell(
+                    child: Icon(
+                      Icons.more_vert,
+                      color: AppColors.GRAY_DARK[2],
+                      size: 36,
+                    ),
+                    onTap: () {
+                      // edit year
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => AddQPIPage(
+                          yearNum: year.yearNum,
+                          year: year,
+                          isEditing: true,
+                          selected: 0,
+                        ),
+                      ));
+                    },
+                  )
+                : RotationTransition(
+                    turns: _iconTurns,
+                    child: Icon(
+                      Icons.expand_more_rounded,
+                      size: 36,
+                      color: AppColors.GRAY_DARK[2],
+                    ),
+                  ),
           ],
         ),
       ),
     );
-    Widget children = ListView.builder(
+
+    if (year.isYearlyQPI)
+      return header;
+    else
+      return GestureDetector(
+        onTap: _handleTap,
+        child: header,
+      );
+  }
+
+  Widget _buildSemesters(BuildContext context, Year year) {
+    return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: year.sems.length,
       itemBuilder: (_, index) {
-        Widget semCard = Row(
-          children: [
-            Expanded(
-              child: Text(
-                year.sems[index].semString,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: AppColors.GRAY_LIGHT[2],
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-            _SmallQPIView(
-              qpi: year.sems[index].semestralQPI,
-              showBackground: false,
-            ),
-            IconButton(
-              icon: Icon(
-                year.sems[index].isSemestralQPI
-                    ? Icons.more_vert
-                    : Icons.chevron_right_rounded,
-                color: AppColors.GRAY_LIGHT[0],
-              ),
-              iconSize: 36.0,
-              onPressed: () {
-                if (year.sems[index].isSemestralQPI)
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => AddQPIPage(),
-                    ),
-                  );
-                else
-                  _onSemesterTap(year.sems[index]);
-              },
-            ),
-          ],
-        );
-
-        return Container(
-          margin: EdgeInsets.only(left: 16.0, top: 16.0),
+        Widget semCard = Container(
+          margin: EdgeInsets.only(top: 16.0),
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           height: 56, // original 55
           decoration: BoxDecoration(
@@ -234,26 +158,97 @@ class _YearDropDownState extends State<YearDropDown> {
             color: AppColors.PRIMARY_ALT,
             boxShadow: [AppEffects.SHADOW],
           ),
-          child: year.sems[index].isSemestralQPI
-              ? semCard
-              : GestureDetector(
-                  onTap: () => _onSemesterTap(year.sems[index]),
-                  child: semCard,
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  year.sems[index].semString,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: AppColors.GRAY_LIGHT[2],
+                      fontWeight: FontWeight.w500),
                 ),
+              ),
+              _SmallQPIView(
+                qpi: year.sems[index].semestralQPI,
+                showBackground: false,
+              ),
+              InkWell(
+                child: Icon(
+                  year.sems[index].isSemestralQPI
+                      ? Icons.more_vert
+                      : Icons.chevron_right_rounded,
+                  color: AppColors.GRAY_LIGHT[0],
+                  size: 36.0,
+                ),
+                onTap: () {
+                  if (year.sems[index].isSemestralQPI)
+                    // edit sem
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => AddQPIPage(
+                          yearNum: year.yearNum,
+                          semNum: year.sems[index].semNum,
+                          semester: year.sems[index],
+                          isEditing: true,
+                          selected: 1,
+                        ),
+                      ),
+                    );
+                  else
+                    _onSemesterTap(year.sems[index]);
+                },
+              ),
+            ],
+          ),
         );
+
+        if (year.sems[index].isSemestralQPI)
+          return semCard;
+        else
+          return GestureDetector(
+            onTap: () => _onSemesterTap(year.sems[index]),
+            child: semCard,
+          );
       },
     );
+  }
 
-    // basic widget, no animation
+  Widget _buildChildren(BuildContext context, Widget child) {
+    return ClipRect(
+      child: Align(
+        alignment: Alignment.center,
+        heightFactor: _heightFactor.value,
+        child: child,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool closed = !_isExpanded && _controller.isDismissed;
+    final bool shouldRemoveChildren = closed;
+
+    Year year = Provider.of<AcademicRecords>(context, listen: false)
+        .getYear(widget.yearNum);
+
+    final Widget result = Offstage(
+        child: TickerMode(
+          child: Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: _buildSemesters(context, year),
+          ),
+          enabled: !closed,
+        ),
+        offstage: closed);
+
     return Column(
       children: [
-        year.isYearlyQPI
-            ? header
-            : GestureDetector(
-                onTap: _onHeaderTap,
-                child: header,
-              ),
-        _isExpanded ? children : Container(),
+        _buildHeader(context, year),
+        AnimatedBuilder(
+          animation: _controller.view,
+          builder: _buildChildren,
+          child: shouldRemoveChildren ? null : result,
+        ),
       ],
     );
   }
