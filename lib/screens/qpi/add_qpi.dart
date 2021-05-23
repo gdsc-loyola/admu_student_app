@@ -256,7 +256,7 @@ class _AddQPIState extends State<_AddQPI> {
           ),
         ],
         title: IconButton(
-            icon: Icon(Icons.keyboard_arrow_left),
+            icon: Icon(Icons.close_rounded),
             onPressed: () {
               Navigator.pop(context);
             }),
@@ -283,7 +283,6 @@ class _AddQPIState extends State<_AddQPI> {
                   ],
                 ),
               ),
-
               ButtonRow('Year', 'Semester', 'Course', () {
                 // Item 1 Clicked
                 setState(() {
@@ -302,7 +301,6 @@ class _AddQPIState extends State<_AddQPI> {
               }, selected, widget.isEditing),
               SizedBox(height: 24),
               screens[selected],
-
               Spacer(),
               widget.isEditing
                   ? LongButton('Delete', Colors.orange, Colors.white, _onDelete)

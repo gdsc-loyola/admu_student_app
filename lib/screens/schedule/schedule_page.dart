@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/widgets/schedule/schedule_timetable.dart';
+import 'package:admu_student_app/screens/add_class.dart';
 
 class SchedulePage extends StatefulWidget {
   @override

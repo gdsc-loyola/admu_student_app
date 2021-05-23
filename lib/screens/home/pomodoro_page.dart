@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:admu_student_app/widgets/buttons.dart';
+import 'package:admu_student_app/widgets/button_row.dart';
 
 class PomodoroPage extends StatefulWidget {
   @override
@@ -124,41 +125,41 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       Container(
                         margin: EdgeInsets.fromLTRB(16, 56, 16, 0),
                         height: 39,
-                        child: ButtonRow(
-                            'Short Break', 'Pomodoro', 'Long Break', () {
-                          setState(() {
-                            shortSelected = true;
-                            pomodoroSelected = false;
-                            longSelected = false;
-                            isPressed = false;
-                            buttontitle = "Start";
+                      //   child: ButtonRow(
+                      //       'Short Break', 'Pomodoro', 'Long Break', () {
+                      //     setState(() {
+                      //       shortSelected = true;
+                      //       pomodoroSelected = false;
+                      //       longSelected = false;
+                      //       isPressed = false;
+                      //       buttontitle = "Start";
 
-                            pauseTimer();
-                            _start = 300;
-                          });
-                        }, () {
-                          setState(() {
-                            shortSelected = false;
-                            pomodoroSelected = true;
-                            longSelected = false;
-                            isPressed = false;
-                            buttontitle = "Start";
+                      //       pauseTimer();
+                      //       _start = 300;
+                      //     });
+                      //   }, () {
+                      //     setState(() {
+                      //       shortSelected = false;
+                      //       pomodoroSelected = true;
+                      //       longSelected = false;
+                      //       isPressed = false;
+                      //       buttontitle = "Start";
 
-                            pauseTimer();
-                            _start = 1500;
-                          });
-                        }, () {
-                          setState(() {
-                            shortSelected = false;
-                            pomodoroSelected = false;
-                            longSelected = true;
-                            isPressed = false;
-                            buttontitle = "Start";
+                      //       pauseTimer();
+                      //       _start = 1500;
+                      //     });
+                      //   }, () {
+                      //     setState(() {
+                      //       shortSelected = false;
+                      //       pomodoroSelected = false;
+                      //       longSelected = true;
+                      //       isPressed = false;
+                      //       buttontitle = "Start";
 
-                            pauseTimer();
-                            _start = 900;
-                          });
-                        }),
+                      //       pauseTimer();
+                      //       _start = 900;
+                      //     });
+                      //   }),
                       ),
 
                       // Container for Timer
