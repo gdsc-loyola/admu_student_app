@@ -1,7 +1,9 @@
-import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/widgets/button_row.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class PomodoroPage extends StatefulWidget {
@@ -158,7 +160,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                             pauseTimer();
                             _start = 900;
                           });
-                        }),
+                        }, 0, false),
                       ),
 
                       // Container for Timer

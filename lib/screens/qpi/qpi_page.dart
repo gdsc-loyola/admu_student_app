@@ -27,68 +27,20 @@ class _QPIPageState extends State<QPIPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.center, //To center the icon and title
+            crossAxisAlignment: CrossAxisAlignment.center, //To center the icon and title
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center, //To center the icon and title
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Cumulative QPI',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(color: AppColors.GRAY_DARK[0]),
-                    ),
-                  ),
+              Expanded(
+                child: Text(
+                  'Cumulative QPI',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      .copyWith(color: AppColors.GRAY_DARK[0]),
+                ),
+              ),
 
-                  HelpButton(
-                    isInverted: false,
-                  ),
-                ],
-              ),
-              SizedBox(height: 24.0),
-              QPIView(value: Provider.of<AcademicRecords>(context).cumulativeQPI),
-              SizedBox(height: 48.0),
-              Text(
-                'QPI Overview',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .copyWith(color: AppColors.GRAY_DARK[0]),
-              ),
-              SizedBox(height: 16.0),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: years.length,
-                itemBuilder: (_, index) {
-                  Year yr = years[index];
-
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 16.0),
-                    child: YearDropDown(yearNum: yr.yearNum),
-                  );
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  int yearNum = Random().nextInt(5) + 1;
-                  int semNum = Random().nextInt(3);
-                  double qpi = Random().nextDouble() * 4.0;
-
-                  Provider.of<AcademicRecords>(context, listen: false)
-                      .addCourse(yearNum, semNum, 'TEST 123', 0, 3, qpi, true);
-                },
-                child: Text('add new course'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<AcademicRecords>(context, listen: false)
-                      .deleteAllData();
-                },
-                child: Text('delete rows'),
+              HelpButton(
+                isInverted: false,
               ),
             ],
           ),
@@ -103,7 +55,6 @@ class _QPIPageState extends State<QPIPage> {
                 .copyWith(color: AppColors.GRAY_DARK[0]),
           ),
           SizedBox(height: 16.0),
-
           ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -138,12 +89,10 @@ class _QPIPageState extends State<QPIPage> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Container(
-                      child: Image.asset(
-                        'compsat_logo.png',
-                        height: 36,
-                        width: 36,
-                      ),
+                    Image.asset(
+                      'compsat_logo.png',
+                      height: 36,
+                      width: 36,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 6.0),
