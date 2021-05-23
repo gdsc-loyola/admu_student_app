@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,8 +27,7 @@ class _QPIPageState extends State<QPIPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.center, //To center the icon and title
+            crossAxisAlignment: CrossAxisAlignment.center, //To center the icon and title
             children: [
               Expanded(
                 child: Text(
@@ -38,7 +38,10 @@ class _QPIPageState extends State<QPIPage> {
                       .copyWith(color: AppColors.GRAY_DARK[0]),
                 ),
               ),
-              HelpButton(),
+
+              HelpButton(
+                isInverted: false,
+              ),
             ],
           ),
           SizedBox(height: 24.0),
@@ -52,7 +55,6 @@ class _QPIPageState extends State<QPIPage> {
                 .copyWith(color: AppColors.GRAY_DARK[0]),
           ),
           SizedBox(height: 16.0),
-
           ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -67,23 +69,42 @@ class _QPIPageState extends State<QPIPage> {
               );
             },
           ),
-          /*ElevatedButton(
-            onPressed: () {
-              int yearNum = Random().nextInt(5) + 1;
-              int semNum = Random().nextInt(3);
-              double qpi = Random().nextDouble() * 4.0;
-
-              Provider.of<AcademicRecords>(context, listen: false)
-                  .addCourse(yearNum, semNum, 'TEST 123', 0, 3, qpi, true);
-            },
-            child: Text('add new course'),
-          ),*/
           ElevatedButton(
             onPressed: () {
               Provider.of<AcademicRecords>(context, listen: false)
                   .deleteAllData();
             },
             child: Text('delete rows'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Inspired by:',
+                  style: Theme.of(context).textTheme.caption.copyWith(color: AppColors.GRAY_DARK[1]),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Image.asset(
+                      'compsat_logo.png',
+                      height: 36,
+                      width: 36,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6.0),
+                      child: Text(
+                        "Computer Society of the Ateneo's QPI Calculator",
+                        style: Theme.of(context).textTheme.caption.copyWith(color: AppColors.GRAY_DARK[1]),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
