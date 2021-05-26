@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/widgets/calendar/calendar.dart';
 import 'package:admu_student_app/widgets/calendar/event_card.dart';
 import 'package:admu_student_app/widgets/calendar/event_card_small.dart';
 
@@ -12,15 +13,33 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  DateTime _date;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _date = DateTime.now();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Event> _events =
-        Provider.of<CalendarEvents>(context, listen: false).events;
+        Provider.of<CalendarEvents>(context).getEventsByDay(_date);
 
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0),
       child: Column(
         children: [
+          CalendarMonth(
+            date: _date,
+            onDateChange: (DateTime date) {
+              print('on date change');
+              setState(() {
+                _date = date;
+              });
+            },
+          ),
           ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,

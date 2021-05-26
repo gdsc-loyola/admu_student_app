@@ -166,7 +166,7 @@ class _SubjectBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    Widget block = Container(
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(8)), // original 7
@@ -182,6 +182,14 @@ class _SubjectBlock extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
+    );
+
+    // testing for long press
+    return GestureDetector(
+      onLongPress: () {
+        print('long press!');
+      },
+      child: block,
     );
   }
 }

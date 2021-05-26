@@ -15,6 +15,9 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
   Widget build(BuildContext context) {
     int selected = Provider.of<AddQPINotifier>(context).semNum;
 
+    bool shouldShrink =
+        ((MediaQuery.of(context).size.width - 16 * 2 - 20) / 2) < (56 * 3 + 4 * 2);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,32 +31,34 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
         SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
           children: [
             // same as DateSelect
             // this should be SquareButton
-            SquareButton(
+            ShrinkingButton(
               selected: selected == 0 ? true : false,
               text: 'IS',
               onPressed: () =>
                   Provider.of<AddQPINotifier>(context, listen: false).semNum =
                       0,
+              shrink: shouldShrink,
             ),
             SizedBox(width: 4),
-            SquareButton(
+            ShrinkingButton(
               selected: selected == 1 ? true : false,
               text: '1',
               onPressed: () =>
                   Provider.of<AddQPINotifier>(context, listen: false).semNum =
                       1,
+              shrink: shouldShrink,
             ),
             SizedBox(width: 4),
-            SquareButton(
+            ShrinkingButton(
               selected: selected == 2 ? true : false,
               text: '2',
               onPressed: () =>
                   Provider.of<AddQPINotifier>(context, listen: false).semNum =
                       2,
+              shrink: shouldShrink,
             ),
           ],
         ),

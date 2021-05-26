@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/screens/enlistment/enlistment_classes.dart';
+import 'package:admu_student_app/widgets/enlistment/enlistment_class.dart';
 import 'package:admu_student_app/widgets/qpi/course_widget.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 
@@ -133,9 +133,9 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4))),
               child: TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => EnlistmentClassesPage()),
-                  );
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(builder: (_) => EnlistmentClassesPage()),
+                  // );
                 },
                 child: Text(
                   'Create Schedule',

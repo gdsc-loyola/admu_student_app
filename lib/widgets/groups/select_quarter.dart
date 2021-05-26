@@ -15,6 +15,10 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
     // int selected = Provider.of<AddQPINotifier>(context).semNum;
     int selected = 0;
 
+    bool shouldShrink =
+        ((MediaQuery.of(context).size.width - 16 * 2 - 20) / 2) <
+            (56 * 4 + 8 * 3);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,21 +36,25 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
             ShrinkingButton(
               selected: selected == 0 ? true : false,
               text: '1',
+              shrink: shouldShrink,
             ),
             SizedBox(width: 4),
             ShrinkingButton(
               selected: selected == 1 ? true : false,
               text: '2',
+              shrink: shouldShrink,
             ),
             SizedBox(width: 4),
             ShrinkingButton(
               selected: selected == 2 ? true : false,
               text: '3',
+              shrink: shouldShrink,
             ),
             SizedBox(width: 4),
             ShrinkingButton(
               selected: selected == 3 ? true : false,
               text: '4',
+              shrink: shouldShrink,
             ),
           ],
         ),

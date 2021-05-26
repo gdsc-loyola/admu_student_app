@@ -8,12 +8,14 @@ class InputGroup extends StatelessWidget {
   final TextEditingController controller;
   final bool isMultilined;
   final int length;
+  final String hint;
 
   InputGroup(
     this.label,
     this.controller, {
     this.isMultilined = false,
     this.length,
+    this.hint = '',
   });
 
   @override
@@ -33,6 +35,7 @@ class InputGroup extends StatelessWidget {
           controller: controller,
           isMultiLined: isMultilined,
           length: length,
+          hint: hint,
         ),
       ],
     );

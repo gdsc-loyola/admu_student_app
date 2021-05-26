@@ -26,7 +26,7 @@ class _SmallEventCardState extends State<SmallEventCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    Widget card = Container(
       height: 64,
       padding: EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
@@ -75,6 +75,13 @@ class _SmallEventCardState extends State<SmallEventCard> {
           ],
         ),
       ),
+    );
+
+    return InkWell(
+      onTap: () {
+        print('on tap small');
+      },
+      child: card,
     );
   }
 }
