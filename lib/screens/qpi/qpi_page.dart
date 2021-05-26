@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/academic_records.dart';
+import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/models/year.dart';
 import 'package:admu_student_app/widgets/qpi/qpi_view.dart';
 import 'package:admu_student_app/widgets/qpi/year_drop_down.dart';
@@ -18,6 +19,39 @@ class QPIPage extends StatefulWidget {
 
 class _QPIPageState extends State<QPIPage> {
   @override
+  void initState() {
+    super.initState();
+
+    if (UserCache.qpi_main) {
+      UserCache.qpi_main = false;
+      UserCache.save();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showHowTo();
+      });
+    }
+  }
+
+  void _showHowTo() async {
+    await showGeneralDialog(
+      context: context,
+      pageBuilder: (context, _, __) {
+        return Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.GRAY_LIGHT[2],
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+            ),
+            width: 200,
+            height: 200,
+            child: Center(child: Text('How-To Test Dialog')),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Year> years = Provider.of<AcademicRecords>(context).years;
 
@@ -27,7 +61,8 @@ class _QPIPageState extends State<QPIPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center, //To center the icon and title
+            crossAxisAlignment:
+                CrossAxisAlignment.center, //To center the icon and title
             children: [
               Expanded(
                 child: Text(
@@ -38,9 +73,9 @@ class _QPIPageState extends State<QPIPage> {
                       .copyWith(color: AppColors.GRAY_DARK[0]),
                 ),
               ),
-
               HelpButton(
                 isInverted: false,
+                onTap: _showHowTo,
               ),
             ],
           ),
@@ -61,7 +96,6 @@ class _QPIPageState extends State<QPIPage> {
             itemCount: years.length,
             itemBuilder: (_, index) {
               Year year = years[index];
-
 
               return Container(
                 margin: EdgeInsets.only(bottom: 16.0),
@@ -84,7 +118,10 @@ class _QPIPageState extends State<QPIPage> {
               children: [
                 Text(
                   'Inspired by:',
-                  style: Theme.of(context).textTheme.caption.copyWith(color: AppColors.GRAY_DARK[1]),
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: AppColors.GRAY_DARK[1]),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -98,7 +135,10 @@ class _QPIPageState extends State<QPIPage> {
                       padding: const EdgeInsets.only(bottom: 6.0),
                       child: Text(
                         "Computer Society of the Ateneo's QPI Calculator",
-                        style: Theme.of(context).textTheme.caption.copyWith(color: AppColors.GRAY_DARK[1]),
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            .copyWith(color: AppColors.GRAY_DARK[1]),
                       ),
                     ),
                   ],

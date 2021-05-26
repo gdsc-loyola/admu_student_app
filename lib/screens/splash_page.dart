@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:admu_student_app/screens/main_app.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/screens/login_page.dart';
+import 'package:admu_student_app/screens/main_app.dart';
 
 class SplashPage extends StatefulWidget {
   @override

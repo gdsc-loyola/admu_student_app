@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_strings.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/widgets/calendar/calendar.dart';
@@ -36,6 +38,7 @@ class _MonthTabState extends State<MonthTab> {
 
     return Column(
       children: [
+        SizedBox(height: 27),
         CalendarMonth(
           date: _date,
           onDateChange: (DateTime date) {
@@ -46,6 +49,15 @@ class _MonthTabState extends State<MonthTab> {
             if (widget.onDateChange != null) widget.onDateChange(_date);
           },
         ),
+        SizedBox(height: 16),
+        Text(
+          '${AppStrings.DAYS[_date.weekday - 1]}, ${AppStrings.MONTHS[_date.month - 1]} ${_date.day}',
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .copyWith(color: AppColors.PRIMARY_ALT),
+        ),
+        SizedBox(height: 8),
         ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:admu_student_app/constants/app_colors.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/user_cache.dart';
+import 'package:admu_student_app/screens/main_app.dart';
 import 'package:admu_student_app/screens/onboarding_page.dart';
 
 class LoginPage extends StatelessWidget {
@@ -26,7 +28,10 @@ class LoginPage extends StatelessWidget {
                     Text(
                       'Welcome to Beadle!',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.black),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(color: Colors.black),
                     ),
                     // Container for Buttons
                     Container(
@@ -125,22 +130,30 @@ class LoginPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                          'No account?',
-                          style: Theme.of(context).textTheme.caption.copyWith(color: AppColors.GRAY_DARK[2]),
+                            'No account?',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .copyWith(color: AppColors.GRAY_DARK[2]),
                           ),
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (_) => OnboardingPage()),
+                                    builder: (_) => UserCache.onboarding
+                                        ? OnboardingPage()
+                                        : MainPage()),
                               );
                             },
                             child: Text(
                               'Continue as Guest',
-                              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: AppColors.PRIMARY_MAIN,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                    color: AppColors.PRIMARY_MAIN,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           ),
                         ],

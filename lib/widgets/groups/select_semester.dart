@@ -31,14 +31,13 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
   void _onSemSelect(int val) {
     setState(() {
       _selected = val;
+
       if (widget.onValueChange != null) widget.onValueChange(_selected);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // int selected = Provider.of<AddQPINotifier>(context).semNum;
-
     bool shouldShrink =
         ((MediaQuery.of(context).size.width - 16 * 2 - 20) / 2) <
             (56 * 3 + 4 * 2);
@@ -61,8 +60,6 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
               selected: _selected == 0 ? true : false,
               text: 'IS',
               onPressed: () => _onSemSelect(0),
-              // Provider.of<AddQPINotifier>(context, listen: false).semNum =
-              //     0,
               shrink: shouldShrink,
             ),
             SizedBox(width: 4),
@@ -70,8 +67,6 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
               selected: _selected == 1 ? true : false,
               text: '1',
               onPressed: () => _onSemSelect(1),
-              // Provider.of<AddQPINotifier>(context, listen: false).semNum =
-              //     1,
               shrink: shouldShrink,
             ),
             SizedBox(width: 4),
@@ -79,8 +74,6 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
               selected: _selected == 2 ? true : false,
               text: '2',
               onPressed: () => _onSemSelect(2),
-              // Provider.of<AddQPINotifier>(context, listen: false).semNum =
-              //     2,
               shrink: shouldShrink,
             ),
           ],
