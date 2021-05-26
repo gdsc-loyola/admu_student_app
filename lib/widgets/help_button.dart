@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 
+
 class HelpButton extends StatelessWidget {
-  const HelpButton({Key key}) : super(key: key);
+  HelpButton({
+    Key key,
+    this.isInverted = false,
+  }) : super(key: key);
+
+  final bool isInverted;
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +18,9 @@ class HelpButton extends StatelessWidget {
       onPressed: (){},
       icon: Icon(
         CupertinoIcons.question_circle_fill,
-        color: AppColors.PRIMARY_MAIN,
+        color: isInverted == true ? Colors.white : AppColors.PRIMARY_MAIN,
       ),
-      iconSize: 32,
+      iconSize: isInverted == true ? 32 : 32,
       splashRadius: 20,
       alignment: Alignment.topCenter,
       tooltip: 'This is your Total QPI',
