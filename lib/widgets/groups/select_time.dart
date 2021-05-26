@@ -63,10 +63,10 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                 nTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
               },
               initialDateTime: _time == null
-                  ? DateTime(DateTime.now().year,
-                    DateTime.now().month, DateTime.now().day)
-                  : DateTime(DateTime.now().year,
-                    DateTime.now().month, DateTime.now().day, _time.hour, _time.minute),
+                  ? DateTime(DateTime.now().year, DateTime.now().month,
+                      DateTime.now().day)
+                  : DateTime(DateTime.now().year, DateTime.now().month,
+                      DateTime.now().day, _time.hour, _time.minute),
             ),
           );
         },
@@ -112,7 +112,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                   child: Center(
                     child: Text(
                       _time == null
-                          ? '00:00'
+                          ? '12:00'
                           : '${_time.hour > 12 ? (_time.hour - 12) : (_time.hour == 0 ? 12 : _time.hour)}:${_time.minute.toString().padLeft(2, '0')}',
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                           color: _time == null

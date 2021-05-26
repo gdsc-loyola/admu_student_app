@@ -17,16 +17,16 @@ class _CalendarPageState extends State<CalendarPage> {
     _date = DateTime.now();
   }
 
+  void _onDateChange(DateTime date) {
+    setState(() {
+      _date = date;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    void _onDateChange(DateTime date) {
-      setState(() {
-        _date = date;
-      });
-    }
-
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0),
+      padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       child: Column(
         children: [
           MonthTab(date: _date, onDateChange: _onDateChange),
