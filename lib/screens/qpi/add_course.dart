@@ -11,10 +11,25 @@ class CourseAddQPI extends StatelessWidget {
   final TextEditingController unitsController;
   final TextEditingController codeController;
 
+  final Color color;
+  final Function(Color) onColorChange;
+
+  final int gradeVal;
+  final Function(int) onGradeChange;
+
+  final int sem;
+  final Function(int) onSemChange;
+
   CourseAddQPI({
     @required this.yearController,
     @required this.unitsController,
     @required this.codeController,
+    this.color,
+    this.onColorChange,
+    this.gradeVal,
+    this.onGradeChange,
+    this.sem,
+    this.onSemChange,
   });
 
   @override
@@ -49,7 +64,10 @@ class CourseAddQPI extends StatelessWidget {
                           .copyWith(color: AppColors.GRAY_LIGHT[2]),
                     ),
                     SizedBox(height: 8),
-                    GradeDropDown(),
+                    GradeDropDown(
+                      selected: gradeVal,
+                      onValueChange: onGradeChange,
+                    ),
                   ],
                 ),
               ),
@@ -67,7 +85,12 @@ class CourseAddQPI extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 20),
-              Expanded(child: SelectSemesterGroup()),
+              Expanded(
+                child: SelectSemesterGroup(
+                  selected: sem,
+                  onValueChange: onSemChange,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 16),
@@ -93,7 +116,10 @@ class CourseAddQPI extends StatelessWidget {
                 .copyWith(color: AppColors.GRAY_LIGHT[2]),
           ),
           SizedBox(height: 8),
-          SelectColor(),
+          SelectColor(
+            color: color,
+            onColorChange: onColorChange,
+          ),
         ],
       ),
     );

@@ -53,7 +53,8 @@ class ShortButton extends StatelessWidget {
         },
         child: Text(
           text,
-          style: Theme.of(context).textTheme.headline6.copyWith(color: textColor),
+          style:
+              Theme.of(context).textTheme.headline6.copyWith(color: textColor),
         ),
       ),
     );
@@ -145,11 +146,25 @@ class ShrinkingButton extends StatelessWidget {
 }
 
 class GradeDropDown extends StatefulWidget {
+  final int selected;
+  final Function(int) onValueChange;
+
+  GradeDropDown({this.selected, this.onValueChange});
+
   @override
   _GradeDropDownState createState() => _GradeDropDownState();
 }
 
 class _GradeDropDownState extends State<GradeDropDown> {
+  int _selected = 1;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.selected != null) _selected = widget.selected;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -162,7 +177,8 @@ class _GradeDropDownState extends State<GradeDropDown> {
           borderRadius: BorderRadius.all(Radius.circular(5))),
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
-            value: Provider.of<AddQPINotifier>(context).gradeVal,
+            // value: Provider.of<AddQPINotifier>(context).gradeVal,
+            value: _selected,
             items: [
               DropdownMenuItem(child: Text("A"), value: 1),
               DropdownMenuItem(child: Text("B+"), value: 2),
@@ -173,8 +189,13 @@ class _GradeDropDownState extends State<GradeDropDown> {
               DropdownMenuItem(child: Text("F/W"), value: 7),
             ],
             onChanged: (value) {
-              Provider.of<AddQPINotifier>(context, listen: false).gradeVal =
-                  value;
+              setState(() {
+                _selected = value;
+                if (widget.onValueChange != null)
+                  widget.onValueChange(_selected);
+              });
+              // Provider.of<AddQPINotifier>(context, listen: false).gradeVal =
+              //     value;
             }),
       ),
     );
