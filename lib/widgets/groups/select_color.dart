@@ -5,6 +5,11 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/add_qpi_notifier.dart';
 
 class SelectColor extends StatefulWidget {
+  final Color color;
+  final Function(Color) onColorChange;
+
+  SelectColor({this.color, this.onColorChange});
+
   @override
   _SelectColorState createState() => _SelectColorState();
 }
@@ -12,14 +17,30 @@ class SelectColor extends StatefulWidget {
 class _SelectColorState extends State<SelectColor> {
   int _selected = -1;
 
+  Color _color;
+
   @override
   void initState() {
     super.initState();
 
-    if (Provider.of<AddQPINotifier>(context, listen: false).hasOldColor) {
+    /*if (Provider.of<AddQPINotifier>(context, listen: false).hasOldColor) {
       Color c = Provider.of<AddQPINotifier>(context, listen: false).color;
       for (int i = 0; i < AppColors.ACCENTS.length; i++) {
         if (c.value == AppColors.ACCENTS[i].value) {
+          _selected = i;
+          break;
+        }
+      }
+
+      if (_selected == -1) _selected = 5;
+    }*/
+
+    // new
+    if (widget.color != null) {
+      _color = widget.color;
+
+      for (int i = 0; i < AppColors.ACCENTS.length; i++) {
+        if (_color.value == AppColors.ACCENTS[i].value) {
           _selected = i;
           break;
         }
@@ -46,7 +67,11 @@ class _SelectColorState extends State<SelectColor> {
         color = Colors.blue;
       }
 
-      Provider.of<AddQPINotifier>(context, listen: false).color = color;
+      // Provider.of<AddQPINotifier>(context, listen: false).color = color;
+
+      // new
+      _color = color;
+      if (widget.onColorChange != null) widget.onColorChange(_color);
     });
   }
 
@@ -101,7 +126,7 @@ class _SelectColorState extends State<SelectColor> {
           ),
           isSelected: _selected == 5,
           bgColor: _selected == 5
-              ? Provider.of<AddQPINotifier>(context).color
+              ? Colors.blue // Provider.of<AddQPINotifier>(context).color
               : AppColors.GRAY_LIGHT[2],
           shrink: shouldShrink,
           onTap: () => _onSelect(context, 5),

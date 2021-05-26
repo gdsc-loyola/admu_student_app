@@ -5,9 +5,10 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class SelectDaysGroup extends StatefulWidget {
+  final List<bool> selected;
   final Function(List<bool>) onChange;
 
-  SelectDaysGroup({this.onChange});
+  SelectDaysGroup({this.selected, this.onChange});
 
   @override
   _SelectDaysGroupState createState() => _SelectDaysGroupState();
@@ -15,6 +16,13 @@ class SelectDaysGroup extends StatefulWidget {
 
 class _SelectDaysGroupState extends State<SelectDaysGroup> {
   List<bool> _selected = List.generate(6, (index) => false);
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.selected != null) _selected = widget.selected;
+  }
 
   @override
   Widget build(BuildContext context) {

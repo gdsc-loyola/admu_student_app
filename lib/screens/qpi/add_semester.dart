@@ -8,10 +8,15 @@ class SemesterAddQPI extends StatelessWidget {
   final TextEditingController qpiController;
   final TextEditingController unitsController;
 
+  final int selected;
+  final Function(int) onValueChange;
+
   SemesterAddQPI({
     @required this.yearController,
     @required this.qpiController,
     @required this.unitsController,
+    this.selected,
+    this.onValueChange,
   });
 
   @override
@@ -54,7 +59,12 @@ class SemesterAddQPI extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 20),
-              Expanded(child: SelectSemesterGroup()),
+              Expanded(
+                child: SelectSemesterGroup(
+                  selected: selected,
+                  onValueChange: onValueChange,
+                ),
+              ),
             ],
           ),
         ],

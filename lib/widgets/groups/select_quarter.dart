@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
-class SelectSemesterGroup extends StatefulWidget {
+class SelectQuarterGroup extends StatefulWidget {
+  final int selected;
+  final Function(int) onValueChange;
+
+  SelectQuarterGroup({this.selected, this.onValueChange});
+
   @override
-  _SelectSemesterGroupState createState() => _SelectSemesterGroupState();
+  _SelectQuarterGroupState createState() => _SelectQuarterGroupState();
 }
 
-class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
+class _SelectQuarterGroupState extends State<SelectQuarterGroup> {
+  int _selected;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.selected != null) _selected = widget.selected;
+  }
+
   @override
   Widget build(BuildContext context) {
     // int selected = Provider.of<AddQPINotifier>(context).semNum;
