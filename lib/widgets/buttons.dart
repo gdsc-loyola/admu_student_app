@@ -34,8 +34,17 @@ class ShortButton extends StatelessWidget {
   final Color buttonColor;
   final Color textColor;
   final VoidCallback onPressed;
+  final bool outlined;
+  final List<BoxShadow> shadows;
 
-  ShortButton(this.text, this.buttonColor, this.textColor, this.onPressed);
+  ShortButton(
+    this.text,
+    this.buttonColor,
+    this.textColor,
+    this.onPressed, {
+    this.outlined = false,
+    this.shadows,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +52,17 @@ class ShortButton extends StatelessWidget {
       width: 128,
       height: 64,
       decoration: BoxDecoration(
-          color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+        color: outlined ? Colors.transparent : buttonColor,
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        border: Border.all(
+          color: outlined ? buttonColor : Colors.transparent,
+          width: 1.0,
+        ),
+        boxShadow: shadows,
+      ),
       child: TextButton(
         onPressed: () {
-          onPressed();
+          if (onPressed != null) onPressed();
         },
         child: Text(
           text,

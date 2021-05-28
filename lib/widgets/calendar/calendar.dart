@@ -182,9 +182,8 @@ class _CalendarMonthState extends State<CalendarMonth> {
       // height: 382,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        // color: AppColors.GRAY_LIGHT[2],
-        color: Colors.white, // temporary
-        boxShadow: [AppEffects.DEFAULT_SHADOW],
+        color: Colors.white,
+        boxShadow: [AppEffects.SHADOW_FOR_WHITE],
       ),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(

@@ -9,6 +9,7 @@ import 'package:admu_student_app/models/year.dart';
 import 'package:admu_student_app/screens/qpi/add_course.dart';
 import 'package:admu_student_app/screens/qpi/add_semester.dart';
 import 'package:admu_student_app/screens/qpi/add_year.dart';
+import 'package:admu_student_app/widgets/modals/alert.dart';
 import 'package:admu_student_app/widgets/button_row.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
@@ -212,6 +213,24 @@ class _AddQPIPageState extends State<AddQPIPage> {
   }
 
   void _onDelete() async {
+    bool toDelete = false;
+
+    await showGeneralDialog(
+      context: context,
+      pageBuilder: (context, _, __) {
+        return Center(
+          child: AlertModal(
+            header: 'Delete QPI',
+            onAccept: () {
+              toDelete = true;
+            },
+          ),
+        );
+      },
+    );
+
+    if (!toDelete) return;
+
     if (selected == 0)
       Provider.of<AcademicRecords>(context, listen: false)
           .deleteYearlyQPI(widget.yearNum);
