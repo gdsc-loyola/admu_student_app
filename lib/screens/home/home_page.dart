@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         Padding(
           padding: const EdgeInsets.all(30.0),
           child: Row(
@@ -38,7 +37,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -47,38 +45,42 @@ class _HomePageState extends State<HomePage> {
                     style: Theme.of(context).textTheme.headline5,
                     textAlign: TextAlign.left,
                   ),
-
                   Text(
                     'Ready to start your day?',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: AppColors.GRAY_DARK[1]),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: AppColors.GRAY_DARK[1]),
                   ),
                 ],
               )
             ],
           ),
         ),
-
-        Text(widget.today,
-        style: Theme.of(context).textTheme.headline5,
+        Text(
+          widget.today,
+          style: Theme.of(context).textTheme.headline5,
         ),
-
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: PhysicalModel(
             color: Colors.black,
             elevation: 8,
             child: Container(
-              height: MediaQuery.of(context).size.height/2.9,
-              width: MediaQuery.of(context).size.width-32,
+              height: MediaQuery.of(context).size.height / 2.9,
+              width: MediaQuery.of(context).size.width - 32,
               color: Colors.white,
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Text('For Today: ' + '##',
-                      style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.PRIMARY_MAIN),
+                    child: Text(
+                      'For Today: ' + '##',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: AppColors.PRIMARY_MAIN),
                     ),
                   ),
                 ],
@@ -86,13 +88,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 26, 16, 0),
           child: Pomodoro(),
         ),
       ],
-    /*List<Event> _events =
+      /*List<Event> _events =
         Provider.of<CalendarEvents>(context, listen: false).events;
 
     return SingleChildScrollView(

@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,14 +36,12 @@ class _QPIPageState extends State<QPIPage> {
       context: context,
       pageBuilder: (context, _, __) {
         return Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.GRAY_LIGHT[2],
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-            ),
-            width: 200,
-            height: 200,
-            child: Center(child: Text('How-To Test Dialog')),
+          child: HelpModal(
+            strings: [
+              'To add your classes, tap the + button at the top right corner',
+              'You can edit your classes by clicking on it.',
+              'Delete your schedule by clicking on the trash icon.',
+            ],
           ),
         );
       },
@@ -103,48 +100,39 @@ class _QPIPageState extends State<QPIPage> {
               );
             },
           ),
-          ElevatedButton(
+          /*ElevatedButton(
             onPressed: () {
               Provider.of<AcademicRecords>(context, listen: false)
                   .deleteAllData();
             },
             child: Text('delete rows'),
+          ),*/
+
+          Text(
+            'Inspired by:',
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .copyWith(color: AppColors.GRAY_DARK[1]),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'Inspired by:',
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption
-                      .copyWith(color: AppColors.GRAY_DARK[1]),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Image.asset(
-                      'compsat_logo.png',
-                      height: 36,
-                      width: 36,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 6.0),
-                      child: Text(
-                        "Computer Society of the Ateneo's QPI Calculator",
-                        style: Theme.of(context)
-                            .textTheme
-                            .caption
-                            .copyWith(color: AppColors.GRAY_DARK[1]),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Image.asset(
+                'assets/compsat_logo.png',
+                height: 36,
+                width: 36,
+              ),
+              Text(
+                "Computer Society of the Ateneo's QPI Calculator",
+                softWrap: true,
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .copyWith(color: AppColors.GRAY_DARK[1]),
+              ),
+              // ),
+            ],
           ),
         ],
       ),

@@ -46,8 +46,6 @@ class AppColors {
     const Color(0xFFF8F8F9),
   ];
 
-  static const GRAY_LIGHT_LIGHT = Color(0xFFF8F8F9);
-
   static const List<Color> GRAY_DARK = [
     const Color(0xFF474747),
     const Color(0xFF7A7A7A),

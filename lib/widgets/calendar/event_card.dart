@@ -36,7 +36,7 @@ class _EventCardState extends State<EventCard> {
       padding: EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [AppEffects.DEFAULT_SHADOW],
+        boxShadow: [AppEffects.SHADOW_FOR_WHITE],
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       child: Center(

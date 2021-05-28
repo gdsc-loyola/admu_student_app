@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_effects.dart';
+import 'package:admu_student_app/widgets/buttons.dart';
 
 class SelectColor extends StatefulWidget {
   final Color color;
@@ -36,26 +39,57 @@ class _SelectColorState extends State<SelectColor> {
   }
 
   void _onSelect(BuildContext context, int index) async {
-    setState(() {
-      _selected = index;
+    if (index == 5) {
+      await showGeneralDialog(
+        context: context,
+        pageBuilder: (context, _, __) {
+          Color newColor = Colors.blue;
 
-      Color color;
+          return Center(
+            child: Column(
+              children: [
+                MaterialPicker(
+                  pickerColor: newColor,
+                  onColorChanged: (Color c) {
+                    newColor = c;
+                  },
+                ),
+                SizedBox(height: 8),
+                ShortButton(
+                  'Select',
+                  AppColors.PRIMARY_MAIN,
+                  AppColors.GRAY_LIGHT[2],
+                  () {
+                    Navigator.of(context).pop();
+                  },
+                  shadows: [AppEffects.SHADOW],
+                ),
+                SizedBox(height: 16),
+                ShortButton(
+                  'Cancel',
+                  AppColors.GRAY_DARK[2],
+                  AppColors.GRAY_DARK[0],
+                  () {
+                    setState(() {
+                      _selected = index;
 
-      if (_selected < 5)
-        color = AppColors.ACCENTS[index];
-      else {
-        // open alert dialog
-        // showGeneralDialog();
+                      _color = newColor;
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      setState(() {
+        _selected = index;
 
-        // get color and return
-        // widget.onSelect();
-        color = Colors.blue;
-      }
-
-      // new
-      _color = color;
-      if (widget.onColorChange != null) widget.onColorChange(_color);
-    });
+        _color = AppColors.ACCENTS[index];
+        if (widget.onColorChange != null) widget.onColorChange(_color);
+      });
+    }
   }
 
   @override

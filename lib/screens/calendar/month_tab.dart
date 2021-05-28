@@ -37,6 +37,7 @@ class _MonthTabState extends State<MonthTab> {
         Provider.of<CalendarEvents>(context).getEventsByDay(_date);
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 27),
         CalendarMonth(
