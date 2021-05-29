@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/models/central_database.dart';
 
 class Event {
+  int id;
   String name;
   String agenda;
   String tags;
@@ -12,6 +13,7 @@ class Event {
   bool inAcademicCalendar;
 
   Event({
+    this.id,
     @required this.name,
     this.agenda = '',
     this.tags = '',
@@ -23,6 +25,7 @@ class Event {
 
   factory Event.fromMap(Map map) {
     return Event(
+      id: map[CentralDatabaseHelper.id],
       name: map[CentralDatabaseHelper.name],
       agenda: map[CentralDatabaseHelper.agenda],
       tags: map[CentralDatabaseHelper.tags],
@@ -38,7 +41,7 @@ class Event {
   }
 
   String getReadableStartTime() =>
-      (start.hour < 12 ? start.hour : start.hour - 12)
+      (start.hour < 12 ? (start.hour == 0 ? 12 : start.hour) : start.hour - 12)
           .toString()
           .padLeft(2, '0') +
       ':' +
@@ -46,7 +49,9 @@ class Event {
       (start.hour < 12 ? ' AM' : ' PM');
 
   String getReadableEndTime() =>
-      (end.hour < 12 ? end.hour : end.hour - 12).toString().padLeft(2, '0') +
+      (end.hour < 12 ? (end.hour == 0 ? 12 : end.hour) : end.hour - 12)
+          .toString()
+          .padLeft(2, '0') +
       ':' +
       end.minute.toString().padLeft(2, '0') +
       (end.hour < 12 ? ' AM' : ' PM');

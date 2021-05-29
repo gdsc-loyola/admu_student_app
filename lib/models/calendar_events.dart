@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_scraper/web_scraper.dart';
 
+import 'package:admu_student_app/models/central_database.dart';
 import 'package:admu_student_app/models/event.dart';
 
 class CalendarEvents extends ChangeNotifier {
@@ -79,7 +80,7 @@ class CalendarEvents extends ChangeNotifier {
 
     _updateList();
 
-    getAcademicCalendar();
+    // getAcademicCalendar();
   }
 
   void syncToCalendar() async {
@@ -89,7 +90,7 @@ class CalendarEvents extends ChangeNotifier {
   void getAcademicCalendar() async {
     // web scraping
 
-    print('attempting to scrape academic calendar...');
+    // print('attempting to scrape academic calendar...');
 
     /*final webScraper = WebScraper('http://regcom.ateneo.edu');
 
@@ -191,30 +192,138 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
   */
   }
 
-  void addEvent(String title, String label, String notes, DateTime start,
+  void addEvent(String name, String agenda, String tags, DateTime start,
       DateTime end, bool isDone) async {
     // add to database
     // key ID
     // sync to cal
-    // events.add(Event(title, startDate, endDate, label, notes, isTask));
+
+    if (kIsWeb) {
+      events.add(Event(
+          name: name,
+          agenda: agenda,
+          tags: tags,
+          start: start,
+          end: end,
+          isDone: isDone));
+
+      _updateList();
+      return;
+    }
+
+    int id = await (await CentralDatabaseHelper.instance.database).insert(
+      CentralDatabaseHelper.tableName_events,
+      {
+        CentralDatabaseHelper.year: start == null ? null : start.year,
+        CentralDatabaseHelper.month: start == null ? null : start.month,
+        CentralDatabaseHelper.day: start == null ? null : start.day,
+        CentralDatabaseHelper.yearEnd: end == null ? null : end.year,
+        CentralDatabaseHelper.monthEnd: end == null ? null : end.month,
+        CentralDatabaseHelper.dayEnd: end == null ? null : end.day,
+        CentralDatabaseHelper.name: name,
+        CentralDatabaseHelper.agenda: agenda,
+        CentralDatabaseHelper.tags: tags,
+        CentralDatabaseHelper.start:
+            start == null ? '' : start.toIso8601String(),
+        CentralDatabaseHelper.end: end == null ? '' : end.toIso8601String(),
+        CentralDatabaseHelper.isDone: 0,
+      },
+    );
+
+    print('added event id $id');
 
     _updateList();
   }
 
-  void editEvent(int id, String title, String label, String notes,
+  void editEvent(int id, Event event, String name, String agenda, String tags,
       DateTime start, DateTime end, bool isDone) async {
     // edit from database
     // key ID
     // sync to cal
 
+    if (kIsWeb) {
+      for (Event e in _events) {
+        if (e.name == event.name &&
+            e.agenda == event.agenda &&
+            e.tags == event.tags &&
+            e.start == event.start &&
+            e.end == event.end &&
+            e.isDone == event.isDone) {
+          e.name = name;
+          e.agenda = agenda;
+          e.tags = tags;
+          e.start = start;
+          e.end = end;
+          e.isDone = isDone;
+
+          _updateList();
+          return;
+        }
+      }
+    }
+
+    int updated = await (await CentralDatabaseHelper.instance.database).update(
+      CentralDatabaseHelper.tableName_events,
+      {
+        CentralDatabaseHelper.id: id,
+        CentralDatabaseHelper.year: start == null ? null : start.year,
+        CentralDatabaseHelper.month: start == null ? null : start.month,
+        CentralDatabaseHelper.day: start == null ? null : start.day,
+        CentralDatabaseHelper.yearEnd: end == null ? null : end.year,
+        CentralDatabaseHelper.monthEnd: end == null ? null : end.month,
+        CentralDatabaseHelper.dayEnd: end == null ? null : end.day,
+        CentralDatabaseHelper.name: name,
+        CentralDatabaseHelper.agenda: agenda,
+        CentralDatabaseHelper.tags: tags,
+        CentralDatabaseHelper.start:
+            start == null ? '' : start.toIso8601String(),
+        CentralDatabaseHelper.end: end == null ? '' : end.toIso8601String(),
+        CentralDatabaseHelper.isDone: isDone ? 1 : 0,
+      },
+      where: '${CentralDatabaseHelper.id} = ?',
+      whereArgs: [id],
+    );
+
+    print('edited $updated event(s)');
+
     _updateList();
   }
 
-  void deleteEvent(int id) async {
+  void deleteEvent(int id, Event e) async {
     // delete from database
     // key ID
 
+    if (kIsWeb) {
+      _events.remove(e);
+
+      _updateList();
+      return;
+    }
+
+    int deleted = await (await CentralDatabaseHelper.instance.database).delete(
+      CentralDatabaseHelper.tableName_events,
+      where: '${CentralDatabaseHelper.id} = ?',
+      whereArgs: [id],
+    );
+
+    print('deleted $deleted event(s)');
+
     _updateList();
+  }
+
+  void setEventDone(Event event, bool isDone) async {
+    // edit from database
+
+    if (kIsWeb) {
+      for (Event e in _events) {
+        if (e == event) {
+          e.isDone = isDone;
+
+          _updateList();
+          return;
+        }
+      }
+    }
   }
 
   void _updateList() async {
@@ -223,6 +332,17 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
       notifyListeners();
       return;
     }
+
+    // get rows
+    List<Map<String, dynamic>> rows =
+        await (await CentralDatabaseHelper.instance.database)
+            .query(CentralDatabaseHelper.tableName_events);
+
+    _events = [];
+
+    rows.forEach((row) {
+      _events.add(Event.fromMap(row));
+    });
 
     notifyListeners();
   }

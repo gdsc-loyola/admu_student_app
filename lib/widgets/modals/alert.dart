@@ -33,6 +33,7 @@ class AlertModal extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       padding: EdgeInsets.fromLTRB(16, 56, 16, 56),
+      margin: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -78,7 +79,6 @@ class AlertModal extends StatelessWidget {
               if (onDecline != null) onDecline();
               Navigator.of(context).pop();
             },
-            shadows: [AppEffects.SHADOW],
             outlined: true,
           ),
         ],
