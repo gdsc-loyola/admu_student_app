@@ -1,17 +1,17 @@
 import 'package:intl/intl.dart';
-
-import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
-import 'package:admu_student_app/screens/home/pomodoro_page.dart';
 import 'package:admu_student_app/widgets/home/pomodoro.dart';
 import 'package:admu_student_app/widgets/home/event_card_preview.dart';
 
 class HomePage extends StatefulWidget {
   final String today = DateFormat.yMMMMEEEEd('en_US').format(DateTime.now());
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -19,32 +19,41 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Row(
+    List<Event> events =
+        Provider.of<CalendarEvents>(context).getEventsByDay(DateTime.now());
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+      child: Column(
+        children: [
+          // icon and name
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Container(
-                  width: 80.0,
-                  height: 80.0,
-                  decoration: new BoxDecoration(
-                    color: AppColors.PRIMARY_LIGHT,
-                    shape: BoxShape.circle,
-                  ),
+              // icon
+              Container(
+                width: 80.0,
+                height: 80.0,
+                decoration: new BoxDecoration(
+                  color: AppColors.PRIMARY_LIGHT,
+                  shape: BoxShape.circle,
                 ),
               ),
+              SizedBox(width: 15), // 15?
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // name
                   Text(
                     'Hey, Lorem!',
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(color: AppColors.GRAY_DARK[0]),
                     textAlign: TextAlign.left,
                   ),
+
+                  // text
                   Text(
                     'Ready to start your day?',
                     style: Theme.of(context)
@@ -56,66 +65,59 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-        ),
-        Text(
-          widget.today,
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: PhysicalModel(
-            color: Colors.black,
-            elevation: 8,
+          SizedBox(height: 16),
+
+          // date
+          Text(
+            widget.today,
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                .copyWith(color: AppColors.GRAY_DARK[0]),
+          ),
+          SizedBox(height: 16),
+
+          // tasks
+          Expanded(
             child: Container(
-              height: MediaQuery.of(context).size.height / 2.9,
-              width: MediaQuery.of(context).size.width - 32,
-              color: Colors.white,
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [AppEffects.SHADOW_FOR_WHITE],
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      'For Today: ' + '##',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(color: AppColors.PRIMARY_MAIN),
+                  // text
+                  Text(
+                    'For today: ${events.length}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: AppColors.PRIMARY_MAIN),
+                  ),
+                  SizedBox(height: 16),
+
+                  // events
+                  Expanded(
+                    child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: events.length,
+                    itemBuilder: (_, index) =>
+                        HomeEventCard(event: events[index]),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 26, 16, 0),
-          child: Pomodoro(),
-        ),
-      ],
-      /*List<Event> _events =
-        Provider.of<CalendarEvents>(context, listen: false).events;
+          SizedBox(height: 22), // 22? or 24?
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
-      child: Column(
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: _events.length,
-            itemBuilder: (_, index) => HomeEventCard(event: _events[index]),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => PomodoroPage()),
-              );
-            },
-            child: Text('Pomodoro'),
-          ),
+          // pomodoro button
+          Pomodoro(),
         ],
-      ),*/
+      ),
     );
   }
 }

@@ -17,7 +17,7 @@ class LongButton extends StatelessWidget {
       height: 64,
       decoration: BoxDecoration(
           color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       child: TextButton(
         onPressed: () => onPressed(),
         child: Text(
@@ -53,7 +53,7 @@ class ShortButton extends StatelessWidget {
       height: 64,
       decoration: BoxDecoration(
         color: outlined ? Colors.transparent : buttonColor,
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           color: outlined ? buttonColor : Colors.transparent,
           width: 1.0,
@@ -98,7 +98,7 @@ class SquareButton extends StatelessWidget {
       height: 56,
       decoration: BoxDecoration(
         color: AppColors.GRAY_LIGHT[2],
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         border: selected ? Border.all(color: Colors.black) : null, // temporary
       ),
       child: TextButton(
@@ -135,7 +135,7 @@ class ShrinkingButton extends StatelessWidget {
       height: 56,
       decoration: BoxDecoration(
         color: AppColors.GRAY_LIGHT[2],
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         border: selected
             ? Border.all(color: AppColors.SECONDARY_MAIN, width: 2.0)
             : null,
@@ -186,7 +186,7 @@ class _GradeDropDownState extends State<GradeDropDown> {
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
           color: AppColors.GRAY_LIGHT[2],
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
             value: _selected,

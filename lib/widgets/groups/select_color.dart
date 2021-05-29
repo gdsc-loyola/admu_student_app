@@ -149,9 +149,7 @@ class _SelectColorState extends State<SelectColor> {
             size: 36,
           ),
           isSelected: _selected == 5,
-          bgColor: _selected == 5
-              ? _color
-              : AppColors.GRAY_LIGHT[2],
+          bgColor: _selected == 5 ? _color : AppColors.GRAY_LIGHT[2],
           shrink: shouldShrink,
           onTap: () => _onSelect(context, 5),
         ),
@@ -186,7 +184,7 @@ class _CustomIconState extends State<_CustomIcon> {
       width: widget.shrink ? null : 56,
       height: 56,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(7)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         color: AppColors.GRAY_LIGHT[2],
       ),
       child: Center(
@@ -214,13 +212,10 @@ class _CustomIconState extends State<_CustomIcon> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(7),
-                    bottomRight: Radius.circular(7),
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                   color: AppColors.GRAY_LIGHT[2],
                 ),
-                height: 32,
+                height: 24,
                 child: Center(
                   child: Icon(
                     Icons.check_rounded,

@@ -23,6 +23,7 @@ class HelpModal extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       padding: EdgeInsets.fromLTRB(16, 86, 16, 62),
+      margin: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -81,6 +82,7 @@ class HelpModal extends StatelessWidget {
               );
             },
           ),
+          SizedBox(height: 32),
 
           // button
           ShortButton(
