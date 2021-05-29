@@ -34,6 +34,7 @@ class AlertModal extends StatelessWidget {
       ),
       padding: EdgeInsets.fromLTRB(16, 56, 16, 56),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           // icon
           Icon(Icons.warning_rounded, color: AppColors.ERROR_MAIN, size: 64),
@@ -51,7 +52,7 @@ class AlertModal extends StatelessWidget {
           Text(
             description,
             style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: AppColors.GRAY_DARK[1], fontWeight: FontWeight.w500),
+                color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 40),
 
@@ -71,8 +72,8 @@ class AlertModal extends StatelessWidget {
           // reject
           ShortButton(
             declineText,
-            AppColors.GRAY_DARK[2], // temporary?
-            AppColors.GRAY_DARK[0],
+            AppColors.GRAY_DARK[1], // temporary?
+            AppColors.GRAY_DARK[1],
             () {
               if (onDecline != null) onDecline();
               Navigator.of(context).pop();

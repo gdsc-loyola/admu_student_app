@@ -46,38 +46,45 @@ class _SelectColorState extends State<SelectColor> {
           Color newColor = Colors.blue;
 
           return Center(
-            child: Column(
-              children: [
-                MaterialPicker(
-                  pickerColor: newColor,
-                  onColorChanged: (Color c) {
-                    newColor = c;
-                  },
-                ),
-                SizedBox(height: 8),
-                ShortButton(
-                  'Select',
-                  AppColors.PRIMARY_MAIN,
-                  AppColors.GRAY_LIGHT[2],
-                  () {
-                    Navigator.of(context).pop();
-                  },
-                  shadows: [AppEffects.SHADOW],
-                ),
-                SizedBox(height: 16),
-                ShortButton(
-                  'Cancel',
-                  AppColors.GRAY_DARK[2],
-                  AppColors.GRAY_DARK[0],
-                  () {
-                    setState(() {
-                      _selected = index;
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  MaterialPicker(
+                    pickerColor: newColor,
+                    onColorChanged: (Color c) {
+                      newColor = c;
+                    },
+                  ),
+                  SizedBox(height: 8),
+                  ShortButton(
+                    'Select',
+                    AppColors.PRIMARY_MAIN,
+                    AppColors.GRAY_LIGHT[2],
+                    () {
+                      Navigator.of(context).pop();
 
-                      _color = newColor;
-                    });
-                  },
-                ),
-              ],
+                      setState(() {
+                        _selected = index;
+
+                        _color = newColor;
+                      });
+                    },
+                    shadows: [AppEffects.SHADOW],
+                  ),
+                  SizedBox(height: 16),
+                  ShortButton(
+                    'Cancel',
+                    AppColors.GRAY_DARK[2],
+                    AppColors.GRAY_DARK[0],
+                    () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
             ),
           );
         },
@@ -143,7 +150,7 @@ class _SelectColorState extends State<SelectColor> {
           ),
           isSelected: _selected == 5,
           bgColor: _selected == 5
-              ? Colors.blue // temporary
+              ? _color
               : AppColors.GRAY_LIGHT[2],
           shrink: shouldShrink,
           onTap: () => _onSelect(context, 5),

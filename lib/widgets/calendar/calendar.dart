@@ -124,12 +124,13 @@ class _CalendarMonthState extends State<CalendarMonth> {
                     style: Theme.of(context).textTheme.caption.copyWith(
                         color: dt.day == _date.day
                             ? AppColors.GRAY_LIGHT[2]
-                            : AppColors.GRAY_DARK[0]),
+                            : AppColors.GRAY_DARK[0], fontWeight: (dt.year == DateTime.now().year) && (dt.month == DateTime.now().month) && (dt.day == DateTime.now().day) ? FontWeight.bold : FontWeight.normal),
                   ),
                 ),
               ),
             ),
-            // indicator
+
+            // dot indicator
             SizedBox(height: 4),
             Container(
               decoration: BoxDecoration(
@@ -140,7 +141,7 @@ class _CalendarMonthState extends State<CalendarMonth> {
               height: 8,
             ),
           ],
-        ), // ),
+        ),
       ));
     }
 

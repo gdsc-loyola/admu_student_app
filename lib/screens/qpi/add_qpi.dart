@@ -276,20 +276,14 @@ class _AddQPIPageState extends State<AddQPIPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 40),
-              child: Row(
-                children: [
-                  Text(
-                    '${widget.isEditing ? 'Edit' : 'Add'} ${titles[selected]} QPI',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                  )
-                ],
-              ),
+            Text(
+              '${widget.isEditing ? 'Edit' : 'Add'} ${titles[selected]} QPI',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(color: AppColors.GRAY_LIGHT[2]),
             ),
+            SizedBox(height: 40),
             ButtonRow('Year', 'Semester', 'Course', () {
               // Item 1 Clicked
               setState(() {
@@ -308,10 +302,14 @@ class _AddQPIPageState extends State<AddQPIPage> {
             }, selected, widget.isEditing),
             SizedBox(height: 24),
             screens[selected],
-            // Spacer(),
             SizedBox(height: 96),
             widget.isEditing
-                ? LongButton('Delete', Colors.orange, Colors.white, _onDelete)
+                ? LongButton(
+                    'Delete',
+                    AppColors.SECONDARY_MAIN,
+                    AppColors.GRAY_LIGHT[2],
+                    _onDelete,
+                  )
                 : Container(),
           ],
         ),

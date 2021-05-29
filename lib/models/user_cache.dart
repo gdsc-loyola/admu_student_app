@@ -4,8 +4,16 @@ class UserCache {
   static bool onboarding = true;
   static bool login = true;
 
-  static bool qpi_main = true;
-  static bool qpi_add = true;
+  static bool pomodoro = true;
+
+  static bool calendar = true;
+
+  // static bool qpi_main = true;
+  // static bool qpi_sem = true;
+  static bool qpi = true;
+
+  static bool enlistment = true;
+  static bool lsAddress = true;
 
   static void load() async {
     //

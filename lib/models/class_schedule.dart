@@ -22,11 +22,47 @@ class ClassSchedule extends ChangeNotifier {
         'PHYED 143', 1, 2, 4, AppColors.ACCENTS[2].value, 101010, 1300, 1400),
     Subject(
         'ENLIT 12', 1, 2, 4, AppColors.ACCENTS[3].value, 101010, 1400, 1500),
+    Subject('CSCI 20', 1, 1, 1, AppColors.ACCENTS[4].value, 101010, 1400, 1500),
+    Subject(
+        'CSCI 152', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1400, 1500),
   ];
   List<Subject> _subjects = [];
 
   List<String> getScheduleNames() {
     return [];
+  }
+
+  List<Map<String, dynamic>> getSchedules() {
+    // schedule name
+    // yearnum
+    // semnum
+
+    List<Map<String, dynamic>> maps = [];
+
+    // query all subjects and check
+    for (Subject s in _subjects) {
+      bool found = false;
+      for (int i = 0; i < maps.length; i++) {
+        if (maps[i]['yearNum'] == s.yearNum && maps[i]['semNum'] == s.semNum) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        // add
+        maps.add({
+          'scheduleName': 'YEAR ${s.yearNum}, SEM ${s.semNum}',
+          'yearNum': s.yearNum,
+          'semNum': s.semNum,
+        });
+      }
+    }
+
+    // maps.sort((a, b) => (a['yearNum'] * 10 + a['semNum'])
+    //     .compareTo((b['yearNum'] * 10 + b['semNUum'])));
+
+    return maps;
   }
 
   Map<String, dynamic> getSubjects(int yearNum, int semNum, int qtrNum) {
@@ -92,24 +128,47 @@ class ClassSchedule extends ChangeNotifier {
   }
 
   void addSubject() async {
+    if (kIsWeb) {
+      //
+      _updateList();
+      return;
+    }
+
     // add in database
 
     _updateList();
   }
 
   void editSubject() async {
+    if (kIsWeb) {
+      //
+      _updateList();
+      return;
+    }
+
     // edit in database
 
     _updateList();
   }
 
   void deleteSubject() async {
+    if (kIsWeb) {
+      //
+      _updateList();
+      return;
+    }
+
     // delete in database
 
     _updateList();
   }
 
   void _updateList() async {
+    if (kIsWeb) {
+      //
+      return;
+    }
+
     // rebuild inner data
 
     _subjects = [];
@@ -122,5 +181,7 @@ class ClassSchedule extends ChangeNotifier {
     rows.forEach((row) {
       _subjects.add(Subject.fromMap(row));
     });
+
+    notifyListeners();
   }
 }

@@ -128,6 +128,9 @@ class ScheduleTimetable extends StatelessWidget {
           colWidgets.add(Flexible(flex: lastmin, child: Container()));
       }
 
+      // skip sat if no classes?
+      if (i == 5 && subjs.length == 0) continue;
+
       cols.add(
         Expanded(
           child: Column(
