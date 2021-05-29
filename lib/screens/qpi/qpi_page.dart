@@ -21,8 +21,8 @@ class _QPIPageState extends State<QPIPage> {
   void initState() {
     super.initState();
 
-    if (UserCache.qpi_main) {
-      UserCache.qpi_main = false;
+    if (UserCache.qpi) {
+      UserCache.qpi = false;
       UserCache.save();
 
       WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -24,6 +24,7 @@ class HelpModal extends StatelessWidget {
       ),
       padding: EdgeInsets.fromLTRB(16, 86, 16, 62),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           // heading
           Text(
@@ -48,6 +49,9 @@ class HelpModal extends StatelessWidget {
                       shape: BoxShape.circle,
                       color: AppColors.SECONDARY_MAIN,
                     ),
+                    // temporary sizes
+                    width: 32,
+                    height: 32,
                     child: Center(
                       child: Text(
                         '${index + 1}',

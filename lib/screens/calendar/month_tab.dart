@@ -31,6 +31,17 @@ class _MonthTabState extends State<MonthTab> {
       _date = DateTime.now();
   }
 
+  String _getDateString() {
+    DateTime now = DateTime.now();
+
+    if (now.year == _date.year &&
+        now.month == _date.month &&
+        now.day == _date.day)
+      return 'Today';
+    else
+      return '${AppStrings.DAYS[_date.weekday - 1]}, ${AppStrings.MONTHS[_date.month - 1]} ${_date.day}';
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Event> _events =
@@ -52,7 +63,7 @@ class _MonthTabState extends State<MonthTab> {
         ),
         SizedBox(height: 16),
         Text(
-          '${AppStrings.DAYS[_date.weekday - 1]}, ${AppStrings.MONTHS[_date.month - 1]} ${_date.day}',
+          _getDateString(),
           style: Theme.of(context)
               .textTheme
               .headline6
