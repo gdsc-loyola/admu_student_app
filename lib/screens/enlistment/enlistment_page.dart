@@ -85,7 +85,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                       child:
                           IconButton(icon: Icon(Icons.add), onPressed: () {
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => AddClassPage(isEditing: false, inEnlistment: true,)));
+                          MaterialPageRoute(builder: (_) => AddClassPage(isEditing: true, inEnlistment: true,)));
                     }))
                 ],
               ),

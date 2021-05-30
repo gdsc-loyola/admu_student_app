@@ -1,3 +1,4 @@
+import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/widgets/groups/input_group.dart';
@@ -60,7 +61,7 @@ class _AddClassPageState extends State<AddClassPage> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(16, 48, 16, 0),
+        padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
         child: Column(
           children: [
             Center(
@@ -126,6 +127,10 @@ class _AddClassPageState extends State<AddClassPage> {
                 ? Expanded(
                     child: InputGroup('Name of Professor', _profCtrl),
                   )
+                : SizedBox(),
+            widget.isEditing
+                ? LongButton('Delete Class', AppColors.SECONDARY_MAIN,
+                    AppColors.GRAY_LIGHT[2], () {})
                 : SizedBox()
           ],
         ),
