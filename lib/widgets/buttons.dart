@@ -60,7 +60,7 @@ class ShortButton extends StatelessWidget {
   }
 }
 
-// used in date and sem buttons
+// used?
 class SquareButton extends StatelessWidget {
   final String text;
   // final Color buttonColor;
@@ -100,30 +100,31 @@ class SquareButton extends StatelessWidget {
   }
 }
 
-// used in quarter?
+// used in quarter and sem buttons
 class ShrinkingButton extends StatelessWidget {
   final String text;
-  final double maxWidth;
   final VoidCallback onPressed;
   final bool selected;
+  final bool shrink;
 
   ShrinkingButton({
     this.text = '',
-    this.maxWidth = 56,
     this.onPressed,
     this.selected,
+    this.shrink = true,
   });
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // width: 41, // temporary?
-      // constraints: BoxConstraints(maxWidth: maxWidth, minWidth: 16),
+    Widget button = Container(
+      width: shrink ? null : 56,
       height: 56,
-      width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.GRAY_LIGHT[2],
         borderRadius: BorderRadius.all(Radius.circular(5)),
-        border: selected ? Border.all(color: Colors.black) : null, // temporary
+        border: selected
+            ? Border.all(color: AppColors.SECONDARY_MAIN, width: 2.0)
+            : null,
       ),
       child: TextButton(
         onPressed: () {
@@ -136,43 +137,12 @@ class ShrinkingButton extends StatelessWidget {
       ),
     );
 
-    /*return Expanded(
-      child: Align(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth),
-          child: SquareButton(
-            text: text,
-            onPressed: onPressed,
-            selected: selected,
-          ),
-        ),
-      ),
-    );*/
+    if (shrink)
+      return Expanded(child: button);
+    else
+      return button;
   }
 }
-
-/*
-                Expanded(
-                  child: Align(child: Container(child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 216),
-                    child: Container(
-                      width: 128,
-                      height: 64,
-                      color: Colors.blue,
-                    ),
-                  ),),),
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: Align(child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 216),
-                    child: Container(
-                      height: 64,
-                      color: Colors.red,
-                    ),
-                  ),),
-                ),
-*/
 
 class GradeDropDown extends StatefulWidget {
   @override
@@ -188,7 +158,7 @@ class _GradeDropDownState extends State<GradeDropDown> {
       height: 56,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.GRAY_LIGHT[2],
           borderRadius: BorderRadius.all(Radius.circular(5))),
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
@@ -200,7 +170,7 @@ class _GradeDropDownState extends State<GradeDropDown> {
               DropdownMenuItem(child: Text("C+"), value: 4),
               DropdownMenuItem(child: Text("C"), value: 5),
               DropdownMenuItem(child: Text("D"), value: 6),
-              DropdownMenuItem(child: Text("F/W"), value: 7)
+              DropdownMenuItem(child: Text("F/W"), value: 7),
             ],
             onChanged: (value) {
               Provider.of<AddQPINotifier>(context, listen: false).gradeVal =

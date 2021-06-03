@@ -27,6 +27,8 @@ class CentralDatabaseHelper {
   static final inEnlistment = 'in_enlistment';
   static final professor = 'professor';
   static final notes = 'notes';
+  static final month = 'month';
+  static final day = 'day';
   static final name = 'name';
   static final agenda = 'agenda';
   static final tags = 'tags';
@@ -132,6 +134,9 @@ class CentralDatabaseHelper {
     await db.execute('''
       CREATE TABLE $tableName_events(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
+      $year INTEGER,
+      $month INTEGER,
+      $day INTEGER,
       $name TEXT NOT NULL,
       $agenda TEXT,
       $tags TEXT,

@@ -28,7 +28,13 @@ class CourseAddQPI extends StatelessWidget {
           Row(
             children: [
               // Text Field at the Left
-              Expanded(child: InputGroup('Year Level', yearController)),
+              Expanded(
+                child: InputGroup(
+                  'Year Level',
+                  yearController,
+                  hint: '1',
+                ),
+              ),
               SizedBox(width: 20),
               // DropDown at the Right
               Expanded(
@@ -53,16 +59,27 @@ class CourseAddQPI extends StatelessWidget {
           // 2nd row of widgets
           Row(
             children: [
-              Expanded(child: SelectSemesterGroup()),
+              Expanded(
+                child: InputGroup(
+                  'Units',
+                  unitsController,
+                  hint: '3',
+                ),
+              ),
               SizedBox(width: 20),
-              Expanded(child: InputGroup('Units', unitsController)),
+              Expanded(child: SelectSemesterGroup()),
             ],
           ),
           SizedBox(height: 16),
-          // temporary for code
           Row(
             children: [
-              Expanded(child: InputGroup('Course Code', codeController)),
+              Expanded(
+                child: InputGroup(
+                  'Course Code',
+                  codeController,
+                  hint: 'COURSE101',
+                ),
+              ),
               SizedBox(width: 20),
               Expanded(child: Container()),
             ],
