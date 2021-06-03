@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/widgets/enlistment/enlistment_class.dart';
 import 'package:admu_student_app/widgets/qpi/course_widget.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/screens/add_class.dart';
 
 class EnlistmentPage extends StatefulWidget {
   @override
@@ -59,6 +60,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                         borderRadius: BorderRadius.all(Radius.circular(100))),
                     child: InkWell(
                       onTap: () {},
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
                       child: Ink(
                         child: Container(
                           height: 24,
@@ -81,10 +83,14 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                   Container(
                       padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child:
-                          IconButton(icon: Icon(Icons.add), onPressed: () {}))
+                          IconButton(icon: Icon(Icons.add), onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => AddClassPage(isEditing: true, inEnlistment: true,)));
+                    }))
                 ],
               ),
             ),
+            // Container for scrollable portion of the screen
             Container(
               height: MediaQuery.of(context).size.height/2.5,
               child: SingleChildScrollView(

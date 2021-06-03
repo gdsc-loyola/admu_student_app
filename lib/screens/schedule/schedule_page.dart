@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/widgets/schedule/schedule_timetable.dart';
+import 'package:admu_student_app/screens/add_class.dart';
 
 import 'package:admu_student_app/widgets/help_button.dart';
 class SchedulePage extends StatefulWidget {

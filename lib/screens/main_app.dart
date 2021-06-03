@@ -1,3 +1,4 @@
+import 'package:admu_student_app/screens/add_class.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
@@ -38,11 +39,24 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         //The property and builder changes the DrawerWidget's icon to customize
         automaticallyImplyLeading: false,
-        title: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.menu_rounded),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Builder(
+              builder: (context) => IconButton(
+                icon: Icon(Icons.menu_rounded),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
+            ),
+            _currentIndex == 2
+                ? IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => AddClassPage(isEditing: false, inEnlistment: false,)));
+                    })
+                : SizedBox()
+          ],
         ),
         actions: _currentIndex == 0
             ? []
