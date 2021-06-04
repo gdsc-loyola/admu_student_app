@@ -109,9 +109,10 @@ class _AddClassPageState extends State<AddClassPage> {
               onPressed: _onSave,
               child: Text(
                 'Done',
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.white,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: Colors.white),
               ),
             )
           ],
@@ -189,7 +190,7 @@ class _AddClassPageState extends State<AddClassPage> {
                   time: _timeStart,
                   onTimeChange: _onStartTimeChange,
                 ),
-                SizedBox(width: 20), // temporary
+                SizedBox(width: 20),
                 SelectTimeGroup(
                   'End',
                   time: _timeEnd,

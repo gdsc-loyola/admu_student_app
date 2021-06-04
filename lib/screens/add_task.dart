@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
-class AddTask extends StatefulWidget {
+class AddTaskPage extends StatefulWidget {
+  final DateTime date;
   final bool isEditing;
 
-  AddTask({this.isEditing = false});
+  AddTaskPage({this.date, this.isEditing = false});
 
   @override
-  _AddTaskState createState() => _AddTaskState();
+  _AddTaskPageState createState() => _AddTaskPageState();
 }
 
-class _AddTaskState extends State<AddTask> {
+class _AddTaskPageState extends State<AddTaskPage> {
   TextEditingController _eventCtrl = TextEditingController();
   TextEditingController _tagCtrl = TextEditingController();
   TextEditingController _agendaCtrl = TextEditingController();
@@ -65,32 +66,30 @@ class _AddTaskState extends State<AddTask> {
               SizedBox(height: 40),
               Row(
                 children: [
-                  Expanded(
-                    child: InputGroup('Event', _eventCtrl),
-                  ),
+                  Expanded(child: InputGroup('Event', _eventCtrl)),
                 ],
               ),
               SizedBox(height: 16),
               // Time Input Field goes here
               Row(
                 children: [
-                  Expanded(
-                    child: InputGroup('Tags', _tagCtrl),
-                  ),
+                  Expanded(child: InputGroup('Tags', _tagCtrl)),
                 ],
               ),
               SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(
-                    child: InputGroup('Agenda', _agendaCtrl),
-                  ),
+                  Expanded(child: InputGroup('Agenda', _agendaCtrl)),
                 ],
               ),
               SizedBox(height: 32),
               widget.isEditing
-                  ? LongButton('Delete Event', AppColors.SECONDARY_MAIN,
-                      AppColors.GRAY_LIGHT[2], () {})
+                  ? LongButton(
+                      'Delete Event',
+                      AppColors.SECONDARY_MAIN,
+                      AppColors.GRAY_LIGHT[2],
+                      () {},
+                    )
                   : SizedBox()
             ],
           ),

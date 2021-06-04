@@ -302,7 +302,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
             }, selected, widget.isEditing),
             SizedBox(height: 24),
             screens[selected],
-            SizedBox(height: 96),
+            SizedBox(height: 56),
             widget.isEditing
                 ? LongButton(
                     'Delete',
