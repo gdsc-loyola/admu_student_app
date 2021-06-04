@@ -86,10 +86,10 @@ class CentralDatabaseHelper {
   }
 
   Future createCoursesTable(Database db, int ver) async {
-    if (db == null) db = await database;
+    // if (db == null) db = await database;
 
-    await (await CentralDatabaseHelper.instance.database)
-        .execute('DROP TABLE IF EXISTS $tableName_courses');
+    // await (await CentralDatabaseHelper.instance.database)
+    //     .execute('DROP TABLE IF EXISTS $tableName_courses');
 
     await db.execute('''
       CREATE TABLE $tableName_courses(
