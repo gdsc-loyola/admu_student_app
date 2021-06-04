@@ -58,8 +58,7 @@ class _QPIPageState extends State<QPIPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.center, //To center the icon and title
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Text(
@@ -117,14 +116,16 @@ class _QPIPageState extends State<QPIPage> {
                 height: 36,
                 width: 36,
               ),
-              Expanded(child: Text(
-                "Computer Society of the Ateneo's QPI Calculator",
-                softWrap: true,
-                style: Theme.of(context)
-                    .textTheme
-                    .caption
-                    .copyWith(color: AppColors.GRAY_DARK[1]),
-              ),),
+              Expanded(
+                child: Text(
+                  "Computer Society of the Ateneo's QPI Calculator",
+                  softWrap: true,
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: AppColors.GRAY_DARK[1]),
+                ),
+              ),
             ],
           ),
         ],

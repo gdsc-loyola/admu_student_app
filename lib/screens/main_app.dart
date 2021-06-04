@@ -39,7 +39,11 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         //The property and builder changes the DrawerWidget's icon to customize
         automaticallyImplyLeading: false,
-        title: Row(
+        leading: IconButton(
+          icon: Icon(Icons.menu_rounded),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
+        /*title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Builder(
@@ -57,7 +61,7 @@ class _MainPageState extends State<MainPage> {
                     })
                 : SizedBox()
           ],
-        ),
+        ),*/
         actions: _currentIndex == 0
             ? []
             : [
