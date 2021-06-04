@@ -53,7 +53,7 @@ class LoginPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Image.asset(
-                                      'assets/google.png',
+                                      'assets/logo/google.png',
                                       width: 24,
                                       height: 24,
                                     ),
@@ -92,7 +92,7 @@ class LoginPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Image.asset(
-                                      'assets/apple.png',
+                                      'assets/logo/apple.png',
                                       width: 24,
                                       height: 24,
                                     ),

@@ -10,9 +10,7 @@ class Pomodoro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: MediaQuery.of(context).size.width - 32,
-      // height: MediaQuery.of(context).size.height / 8.615,
-      height: 64,
+      height: 104,
       alignment: Alignment.center,
       child: ListTile(
         leading: Image.asset("assets/tomato.png"),

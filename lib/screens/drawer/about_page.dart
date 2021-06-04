@@ -45,7 +45,7 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20.0),
-                  child: Image.asset('onboarding.png',
+                  child: Image.asset('assets/onboarding.png',
                   height: 112,
                   width: 112,
                   ),
@@ -53,8 +53,8 @@ class _AboutPageState extends State<AboutPage> {
                 
                 Padding(
                   padding: const EdgeInsets.all(25.0),
-                  child: Text("Beadle is your accessible companion for all \nyour productivity and organization needs."
-                      "\nWhether it’s your tasks, your grades, or your \nclasses, Beadle’s here for you!",
+                  child: Text("Beadle is your accessible companion for all your productivity and organization needs. Whether it’s your tasks, your grades, or your classes, Beadle’s here for you!",
+                    softWrap: true,
                     style: Theme.of(context).textTheme.bodyText1.copyWith(color: AppColors.GRAY_DARK[0]),
                     textAlign: TextAlign.center,
                   ),

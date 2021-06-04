@@ -86,7 +86,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                       return Padding(
                         padding: EdgeInsets.only(bottom: 14),
                         child: CustomDropDown(
-                          childrenPadding: EdgeInsets.fromLTRB(24, 0, 24, 48), // original 47 for bottom
+                          childrenPadding: EdgeInsets.fromLTRB(24, 0, 24, 48),
                           title: Text(
                             categ['heading'],
                             style:
@@ -151,12 +151,8 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(right: 6),
-                        color: Colors.grey,
-                        width: 28,
-                        height: 36,
-                      ),
+                      Image.asset('assets/logo/dsc.png', width: 36, height: 36),
+                      SizedBox(width: 6),
                       Text(
                         'Developer Student Clubs',
                         style: Theme.of(context)

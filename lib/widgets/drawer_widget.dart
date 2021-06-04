@@ -179,8 +179,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                   Row(
                     children: [
-                      Container(
-                          width: 36, height: 36, color: AppColors.PRIMARY_MAIN),
+                      Image.asset('assets/logo/dsc.png', width: 36, height: 36),
                       Text(
                         'Developer Student Clubs Loyola',
                         style: Theme.of(context)

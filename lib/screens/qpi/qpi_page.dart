@@ -112,7 +112,7 @@ class _QPIPageState extends State<QPIPage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Image.asset(
-                'assets/compsat_logo.png',
+                'assets/logo/compsat.png',
                 height: 36,
                 width: 36,
               ),
