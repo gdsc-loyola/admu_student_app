@@ -17,7 +17,7 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> scheds =
-        Provider.of<ClassSchedule>(context, listen: false).getSchedules();
+        Provider.of<ClassSchedule>(context).getSchedules();
 
     return Container(
       padding: EdgeInsets.fromLTRB(16, 48, 16, 48),

@@ -7,33 +7,42 @@ import 'package:admu_student_app/models/subject.dart';
 
 class ClassSchedule extends ChangeNotifier {
   final List<Subject> _sampleData = [
-    Subject('CSCI 20', 1, 1, 1, AppColors.ACCENTS[0].value, 101010, 1300, 1400),
-    Subject('CSCI 21', 1, 1, 0, AppColors.ACCENTS[1].value, 010100, 0900, 1100),
-    Subject('ENGL 11', 1, 1, 1, AppColors.ACCENTS[2].value, 101010, 1400, 1500),
-    Subject('MATH 10', 1, 1, 1, AppColors.ACCENTS[3].value, 010100, 1230, 1400),
-    Subject(
-        'INTACT 11', 1, 1, 0, AppColors.ACCENTS[4].value, 100000, 1000, 1100),
-    Subject('FILI 12', 1, 1, 2, AppColors.ACCENTS[0].value, 010100, 1230, 1400),
-    Subject('MATH 21', 1, 1, 2, AppColors.ACCENTS[1].value, 101010, 1300, 1400),
-    Subject(
-        'PHYED 111', 1, 1, 1, AppColors.ACCENTS[2].value, 010100, 1400, 1500),
-    Subject(
-        'SocSc 11', 1, 2, 3, AppColors.ACCENTS[0].value, 101010, 0900, 1000),
-    Subject(
-        'INTACT 12', 1, 2, 0, AppColors.ACCENTS[1].value, 100000, 1000, 1100),
-    Subject('THEO 11', 1, 2, 3, AppColors.ACCENTS[2].value, 101010, 1100, 1200),
-    Subject('CSCI 22', 1, 2, 0, AppColors.ACCENTS[3].value, 010100, 0900, 1100),
-    Subject(
-        'MATH 30.23', 1, 2, 0, AppColors.ACCENTS[4].value, 010100, 1230, 1400),
-    Subject('FILI 11', 1, 2, 3, AppColors.ACCENTS[0].value, 010100, 1400, 1530),
-    Subject(
-        'HISTO 11', 1, 2, 4, AppColors.ACCENTS[1].value, 101010, 0900, 1000),
-    Subject(
-        'PHYED 143', 1, 2, 4, AppColors.ACCENTS[2].value, 101010, 1300, 1400),
-    Subject(
-        'ENLIT 12', 1, 2, 4, AppColors.ACCENTS[3].value, 101010, 1400, 1500),
-    Subject(
-        'CSCI 152', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1400, 1500),
+    Subject('CSCI 20', '', 1, 1, 1, AppColors.ACCENTS[0].value, 101010, 1300,
+        1400, ''),
+    Subject('CSCI 21', '', 1, 1, 0, AppColors.ACCENTS[1].value, 010100, 0900,
+        1100, ''),
+    Subject('ENGL 11', '', 1, 1, 1, AppColors.ACCENTS[2].value, 101010, 1400,
+        1500, ''),
+    Subject('MATH 10', '', 1, 1, 1, AppColors.ACCENTS[3].value, 010100, 1230,
+        1400, ''),
+    Subject('INTACT 11', '', 1, 1, 0, AppColors.ACCENTS[4].value, 100000, 1000,
+        1100, ''),
+    Subject('FILI 12', '', 1, 1, 2, AppColors.ACCENTS[0].value, 010100, 1230,
+        1400, ''),
+    Subject('MATH 21', '', 1, 1, 2, AppColors.ACCENTS[1].value, 101010, 1300,
+        1400, ''),
+    Subject('PHYED 111', '', 1, 1, 1, AppColors.ACCENTS[2].value, 010100, 1400,
+        1500, ''),
+    Subject('SocSc 11', '', 1, 2, 3, AppColors.ACCENTS[0].value, 101010, 0900,
+        1000, ''),
+    Subject('INTACT 12', '', 1, 2, 0, AppColors.ACCENTS[1].value, 100000, 1000,
+        1100, ''),
+    Subject('THEO 11', '', 1, 2, 3, AppColors.ACCENTS[2].value, 101010, 1100,
+        1200, ''),
+    Subject('CSCI 22', '', 1, 2, 0, AppColors.ACCENTS[3].value, 010100, 0900,
+        1100, ''),
+    Subject('MATH 30.23', '', 1, 2, 0, AppColors.ACCENTS[4].value, 010100, 1230,
+        1400, ''),
+    Subject('FILI 11', '', 1, 2, 3, AppColors.ACCENTS[0].value, 010100, 1400,
+        1530, ''),
+    Subject('HISTO 11', '', 1, 2, 4, AppColors.ACCENTS[1].value, 101010, 0900,
+        1000, ''),
+    Subject('PHYED 143', '', 1, 2, 4, AppColors.ACCENTS[2].value, 101010, 1300,
+        1400, ''),
+    Subject('ENLIT 12', '', 1, 2, 4, AppColors.ACCENTS[3].value, 101010, 1400,
+        1500, ''),
+    Subject('CSCI 152', '', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1400,
+        1500, ''),
   ];
   List<Subject> _subjects = [];
 
@@ -137,14 +146,59 @@ class ClassSchedule extends ChangeNotifier {
     return mins;
   }
 
-  void addSubject() async {
+  void addSubject(
+    String code,
+    String section,
+    int yearNum,
+    int units,
+    int semNum,
+    Color color,
+    List<bool> days,
+    TimeOfDay startTime,
+    TimeOfDay endTime,
+    String profName,
+  ) async {
     if (kIsWeb) {
-      //
+      _subjects.add(Subject.fromData(
+        code,
+        section,
+        yearNum,
+        semNum,
+        0,
+        color,
+        days,
+        startTime,
+        endTime,
+        profName,
+      ));
+
       _updateList();
       return;
     }
 
+    String daysInStr = '';
+    for (int i = 0; i < days.length; i++) daysInStr += days[i] ? '1' : '0';
+    daysInStr = daysInStr.padRight(6, '0');
+
     // add in database
+    int id = await (await CentralDatabaseHelper.instance.database).insert(
+      CentralDatabaseHelper.tableName_schedule,
+      {
+        CentralDatabaseHelper.code: code,
+        CentralDatabaseHelper.section: section,
+        CentralDatabaseHelper.year: yearNum,
+        CentralDatabaseHelper.sem: semNum,
+        CentralDatabaseHelper.quarter: 0,
+        CentralDatabaseHelper.color: color.value,
+        CentralDatabaseHelper.days: int.parse(daysInStr),
+        CentralDatabaseHelper.start: (startTime.hour * 100) + startTime.minute,
+        CentralDatabaseHelper.end: (endTime.hour * 100) + endTime.minute,
+        CentralDatabaseHelper.inEnlistment: 0,
+        CentralDatabaseHelper.professor: profName,
+      },
+    );
+
+    print('added schedule, id: $id');
 
     _updateList();
   }
@@ -175,7 +229,8 @@ class ClassSchedule extends ChangeNotifier {
 
   void _updateList() async {
     if (kIsWeb) {
-      //
+      notifyListeners();
+
       return;
     }
 

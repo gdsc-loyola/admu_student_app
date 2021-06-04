@@ -77,10 +77,24 @@ class _AddClassPageState extends State<AddClassPage> {
   }
 
   void _onSave() {
+    int yearNum = int.parse(_yearCtrl.text);
+    int units = int.parse(_unitCtrl.text);
+
     if (widget.isEditing) {
       Provider.of<ClassSchedule>(context, listen: false).editSubject();
     } else {
-      Provider.of<ClassSchedule>(context, listen: false).addSubject();
+      Provider.of<ClassSchedule>(context, listen: false).addSubject(
+        _codeCtrl.text,
+        _sectionCtrl.text,
+        yearNum,
+        units,
+        _semNum,
+        _color,
+        _days,
+        _timeStart,
+        _timeEnd,
+        _profCtrl.text,
+      );
     }
 
     Navigator.of(context).pop();
@@ -185,17 +199,17 @@ class _AddClassPageState extends State<AddClassPage> {
             Row(
               children: [
                 // Row for Time Selectors
-                SelectTimeGroup(
+                Expanded(child:SelectTimeGroup(
                   'Start',
                   time: _timeStart,
                   onTimeChange: _onStartTimeChange,
-                ),
+                ),),
                 SizedBox(width: 20),
-                SelectTimeGroup(
+                Expanded(child:SelectTimeGroup(
                   'End',
                   time: _timeEnd,
                   onTimeChange: _onEndTimeChange,
-                ),
+                ),),
               ],
             ),
 

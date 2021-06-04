@@ -21,6 +21,7 @@ class CentralDatabaseHelper {
   static final units = 'units';
   static final qpi = 'qpi';
   static final isIncludedInQPI = 'is_included_in_qpi';
+  static final section = 'section';
   static final days = 'days';
   static final start = 'start';
   static final end = 'end';
@@ -113,6 +114,7 @@ class CentralDatabaseHelper {
       CREATE TABLE $tableName_schedule(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
       $code TEXT NOT NULL,
+      $section TEXT,
       $year INTEGER NOT NULL,
       $sem INTEGER NOT NULL,
       $quarter INTEGER,
