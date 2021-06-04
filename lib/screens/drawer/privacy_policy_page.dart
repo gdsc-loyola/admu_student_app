@@ -154,7 +154,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                       Image.asset('assets/logo/dsc.png', width: 36, height: 36),
                       SizedBox(width: 6),
                       Text(
-                        'Developer Student Clubs',
+                        'Developer Student Clubs Loyola',
                         style: Theme.of(context)
                             .textTheme
                             .caption
