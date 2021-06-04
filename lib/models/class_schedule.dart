@@ -22,7 +22,7 @@ class ClassSchedule extends ChangeNotifier {
         'PHYED 143', 1, 2, 4, AppColors.ACCENTS[2].value, 101010, 1300, 1400),
     Subject(
         'ENLIT 12', 1, 2, 4, AppColors.ACCENTS[3].value, 101010, 1400, 1500),
-    Subject('CSCI 20', 1, 1, 1, AppColors.ACCENTS[4].value, 101010, 1400, 1500),
+    Subject('CSCI 21', 1, 1, 0, AppColors.ACCENTS[4].value, 101010, 1400, 1500),
     Subject(
         'CSCI 152', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1400, 1500),
   ];
@@ -60,7 +60,7 @@ class ClassSchedule extends ChangeNotifier {
     }
 
     // maps.sort((a, b) => (a['yearNum'] * 10 + a['semNum'])
-    //     .compareTo((b['yearNum'] * 10 + b['semNUum'])));
+    //     .compareTo((b['yearNum'] * 10 + b['semNum'])));
 
     return maps;
   }

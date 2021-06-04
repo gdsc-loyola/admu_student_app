@@ -100,14 +100,8 @@ class _QPIPageState extends State<QPIPage> {
               );
             },
           ),
-          /*ElevatedButton(
-            onPressed: () {
-              Provider.of<AcademicRecords>(context, listen: false)
-                  .deleteAllData();
-            },
-            child: Text('delete rows'),
-          ),*/
 
+          // compsat
           Text(
             'Inspired by:',
             style: Theme.of(context)
@@ -123,15 +117,14 @@ class _QPIPageState extends State<QPIPage> {
                 height: 36,
                 width: 36,
               ),
-              Text(
+              Expanded(child: Text(
                 "Computer Society of the Ateneo's QPI Calculator",
                 softWrap: true,
                 style: Theme.of(context)
                     .textTheme
                     .caption
                     .copyWith(color: AppColors.GRAY_DARK[1]),
-              ),
-              // ),
+              ),),
             ],
           ),
         ],

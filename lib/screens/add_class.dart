@@ -1,21 +1,26 @@
-import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/screens/notes.dart';
-import 'package:admu_student_app/screens/add_task.dart';
+import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/groups/select_color.dart';
 import 'package:admu_student_app/widgets/groups/select_days.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
 import 'package:admu_student_app/widgets/groups/select_time.dart';
-import 'package:admu_student_app/screens/qpi/add_qpi.dart';
+import 'package:admu_student_app/widgets/buttons.dart';
 
 class AddClassPage extends StatefulWidget {
+  final Subject subject;
   final bool inEnlistment;
   final bool isEditing;
 
-  AddClassPage({this.inEnlistment = false, this.isEditing = false});
+  AddClassPage({
+    this.inEnlistment = false,
+    this.isEditing = false,
+    this.subject,
+  });
 
   @override
   _AddClassPageState createState() => _AddClassPageState();
@@ -28,11 +33,24 @@ class _AddClassPageState extends State<AddClassPage> {
   TextEditingController _unitCtrl = TextEditingController();
   TextEditingController _profCtrl = TextEditingController();
 
-  // _AddClassPageState();
+  int _semNum = 1;
 
   List<bool> _days = List.generate(6, (index) => false);
   TimeOfDay _timeStart;
   TimeOfDay _timeEnd;
+
+  Color _color;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _onSemesterChange(int val) {
+    setState(() {
+      _semNum = val;
+    });
+  }
 
   void _onDaysChange(List<bool> sel) {
     setState(() {
@@ -52,6 +70,26 @@ class _AddClassPageState extends State<AddClassPage> {
     });
   }
 
+  void _onColorChange(Color c) {
+    setState(() {
+      _color = c;
+    });
+  }
+
+  void _onSave() {
+    if (widget.isEditing) {
+      Provider.of<ClassSchedule>(context, listen: false).editSubject();
+    } else {
+      Provider.of<ClassSchedule>(context, listen: false).addSubject();
+    }
+
+    Navigator.of(context).pop();
+  }
+
+  void _onDelete() {
+    //
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,13 +106,7 @@ class _AddClassPageState extends State<AddClassPage> {
                   Navigator.pop(context);
                 }),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => NotesPage(),
-                  ),
-                );
-              },
+              onPressed: _onSave,
               child: Text(
                 'Done',
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
@@ -128,16 +160,20 @@ class _AddClassPageState extends State<AddClassPage> {
             // semester
             Row(
               children: [
-                Expanded(child: SelectSemesterGroup()),
+                Expanded(
+                  child: SelectSemesterGroup(
+                    selected: _semNum,
+                    onValueChange: _onSemesterChange,
+                  ),
+                ),
                 SizedBox(width: 20),
-                // remove quarter select
                 Expanded(child: Container()),
               ],
             ),
             SizedBox(height: 24),
 
             // select color
-            SelectColor(),
+            SelectColor(color: _color, onColorChange: _onColorChange),
             SizedBox(height: 24),
 
             // days
@@ -175,7 +211,7 @@ class _AddClassPageState extends State<AddClassPage> {
                     'Delete Class',
                     AppColors.SECONDARY_MAIN,
                     AppColors.GRAY_LIGHT[2],
-                    () {},
+                    _onDelete,
                   )
                 : SizedBox()
           ],
