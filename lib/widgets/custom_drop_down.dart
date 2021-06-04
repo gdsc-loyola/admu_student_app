@@ -107,7 +107,7 @@ class _CustomDropDownState extends State<CustomDropDown>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: widget.expandedCrossAxisAlignment,
         children: <Widget>[
-          GestureDetector(
+          InkWell(
             onTap: _handleTap,
             child: Container(
               height: 64, // original 66
