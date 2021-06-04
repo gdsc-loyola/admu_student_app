@@ -39,9 +39,11 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         //The property and builder changes the DrawerWidget's icon to customize
         automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.menu_rounded),
-          onPressed: () => Scaffold.of(context).openDrawer(),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu_rounded),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
         ),
         /*title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
