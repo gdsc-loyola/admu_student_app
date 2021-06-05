@@ -68,6 +68,7 @@ class ShortButton extends StatelessWidget {
           text,
           style:
               Theme.of(context).textTheme.headline6.copyWith(color: textColor),
+          textAlign: TextAlign.center,
         ),
       ),
     );

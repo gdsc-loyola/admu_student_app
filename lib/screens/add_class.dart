@@ -94,7 +94,7 @@ class _AddClassPageState extends State<AddClassPage> {
         _profCtrl.text,
       );
 
-      CustomSnackBar.showSnackBar(context, 'Class added!');
+      CustomSnackBar.showSnackBar(context, 'Class edited!');
     } else {
       Provider.of<ClassSchedule>(context, listen: false).addSubject(
         _codeCtrl.text,
@@ -109,7 +109,7 @@ class _AddClassPageState extends State<AddClassPage> {
         _profCtrl.text,
       );
 
-      CustomSnackBar.showSnackBar(context, 'Class edited!');
+      CustomSnackBar.showSnackBar(context, 'Class added!');
     }
 
     Navigator.of(context).pop();
