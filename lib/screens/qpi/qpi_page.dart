@@ -32,19 +32,14 @@ class _QPIPageState extends State<QPIPage> {
   }
 
   void _showHowTo() async {
-    await showGeneralDialog(
-      context: context,
-      pageBuilder: (context, _, __) {
-        return Center(
-          child: HelpModal(
-            strings: [
-              'To add your classes, tap the + button at the top right corner',
-              'You can edit your classes by clicking on it.',
-              'Delete your schedule by clicking on the trash icon.',
-            ],
-          ),
-        );
-      },
+    await HelpModal.showHelp(
+      context,
+      title: 'QPI Calculator',
+      strings: [
+        'To add your classes, tap the + button at the top right corner',
+        'You can edit your classes by clicking on it.',
+        'Delete your schedule by clicking on the trash icon.',
+      ],
     );
   }
 
@@ -86,19 +81,21 @@ class _QPIPageState extends State<QPIPage> {
                 .copyWith(color: AppColors.GRAY_DARK[0]),
           ),
           SizedBox(height: 16.0),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: years.length,
-            itemBuilder: (_, index) {
-              Year year = years[index];
+          years.length > 0
+              ? ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: years.length,
+                  itemBuilder: (_, index) {
+                    Year year = years[index];
 
-              return Container(
-                margin: EdgeInsets.only(bottom: 16.0),
-                child: YearDropDown(yearNum: year.yearNum),
-              );
-            },
-          ),
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 16.0),
+                      child: YearDropDown(yearNum: year.yearNum),
+                    );
+                  },
+                )
+              : Container(), // replace with empty state
 
           // compsat
           Text(

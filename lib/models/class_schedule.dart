@@ -8,41 +8,41 @@ import 'package:admu_student_app/models/subject.dart';
 class ClassSchedule extends ChangeNotifier {
   final List<Subject> _sampleData = [
     Subject('CSCI 20', '', 1, 1, 1, AppColors.ACCENTS[0].value, 101010, 1300,
-        1400, ''),
+        1400, 0, ''),
     Subject('CSCI 21', '', 1, 1, 0, AppColors.ACCENTS[1].value, 010100, 0900,
-        1100, ''),
+        1100, 0, ''),
     Subject('ENGL 11', '', 1, 1, 1, AppColors.ACCENTS[2].value, 101010, 1400,
-        1500, ''),
+        1500, 0, ''),
     Subject('MATH 10', '', 1, 1, 1, AppColors.ACCENTS[3].value, 010100, 1230,
-        1400, ''),
+        1400, 0, ''),
     Subject('INTACT 11', '', 1, 1, 0, AppColors.ACCENTS[4].value, 100000, 1000,
-        1100, ''),
+        1100, 0, ''),
     Subject('FILI 12', '', 1, 1, 2, AppColors.ACCENTS[0].value, 010100, 1230,
-        1400, ''),
+        1400, 0, ''),
     Subject('MATH 21', '', 1, 1, 2, AppColors.ACCENTS[1].value, 101010, 1300,
-        1400, ''),
+        1400, 0, ''),
     Subject('PHYED 111', '', 1, 1, 1, AppColors.ACCENTS[2].value, 010100, 1400,
-        1500, ''),
+        1500, 0, ''),
     Subject('SocSc 11', '', 1, 2, 3, AppColors.ACCENTS[0].value, 101010, 0900,
-        1000, ''),
+        1000, 0, ''),
     Subject('INTACT 12', '', 1, 2, 0, AppColors.ACCENTS[1].value, 100000, 1000,
-        1100, ''),
+        1100, 0, ''),
     Subject('THEO 11', '', 1, 2, 3, AppColors.ACCENTS[2].value, 101010, 1100,
-        1200, ''),
+        1200, 0, ''),
     Subject('CSCI 22', '', 1, 2, 0, AppColors.ACCENTS[3].value, 010100, 0900,
-        1100, ''),
+        1100, 0, ''),
     Subject('MATH 30.23', '', 1, 2, 0, AppColors.ACCENTS[4].value, 010100, 1230,
-        1400, ''),
+        1400, 0, ''),
     Subject('FILI 11', '', 1, 2, 3, AppColors.ACCENTS[0].value, 010100, 1400,
-        1530, ''),
+        1530, 0, ''),
     Subject('HISTO 11', '', 1, 2, 4, AppColors.ACCENTS[1].value, 101010, 0900,
-        1000, ''),
+        1000, 0, ''),
     Subject('PHYED 143', '', 1, 2, 4, AppColors.ACCENTS[2].value, 101010, 1300,
-        1400, ''),
+        1400, 0, ''),
     Subject('ENLIT 12', '', 1, 2, 4, AppColors.ACCENTS[3].value, 101010, 1400,
-        1500, ''),
+        1500, 0, ''),
     Subject('CSCI 152', '', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1400,
-        1500, ''),
+        1500, 0, ''),
   ];
   List<Subject> _subjects = [];
 
@@ -123,7 +123,7 @@ class ClassSchedule extends ChangeNotifier {
       _subjects.addAll(_sampleData);
     }
 
-    notifyListeners();
+    _updateList();
   }
 
   static int getMinutesBetween(int time1, int time2) {
@@ -150,12 +150,12 @@ class ClassSchedule extends ChangeNotifier {
     String code,
     String section,
     int yearNum,
-    int units,
     int semNum,
     Color color,
     List<bool> days,
     TimeOfDay startTime,
     TimeOfDay endTime,
+    bool inEnlistment,
     String profName,
   ) async {
     if (kIsWeb) {
@@ -169,6 +169,7 @@ class ClassSchedule extends ChangeNotifier {
         days,
         startTime,
         endTime,
+        inEnlistment,
         profName,
       ));
 
@@ -193,7 +194,7 @@ class ClassSchedule extends ChangeNotifier {
         CentralDatabaseHelper.days: int.parse(daysInStr),
         CentralDatabaseHelper.start: (startTime.hour * 100) + startTime.minute,
         CentralDatabaseHelper.end: (endTime.hour * 100) + endTime.minute,
-        CentralDatabaseHelper.inEnlistment: 0,
+        CentralDatabaseHelper.inEnlistment: inEnlistment ? 1 : 0,
         CentralDatabaseHelper.professor: profName,
       },
     );
@@ -203,26 +204,94 @@ class ClassSchedule extends ChangeNotifier {
     _updateList();
   }
 
-  void editSubject() async {
+  void editSubject(
+    Subject subj,
+    String code,
+    String section,
+    int yearNum,
+    int semNum,
+    Color color,
+    List<bool> days,
+    TimeOfDay startTime,
+    TimeOfDay endTime,
+    bool inEnlistment,
+    String profName,
+  ) async {
     if (kIsWeb) {
-      //
-      _updateList();
-      return;
+      for (Subject s in _subjects) {
+        if (s.yearNum == subj.yearNum &&
+            s.semNum == subj.semNum &&
+            s.code == subj.code) {
+          s.code = code;
+          s.section = section;
+          s.yearNum = yearNum;
+          s.semNum = semNum;
+
+          s.color = color;
+          s.days = days;
+
+          s.start = (startTime.hour * 100) + startTime.minute;
+          s.end = (endTime.hour * 100) + endTime.minute;
+
+          s.inEnlistment = inEnlistment;
+          s.profName = profName;
+
+          _updateList();
+          return;
+        }
+      }
     }
 
+    String daysInStr = '';
+    for (int i = 0; i < days.length; i++) daysInStr += days[i] ? '1' : '0';
+    daysInStr = daysInStr.padRight(6, '0');
+
     // edit in database
+    int updated = await (await CentralDatabaseHelper.instance.database).update(
+      CentralDatabaseHelper.tableName_schedule,
+      {
+        CentralDatabaseHelper.code: code,
+        CentralDatabaseHelper.section: section,
+        CentralDatabaseHelper.year: yearNum,
+        CentralDatabaseHelper.sem: semNum,
+        CentralDatabaseHelper.quarter: 0,
+        CentralDatabaseHelper.color: color.value,
+        CentralDatabaseHelper.days: int.parse(daysInStr),
+        CentralDatabaseHelper.start: (startTime.hour * 100) + startTime.minute,
+        CentralDatabaseHelper.end: (endTime.hour * 100) + endTime.minute,
+        CentralDatabaseHelper.inEnlistment: inEnlistment ? 1 : 0,
+        CentralDatabaseHelper.professor: profName,
+      },
+      where: '',
+      whereArgs: [],
+    );
+
+    print('updated $updated in schedule');
 
     _updateList();
   }
 
-  void deleteSubject() async {
+  void deleteSubject(Subject subj) async {
     if (kIsWeb) {
-      //
-      _updateList();
-      return;
+      for (Subject s in _subjects) {
+        if (s == subj) {
+          _subjects.remove(s);
+
+          _updateList();
+          return;
+        }
+      }
     }
 
     // delete in database
+    int deleted = await (await CentralDatabaseHelper.instance.database).delete(
+      CentralDatabaseHelper.tableName_schedule,
+      where:
+          '${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ?',
+      whereArgs: [subj.yearNum, subj.semNum, subj.code],
+    );
+
+    print('deleted $deleted in schedule');
 
     _updateList();
   }

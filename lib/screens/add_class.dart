@@ -9,6 +9,7 @@ import 'package:admu_student_app/widgets/groups/select_color.dart';
 import 'package:admu_student_app/widgets/groups/select_days.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
 import 'package:admu_student_app/widgets/groups/select_time.dart';
+import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class AddClassPage extends StatefulWidget {
@@ -30,7 +31,6 @@ class _AddClassPageState extends State<AddClassPage> {
   TextEditingController _codeCtrl = TextEditingController();
   TextEditingController _sectionCtrl = TextEditingController();
   TextEditingController _yearCtrl = TextEditingController();
-  TextEditingController _unitCtrl = TextEditingController();
   TextEditingController _profCtrl = TextEditingController();
 
   int _semNum = 1;
@@ -78,30 +78,45 @@ class _AddClassPageState extends State<AddClassPage> {
 
   void _onSave() {
     int yearNum = int.parse(_yearCtrl.text);
-    int units = int.parse(_unitCtrl.text);
 
     if (widget.isEditing) {
-      Provider.of<ClassSchedule>(context, listen: false).editSubject();
-    } else {
-      Provider.of<ClassSchedule>(context, listen: false).addSubject(
+      Provider.of<ClassSchedule>(context, listen: false).editSubject(
+        widget.subject,
         _codeCtrl.text,
         _sectionCtrl.text,
         yearNum,
-        units,
         _semNum,
         _color,
         _days,
         _timeStart,
         _timeEnd,
+        false, // in enlistment
         _profCtrl.text,
       );
+
+      CustomSnackBar.showSnackBar(context, 'Class added!');
+    } else {
+      Provider.of<ClassSchedule>(context, listen: false).addSubject(
+        _codeCtrl.text,
+        _sectionCtrl.text,
+        yearNum,
+        _semNum,
+        _color,
+        _days,
+        _timeStart,
+        _timeEnd,
+        false, // in enlistment
+        _profCtrl.text,
+      );
+
+      CustomSnackBar.showSnackBar(context, 'Class edited!');
     }
 
     Navigator.of(context).pop();
   }
 
   void _onDelete() {
-    //
+    // show delete
   }
 
   @override
@@ -160,29 +175,19 @@ class _AddClassPageState extends State<AddClassPage> {
             ),
             SizedBox(height: 24),
 
-            // year level and units
+            // year level and sem
             Row(
               children: [
                 // Text Field at the Left
                 Expanded(child: InputGroup('Year Level', _yearCtrl)),
                 SizedBox(width: 20),
                 // Text at the Right
-                Expanded(child: InputGroup('Units', _unitCtrl)),
-              ],
-            ),
-            SizedBox(height: 24),
-
-            // semester
-            Row(
-              children: [
                 Expanded(
                   child: SelectSemesterGroup(
                     selected: _semNum,
                     onValueChange: _onSemesterChange,
                   ),
                 ),
-                SizedBox(width: 20),
-                Expanded(child: Container()),
               ],
             ),
             SizedBox(height: 24),
@@ -199,17 +204,21 @@ class _AddClassPageState extends State<AddClassPage> {
             Row(
               children: [
                 // Row for Time Selectors
-                Expanded(child:SelectTimeGroup(
-                  'Start',
-                  time: _timeStart,
-                  onTimeChange: _onStartTimeChange,
-                ),),
+                Expanded(
+                  child: SelectTimeGroup(
+                    'Start',
+                    time: _timeStart,
+                    onTimeChange: _onStartTimeChange,
+                  ),
+                ),
                 SizedBox(width: 20),
-                Expanded(child:SelectTimeGroup(
-                  'End',
-                  time: _timeEnd,
-                  onTimeChange: _onEndTimeChange,
-                ),),
+                Expanded(
+                  child: SelectTimeGroup(
+                    'End',
+                    time: _timeEnd,
+                    onTimeChange: _onEndTimeChange,
+                  ),
+                ),
               ],
             ),
 

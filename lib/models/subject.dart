@@ -12,10 +12,22 @@ class Subject {
   List<bool> days;
   int start;
   int end;
+  bool inEnlistment;
   String profName;
 
-  Subject(String code, String section, int yearNum, int semNum, int qtrNum,
-      int color, int days, int start, int end, String profName) {
+  Subject(
+    String code,
+    String section,
+    int yearNum,
+    int semNum,
+    int qtrNum,
+    int color,
+    int days,
+    int start,
+    int end,
+    int inEnlistment,
+    String profName,
+  ) {
     this.code = code;
     this.section = section;
     this.yearNum = yearNum;
@@ -30,20 +42,23 @@ class Subject {
     this.start = start;
     this.end = end;
 
+    this.inEnlistment = inEnlistment == 1;
     this.profName = profName;
   }
 
   Subject.fromData(
-      String code,
-      String section,
-      int yearNum,
-      int semNum,
-      int qtrNum,
-      Color color,
-      List<bool> days,
-      TimeOfDay start,
-      TimeOfDay end,
-      String profName) {
+    String code,
+    String section,
+    int yearNum,
+    int semNum,
+    int qtrNum,
+    Color color,
+    List<bool> days,
+    TimeOfDay start,
+    TimeOfDay end,
+    bool inEnlistment,
+    String profName,
+  ) {
     this.code = code;
     this.section = section;
 
@@ -56,6 +71,8 @@ class Subject {
 
     this.start = (start.hour * 100) + (start.minute);
     this.end = (end.hour * 100) + (end.minute);
+
+    this.inEnlistment = inEnlistment;
     this.profName = profName;
   }
 
@@ -70,6 +87,7 @@ class Subject {
       map[CentralDatabaseHelper.days],
       map[CentralDatabaseHelper.start],
       map[CentralDatabaseHelper.end],
+      map[CentralDatabaseHelper.inEnlistment],
       map[CentralDatabaseHelper.professor],
     );
   }

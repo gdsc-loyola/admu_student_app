@@ -81,9 +81,9 @@ class _YearDropDownState extends State<YearDropDown>
   Widget _buildHeader(BuildContext context, Year year) {
     Widget header = Container(
       decoration: BoxDecoration(
-        color: AppColors.GRAY_LIGHT[2],
+        color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        boxShadow: [AppEffects.SHADOW],
+        boxShadow: [AppEffects.SHADOW_FOR_WHITE],
       ),
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       height: 64,

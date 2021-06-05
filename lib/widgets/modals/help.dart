@@ -4,14 +4,40 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
-class HelpModal extends StatelessWidget {
+class HelpModal {
+  static Future<void> showHelp(
+    BuildContext context, {
+    String title = '',
+    List<String> strings = const [],
+    String acceptText = 'Got it!',
+    VoidCallback onAccept,
+  }) async {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, _, __) {
+        return Center(
+          child: _HelpModal(
+            title: title,
+            strings: strings,
+            acceptText: acceptText,
+            onAccept: onAccept,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _HelpModal extends StatelessWidget {
+  final String title;
   final List<String> strings;
   final String acceptText;
   final VoidCallback onAccept;
 
-  HelpModal({
-    @required this.strings,
-    this.acceptText = 'Got it!',
+  _HelpModal({
+    this.title,
+    this.strings,
+    this.acceptText,
     this.onAccept,
   });
 
@@ -22,17 +48,24 @@ class HelpModal extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-      padding: EdgeInsets.fromLTRB(16, 86, 16, 62),
+      padding: EdgeInsets.fromLTRB(16, 46, 16, 62),
       margin: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // heading
           Text(
-            'How-To',
+            'Tutorial',
             style: Theme.of(context).textTheme.headline5.copyWith(
-                fontWeight: FontWeight.w500, color: AppColors.GRAY_DARK[0]),
+                fontWeight: FontWeight.w500, color: AppColors.GRAY_DARK[1]),
           ),
+
+          // title
+          Text(title,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(color: AppColors.GRAY_DARK[0])),
 
           // items
           ListView.builder(
@@ -50,16 +83,14 @@ class HelpModal extends StatelessWidget {
                       shape: BoxShape.circle,
                       color: AppColors.SECONDARY_MAIN,
                     ),
-                    // temporary sizes
                     width: 32,
                     height: 32,
                     child: Center(
                       child: Text(
                         '${index + 1}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.GRAY_LIGHT[2]),
                       ),
                     ),
                   ),

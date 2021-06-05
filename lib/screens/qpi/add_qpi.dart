@@ -10,6 +10,7 @@ import 'package:admu_student_app/screens/qpi/add_course.dart';
 import 'package:admu_student_app/screens/qpi/add_semester.dart';
 import 'package:admu_student_app/screens/qpi/add_year.dart';
 import 'package:admu_student_app/widgets/modals/alert.dart';
+import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 import 'package:admu_student_app/widgets/button_row.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
@@ -127,21 +128,18 @@ class _AddQPIPageState extends State<AddQPIPage> {
     setState(() {
       _courseColor = color;
     });
-    print('color change ${color.value}');
   }
 
   void _onSemChange(int val) {
     setState(() {
       _semNum = val;
     });
-    print('sem change $val');
   }
 
   void _onGradeChange(int val) {
     setState(() {
       _gradeVal = val;
     });
-    print('grade change $val');
   }
 
   void _onSave() async {
@@ -152,22 +150,27 @@ class _AddQPIPageState extends State<AddQPIPage> {
 
     if (selected == 0) {
       double qpi = double.parse(_qpiCtrl.text);
-      if (widget.isEditing)
+      if (widget.isEditing) {
         Provider.of<AcademicRecords>(context, listen: false).editYearlyQPI(
           widget.year,
           yearNum,
           units,
           qpi,
         );
-      else
+
+        CustomSnackBar.showSnackBar(context, 'Year QPI edited!');
+      } else {
         Provider.of<AcademicRecords>(context, listen: false).addYearlyQPI(
           yearNum,
           units,
           qpi,
         );
+
+        CustomSnackBar.showSnackBar(context, 'Year QPI added!');
+      }
     } else if (selected == 1) {
       double qpi = double.parse(_qpiCtrl.text);
-      if (widget.isEditing)
+      if (widget.isEditing) {
         Provider.of<AcademicRecords>(context, listen: false).editSemestralQPI(
           widget.yearNum,
           widget.semester,
@@ -176,15 +179,20 @@ class _AddQPIPageState extends State<AddQPIPage> {
           units,
           qpi,
         );
-      else
+
+        CustomSnackBar.showSnackBar(context, 'Semester QPI edited!');
+      } else {
         Provider.of<AcademicRecords>(context, listen: false).addSemestralQPI(
           yearNum,
           _semNum,
           units,
           qpi,
         );
+
+        CustomSnackBar.showSnackBar(context, 'Semester QPI added!');
+      }
     } else if (selected == 2) {
-      if (widget.isEditing)
+      if (widget.isEditing) {
         Provider.of<AcademicRecords>(context, listen: false).editCourse(
           widget.yearNum,
           widget.semNum,
@@ -197,7 +205,9 @@ class _AddQPIPageState extends State<AddQPIPage> {
           GRADES[_gradeVal - 1],
           true, // no handling
         );
-      else
+
+        CustomSnackBar.showSnackBar(context, 'Class QPI edited!');
+      } else {
         Provider.of<AcademicRecords>(context, listen: false).addCourse(
           yearNum,
           _semNum,
@@ -207,6 +217,9 @@ class _AddQPIPageState extends State<AddQPIPage> {
           GRADES[_gradeVal - 1],
           true, // no handling for non-included
         );
+
+        CustomSnackBar.showSnackBar(context, 'Class QPI added!');
+      }
     }
 
     Navigator.of(context).pop();
@@ -215,31 +228,29 @@ class _AddQPIPageState extends State<AddQPIPage> {
   void _onDelete() async {
     bool toDelete = false;
 
-    await showGeneralDialog(
-      context: context,
-      pageBuilder: (context, _, __) {
-        return Center(
-          child: AlertModal(
-            header: 'Delete QPI',
-            onAccept: () {
-              toDelete = true;
-            },
-          ),
-        );
+    await AlertModal.showAlert(
+      context,
+      header: 'Delete QPI',
+      onAccept: () {
+        toDelete = true;
       },
     );
 
     if (!toDelete) return;
 
-    if (selected == 0)
+    if (selected == 0) {
       Provider.of<AcademicRecords>(context, listen: false)
           .deleteYearlyQPI(widget.yearNum);
-    else if (selected == 1)
+      CustomSnackBar.showSnackBar(context, 'Year QPI deleted!');
+    } else if (selected == 1) {
       Provider.of<AcademicRecords>(context, listen: false)
           .deleteSemestralQPI(widget.yearNum, widget.semester.semNum);
-    else if (selected == 2)
+      CustomSnackBar.showSnackBar(context, 'Semester QPI deleted!');
+    } else if (selected == 2) {
       Provider.of<AcademicRecords>(context, listen: false).deleteCourse(
           widget.yearNum, widget.semNum, widget.course.courseCode);
+      CustomSnackBar.showSnackBar(context, 'Class QPI deleted!');
+    }
 
     Navigator.of(context).pop();
   }

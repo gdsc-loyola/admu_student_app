@@ -4,7 +4,37 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
-class AlertModal extends StatelessWidget {
+class AlertModal {
+  static Future<void> showAlert(
+    BuildContext context, {
+    IconData iconData = Icons.warning_rounded,
+    String header = 'Delete?',
+    String description = 'You will not be able to recover this.',
+    String acceptText = 'Delete',
+    String declineText = 'Nah, just kidding!',
+    VoidCallback onAccept,
+    VoidCallback onDecline,
+  }) async {
+    await showGeneralDialog(
+      context: context,
+      pageBuilder: (context, _, __) {
+        return Center(
+          child: _AlertModal(
+            iconData: iconData,
+            header: header,
+            description: description,
+            acceptText: acceptText,
+            declineText: declineText,
+            onAccept: onAccept,
+            onDecline: onDecline,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _AlertModal extends StatelessWidget {
   final IconData iconData;
 
   final String header;
@@ -15,12 +45,12 @@ class AlertModal extends StatelessWidget {
   final VoidCallback onAccept;
   final VoidCallback onDecline;
 
-  AlertModal({
-    this.iconData = Icons.warning_rounded,
-    this.header = 'Delete?',
-    this.description = 'You will not be able to recover it.',
-    this.acceptText = 'Delete',
-    this.declineText = 'Nah, just kidding!',
+  _AlertModal({
+    this.iconData,
+    this.header,
+    this.description,
+    this.acceptText,
+    this.declineText,
     this.onAccept,
     this.onDecline,
   });
