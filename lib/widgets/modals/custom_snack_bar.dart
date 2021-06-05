@@ -24,8 +24,8 @@ class CustomSnackBar {
           IconButton(
             iconSize: 24, // ?
             icon: Icon(Icons.close_rounded),
-            // onPressed: () =>
-            //     ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+            onPressed: () =>
+                ScaffoldMessenger.of(context).hideCurrentSnackBar(),
             color: AppColors.GRAY_LIGHT[2],
           ),
         ],
