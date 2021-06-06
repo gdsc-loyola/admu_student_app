@@ -132,7 +132,7 @@ class _MainPageState extends State<MainPage> {
                     height: 36,
                     width: 36,
                   ),
-            label: 'Schedule',
+            label: 'Classes',
           ),
           BottomNavigationBarItem(
             icon: _currentIndex == 3

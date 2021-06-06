@@ -173,7 +173,18 @@ class _SemesterPageState extends State<SemesterPage> {
                     }),
               ),
             ),
-            _isEditing ? Text('$_selected') : Container(), // todo
+            _isEditing
+                ? Text(
+                    _selected > 0
+                        ? '$_selected Class Selected'
+                        : 'Select Classes',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: _selected > 0
+                            ? AppColors.SECONDARY_MAIN
+                            : AppColors.GRAY_DARK[1]),
+                  )
+                : Container(), // todo
           ],
         ),
       ),

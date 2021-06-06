@@ -40,7 +40,6 @@ class _SchedulePageState extends State<SchedulePage> {
             },
           ),
           Expanded(
-            // sample data
             child: ScheduleTimetable(yearNum: _yearNum, semNum: _semNum),
           ),
         ],

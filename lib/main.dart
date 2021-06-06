@@ -6,13 +6,11 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/ls_directory.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/screens/splash_page.dart';
 
 void main() {
-  // load
-  UserCache.load();
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AcademicRecords()),
@@ -21,6 +19,10 @@ void main() {
     ],
     child: App(),
   ));
+
+  // load - after runApp to avoid errors
+  LSDirectory.load();
+  UserCache.load();
 }
 
 class App extends StatelessWidget {

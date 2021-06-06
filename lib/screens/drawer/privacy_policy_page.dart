@@ -21,12 +21,8 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   }
 
   void _loadData() async {
-    String jsonText;
-    try {
-      jsonText = await rootBundle.loadString('assets/text/privacy_policy.json');
-    } catch (error) {
-      jsonText = await rootBundle.loadString('text/privacy_policy.json');
-    }
+    String jsonText =
+        await rootBundle.loadString('assets/text/privacy_policy.json');
 
     setState(() {
       _data = json.decode(jsonText);
@@ -114,7 +110,8 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                                           categ['subcategories'][index2];
 
                                       return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(top: 20),

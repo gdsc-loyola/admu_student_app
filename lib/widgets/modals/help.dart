@@ -48,7 +48,8 @@ class _HelpModal extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-      padding: EdgeInsets.fromLTRB(16, 46, 16, 62),
+      padding: EdgeInsets.fromLTRB(32, 46, 32, 62), // original 16? temp
+      width: double.infinity,
       margin: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:admu_student_app/models/ls_directory.dart';
 
 class DirectoryPage extends StatefulWidget {
   @override
@@ -8,9 +11,17 @@ class DirectoryPage extends StatefulWidget {
 class _DirectoryPageState extends State<DirectoryPage> {
   @override
   Widget build(BuildContext context) {
+    print(LSDirectory.getFiltered('and'));
+
     return Scaffold(
       appBar: AppBar(),
-      body: Text('this is the directory page'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text('this is the directory page'),
+          ],
+        ),
+      ),
     );
   }
 }

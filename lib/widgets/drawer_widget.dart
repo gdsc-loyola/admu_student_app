@@ -157,9 +157,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => FAQsPage()),
-                );
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(builder: (_) => FAQsPage()),
+                // );
               },
             ),
 

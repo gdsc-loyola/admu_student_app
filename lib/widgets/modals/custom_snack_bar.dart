@@ -32,7 +32,7 @@ class CustomSnackBar {
       ),
       backgroundColor: AppColors.SECONDARY_MAIN,
       margin: EdgeInsets.all(16),
-      padding: EdgeInsets.fromLTRB(32, 0, 24, 0), // original 10 vert
+      padding: EdgeInsets.fromLTRB(32, 10, 24, 10), // original 10 vert
       duration: Duration(seconds: 3),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8))),
