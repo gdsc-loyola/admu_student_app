@@ -8,24 +8,27 @@ class NotificationCenter extends ChangeNotifier {
       0,
       'Welcome, Atenean!',
       'Hi from Beadle! I\'m so glad to have you here. Hope you enjoy!',
+      '',
       DateTime.now(),
       false,
     ),
   ];
 
-  NotificationCenter() {}
+  NotificationCenter() {
+    load();
+  }
 
   void save() async {
-    //
+    // save to file
   }
 
   void load() async {
-    //
+    // load from file
 
     notifyListeners();
   }
 
-  String getReadableDate(Notif notif) {
+  static String getReadableDate(Notif notif) {
     Duration diff = notif.date.difference(DateTime.now());
 
     if (diff < Duration(minutes: 1))

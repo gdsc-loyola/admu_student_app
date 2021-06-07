@@ -8,12 +8,18 @@ class CustomSnackBar {
       content: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            Icons.check_circle_outline_rounded,
-            size: 29, // ?
-            color: AppColors.GRAY_LIGHT[2],
+          // icon
+          SizedOverflowBox(
+            size: Size(32, 22),
+            child: Icon(
+              Icons.check_circle_outline_rounded,
+              size: 29, // ?
+              color: AppColors.GRAY_LIGHT[2],
+            ),
           ),
           SizedBox(width: 12),
+
+          // text
           Expanded(
             child: Text(text,
                 overflow: TextOverflow.ellipsis,
@@ -21,8 +27,11 @@ class CustomSnackBar {
                     fontWeight: FontWeight.bold,
                     color: AppColors.GRAY_LIGHT[2])),
           ),
+          SizedBox(width: 4), // temporary padding
+
+          // close button
           IconButton(
-            iconSize: 24, // ?
+            iconSize: 22, // 22?
             icon: Icon(Icons.close_rounded),
             onPressed: () =>
                 ScaffoldMessenger.of(context).hideCurrentSnackBar(),
@@ -32,7 +41,7 @@ class CustomSnackBar {
       ),
       backgroundColor: AppColors.SECONDARY_MAIN,
       margin: EdgeInsets.all(16),
-      padding: EdgeInsets.fromLTRB(32, 10, 24, 10), // original 10 vert
+      padding: EdgeInsets.fromLTRB(32, 0, 24, 0), // original 10 vertical
       duration: Duration(seconds: 3),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8))),

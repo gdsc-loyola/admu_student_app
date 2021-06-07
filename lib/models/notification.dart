@@ -2,6 +2,7 @@ class Notif {
   int iconType;
   String title;
   String message;
+  String calloutMessage;
 
   DateTime date;
   bool isRead;
@@ -10,6 +11,7 @@ class Notif {
     this.iconType,
     this.title,
     this.message,
+    this.calloutMessage,
     this.date,
     this.isRead,
   );
@@ -20,6 +22,7 @@ class Notif {
       map['iconType'],
       map['title'],
       map['message'],
+      map['callout'],
       DateTime.parse(map['date']),
       map['isRead'],
     );

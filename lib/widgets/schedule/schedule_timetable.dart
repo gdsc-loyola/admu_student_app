@@ -5,6 +5,7 @@ import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
 import 'package:admu_student_app/screens/add_class.dart';
 import 'package:admu_student_app/widgets/modals/alert.dart';
+import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 
 class ScheduleTimetable extends StatelessWidget {
   final int yearNum; // if 0, enlistment
@@ -194,6 +195,8 @@ class _SubjectBlock extends StatelessWidget {
           onAccept: () {
             Provider.of<ClassSchedule>(context, listen: false)
                 .deleteSubject(subject);
+
+            CustomSnackBar.showSnackBar(context, 'Class deleted!');
           },
         );
       },

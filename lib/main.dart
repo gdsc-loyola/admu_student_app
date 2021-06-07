@@ -7,6 +7,7 @@ import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/ls_directory.dart';
+import 'package:admu_student_app/models/notification_center.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/screens/splash_page.dart';
 
@@ -16,6 +17,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => AcademicRecords()),
       ChangeNotifierProvider(create: (_) => CalendarEvents()),
       ChangeNotifierProvider(create: (_) => ClassSchedule()),
+      ChangeNotifierProvider(create: (_) => NotificationCenter()),
     ],
     child: App(),
   ));
