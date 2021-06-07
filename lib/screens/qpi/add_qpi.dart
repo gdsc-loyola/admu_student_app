@@ -275,10 +275,9 @@ class _AddQPIPageState extends State<AddQPIPage> {
           ),
         ],
         title: IconButton(
-            icon: Icon(Icons.close_rounded),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+          icon: Icon(Icons.close_rounded),
+          onPressed: () => Navigator.pop(context),
+        ),
         elevation: 0,
       ),
       backgroundColor: AppColors.PRIMARY_MAIN,

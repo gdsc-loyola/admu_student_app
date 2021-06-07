@@ -13,7 +13,7 @@ class UserCache {
   static bool qpi = true;
 
   static bool enlistment = true;
-  static bool lsAddress = true;
+  static bool lsDirectory = true;
 
   static void load() async {
     //

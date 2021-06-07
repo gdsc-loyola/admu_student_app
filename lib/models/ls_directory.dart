@@ -12,7 +12,7 @@ class LSDirectory {
   }
 
   static List<Map<String, dynamic>> getFiltered(String keyword) {
-    if (keyword.isEmpty) return _data;
+    // if (keyword.isEmpty) return (List<Map<String, dynamic>>) _data;
 
     List<Map<String, dynamic>> maps = [];
 
@@ -20,17 +20,22 @@ class LSDirectory {
       List<Map<String, dynamic>> added = [];
 
       for (Map office in cluster['offices']) {
+        if (keyword.isEmpty) {
+          added.add(office);
+          continue;
+        }
+
         // check name
         if (office['name'].contains(keyword)) {
           added.add(office);
-          break;
+          continue;
         }
 
         // check emails
         for (String email in office['emails']) {
           if (email.contains(keyword)) {
             added.add(office);
-            break;
+            continue;
           }
         }
       }

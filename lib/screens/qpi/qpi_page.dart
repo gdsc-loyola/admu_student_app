@@ -25,9 +25,7 @@ class _QPIPageState extends State<QPIPage> {
       UserCache.qpi = false;
       UserCache.save();
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _showHowTo();
-      });
+      WidgetsBinding.instance.addPostFrameCallback((_) => _showHowTo());
     }
   }
 
@@ -64,10 +62,7 @@ class _QPIPageState extends State<QPIPage> {
                       .copyWith(color: AppColors.GRAY_DARK[0]),
                 ),
               ),
-              HelpButton(
-                isInverted: false,
-                onTap: _showHowTo,
-              ),
+              HelpButton(onTap: _showHowTo),
             ],
           ),
           SizedBox(height: 24.0),

@@ -41,8 +41,16 @@ class _InputFieldState extends State<InputField> {
           disabledBorder: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 16),
           hintText: widget.hint,
+          hintStyle: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(color: AppColors.GRAY_DARK[2]),
           counterText: "", //Disables maxLength showing in Field
         ),
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            .copyWith(color: AppColors.GRAY_DARK[0]),
         maxLength: widget.length,
       ),
     );

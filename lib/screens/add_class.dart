@@ -9,6 +9,7 @@ import 'package:admu_student_app/widgets/groups/select_color.dart';
 import 'package:admu_student_app/widgets/groups/select_days.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
 import 'package:admu_student_app/widgets/groups/select_time.dart';
+import 'package:admu_student_app/widgets/modals/alert.dart';
 import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
@@ -44,6 +45,28 @@ class _AddClassPageState extends State<AddClassPage> {
   @override
   void initState() {
     super.initState();
+
+    if (widget.subject != null) {
+      _codeCtrl.text = widget.subject.code;
+      // _sectionCtrl.text = widget.subject.code;
+      _yearCtrl.text = '${widget.subject.yearNum}';
+      _profCtrl.text = '${widget.subject.profName}';
+
+      _semNum = widget.subject.semNum;
+
+      _days = widget.subject.days;
+
+      _timeStart = TimeOfDay(
+        hour: widget.subject.start ~/ 100,
+        minute: widget.subject.start % 100,
+      );
+      _timeEnd = TimeOfDay(
+        hour: widget.subject.end ~/ 100,
+        minute: widget.subject.end % 100,
+      );
+
+      _color = widget.subject.color;
+    }
   }
 
   void _onSemesterChange(int val) {
@@ -115,8 +138,19 @@ class _AddClassPageState extends State<AddClassPage> {
     Navigator.of(context).pop();
   }
 
-  void _onDelete() {
-    // show delete
+  void _onDelete() async {
+    await AlertModal.showAlert(
+      context,
+      header: 'Delete ${widget.subject.code}?',
+      onAccept: () {
+        Provider.of<ClassSchedule>(context, listen: false)
+            .deleteSubject(widget.subject);
+
+        CustomSnackBar.showSnackBar(context, 'Class deleted!');
+
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   @override
