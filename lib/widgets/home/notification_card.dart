@@ -40,20 +40,19 @@ class NotificationCard extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: AppColors.SECONDARY_MAIN,
-              borderRadius: BorderRadius.all(Radius.circular(8)), // ?
+              borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
-            height: 10, // ?
-            width: 4, // ?
+            height: 4,
+            width: 32,
           ),
           SizedBox(width: 10),
 
           // text
           Expanded(
             child: Text(notif.calloutMessage,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: AppColors.GRAY_DARK[0])), // ?
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.GRAY_DARK[1])), // ?
           ),
         ],
       ));
@@ -118,7 +117,7 @@ class NotificationCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                     ),
-                    width: 55, // unknown?
+                    width: 55,
                     height: 55,
                   ),
                   SizedBox(width: 16),
