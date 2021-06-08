@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/groups/select_date.dart';
 import 'package:admu_student_app/widgets/groups/select_time.dart';
-import 'package:admu_student_app/widgets/buttons.dart';
-import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/modals/alert.dart';
 import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
+import 'package:admu_student_app/widgets/buttons.dart';
 
 class AddTaskPage extends StatefulWidget {
   final Event event;
@@ -66,6 +66,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     await AlertModal.showAlert(
       context,
       header: 'Discard changes?',
+      acceptText: 'Discard',
       onAccept: () {
         Navigator.of(context).pop();
         willPop = true;
@@ -79,8 +80,19 @@ class _AddTaskPageState extends State<AddTaskPage> {
     DateTime fStart = _checkDateTime(_startDate, _startTime);
     DateTime fEnd = _checkDateTime(_endDate, _endTime);
 
-    if (widget.isEditing) {}
-    else
+    if (widget.isEditing) {
+      Provider.of<CalendarEvents>(context, listen: false).editEvent(
+        widget.event,
+        _eventCtrl.text,
+        _agendaCtrl.text,
+        _tagCtrl.text,
+        fStart,
+        fEnd,
+        widget.event.isDone,
+      );
+
+      CustomSnackBar.showSnackBar(context, 'Event edited!');
+    } else {
       Provider.of<CalendarEvents>(context, listen: false).addEvent(
         _eventCtrl.text,
         _agendaCtrl.text,
@@ -90,7 +102,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
         false,
       );
 
-    CustomSnackBar.showSnackBar(context, 'Event added!');
+      CustomSnackBar.showSnackBar(context, 'Event added!');
+    }
 
     _shouldPop = true;
     Navigator.of(context).pop();
