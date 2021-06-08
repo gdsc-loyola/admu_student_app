@@ -289,7 +289,7 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
     _updateList();
   }
 
-  void deleteEvent(int id, Event e) async {
+  void deleteEvent(Event e) async {
     // delete from database
     // key ID
 
@@ -303,7 +303,7 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
     int deleted = await (await CentralDatabaseHelper.instance.database).delete(
       CentralDatabaseHelper.tableName_events,
       where: '${CentralDatabaseHelper.id} = ?',
-      whereArgs: [id],
+      whereArgs: [e.id],
     );
 
     print('deleted $deleted event(s)');
@@ -324,6 +324,15 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
         }
       }
     }
+
+    // int updated = await (await CentralDatabaseHelper.instance.database).update(
+    //   CentralDatabaseHelper.tableName_events,
+    //   {},
+    //   where: '',
+    //   whereArgs: [],
+    // );
+
+    // print('updated $updated in events');
   }
 
   void _updateList() async {

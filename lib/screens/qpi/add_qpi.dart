@@ -43,6 +43,8 @@ class AddQPIPage extends StatefulWidget {
 }
 
 class _AddQPIPageState extends State<AddQPIPage> {
+  bool _shouldPop = false;
+
   TextEditingController _yearCtrl = TextEditingController();
   TextEditingController _qpiCtrl = TextEditingController();
   TextEditingController _unitsCtrl = TextEditingController();
@@ -142,7 +144,25 @@ class _AddQPIPageState extends State<AddQPIPage> {
     });
   }
 
-  void _onSave() async {
+  Future<bool> _onBack() async {
+    if (_shouldPop) return true;
+
+    bool willPop = false;
+
+    await AlertModal.showAlert(
+      context,
+      header: 'Discard changes?',
+      acceptText: 'Discard',
+      onAccept: () {
+        Navigator.of(context).pop();
+        willPop = true;
+      }
+    );
+
+    return willPop;
+  }
+
+  void _onSave() {
     // no error handling
     int yearNum = int.parse(_yearCtrl.text);
     int units = int.parse(_unitsCtrl.text);
@@ -222,6 +242,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
       }
     }
 
+    _shouldPop = true;
     Navigator.of(context).pop();
   }
 
@@ -252,15 +273,21 @@ class _AddQPIPageState extends State<AddQPIPage> {
       CustomSnackBar.showSnackBar(context, 'Class QPI deleted!');
     }
 
+    _shouldPop = true;
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Scaffold scaffold = Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        elevation: 0,
         automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.close_rounded),
+          onPressed: _onBack,
+        ),
         actions: [
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
@@ -274,11 +301,6 @@ class _AddQPIPageState extends State<AddQPIPage> {
             ),
           ),
         ],
-        title: IconButton(
-          icon: Icon(Icons.close_rounded),
-          onPressed: () => Navigator.pop(context),
-        ),
-        elevation: 0,
       ),
       backgroundColor: AppColors.PRIMARY_MAIN,
       body: SingleChildScrollView(
@@ -324,6 +346,11 @@ class _AddQPIPageState extends State<AddQPIPage> {
           ],
         ),
       ),
+    );
+
+    return WillPopScope(
+      onWillPop: _onBack,
+      child: scaffold,
     );
   }
 }

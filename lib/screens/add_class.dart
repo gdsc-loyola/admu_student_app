@@ -29,6 +29,8 @@ class AddClassPage extends StatefulWidget {
 }
 
 class _AddClassPageState extends State<AddClassPage> {
+  bool _shouldPop = false;
+
   TextEditingController _codeCtrl = TextEditingController();
   TextEditingController _sectionCtrl = TextEditingController();
   TextEditingController _yearCtrl = TextEditingController();
@@ -99,6 +101,24 @@ class _AddClassPageState extends State<AddClassPage> {
     });
   }
 
+  Future<bool> _onBack() async {
+    if (_shouldPop) return true;
+
+    bool willPop = false;
+
+    await AlertModal.showAlert(
+      context,
+      header: 'Discard changes?',
+      acceptText: 'Discard',
+      onAccept: () {
+        Navigator.of(context).pop();
+        willPop = true;
+      },
+    );
+
+    return willPop;
+  }
+
   void _onSave() {
     int yearNum = int.parse(_yearCtrl.text);
 
@@ -135,6 +155,7 @@ class _AddClassPageState extends State<AddClassPage> {
       CustomSnackBar.showSnackBar(context, 'Class added!');
     }
 
+    _shouldPop = true;
     Navigator.of(context).pop();
   }
 
@@ -148,6 +169,7 @@ class _AddClassPageState extends State<AddClassPage> {
 
         CustomSnackBar.showSnackBar(context, 'Class deleted!');
 
+        _shouldPop = true;
         Navigator.of(context).pop();
       },
     );
@@ -155,31 +177,27 @@ class _AddClassPageState extends State<AddClassPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Scaffold scaffold = Scaffold(
       backgroundColor: AppColors.PRIMARY_MAIN,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-                icon: Icon(Icons.close_rounded),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
-            TextButton(
-              onPressed: _onSave,
-              child: Text(
-                'Done',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: Colors.white),
-              ),
-            )
-          ],
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.close_rounded),
+          onPressed: _onBack,
         ),
+        actions: [
+          TextButton(
+            onPressed: _onSave,
+            child: Text(
+              'Done',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
@@ -275,6 +293,11 @@ class _AddClassPageState extends State<AddClassPage> {
           ],
         ),
       ),
+    );
+
+    return WillPopScope(
+      onWillPop: _onBack,
+      child: scaffold,
     );
   }
 }

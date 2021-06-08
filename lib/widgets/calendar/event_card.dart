@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 class EventCard extends StatefulWidget {
@@ -144,7 +145,12 @@ class _EventCardState extends State<EventCard> {
 
     return InkWell(
       onTap: () {
-        print('on tap');
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => AddTaskPage(
+            event: widget.event,
+            isEditing: true,
+          ),
+        ));
       },
       child: card,
     );
