@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class SelectDaysGroup extends StatefulWidget {
+  final List<bool> selected;
   final Function(List<bool>) onChange;
 
-  SelectDaysGroup({this.onChange});
+  SelectDaysGroup({this.selected, this.onChange});
 
   @override
   _SelectDaysGroupState createState() => _SelectDaysGroupState();
@@ -15,6 +15,21 @@ class SelectDaysGroup extends StatefulWidget {
 
 class _SelectDaysGroupState extends State<SelectDaysGroup> {
   List<bool> _selected = List.generate(6, (index) => false);
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.selected != null) _selected = widget.selected;
+  }
+
+  void _onPressed(int index) {
+    setState(() {
+      _selected[index] = !_selected[index];
+
+      if (widget.onChange != null) widget.onChange(_selected);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,66 +54,42 @@ class _SelectDaysGroupState extends State<SelectDaysGroup> {
               selected: _selected[0],
               text: 'M',
               shrink: shouldShrink,
-              onPressed: () {
-                setState(() {
-                  _selected[0] = !_selected[0];
-                });
-              },
+              onPressed: () => _onPressed(0),
             ),
             SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[1],
               text: 'T',
               shrink: shouldShrink,
-              onPressed: () {
-                setState(() {
-                  _selected[1] = !_selected[1];
-                });
-              },
+              onPressed: () => _onPressed(1),
             ),
             SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[2],
               text: 'W',
               shrink: shouldShrink,
-              onPressed: () {
-                setState(() {
-                  _selected[2] = !_selected[2];
-                });
-              },
+              onPressed: () => _onPressed(2),
             ),
             SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[3],
               text: 'Th',
               shrink: shouldShrink,
-              onPressed: () {
-                setState(() {
-                  _selected[3] = !_selected[3];
-                });
-              },
+              onPressed: () => _onPressed(3),
             ),
             SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[4],
               text: 'F',
               shrink: shouldShrink,
-              onPressed: () {
-                setState(() {
-                  _selected[4] = !_selected[4];
-                });
-              },
+              onPressed: () => _onPressed(4),
             ),
             SizedBox(width: 8),
             ShrinkingButton(
               selected: _selected[5],
               text: 'S',
               shrink: shouldShrink,
-              onPressed: () {
-                setState(() {
-                  _selected[5] = !_selected[5];
-                });
-              },
+              onPressed: () => _onPressed(5),
             ),
           ],
         ),

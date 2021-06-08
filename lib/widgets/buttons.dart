@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/models/add_qpi_notifier.dart';
 
 class LongButton extends StatelessWidget {
   final String text;
@@ -19,7 +17,7 @@ class LongButton extends StatelessWidget {
       height: 64,
       decoration: BoxDecoration(
           color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       child: TextButton(
         onPressed: () => onPressed(),
         child: Text(
@@ -36,8 +34,17 @@ class ShortButton extends StatelessWidget {
   final Color buttonColor;
   final Color textColor;
   final VoidCallback onPressed;
+  final bool outlined;
+  final List<BoxShadow> shadows;
 
-  ShortButton(this.text, this.buttonColor, this.textColor, this.onPressed);
+  ShortButton(
+    this.text,
+    this.buttonColor,
+    this.textColor,
+    this.onPressed, {
+    this.outlined = false,
+    this.shadows,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +52,23 @@ class ShortButton extends StatelessWidget {
       width: 128,
       height: 64,
       decoration: BoxDecoration(
-          color: buttonColor,
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+        color: outlined ? Colors.transparent : buttonColor,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        border: Border.all(
+          color: outlined ? buttonColor : Colors.transparent,
+          width: 1.0,
+        ),
+        boxShadow: shadows,
+      ),
       child: TextButton(
         onPressed: () {
-          onPressed();
+          if (onPressed != null) onPressed();
         },
         child: Text(
           text,
-          style: Theme.of(context).textTheme.headline6.copyWith(color: textColor),
+          style:
+              Theme.of(context).textTheme.headline6.copyWith(color: textColor),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -84,7 +99,7 @@ class SquareButton extends StatelessWidget {
       height: 56,
       decoration: BoxDecoration(
         color: AppColors.GRAY_LIGHT[2],
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         border: selected ? Border.all(color: Colors.black) : null, // temporary
       ),
       child: TextButton(
@@ -121,7 +136,7 @@ class ShrinkingButton extends StatelessWidget {
       height: 56,
       decoration: BoxDecoration(
         color: AppColors.GRAY_LIGHT[2],
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         border: selected
             ? Border.all(color: AppColors.SECONDARY_MAIN, width: 2.0)
             : null,
@@ -145,24 +160,37 @@ class ShrinkingButton extends StatelessWidget {
 }
 
 class GradeDropDown extends StatefulWidget {
+  final int selected;
+  final Function(int) onValueChange;
+
+  GradeDropDown({this.selected, this.onValueChange});
+
   @override
   _GradeDropDownState createState() => _GradeDropDownState();
 }
 
 class _GradeDropDownState extends State<GradeDropDown> {
+  int _selected = 1;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.selected != null) _selected = widget.selected;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 185,
       width: double.infinity,
       height: 56,
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       decoration: BoxDecoration(
           color: AppColors.GRAY_LIGHT[2],
-          borderRadius: BorderRadius.all(Radius.circular(5))),
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
-            value: Provider.of<AddQPINotifier>(context).gradeVal,
+            value: _selected,
             items: [
               DropdownMenuItem(child: Text("A"), value: 1),
               DropdownMenuItem(child: Text("B+"), value: 2),
@@ -173,215 +201,13 @@ class _GradeDropDownState extends State<GradeDropDown> {
               DropdownMenuItem(child: Text("F/W"), value: 7),
             ],
             onChanged: (value) {
-              Provider.of<AddQPINotifier>(context, listen: false).gradeVal =
-                  value;
+              setState(() {
+                _selected = value;
+                if (widget.onValueChange != null)
+                  widget.onValueChange(_selected);
+              });
             }),
       ),
     );
   }
 }
-
-///// Code for Selector Buttons - Copy/Paste as needed
-
-// class DateSelect extends StatefulWidget {
-//   final Color buttonColor;
-//   final Color textColor;
-//   final Color labelColor;
-
-//   DateSelect(this.labelColor, this.buttonColor, this.textColor);
-
-//   @override
-//   _DateSelectState createState() => _DateSelectState();
-// }
-
-// class _DateSelectState extends State<DateSelect> {
-//   bool _isSelected = false;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: Colors.transparent,
-//       width: 384,
-//       height: 80,
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Row(
-//             children: [
-//               Text(
-//                 "Date",
-//                 style: TextStyle(color: widget.labelColor),
-//               )
-//             ],
-//           ),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               // I think a listview builder might be a better way to create this but can't seem to make it work yet
-
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: _isSelected ? Colors.blue : widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child: Text(
-//                       'M',
-//                       style: TextStyle(color: widget.textColor),
-//                     )),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('T', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('W', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('Th', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('F', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 54,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('S', style: TextStyle(color: widget.textColor))),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-//////
-
-//////
-
-// class QtrSelect extends StatefulWidget {
-//   final Color buttonColor;
-//   final Color textColor;
-//   final Color labelColor;
-
-//   QtrSelect(this.labelColor, this.buttonColor, this.textColor);
-
-//   @override
-//   _QtrSelectState createState() => _QtrSelectState();
-// }
-
-// class _QtrSelectState extends State<QtrSelect> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: Colors.transparent,
-//       width: 177,
-//       height: 80,
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             children: [
-//               Text(
-//                 "Quarter",
-//                 style: TextStyle(color: widget.labelColor),
-//               ),
-//             ],
-//           ),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               // same as DateSelect
-
-//               Container(
-//                 width: 41,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('1', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 41,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('2', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 41,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('3', style: TextStyle(color: widget.textColor))),
-//               ),
-//               Container(
-//                 width: 41,
-//                 height: 54,
-//                 decoration: BoxDecoration(
-//                     color: widget.buttonColor,
-//                     borderRadius: BorderRadius.all(Radius.circular(5))),
-//                 child: TextButton(
-//                     onPressed: () {},
-//                     child:
-//                         Text('4', style: TextStyle(color: widget.textColor))),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

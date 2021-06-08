@@ -1,14 +1,13 @@
-import 'package:admu_student_app/screens/add_class.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/screens/calendar/add_event.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
-import 'package:admu_student_app/screens/schedule/add_course.dart';
 import 'package:admu_student_app/screens/schedule/schedule_page.dart';
+import 'package:admu_student_app/screens/add_class.dart';
+import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/widgets/drawer_widget.dart';
 
 class MainPage extends StatefulWidget {
@@ -19,19 +18,35 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
 
-  final tabs = [
-    HomePage(),
-    CalendarPage(),
-    SchedulePage(),
-    QPIPage(),
-  ];
+  DateTime _calDate;
+  int _schedYearNum;
+  int _schedSemNum;
 
-  final actionPage = [
-    null,
-    AddEventPage(),
-    AddCoursePage(),
-    AddQPIPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+
+    _calDate = DateTime.now();
+  }
+
+  Widget _buildBody() {
+    if (_currentIndex == 0)
+      return HomePage();
+    else if (_currentIndex == 1)
+      return CalendarPage(
+          date: _calDate,
+          onDateChange: (DateTime dt) {
+            setState(() {
+              _calDate = dt;
+            });
+          });
+    else if (_currentIndex == 2)
+      return SchedulePage();
+    else if (_currentIndex == 3)
+      return QPIPage();
+    else
+      return Container();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,24 +54,11 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         //The property and builder changes the DrawerWidget's icon to customize
         automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: Icon(Icons.menu_rounded),
-                onPressed: () => Scaffold.of(context).openDrawer(),
-              ),
-            ),
-            _currentIndex == 2
-                ? IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => AddClassPage(isEditing: false, inEnlistment: false,)));
-                    })
-                : SizedBox()
-          ],
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu_rounded),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
         ),
         actions: _currentIndex == 0
             ? []
@@ -64,14 +66,23 @@ class _MainPageState extends State<MainPage> {
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => actionPage[_currentIndex],
+                      builder: (_) {
+                        if (_currentIndex == 1)
+                          return AddTaskPage(date: _calDate);
+                        else if (_currentIndex == 2)
+                          return AddClassPage();
+                        else if (_currentIndex == 3)
+                          return AddQPIPage();
+                        else
+                          return Container();
+                      },
                     ));
                   },
                   icon: Icon(Icons.add_rounded),
                 ),
               ],
       ),
-      body: tabs[_currentIndex],
+      body: _buildBody(),
       drawer: DrawerWidget(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, //Highlights which page the user is
@@ -121,7 +132,7 @@ class _MainPageState extends State<MainPage> {
                     height: 36,
                     width: 36,
                   ),
-            label: 'Schedule',
+            label: 'Classes',
           ),
           BottomNavigationBarItem(
             icon: _currentIndex == 3

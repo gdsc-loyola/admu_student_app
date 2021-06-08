@@ -21,12 +21,8 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   }
 
   void _loadData() async {
-    String jsonText;
-    try {
-      jsonText = await rootBundle.loadString('assets/text/privacy_policy.json');
-    } catch (error) {
-      jsonText = await rootBundle.loadString('text/privacy_policy.json');
-    }
+    String jsonText =
+        await rootBundle.loadString('assets/text/privacy_policy.json');
 
     setState(() {
       _data = json.decode(jsonText);
@@ -86,7 +82,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                       return Padding(
                         padding: EdgeInsets.only(bottom: 14),
                         child: CustomDropDown(
-                          childrenPadding: EdgeInsets.fromLTRB(24, 0, 24, 48), // original 47 for bottom
+                          childrenPadding: EdgeInsets.fromLTRB(24, 0, 24, 48),
                           title: Text(
                             categ['heading'],
                             style:
@@ -114,7 +110,8 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                                           categ['subcategories'][index2];
 
                                       return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(top: 20),
@@ -151,14 +148,10 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(right: 6),
-                        color: Colors.grey,
-                        width: 28,
-                        height: 36,
-                      ),
+                      Image.asset('assets/logo/dsc.png', width: 36, height: 36),
+                      SizedBox(width: 6),
                       Text(
-                        'Developer Student Clubs',
+                        'Developer Student Clubs Loyola',
                         style: Theme.of(context)
                             .textTheme
                             .caption

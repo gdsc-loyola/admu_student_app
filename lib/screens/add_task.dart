@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
-class AddTask extends StatelessWidget {
+class AddTaskPage extends StatefulWidget {
+  final DateTime date;
+  final bool isEditing;
+
+  AddTaskPage({this.date, this.isEditing = false});
+
+  @override
+  _AddTaskPageState createState() => _AddTaskPageState();
+}
+
+class _AddTaskPageState extends State<AddTaskPage> {
   TextEditingController _eventCtrl = TextEditingController();
   TextEditingController _tagCtrl = TextEditingController();
   TextEditingController _agendaCtrl = TextEditingController();
-
-  final bool isEditing;
-
-  AddTask({this.isEditing = false});
 
   @override
   Widget build(BuildContext context) {
@@ -51,48 +57,40 @@ class AddTask extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                '${isEditing ? 'Edit' : 'Add'} Event',
+                '${widget.isEditing ? 'Edit' : 'Add'} Event',
                 style: Theme.of(context)
                     .textTheme
                     .headline4
                     .copyWith(color: AppColors.GRAY_LIGHT[2]),
               ),
-              SizedBox(
-                height: 40,
-              ),
+              SizedBox(height: 40),
               Row(
                 children: [
-                  Expanded(
-                    child: InputGroup('Event', _eventCtrl),
-                  ),
+                  Expanded(child: InputGroup('Event', _eventCtrl)),
                 ],
               ),
-              SizedBox(
-                height: 16,
-              ),
+              SizedBox(height: 16),
               // Time Input Field goes here
               Row(
                 children: [
-                  Expanded(
-                    child: InputGroup('Tags', _tagCtrl),
-                  ),
+                  Expanded(child: InputGroup('Tags', _tagCtrl)),
                 ],
               ),
-              SizedBox(
-                height: 16,
-              ),
+              SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(
-                    child: InputGroup('Agenda', _agendaCtrl),
-                  ),
+                  Expanded(child: InputGroup('Agenda', _agendaCtrl)),
                 ],
               ),
-              SizedBox(
-                height: 32,
-              ),
-              isEditing? LongButton('Delete Event', AppColors.SECONDARY_MAIN,
-                  AppColors.GRAY_LIGHT[2], () {}):SizedBox()
+              SizedBox(height: 32),
+              widget.isEditing
+                  ? LongButton(
+                      'Delete Event',
+                      AppColors.SECONDARY_MAIN,
+                      AppColors.GRAY_LIGHT[2],
+                      () {},
+                    )
+                  : SizedBox()
             ],
           ),
         ),

@@ -33,9 +33,9 @@ class _SemesterPageState extends State<SemesterPage> {
 
   void _onDelete(BuildContext context, List<Course> courses) async {
     for (int i = _cSelected.length - 1; i >= 0; i--) {
-      if(_cSelected[i]) {
+      if (_cSelected[i]) {
         await Provider.of<AcademicRecords>(context, listen: false)
-          .deleteCourse(widget.yearNum, widget.semNum, courses[i].courseCode);
+            .deleteCourse(widget.yearNum, widget.semNum, courses[i].courseCode);
       }
     }
 
@@ -78,32 +78,14 @@ class _SemesterPageState extends State<SemesterPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // semester and edit button
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    '${sem == null ? 'Semester' : sem.semString}',
-                    // overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .copyWith(color: AppColors.GRAY_DARK[0]),
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => AddQPIPage()),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: AppColors.GRAY_DARK[2],
-                  ),
-                  iconSize: 36,
-                ),
-              ],
+            // semester text
+            Text(
+              '${sem == null ? 'Semester' : sem.semString}',
+              // overflow: TextOverflow.ellipsis,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(color: AppColors.GRAY_DARK[0]),
             ),
             SizedBox(height: 24.0),
             // semester qpi
@@ -128,7 +110,8 @@ class _SemesterPageState extends State<SemesterPage> {
                     setState(() {
                       _isEditing = !_isEditing;
                       _selected = 0;
-                      _cSelected = List.generate(courses.length, (index) => false);
+                      _cSelected =
+                          List.generate(courses.length, (index) => false);
                     });
                   },
                   child: Container(
@@ -181,26 +164,33 @@ class _SemesterPageState extends State<SemesterPage> {
                     selected: _isEditing ? _cSelected[index] : false,
                     onSelect: () {
                       setState(() {
-                        if (_cSelected[index]) _selected--;
-                        else _selected++;
+                        if (_cSelected[index])
+                          _selected--;
+                        else
+                          _selected++;
                         _cSelected[index] = !_cSelected[index];
                       });
                     }),
               ),
             ),
-            _isEditing ? Text('$_selected') : Container(), // todo
+            _isEditing
+                ? Text(
+                    _selected > 0
+                        ? '$_selected Class Selected'
+                        : 'Select Classes',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: _selected > 0
+                            ? AppColors.SECONDARY_MAIN
+                            : AppColors.GRAY_DARK[1]),
+                  )
+                : Container(), // todo
           ],
         ),
       ),
       floatingActionButton: _isEditing
           ? FloatingActionButton(
               onPressed: () => _onDelete(context, courses),
-              /* onPressed: () {
-                // delete selected, todo
-                setState(() {
-                  _isEditing = false;
-                });
-              },*/ 
               child: Icon(
                 Icons.delete_outline_rounded,
                 size: 36,

@@ -25,12 +25,15 @@ class _InputFieldState extends State<InputField> {
   Widget build(BuildContext context) {
     return Container(
       height: 56,
+      decoration: BoxDecoration(
+        color: AppColors.GRAY_LIGHT[2],
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
       child: TextField(
         controller: widget.controller,
         keyboardType: TextInputType.multiline, //expands when make lagpas
         maxLines: widget.isMultiLined == true ? null : 1,
         decoration: InputDecoration(
-          // border: OutlineInputBorder(),
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
@@ -38,13 +41,17 @@ class _InputFieldState extends State<InputField> {
           disabledBorder: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 16),
           hintText: widget.hint,
+          hintStyle: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(color: AppColors.GRAY_DARK[2]),
           counterText: "", //Disables maxLength showing in Field
         ),
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            .copyWith(color: AppColors.GRAY_DARK[0]),
         maxLength: widget.length,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.GRAY_LIGHT[2],
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
       ),
     );
   }

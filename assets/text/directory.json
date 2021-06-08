@@ -1,0 +1,89 @@
+[
+    {
+        "title": "LS Office",
+        "offices": [
+            { "name": "Office of the Registrar", "emails": ["askregistrar.ls@ateneo.edu"] },
+            { "name": "Office of Management Information Systems", "emails": ["omis-reg.ls@obf.ateneo.edu"] },
+            { "name": "Office of the Vice President for the Loyola Schools", "emails": ["askvpls@ateneo.edu"] },
+            { "name": "Office of the Associate Dean for Academic Affairs", "emails": ["adaa.ls@ateneo.edu"] },
+            { "name": "Office of the Associate Dean for Graduate Programs", "emails": ["more than 1"] },
+            { "name": "Office of the Associate Dean for Core Curriculum", "emails": ["adcc.ls@ateneo.edu"] },
+            { "name": "Office of Admission and Aid", "emails": ["scholarships.ls@ateneo.edu"] },
+            { "name": "Office for Student Services", "emails": ["oss.ls@ateneo.edu"] },
+            { "name": "Office of Student Discipline", "emails": ["studentdiscipline.ls@ateneo.edu"] },
+            { "name": "Office of Guidance and Conseling", "emails": ["guidance.ls@ateneo.edu"] },
+            { "name": "Rizal Library", "emails": ["rizal.library.ls@ateneo.edu"] },
+            { "name": "Residence Halls", "emails": ["residencehalls@ateneo.edu", "apaterno@ateneo.edu"] },
+            { "name": "Central Accounting Office, Student Accounts Section", "emails": ["stud.accts.cao@ateneo.edu"] },
+            { "name": "Cashier's Office", "emails": ["more than 1"] }
+        ]
+    }, {
+        "title": "Student Formation Cluster",
+        "offices": [
+            { "name": "Physical Education Program (PE)", "emails": ["lmanalo@ateneo.edu"] },
+            { "name": "National Service Training Program (NSTP OSCI)", "emails": ["osci.ls@ateneo.edu"] },
+            { "name": "Introduction to Ateneo Culture and Traditions (InTACT)", "emails": ["intact.ls@ateneo.edu"] }
+        ]
+    }, {
+        "title": "John Gokongwei School of Management",
+        "offices": [
+            { "name": "Finance and Accounting", "emails": ["rmendoza@ateneo.edu"] },
+            { "name": "Leadership and Strategy", "emails": ["glopez@ateneo.edu"] },
+            { "name": "Marketing and Law", "emails": ["mabano@ateneo.edu"] },
+            { "name": "Quantitative Methods and Information Technology", "emails": ["cmandagan@ateneo.edu"] },
+            { "name": "Communications Technology Management", "emails": ["rmagsino@ateneo.edu"] },
+            { "name": "Information Technology Entrepreneurship", "emails": ["rmagsino@ateneo.edu"] },
+            { "name": "Legal Management", "emails": ["rmandafe@ateneo.edu"] },
+            { "name": "Management", "emails": ["rmandafe@ateneo.edu"] },
+            { "name": "Management-Honors", "emails": ["rmandafe@ateneo.edu"] },
+            { "name": "Management of Applied Chemistry", "emails": ["rmagsino@ateneo.edu"] },
+            { "name": "Management Engineering", "emails": ["rmagsino@ateneo.edu"] },
+            { "name": "Restaurant Entrepreneurship", "emails": ["rmandafe@ateneo.edu"] },
+            { "name": "MS Sustainability", "emails": ["glopez@ateneo.edu"] },
+            { "name": "PhD in Leadership Studies - Business Leadership", "emails": ["glopez@ateneo.edu"] }
+        ]
+    }, {
+        "title": "School of Humanities",
+        "offices": [
+            { "name": "English", "emails": ["english.soh@ateneo.edu"] },
+            { "name": "Filipino", "emails": ["filipino.soh@ateneo.edu"] },
+            { "name": "Fine Arts", "emails": ["finearts.soh@ateneo.edu"] },
+            { "name": "Interdisciplinary Studies", "emails": ["is.soh@ateneo.edu"] },
+            { "name": "Modern Languages (French, Spanish, German, etc.)", "emails": ["modernlanguages.soh@ateneo.edu"] },
+            { "name": "Philosophy", "emails": ["more than 5"] },
+            { "name": "Theology", "emails": ["theology.soh@ateneo.edu"] }
+        ]
+    }, {
+        "title": "School of Science and Engineering",
+        "offices": [
+            { "name": "Biology", "emails": ["biology.sose@ateneo.edu"] },
+            { "name": "Chemistry", "emails": ["chemistry.sose@ateneo.edu"] },
+            { "name": "Environmental Science", "emails": ["envisci.sose@ateneo.edu"] },
+            { "name": "Electronics, Computer, and Communications Engineering (ECCE)", "emails": ["ecce.sose@ateneo.edu"] },
+            { "name": "Health Sciences", "emails": ["healthsci.sose@ateneo.edu"] },
+            { "name": "Information System and Computer Science (DISCS)", "emails": ["discs.sose@ateneo.edu"] },
+            { "name": "Mathematics", "emails": ["math.sose@ateneo.edu"] },
+            { "name": "Physics", "emails": ["physics.sose@ateneo.edu"] },
+            { "name": "Science block", "emails": ["?"] }
+        ]
+    }, {
+        "title": "School of Social Science",
+        "offices": [
+            { "name": "Chinese Studies", "emails": ["chinesestudies.soss@ateneo.edu"] },
+            { "name": "Communications", "emails": ["registration.comm.soss@ateneo.edu"] },
+            { "name": "Development Studies", "emails": ["devstudies.soss@ateneo.edu"] },
+            { "name": "Economics", "emails": ["economics.soss@ateneo.edu"] },
+            { "name": "Education", "emails": ["education.soss@ateneo.edu"] },
+            { "name": "European Studies", "emails": ["europeanstudies.soss@ateneo.edu"] },
+            { "name": "History", "emails": ["?"] },
+            { "name": "Japanese Studies", "emails": ["japanese.soss@ateneo.edu"] },
+            { "name": "Korean Studies", "emails": ["ksp.soss@ateneo.edu"] },
+            { "name": "Political Science", "emails": ["polsci.soss@ateneo.edu"] },
+            { "name": "Psychology", "emails": ["psychology.soss@ateneo.edu"] },
+            { "name": "Sociology and Anthropology", "emails": ["socioanthro.soss@ateneo.edu"] }
+        ]
+    }, {
+        "title": "Gokongwei Brothers School of Education and Learning Design",
+        "offices": []
+    }
+]

@@ -21,18 +21,20 @@ class CentralDatabaseHelper {
   static final units = 'units';
   static final qpi = 'qpi';
   static final isIncludedInQPI = 'is_included_in_qpi';
+  static final section = 'section';
   static final days = 'days';
   static final start = 'start';
   static final end = 'end';
   static final inEnlistment = 'in_enlistment';
   static final professor = 'professor';
-  static final notes = 'notes';
   static final month = 'month';
   static final day = 'day';
+  static final yearEnd = 'year_end';
+  static final monthEnd = 'month_end';
+  static final dayEnd = 'day_end';
   static final name = 'name';
   static final agenda = 'agenda';
   static final tags = 'tags';
-  static final isTask = 'is_task';
   static final isDone = 'is_done';
   static final inAcademicCalendar = 'in_academic_calendar';
 
@@ -84,10 +86,10 @@ class CentralDatabaseHelper {
   }
 
   Future createCoursesTable(Database db, int ver) async {
-    if (db == null) db = await database;
+    // if (db == null) db = await database;
 
-    await (await CentralDatabaseHelper.instance.database)
-        .execute('DROP TABLE IF EXISTS $tableName_courses');
+    // await (await CentralDatabaseHelper.instance.database)
+    //     .execute('DROP TABLE IF EXISTS $tableName_courses');
 
     await db.execute('''
       CREATE TABLE $tableName_courses(
@@ -112,6 +114,7 @@ class CentralDatabaseHelper {
       CREATE TABLE $tableName_schedule(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
       $code TEXT NOT NULL,
+      $section TEXT,
       $year INTEGER NOT NULL,
       $sem INTEGER NOT NULL,
       $quarter INTEGER,
@@ -120,8 +123,7 @@ class CentralDatabaseHelper {
       $start INTEGER NOT NULL,
       $end INTEGER NOT NULL,
       $inEnlistment INTEGER NOT NULL,
-      $professor TEXT,
-      $notes TEXT )
+      $professor TEXT)
     ''');
   }
 
@@ -137,13 +139,15 @@ class CentralDatabaseHelper {
       $year INTEGER,
       $month INTEGER,
       $day INTEGER,
+      $yearEnd INTEGER,
+      $monthEnd INTEGER,
+      $dayEnd INTEGER,
       $name TEXT NOT NULL,
       $agenda TEXT,
       $tags TEXT,
       $start TEXT,
       $end TEXT,
-      $isTask INTEGER,
-      $isDone INTEGER,
+      $isDone INTEGER NOT NULL,
       $inAcademicCalendar INTEGER )
     ''');
   }

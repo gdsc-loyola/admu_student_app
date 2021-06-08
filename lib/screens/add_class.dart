@@ -1,19 +1,29 @@
-import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/screens/notes.dart';
-import 'package:admu_student_app/screens/add_task.dart';
-import 'package:admu_student_app/widgets/groups/select_semester.dart';
+import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/groups/select_color.dart';
-import 'package:admu_student_app/screens/qpi/add_qpi.dart';
+import 'package:admu_student_app/widgets/groups/select_days.dart';
+import 'package:admu_student_app/widgets/groups/select_semester.dart';
+import 'package:admu_student_app/widgets/groups/select_time.dart';
+import 'package:admu_student_app/widgets/modals/alert.dart';
+import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
+import 'package:admu_student_app/widgets/buttons.dart';
 
 class AddClassPage extends StatefulWidget {
+  final Subject subject;
   final bool inEnlistment;
   final bool isEditing;
 
-  AddClassPage({this.inEnlistment = false, this.isEditing = false});
+  AddClassPage({
+    this.inEnlistment = false,
+    this.isEditing = false,
+    this.subject,
+  });
+
   @override
   _AddClassPageState createState() => _AddClassPageState();
 }
@@ -22,10 +32,126 @@ class _AddClassPageState extends State<AddClassPage> {
   TextEditingController _codeCtrl = TextEditingController();
   TextEditingController _sectionCtrl = TextEditingController();
   TextEditingController _yearCtrl = TextEditingController();
-  TextEditingController _unitCtrl = TextEditingController();
   TextEditingController _profCtrl = TextEditingController();
 
-  _AddClassPageState();
+  int _semNum = 1;
+
+  List<bool> _days = List.generate(6, (index) => false);
+  TimeOfDay _timeStart;
+  TimeOfDay _timeEnd;
+
+  Color _color;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.subject != null) {
+      _codeCtrl.text = widget.subject.code;
+      // _sectionCtrl.text = widget.subject.code;
+      _yearCtrl.text = '${widget.subject.yearNum}';
+      _profCtrl.text = '${widget.subject.profName}';
+
+      _semNum = widget.subject.semNum;
+
+      _days = widget.subject.days;
+
+      _timeStart = TimeOfDay(
+        hour: widget.subject.start ~/ 100,
+        minute: widget.subject.start % 100,
+      );
+      _timeEnd = TimeOfDay(
+        hour: widget.subject.end ~/ 100,
+        minute: widget.subject.end % 100,
+      );
+
+      _color = widget.subject.color;
+    }
+  }
+
+  void _onSemesterChange(int val) {
+    setState(() {
+      _semNum = val;
+    });
+  }
+
+  void _onDaysChange(List<bool> sel) {
+    setState(() {
+      _days = sel;
+    });
+  }
+
+  void _onStartTimeChange(TimeOfDay tod) {
+    setState(() {
+      _timeStart = tod;
+    });
+  }
+
+  void _onEndTimeChange(TimeOfDay tod) {
+    setState(() {
+      _timeEnd = tod;
+    });
+  }
+
+  void _onColorChange(Color c) {
+    setState(() {
+      _color = c;
+    });
+  }
+
+  void _onSave() {
+    int yearNum = int.parse(_yearCtrl.text);
+
+    if (widget.isEditing) {
+      Provider.of<ClassSchedule>(context, listen: false).editSubject(
+        widget.subject,
+        _codeCtrl.text,
+        _sectionCtrl.text,
+        yearNum,
+        _semNum,
+        _color,
+        _days,
+        _timeStart,
+        _timeEnd,
+        false, // in enlistment
+        _profCtrl.text,
+      );
+
+      CustomSnackBar.showSnackBar(context, 'Class edited!');
+    } else {
+      Provider.of<ClassSchedule>(context, listen: false).addSubject(
+        _codeCtrl.text,
+        _sectionCtrl.text,
+        yearNum,
+        _semNum,
+        _color,
+        _days,
+        _timeStart,
+        _timeEnd,
+        false, // in enlistment
+        _profCtrl.text,
+      );
+
+      CustomSnackBar.showSnackBar(context, 'Class added!');
+    }
+
+    Navigator.of(context).pop();
+  }
+
+  void _onDelete() async {
+    await AlertModal.showAlert(
+      context,
+      header: 'Delete ${widget.subject.code}?',
+      onAccept: () {
+        Provider.of<ClassSchedule>(context, listen: false)
+            .deleteSubject(widget.subject);
+
+        CustomSnackBar.showSnackBar(context, 'Class deleted!');
+
+        Navigator.of(context).pop();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,27 +169,23 @@ class _AddClassPageState extends State<AddClassPage> {
                   Navigator.pop(context);
                 }),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => NotesPage(),
-                  ),
-                );
-              },
+              onPressed: _onSave,
               child: Text(
                 'Done',
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: Colors.white,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: Colors.white),
               ),
             )
           ],
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
         child: Column(
           children: [
+            // header
             Center(
               child: Text(
                 '${widget.isEditing ? 'Edit' : 'Add'} Class',
@@ -73,9 +195,9 @@ class _AddClassPageState extends State<AddClassPage> {
                     .copyWith(color: Colors.white),
               ),
             ),
-            SizedBox(
-              height: 24,
-            ),
+            SizedBox(height: 24),
+
+            // course code and section
             Row(
               children: [
                 // Text Field at the Left
@@ -85,52 +207,70 @@ class _AddClassPageState extends State<AddClassPage> {
                 Expanded(child: InputGroup('Section', _sectionCtrl)),
               ],
             ),
-            SizedBox(
-              height: 24,
-            ),
+            SizedBox(height: 24),
+
+            // year level and sem
             Row(
               children: [
                 // Text Field at the Left
                 Expanded(child: InputGroup('Year Level', _yearCtrl)),
                 SizedBox(width: 20),
                 // Text at the Right
-                Expanded(child: InputGroup('Units', _unitCtrl)),
+                Expanded(
+                  child: SelectSemesterGroup(
+                    selected: _semNum,
+                    onValueChange: _onSemesterChange,
+                  ),
+                ),
               ],
             ),
-            Row(
-              children: [
-                // Expanded(child: SelectSemesterGroup()),
-                // Quarter Select goes here
-              ],
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            Container(
-                // Expanded(child: SelectColor())
-                ),
-            SizedBox(
-              height: 24,
-            ),
-            Container(
-                // Container for the Date Select
-                ),
-            SizedBox(
-              height: 24,
-            ),
+            SizedBox(height: 24),
+
+            // select color
+            SelectColor(color: _color, onColorChange: _onColorChange),
+            SizedBox(height: 24),
+
+            // days
+            SelectDaysGroup(selected: _days, onChange: _onDaysChange),
+            SizedBox(height: 24),
+
+            // start and end time
             Row(
               children: [
                 // Row for Time Selectors
+                Expanded(
+                  child: SelectTimeGroup(
+                    'Start',
+                    time: _timeStart,
+                    onTimeChange: _onStartTimeChange,
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: SelectTimeGroup(
+                    'End',
+                    time: _timeEnd,
+                    onTimeChange: _onEndTimeChange,
+                  ),
+                ),
               ],
             ),
+
+            // professor in enlistment
             widget.inEnlistment
                 ? Expanded(
                     child: InputGroup('Name of Professor', _profCtrl),
                   )
                 : SizedBox(),
+
+            // delete button
             widget.isEditing
-                ? LongButton('Delete Class', AppColors.SECONDARY_MAIN,
-                    AppColors.GRAY_LIGHT[2], () {})
+                ? LongButton(
+                    'Delete Class',
+                    AppColors.SECONDARY_MAIN,
+                    AppColors.GRAY_LIGHT[2],
+                    _onDelete,
+                  )
                 : SizedBox()
           ],
         ),

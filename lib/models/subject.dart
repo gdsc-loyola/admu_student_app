@@ -1,11 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/models/central_database.dart';
 
 class Subject {
   String code;
+  String section;
   int yearNum;
   int semNum;
   int qtrNum;
@@ -13,10 +12,24 @@ class Subject {
   List<bool> days;
   int start;
   int end;
+  bool inEnlistment;
+  String profName;
 
-  Subject(String code, int yearNum, int semNum, int qtrNum, int color, int days,
-      int start, int end) {
+  Subject(
+    String code,
+    String section,
+    int yearNum,
+    int semNum,
+    int qtrNum,
+    int color,
+    int days,
+    int start,
+    int end,
+    int inEnlistment,
+    String profName,
+  ) {
     this.code = code;
+    this.section = section;
     this.yearNum = yearNum;
     this.semNum = semNum;
     this.qtrNum = qtrNum;
@@ -28,11 +41,45 @@ class Subject {
 
     this.start = start;
     this.end = end;
+
+    this.inEnlistment = inEnlistment == 1;
+    this.profName = profName;
+  }
+
+  Subject.fromData(
+    String code,
+    String section,
+    int yearNum,
+    int semNum,
+    int qtrNum,
+    Color color,
+    List<bool> days,
+    TimeOfDay start,
+    TimeOfDay end,
+    bool inEnlistment,
+    String profName,
+  ) {
+    this.code = code;
+    this.section = section;
+
+    this.yearNum = yearNum;
+    this.semNum = semNum;
+    this.qtrNum = qtrNum;
+
+    this.color = color;
+    this.days = days;
+
+    this.start = (start.hour * 100) + (start.minute);
+    this.end = (end.hour * 100) + (end.minute);
+
+    this.inEnlistment = inEnlistment;
+    this.profName = profName;
   }
 
   factory Subject.fromMap(Map map) {
     return Subject(
       map[CentralDatabaseHelper.code],
+      map[CentralDatabaseHelper.section],
       map[CentralDatabaseHelper.year],
       map[CentralDatabaseHelper.sem],
       map[CentralDatabaseHelper.quarter],
@@ -40,6 +87,8 @@ class Subject {
       map[CentralDatabaseHelper.days],
       map[CentralDatabaseHelper.start],
       map[CentralDatabaseHelper.end],
+      map[CentralDatabaseHelper.inEnlistment],
+      map[CentralDatabaseHelper.professor],
     );
   }
 }

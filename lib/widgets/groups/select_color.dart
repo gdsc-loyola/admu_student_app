@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/models/add_qpi_notifier.dart';
+import 'package:admu_student_app/constants/app_effects.dart';
+import 'package:admu_student_app/widgets/buttons.dart';
 
 class SelectColor extends StatefulWidget {
+  final Color color;
+  final Function(Color) onColorChange;
+
+  SelectColor({this.color, this.onColorChange});
+
   @override
   _SelectColorState createState() => _SelectColorState();
 }
@@ -12,14 +18,17 @@ class SelectColor extends StatefulWidget {
 class _SelectColorState extends State<SelectColor> {
   int _selected = -1;
 
+  Color _color;
+
   @override
   void initState() {
     super.initState();
 
-    if (Provider.of<AddQPINotifier>(context, listen: false).hasOldColor) {
-      Color c = Provider.of<AddQPINotifier>(context, listen: false).color;
+    if (widget.color != null) {
+      _color = widget.color;
+
       for (int i = 0; i < AppColors.ACCENTS.length; i++) {
-        if (c.value == AppColors.ACCENTS[i].value) {
+        if (_color.value == AppColors.ACCENTS[i].value) {
           _selected = i;
           break;
         }
@@ -30,24 +39,64 @@ class _SelectColorState extends State<SelectColor> {
   }
 
   void _onSelect(BuildContext context, int index) async {
-    setState(() {
-      _selected = index;
+    if (index == 5) {
+      await showGeneralDialog(
+        context: context,
+        pageBuilder: (context, _, __) {
+          Color newColor = Colors.blue;
 
-      Color color;
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  MaterialPicker(
+                    pickerColor: newColor,
+                    onColorChanged: (Color c) {
+                      newColor = c;
+                    },
+                  ),
+                  SizedBox(height: 8),
+                  ShortButton(
+                    'Select',
+                    AppColors.PRIMARY_MAIN,
+                    AppColors.GRAY_LIGHT[2],
+                    () {
+                      Navigator.of(context).pop();
 
-      if (_selected < 5)
-        color = AppColors.ACCENTS[index];
-      else {
-        // open alert dialog
-        // showGeneralDialog();
+                      setState(() {
+                        _selected = index;
 
-        // get color and return
-        // widget.onSelect();
-        color = Colors.blue;
-      }
+                        _color = newColor;
+                      });
+                    },
+                    shadows: [AppEffects.SHADOW],
+                  ),
+                  SizedBox(height: 16),
+                  ShortButton(
+                    'Cancel',
+                    AppColors.GRAY_DARK[2],
+                    AppColors.GRAY_DARK[0],
+                    () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      setState(() {
+        _selected = index;
 
-      Provider.of<AddQPINotifier>(context, listen: false).color = color;
-    });
+        _color = AppColors.ACCENTS[index];
+        if (widget.onColorChange != null) widget.onColorChange(_color);
+      });
+    }
   }
 
   @override
@@ -100,9 +149,7 @@ class _SelectColorState extends State<SelectColor> {
             size: 36,
           ),
           isSelected: _selected == 5,
-          bgColor: _selected == 5
-              ? Provider.of<AddQPINotifier>(context).color
-              : AppColors.GRAY_LIGHT[2],
+          bgColor: _selected == 5 ? _color : AppColors.GRAY_LIGHT[2],
           shrink: shouldShrink,
           onTap: () => _onSelect(context, 5),
         ),
@@ -137,7 +184,7 @@ class _CustomIconState extends State<_CustomIcon> {
       width: widget.shrink ? null : 56,
       height: 56,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(7)),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
         color: AppColors.GRAY_LIGHT[2],
       ),
       child: Center(
@@ -165,13 +212,10 @@ class _CustomIconState extends State<_CustomIcon> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(7),
-                    bottomRight: Radius.circular(7),
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                   color: AppColors.GRAY_LIGHT[2],
                 ),
-                height: 32,
+                height: 24,
                 child: Center(
                   child: Icon(
                     Icons.check_rounded,

@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/screens/add_class.dart';
+import 'package:admu_student_app/widgets/modals/alert.dart';
+import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 
 class ScheduleTimetable extends StatelessWidget {
   final int yearNum; // if 0, enlistment
@@ -111,10 +114,7 @@ class ScheduleTimetable extends StatelessWidget {
           colWidgets.add(
             Flexible(
               flex: duration,
-              child: _SubjectBlock(
-                color: subjs[j].color,
-                courseCode: subjs[j].code,
-              ),
+              child: _SubjectBlock(subjs[j]),
             ),
           );
       }
@@ -127,6 +127,9 @@ class ScheduleTimetable extends StatelessWidget {
         if (lastmin > 0)
           colWidgets.add(Flexible(flex: lastmin, child: Container()));
       }
+
+      // skip sat if no classes?
+      if (i == 5 && subjs.length == 0) continue;
 
       cols.add(
         Expanded(
@@ -148,9 +151,10 @@ class ScheduleTimetable extends StatelessWidget {
     return Stack(
       children: [
         // no data, empty state
-        // Positioned.fill(child: Container(color: Colors.green)),
+
         // background
         Positioned.fill(child: _buildBackground(context, data)),
+
         // foreground, timetable
         Positioned.fill(child: _buildTimetable(context, data)),
       ],
@@ -159,22 +163,21 @@ class ScheduleTimetable extends StatelessWidget {
 }
 
 class _SubjectBlock extends StatelessWidget {
-  final Color color;
-  final String courseCode;
+  final Subject subject;
 
-  _SubjectBlock({@required this.color, this.courseCode = ''});
+  _SubjectBlock(this.subject);
 
   @override
   Widget build(BuildContext context) {
     Widget block = Container(
       decoration: BoxDecoration(
-        color: color,
+        color: subject.color,
         borderRadius: BorderRadius.all(Radius.circular(8)), // original 7
       ),
       padding: EdgeInsets.all(4),
       child: Center(
         child: Text(
-          courseCode,
+          subject.code,
           textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
@@ -184,10 +187,28 @@ class _SubjectBlock extends StatelessWidget {
       ),
     );
 
-    // testing for long press
     return GestureDetector(
-      onLongPress: () {
-        print('long press!');
+      onLongPress: () async {
+        await AlertModal.showAlert(
+          context,
+          header: 'Delete ${subject.code}?',
+          onAccept: () {
+            Provider.of<ClassSchedule>(context, listen: false)
+                .deleteSubject(subject);
+
+            CustomSnackBar.showSnackBar(context, 'Class deleted!');
+          },
+        );
+      },
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => AddClassPage(
+              isEditing: true,
+              subject: subject,
+            ),
+          ),
+        );
       },
       child: block,
     );

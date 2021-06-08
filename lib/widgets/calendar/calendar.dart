@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
+import 'package:admu_student_app/constants/app_strings.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
 
@@ -20,22 +21,6 @@ class CalendarMonth extends StatefulWidget {
 }
 
 class _CalendarMonthState extends State<CalendarMonth> {
-  final List<String> _MONTHS = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  final List<String> _DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-
   DateTime _date;
 
   @override
@@ -51,12 +36,12 @@ class _CalendarMonthState extends State<CalendarMonth> {
   Widget _buildDays(BuildContext context) {
     List<Widget> children = [];
 
-    for (int i = 0; i < _DAYS.length; i++)
+    for (int i = 0; i < AppStrings.DAYS_SHORT.length; i++)
       children.add(
         Expanded(
           child: Center(
             child: Text(
-              _DAYS[i],
+              AppStrings.DAYS_SHORT[i],
               style: Theme.of(context).textTheme.caption.copyWith(
                   fontWeight: FontWeight.w500, color: Color(0x4D3C3C43)),
             ),
@@ -66,7 +51,7 @@ class _CalendarMonthState extends State<CalendarMonth> {
 
     return Row(children: children);
   }
-  
+
   Widget _buildDates(BuildContext context, List<Event> events) {
     List<Widget> mainChildren = [];
 
@@ -91,7 +76,7 @@ class _CalendarMonthState extends State<CalendarMonth> {
       tDate = tDate.add(Duration(days: 1));
     }
 
-    for(DateTime dt in daysOfTheMonth) {
+    for (DateTime dt in daysOfTheMonth) {
       // find if day has events
       bool hasEvent = false;
       for (Event e in events) {
@@ -123,11 +108,11 @@ class _CalendarMonthState extends State<CalendarMonth> {
                       ? AppColors.PRIMARY_MAIN
                       : Colors.transparent,
                   border: Border.all(
-                    color: (dt.year == DateTime.now().year)
-                               && (dt.month == DateTime.now().month)
-                               && (dt.day == DateTime.now().day)
-                                   ? AppColors.PRIMARY_MAIN
-                                   : Colors.transparent,
+                    color: (dt.year == DateTime.now().year) &&
+                            (dt.month == DateTime.now().month) &&
+                            (dt.day == DateTime.now().day)
+                        ? AppColors.PRIMARY_MAIN
+                        : Colors.transparent,
                     width: 1.0,
                   ),
                 ),
@@ -139,12 +124,13 @@ class _CalendarMonthState extends State<CalendarMonth> {
                     style: Theme.of(context).textTheme.caption.copyWith(
                         color: dt.day == _date.day
                             ? AppColors.GRAY_LIGHT[2]
-                            : AppColors.GRAY_DARK[0]),
+                            : AppColors.GRAY_DARK[0], fontWeight: (dt.year == DateTime.now().year) && (dt.month == DateTime.now().month) && (dt.day == DateTime.now().day) ? FontWeight.bold : FontWeight.normal),
                   ),
                 ),
               ),
             ),
-            // indicator
+
+            // dot indicator
             SizedBox(height: 4),
             Container(
               decoration: BoxDecoration(
@@ -155,7 +141,7 @@ class _CalendarMonthState extends State<CalendarMonth> {
               height: 8,
             ),
           ],
-        ), // ),
+        ),
       ));
     }
 
@@ -197,9 +183,8 @@ class _CalendarMonthState extends State<CalendarMonth> {
       // height: 382,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        // color: AppColors.GRAY_LIGHT[2],
-        color: Colors.white, // temporary
-        boxShadow: [AppEffects.DEFAULT_SHADOW],
+        color: Colors.white,
+        boxShadow: [AppEffects.SHADOW_FOR_WHITE],
       ),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
@@ -209,7 +194,8 @@ class _CalendarMonthState extends State<CalendarMonth> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Text('${_MONTHS[_date.month - 1]} ${_date.year}',
+                child: Text(
+                    '${AppStrings.MONTHS[_date.month - 1]} ${_date.year}',
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .textTheme

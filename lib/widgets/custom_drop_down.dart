@@ -13,9 +13,6 @@ import 'package:admu_student_app/constants/app_effects.dart';
 const Duration _kExpand = Duration(milliseconds: 200);
 
 class CustomDropDown extends StatefulWidget {
-  /// Creates a single-line [ListTile] with a trailing button that expands or collapses
-  /// the tile to reveal or hide the [children]. The [initiallyExpanded] property must
-  /// be non-null.
   const CustomDropDown({
     Key key,
     @required this.title,
@@ -101,13 +98,13 @@ class _CustomDropDownState extends State<CustomDropDown>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        boxShadow: [AppEffects.SHADOW],
+        boxShadow: [AppEffects.SHADOW_FOR_WHITE],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: widget.expandedCrossAxisAlignment,
         children: <Widget>[
-          GestureDetector(
+          InkWell(
             onTap: _handleTap,
             child: Container(
               height: 64, // original 66
