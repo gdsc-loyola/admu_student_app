@@ -61,7 +61,8 @@ class _SelectColorState extends State<SelectColor> {
                     },
                   ),
                   SizedBox(height: 8),
-                  ShortButton(
+                  CustomButton(
+                    ButtonSize.medium, // ?
                     'Select',
                     AppColors.PRIMARY_MAIN,
                     AppColors.GRAY_LIGHT[2],
@@ -77,7 +78,8 @@ class _SelectColorState extends State<SelectColor> {
                     shadows: [AppEffects.SHADOW],
                   ),
                   SizedBox(height: 16),
-                  ShortButton(
+                  CustomButton(
+                    ButtonSize.medium, // ?
                     'Cancel',
                     AppColors.GRAY_DARK[2],
                     AppColors.GRAY_DARK[0],

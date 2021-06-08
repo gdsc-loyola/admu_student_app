@@ -2,6 +2,75 @@ import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 
+enum ButtonSize {
+  long,
+  medium,
+  short,
+  square,
+}
+
+class CustomButton extends StatelessWidget {
+  final ButtonSize size;
+  final String text;
+  final Color buttonColor;
+  final Color textColor;
+  final VoidCallback onPressed;
+  final bool outlined;
+
+  final List<BoxShadow> shadows;
+
+  CustomButton(
+    this.size,
+    this.text,
+    this.buttonColor,
+    this.textColor,
+    this.onPressed, {
+    this.outlined = false,
+    this.shadows,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    double width;
+    if (size == ButtonSize.long)
+      width = 382;
+    else if (size == ButtonSize.medium)
+      width = 224;
+    else if (size == ButtonSize.short)
+      width = 128;
+    else
+      width = 64;
+
+    return Container(
+      width: width,
+      height: 64,
+      decoration: BoxDecoration(
+        color: outlined ? Colors.transparent : buttonColor,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        border: Border.all(
+          color: outlined ? buttonColor : Colors.transparent,
+          width: 1.0,
+        ),
+        boxShadow: shadows,
+      ),
+      child: TextButton(
+        onPressed: () {
+          if (onPressed != null) onPressed();
+        },
+        child: Text(
+          text,
+          style:
+              Theme.of(context).textTheme.headline6.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+
+/*
 class LongButton extends StatelessWidget {
   final String text;
   final Color buttonColor;
@@ -114,6 +183,7 @@ class SquareButton extends StatelessWidget {
     );
   }
 }
+*/
 
 // used in quarter and sem buttons
 class ShrinkingButton extends StatelessWidget {
@@ -156,58 +226,5 @@ class ShrinkingButton extends StatelessWidget {
       return Expanded(child: button);
     else
       return button;
-  }
-}
-
-class GradeDropDown extends StatefulWidget {
-  final int selected;
-  final Function(int) onValueChange;
-
-  GradeDropDown({this.selected, this.onValueChange});
-
-  @override
-  _GradeDropDownState createState() => _GradeDropDownState();
-}
-
-class _GradeDropDownState extends State<GradeDropDown> {
-  int _selected = 1;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.selected != null) _selected = widget.selected;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 56,
-      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-      decoration: BoxDecoration(
-          color: AppColors.GRAY_LIGHT[2],
-          borderRadius: BorderRadius.all(Radius.circular(8))),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton(
-            value: _selected,
-            items: [
-              DropdownMenuItem(child: Text("A"), value: 1),
-              DropdownMenuItem(child: Text("B+"), value: 2),
-              DropdownMenuItem(child: Text("B"), value: 3),
-              DropdownMenuItem(child: Text("C+"), value: 4),
-              DropdownMenuItem(child: Text("C"), value: 5),
-              DropdownMenuItem(child: Text("D"), value: 6),
-              DropdownMenuItem(child: Text("F/W"), value: 7),
-            ],
-            onChanged: (value) {
-              setState(() {
-                _selected = value;
-                if (widget.onValueChange != null)
-                  widget.onValueChange(_selected);
-              });
-            }),
-      ),
-    );
   }
 }

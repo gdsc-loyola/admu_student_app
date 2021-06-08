@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/button_row.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
-import 'package:admu_student_app/widgets/button_row.dart';
 
 class PomodoroPage extends StatefulWidget {
   @override
@@ -182,7 +181,8 @@ class _PomodoroPageState extends State<PomodoroPage> {
                           children: [
                             // Start/Pause Button
                             Expanded(
-                              child: ShortButton(
+                              child: CustomButton(
+                                ButtonSize.short,
                                 '$buttontitle',
                                 AppColors.PRIMARY_MAIN,
                                 AppColors.GRAY_LIGHT[2],
@@ -204,24 +204,27 @@ class _PomodoroPageState extends State<PomodoroPage> {
                             ),
                             // Clear Button
                             Expanded(
-                              child: ShortButton(
-                                  'Clear',
-                                  AppColors.PRIMARY_MAIN,
-                                  AppColors.GRAY_LIGHT[2], () {
-                                setState(() {
-                                  pauseTimer();
-                                  isPressed = false;
-                                  buttontitle = 'Start';
+                              child: CustomButton(
+                                ButtonSize.short,
+                                'Clear',
+                                AppColors.PRIMARY_MAIN,
+                                AppColors.GRAY_LIGHT[2],
+                                () {
+                                  setState(() {
+                                    pauseTimer();
+                                    isPressed = false;
+                                    buttontitle = 'Start';
 
-                                  shortSelected
-                                      ? _start = 300
-                                      : pomodoroSelected
-                                          ? _start = 1500
-                                          : longSelected
-                                              ? _start = 900
-                                              : _start = 0;
-                                });
-                              }),
+                                    shortSelected
+                                        ? _start = 300
+                                        : pomodoroSelected
+                                            ? _start = 1500
+                                            : longSelected
+                                                ? _start = 900
+                                                : _start = 0;
+                                  });
+                                },
+                              ),
                             )
                           ],
                         ),

@@ -88,7 +88,8 @@ class _AlertModal extends StatelessWidget {
           SizedBox(height: 40),
 
           // accept
-          ShortButton(
+          CustomButton(
+            ButtonSize.medium,
             acceptText,
             AppColors.ERROR_MAIN,
             AppColors.GRAY_LIGHT[2],
@@ -101,7 +102,8 @@ class _AlertModal extends StatelessWidget {
           SizedBox(height: 16),
 
           // reject
-          ShortButton(
+          CustomButton(
+            ButtonSize.medium,
             declineText,
             AppColors.GRAY_DARK[1], // temporary?
             AppColors.GRAY_DARK[1],

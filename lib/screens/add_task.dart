@@ -269,10 +269,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   Expanded(child: InputGroup('Agenda', _agendaCtrl)),
                 ],
               ),
-              SizedBox(height: 32),
+              SizedBox(height: 48),
 
               if (widget.isEditing)
-                LongButton(
+                CustomButton(
+                  ButtonSize.medium,
                   'Delete Event',
                   AppColors.SECONDARY_MAIN,
                   AppColors.GRAY_LIGHT[2],

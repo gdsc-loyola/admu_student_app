@@ -281,15 +281,16 @@ class _AddClassPageState extends State<AddClassPage> {
                   )
                 : SizedBox(),
 
+            SizedBox(height: 48),
             // delete button
-            widget.isEditing
-                ? LongButton(
-                    'Delete Class',
-                    AppColors.SECONDARY_MAIN,
-                    AppColors.GRAY_LIGHT[2],
-                    _onDelete,
-                  )
-                : SizedBox()
+            if (widget.isEditing)
+              CustomButton(
+                ButtonSize.medium,
+                'Delete Class',
+                AppColors.SECONDARY_MAIN,
+                AppColors.GRAY_LIGHT[2],
+                _onDelete,
+              ),
           ],
         ),
       ),

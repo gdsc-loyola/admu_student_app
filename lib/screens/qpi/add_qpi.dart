@@ -149,15 +149,11 @@ class _AddQPIPageState extends State<AddQPIPage> {
 
     bool willPop = false;
 
-    await AlertModal.showAlert(
-      context,
-      header: 'Discard changes?',
-      acceptText: 'Discard',
-      onAccept: () {
-        Navigator.of(context).pop();
-        willPop = true;
-      }
-    );
+    await AlertModal.showAlert(context,
+        header: 'Discard changes?', acceptText: 'Discard', onAccept: () {
+      Navigator.of(context).pop();
+      willPop = true;
+    });
 
     return willPop;
   }
@@ -333,16 +329,18 @@ class _AddQPIPageState extends State<AddQPIPage> {
               });
             }, selected, widget.isEditing),
             SizedBox(height: 24),
-            screens[selected],
-            SizedBox(height: 56),
-            widget.isEditing
-                ? LongButton(
-                    'Delete',
-                    AppColors.SECONDARY_MAIN,
-                    AppColors.GRAY_LIGHT[2],
-                    _onDelete,
-                  )
-                : Container(),
+
+            screens[selected], // tab, replace with pageview?
+
+            SizedBox(height: 48), // padding
+            if (widget.isEditing)
+              CustomButton(
+                ButtonSize.medium,
+                'Delete',
+                AppColors.SECONDARY_MAIN,
+                AppColors.GRAY_LIGHT[2],
+                _onDelete,
+              ),
           ],
         ),
       ),

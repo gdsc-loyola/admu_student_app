@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
-import 'package:admu_student_app/widgets/buttons.dart';
+import 'package:admu_student_app/widgets/qpi/grade_drop_down.dart';
 import 'package:admu_student_app/widgets/groups/select_color.dart';
 
 class CourseAddQPI extends StatelessWidget {

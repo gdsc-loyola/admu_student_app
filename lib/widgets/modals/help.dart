@@ -117,7 +117,8 @@ class _HelpModal extends StatelessWidget {
           SizedBox(height: 32),
 
           // button
-          ShortButton(
+          CustomButton(
+            ButtonSize.medium,
             acceptText,
             AppColors.PRIMARY_MAIN,
             AppColors.GRAY_LIGHT[2],
