@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/widgets/button_row.dart';
+import 'package:admu_student_app/widgets/home/pomodoro_button_row.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class PomodoroPage extends StatefulWidget {
@@ -89,11 +89,14 @@ class _PomodoroPageState extends State<PomodoroPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Pomodoro Technique ',
-                    style: Theme.of(context).textTheme.headline4.copyWith(
-                          color: AppColors.GRAY_LIGHT[2],
-                        ),
+                  Expanded(
+                    child: Text(
+                      'Pomodoro Technique ',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.headline4.copyWith(
+                            color: AppColors.GRAY_LIGHT[2],
+                          ),
+                    ),
                   ),
                   CircleAvatar(
                     radius: 13.5,
@@ -115,7 +118,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
             Container(
               height: 498,
               padding: EdgeInsets.fromLTRB(32, 56, 32, 0),
-              child: Expanded(
+              child: Expanded( // fix, expanded in container
                 child: Container(
                   decoration: BoxDecoration(
                       color: AppColors.GRAY_LIGHT[2],
@@ -126,8 +129,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       Container(
                         margin: EdgeInsets.fromLTRB(16, 56, 16, 0),
                         height: 39,
-                        child: ButtonRow(
-                            'Short Break', 'Pomodoro', 'Long Break', () {
+                        child: PomodoroButtonRow(() {
                           setState(() {
                             shortSelected = true;
                             pomodoroSelected = false;
@@ -160,7 +162,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                             pauseTimer();
                             _start = 900;
                           });
-                        }, 0, false),
+                        }),
                       ),
 
                       // Container for Timer

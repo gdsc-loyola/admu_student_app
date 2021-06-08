@@ -7,9 +7,6 @@ class ButtonRow extends StatefulWidget {
   final VoidCallback return1;
   final VoidCallback return2;
   final VoidCallback return3;
-  // change to one function
-  // final Function(int) onSelect;
-  // sample: onSelect: (val) { setState--- sel = val; }
   final int selected;
   final bool blocked;
 
@@ -21,14 +18,12 @@ class ButtonRow extends StatefulWidget {
 }
 
 class _ButtonRowState extends State<ButtonRow> {
-  bool isSelected1 = true;
-  bool isSelected2 = false;
-  bool isSelected3 = false;
   int selected;
 
   @override
   void initState() {
     super.initState();
+
     selected = widget.selected;
   }
 
@@ -39,9 +34,7 @@ class _ButtonRowState extends State<ButtonRow> {
       padding: EdgeInsets.fromLTRB(1.19, 1, 1.19, 2.54),
       decoration: BoxDecoration(
         color: Colors.grey[200],
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
