@@ -62,8 +62,10 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
               onDateTimeChanged: (dt) {
                 nDate = dt;
               },
-              initialDateTime: _date == null ? DateTime(DateTime.now().year,
-                  DateTime.now().month, DateTime.now().day) : _date,
+              initialDateTime: _date == null
+                  ? DateTime(DateTime.now().year, DateTime.now().month,
+                      DateTime.now().day)
+                  : _date,
               minimumDate: DateTime(DateTime.now().year - 10),
               maximumDate: DateTime(DateTime.now().year + 10),
             ),
@@ -95,6 +97,7 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
               .copyWith(color: AppColors.GRAY_LIGHT[2]),
         ),
         SizedBox(height: 8),
+
         // button
         InkWell(
           onTap: () => _onTap(context),
@@ -105,17 +108,37 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
             ),
             height: 56,
             padding: EdgeInsets.all(16),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _date == null
-                    ? 'MM/DD/YYYY'
-                    : '${_date.month.toString().padLeft(2, '0')}/${_date.day.toString().padLeft(2, '0')}/${_date.year.toString().padLeft(4, '0')}',
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: _date == null
-                        ? AppColors.GRAY_DARK[2]
-                        : AppColors.GRAY_DARK[0]),
-              ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    _date == null
+                        ? 'MM / DD / YYYY'
+                        : '${_date.month.toString().padLeft(2, '0')} / ${_date.day.toString().padLeft(2, '0')} / ${_date.year.toString().padLeft(4, '0')}',
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: _date == null
+                            ? AppColors.GRAY_DARK[2]
+                            : AppColors.GRAY_DARK[0]),
+                  ),
+                ),
+
+                // clear
+                InkWell(
+                  child: Icon(
+                    CupertinoIcons.clear_circled_solid,
+                    color: AppColors.GRAY_LIGHT[0],
+                    size: 26,
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _date = null;
+                      if (widget.onDateChange != null)
+                        widget.onDateChange(_date);
+                    });
+                  },
+                ),
+              ],
             ),
           ),
         ),
