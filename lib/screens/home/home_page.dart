@@ -6,8 +6,6 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
-import 'package:admu_student_app/models/notification_center.dart';
-import 'package:admu_student_app/models/notification.dart';
 import 'package:admu_student_app/widgets/home/event_card_preview.dart';
 import 'package:admu_student_app/widgets/home/notification_card.dart';
 import 'package:admu_student_app/widgets/home/pomodoro.dart';
@@ -25,11 +23,8 @@ class _HomePageState extends State<HomePage> {
     List<Event> events =
         Provider.of<CalendarEvents>(context).getEventsByDay(DateTime.now());
 
-    // test
-    List<Notif> notifs = Provider.of<NotificationCenter>(context).notifs;
-
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+      padding: EdgeInsets.fromLTRB(16, 40, 16, 40),
       child: Column(
         children: [
           // icon and name
@@ -114,18 +109,6 @@ class _HomePageState extends State<HomePage> {
                           HomeEventCard(event: events[index]),
                     ),
                   ),
-
-                  // testing, notifications
-                  /*Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: notifs.length,
-                      itemBuilder: (_, index) => Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: NotificationCard(notifs[index]),
-                      ),
-                    ),
-                  ),*/
                 ],
               ),
             ),

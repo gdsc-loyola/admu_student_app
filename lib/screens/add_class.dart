@@ -200,7 +200,7 @@ class _AddClassPageState extends State<AddClassPage> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+        padding: EdgeInsets.fromLTRB(16, 32, 16, 32),
         child: Column(
           children: [
             // header

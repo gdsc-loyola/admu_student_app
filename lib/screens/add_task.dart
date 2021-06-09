@@ -187,7 +187,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       ),
       body: Container(
         height: double.infinity,
-        padding: EdgeInsets.fromLTRB(16, 43, 16, 0),
+        padding: EdgeInsets.fromLTRB(16, 32, 16, 32),
         color: AppColors.PRIMARY_MAIN,
         child: SingleChildScrollView(
           child: Column(

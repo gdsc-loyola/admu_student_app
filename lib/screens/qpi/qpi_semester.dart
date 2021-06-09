@@ -74,7 +74,7 @@ class _SemesterPageState extends State<SemesterPage> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16.0, 48.0, 24.0, 16.0),
+        padding: EdgeInsets.fromLTRB(16.0, 40.0, 24.0, 32.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

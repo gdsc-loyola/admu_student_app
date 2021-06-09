@@ -300,7 +300,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
       ),
       backgroundColor: AppColors.PRIMARY_MAIN,
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 48.0), // bot 96
+        padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 32.0), // bot 96
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

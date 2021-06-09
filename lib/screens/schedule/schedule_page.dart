@@ -20,7 +20,7 @@ class _SchedulePageState extends State<SchedulePage> {
         Provider.of<ClassSchedule>(context).getSchedules();
 
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+      padding: EdgeInsets.fromLTRB(16, 40, 16, 32),
       child: Column(
         children: [
           ListView.builder(

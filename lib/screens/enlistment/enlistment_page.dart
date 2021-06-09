@@ -62,7 +62,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16, 48, 16, 29),
+        padding: EdgeInsets.fromLTRB(16, 40, 16, 32), // 32?
         child: Column(
           children: [
             // header

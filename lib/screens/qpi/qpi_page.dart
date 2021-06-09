@@ -46,7 +46,7 @@ class _QPIPageState extends State<QPIPage> {
     List<Year> years = Provider.of<AcademicRecords>(context).years;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0),
+      padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 32.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
