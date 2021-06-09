@@ -109,14 +109,6 @@ class CourseAddQPI extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16),
-          Text(
-            'Color Code',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(color: AppColors.GRAY_LIGHT[2]),
-          ),
-          SizedBox(height: 8),
           SelectColor(
             color: color,
             onColorChange: onColorChange,

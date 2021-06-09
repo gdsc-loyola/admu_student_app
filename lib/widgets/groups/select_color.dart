@@ -6,10 +6,16 @@ import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class SelectColor extends StatefulWidget {
+  final String label;
+
   final Color color;
   final Function(Color) onColorChange;
 
-  SelectColor({this.color, this.onColorChange});
+  SelectColor({
+    this.label = 'Color Code',
+    this.color,
+    this.onColorChange,
+  });
 
   @override
   _SelectColorState createState() => _SelectColorState();
@@ -106,7 +112,7 @@ class _SelectColorState extends State<SelectColor> {
     bool shouldShrink =
         MediaQuery.of(context).size.width - 16 * 2 < 56 * 6 + 8 * 5;
 
-    return Row(
+    Row row = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _CustomIcon(
@@ -155,6 +161,21 @@ class _SelectColorState extends State<SelectColor> {
           shrink: shouldShrink,
           onTap: () => _onSelect(context, 5),
         ),
+      ],
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Color Code',
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(color: AppColors.GRAY_LIGHT[2]),
+        ),
+        SizedBox(height: 8),
+        row,
       ],
     );
   }
