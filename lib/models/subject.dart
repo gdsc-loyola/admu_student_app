@@ -91,4 +91,28 @@ class Subject {
       map[CentralDatabaseHelper.professor],
     );
   }
+
+  String getReadableStartTime() {
+    int hour = start ~/ 100;
+    int minute = start % 100;
+
+    return (hour < 12 ? (hour == 0 ? 12 : hour) : hour - 12)
+            .toString()
+            .padLeft(2, '0') +
+        ':' +
+        minute.toString().padLeft(2, '0') +
+        (hour < 12 ? ' AM' : ' PM');
+  }
+
+  String getReadableEndTime() {
+    int hour = end ~/ 100;
+    int minute = end % 100;
+
+    return (hour < 12 ? (hour == 0 ? 12 : hour) : hour - 12)
+            .toString()
+            .padLeft(2, '0') +
+        ':' +
+        minute.toString().padLeft(2, '0') +
+        (hour < 12 ? ' AM' : ' PM');
+  }
 }

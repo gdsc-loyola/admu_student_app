@@ -4,17 +4,25 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
+import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 // modified from the original ExpansionTile
 const Duration _kExpand = Duration(milliseconds: 200);
 
 class EnlistmentClassCard extends StatefulWidget {
+  final String code;
+  final List<Subject> subjects;
+  final bool isSelecting;
+  final Function(int) onSelect;
+
   const EnlistmentClassCard({
     Key key,
-    // @required this.yearNum,
+    @required this.code,
+    @required this.subjects,
+    this.isSelecting = false,
+    this.onSelect,
   }) : super(key: key);
-
-  // final int yearNum;
 
   @override
   _EnlistmentClassCardState createState() => _EnlistmentClassCardState();
@@ -48,6 +56,18 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
     super.dispose();
   }
 
+  String _getScheduleString(Subject s) {
+    String str = '';
+
+    final List<String> days = ['M', 'T', 'W', 'Th', 'F', 'S'];
+
+    for (int i = 0; i < s.days.length; i++) {
+      if (s.days[i]) str += days[i];
+    }
+
+    return str;
+  }
+
   void _handleTap() {
     setState(() {
       _isExpanded = !_isExpanded;
@@ -68,95 +88,176 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
   Widget _buildHeader(BuildContext context) {
     Widget header = Container(
       decoration: BoxDecoration(
-        color: AppColors.GRAY_LIGHT[2],
-        borderRadius: BorderRadius.all(Radius.circular(4)),
-        boxShadow: [AppEffects.SHADOW],
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        boxShadow: [AppEffects.SHADOW_FOR_WHITE],
       ),
       height: 72,
+      padding: EdgeInsets.only(left: 24, right: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // line
-          Container(
-            margin: EdgeInsets.only(right: 22),
-            decoration: BoxDecoration(
-              color: AppColors.ACCENTS[0],
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-            width: 10,
-            height: 72, // from 64
+          // course code, group
+          Expanded(
+            child: Text(widget.code,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(color: AppColors.GRAY_DARK[0])),
           ),
-          // text, units, prof
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // text
-              Text('COURSE 101',
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(color: AppColors.GRAY)),
-              // units and prof
-              Row(
-                children: [
-                  // units
-                  Container(
-                    width: 64,
-                    height: 19,
-                    decoration: BoxDecoration(
-                        color: AppColors.ACCENTS[0].withOpacity(0.25),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(4))), // original 3.55
-                    child: Center(
-                      child: Text(
-                        '3 Units',
-                        style: Theme.of(context).textTheme.caption.copyWith(
-                            color: AppColors.ACCENTS[0],
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  // prof
-                  Container(
-                    width: 64,
-                    height: 19,
-                    decoration: BoxDecoration(
-                        color: AppColors.ACCENTS[0].withOpacity(0.25),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(4))), // original 3.55
-                    child: Center(
-                      child: Text(
-                        '3 Units',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.caption.copyWith(
-                            color: AppColors.ACCENTS[0],
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Spacer(),
-          // button edit
+          SizedBox(width: 8), // temporary padding
+
           RotationTransition(
             turns: _iconTurns,
             child: Icon(
               Icons.expand_more_rounded,
               size: 36,
-              color: AppColors.GRAY_DARK[2],
+              color: AppColors.GRAY_LIGHT[0],
             ),
           ),
         ],
       ),
     );
 
-    return GestureDetector(
+    return InkWell(
       onTap: _handleTap,
       child: header,
+    );
+  }
+
+  Widget _buildCards() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: widget.subjects.length,
+      itemBuilder: (_, index) {
+        Widget card = Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            boxShadow: [AppEffects.SHADOW_FOR_WHITE],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // line
+              Container(
+                decoration: BoxDecoration(
+                  color: widget.subjects[index].color,
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                ),
+                width: 10,
+                height: 72,
+                margin: EdgeInsets.only(right: 22),
+              ),
+
+              // column
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // prof name
+                  Text(
+                    widget.subjects[index].profName,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(color: AppColors.GRAY),
+                  ),
+                  SizedBox(height: 4),
+
+                  // tags
+                  Row(
+                    children: [
+                      // section
+                      Container(
+                        decoration: BoxDecoration(
+                          color: widget.subjects[index].color.withOpacity(0.25),
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16), // temp
+                        child: Center(
+                          child: Text(
+                              'Section ${widget.subjects[index].section}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  .copyWith(
+                                      color: widget.subjects[index].color)),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+
+                      // days
+                      Container(
+                        decoration: BoxDecoration(
+                          color: widget.subjects[index].color.withOpacity(0.25),
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16), // temp
+                        child: Center(
+                          child: Text(
+                              _getScheduleString(widget.subjects[index]),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  .copyWith(
+                                      color: widget.subjects[index].color)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Spacer(), // temp?
+
+              // time
+              Text(
+                '${widget.subjects[index].getReadableStartTime()}\n${widget.subjects[index].getReadableEndTime()}',
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .copyWith(color: AppColors.GRAY_DARK[2]),
+              ),
+
+              // edit
+              IconButton(
+                icon: Icon(
+                  Icons.more_vert_rounded,
+                ),
+                iconSize: 36,
+                color: AppColors.GRAY_LIGHT[0],
+                onPressed: () {
+                  print('edit');
+                },
+              ),
+            ],
+          ),
+        );
+
+        return Padding(
+          padding: EdgeInsets.only(top: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.isSelecting)
+                CircularCheckMark(
+                    isDone: false,
+                    onTap: () {
+                      if (widget.onSelect != null) widget.onSelect(index);
+                    }),
+
+              // card
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(left: widget.isSelecting ? 10 : 46),
+                  child: card,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -177,7 +278,7 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
 
     final Widget result = Offstage(
         child: TickerMode(
-          child: Container(), // should contain children
+          child: _buildCards(), // should contain children
           enabled: !closed,
         ),
         offstage: closed);
