@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/screens/add_class.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 // modified from the original ExpansionTile
@@ -226,9 +226,14 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
                 ),
                 iconSize: 36,
                 color: AppColors.GRAY_LIGHT[0],
-                onPressed: () {
-                  print('edit');
-                },
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (_) => AddClassPage(
+                            subject: widget.subjects[index],
+                            isEditing: true,
+                            inEnlistment: true,
+                          )),
+                ),
               ),
             ],
           ),

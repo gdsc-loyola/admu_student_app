@@ -6,8 +6,11 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
-import 'package:admu_student_app/widgets/home/pomodoro.dart';
+import 'package:admu_student_app/models/notification_center.dart';
+import 'package:admu_student_app/models/notification.dart';
 import 'package:admu_student_app/widgets/home/event_card_preview.dart';
+import 'package:admu_student_app/widgets/home/notification_card.dart';
+import 'package:admu_student_app/widgets/home/pomodoro.dart';
 
 class HomePage extends StatefulWidget {
   final String today = DateFormat.yMMMMEEEEd('en_US').format(DateTime.now());
@@ -21,6 +24,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     List<Event> events =
         Provider.of<CalendarEvents>(context).getEventsByDay(DateTime.now());
+
+    // test
+    List<Notif> notifs = Provider.of<NotificationCenter>(context).notifs;
 
     return Container(
       padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
@@ -46,20 +52,20 @@ class _HomePageState extends State<HomePage> {
                   // name
                   Text(
                     'Hey, Lorem!',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: AppColors.GRAY_DARK[0]),
+                    style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: AppColors.GRAY_DARK[0],
+                          fontWeight: FontWeight.w500,
+                        ),
                     textAlign: TextAlign.left,
                   ),
 
                   // text
                   Text(
                     'Ready to start your day?',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: AppColors.GRAY_DARK[1]),
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: AppColors.GRAY_DARK[1],
+                          fontWeight: FontWeight.w500,
+                        ),
                   ),
                 ],
               )
@@ -70,10 +76,10 @@ class _HomePageState extends State<HomePage> {
           // date
           Text(
             widget.today,
-            style: Theme.of(context)
-                .textTheme
-                .headline5
-                .copyWith(color: AppColors.GRAY_DARK[0]),
+            style: Theme.of(context).textTheme.headline5.copyWith(
+                  color: AppColors.GRAY_DARK[0],
+                  fontWeight: FontWeight.w500,
+                ),
           ),
           SizedBox(height: 16),
 
@@ -102,12 +108,24 @@ class _HomePageState extends State<HomePage> {
                   // events
                   Expanded(
                     child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: events.length,
-                    itemBuilder: (_, index) =>
-                        HomeEventCard(event: events[index]),
+                      shrinkWrap: true,
+                      itemCount: events.length,
+                      itemBuilder: (_, index) =>
+                          HomeEventCard(event: events[index]),
                     ),
                   ),
+
+                  // testing, notifications
+                  /*Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: notifs.length,
+                      itemBuilder: (_, index) => Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: NotificationCard(notifs[index]),
+                      ),
+                    ),
+                  ),*/
                 ],
               ),
             ),

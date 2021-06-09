@@ -1,4 +1,3 @@
-import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +6,7 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/models/year.dart';
+import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/widgets/qpi/qpi_view.dart';
 import 'package:admu_student_app/widgets/qpi/year_drop_down.dart';
 import 'package:admu_student_app/widgets/help_button.dart';

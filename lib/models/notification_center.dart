@@ -8,8 +8,32 @@ class NotificationCenter extends ChangeNotifier {
       0,
       'Welcome, Atenean!',
       'Hi from Beadle! I\'m so glad to have you here. Hope you enjoy!',
-      '',
+      'Hello',
       DateTime.now(),
+      true,
+    ),
+    Notif(
+      2,
+      '',
+      'You missed this...',
+      'Testing 1',
+      DateTime.now().subtract(Duration(minutes: 25)),
+      true,
+    ),
+    Notif(
+      1,
+      'Enlistment is near!',
+      '',
+      '',
+      DateTime.now().subtract(Duration(hours: 5)),
+      false,
+    ),
+    Notif(
+      0,
+      'Welcome, Atenean!',
+      'Hi from Beadle! I\'m so glad to have you here. Hope you enjoy!',
+      '',
+      DateTime.now().subtract(Duration(days: 25)),
       false,
     ),
   ];
@@ -40,6 +64,8 @@ class NotificationCenter extends ChangeNotifier {
     else
       return '${notif.date.month.toString().padLeft(2, '0')}/${notif.date.day.toString().padLeft(2, '0')}/${notif.date.year}';
   }
+
+  List<Notif> get notifs => _notifs;
 
   void addNotification(Notif notif) {
     _notifs.add(notif);
