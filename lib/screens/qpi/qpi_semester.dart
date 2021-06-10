@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -88,11 +89,13 @@ class _SemesterPageState extends State<SemesterPage> {
                   .copyWith(color: AppColors.GRAY_DARK[0]),
             ),
             SizedBox(height: 24.0),
+
             // semester qpi
             QPIView(
                 value: Provider.of<AcademicRecords>(context, listen: false)
                     .getSemestralQPI(widget.yearNum, widget.semNum)),
             SizedBox(height: 48.0),
+
             // classes, select, and add course
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -149,6 +152,7 @@ class _SemesterPageState extends State<SemesterPage> {
               ],
             ),
             SizedBox(height: 24),
+
             // courses
             ListView.builder(
               shrinkWrap: true,
@@ -183,7 +187,7 @@ class _SemesterPageState extends State<SemesterPage> {
                     color: _selected > 0
                         ? AppColors.SECONDARY_MAIN
                         : AppColors.GRAY_DARK[1]),
-              )
+              ),
           ],
         ),
       ),
@@ -191,7 +195,8 @@ class _SemesterPageState extends State<SemesterPage> {
           ? FloatingActionButton(
               onPressed: () => _onDelete(context, courses),
               child: Icon(
-                Icons.delete_outline_rounded,
+                // Icons.delete_outline_rounded, // change icon
+                CupertinoIcons.delete, // incorrect icon
                 size: 36,
                 color: AppColors.GRAY_LIGHT[2],
               ),

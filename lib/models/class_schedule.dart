@@ -97,6 +97,8 @@ class ClassSchedule extends ChangeNotifier {
     int end = 00;
 
     for (Subject s in _subjects) {
+      if (s.inEnlistment) continue;
+
       if (s.yearNum == yearNum && s.semNum == semNum) {
         if (s.qtrNum == 0 || s.qtrNum == qtrNum) {
           // check schedule
@@ -122,6 +124,34 @@ class ClassSchedule extends ChangeNotifier {
       'end': end == 0 ? 17 : end, // ceil
       'subjects': data,
     };
+  }
+
+  Map<String, int> getLatestScheduleDetails() {
+    int yr = 0;
+    int sem = 0;
+    int qtr = 0;
+
+    for (Subject s in _subjects) {
+      if (s.inEnlistment) continue;
+
+      if (s.yearNum < yr) continue;
+
+      if (s.yearNum == yr && s.semNum > sem) sem = s.semNum;
+      if (s.yearNum > yr) {
+        yr = s.yearNum;
+        sem = s.semNum;
+      }
+    }
+
+    return {
+      'yearNum': yr,
+      'semNum': sem,
+      'q': qtr,
+    };
+  }
+
+  void deleteSchedules() async {
+    print('todo');
   }
 
   List<Map<String, dynamic>> getEnlistmentSubjects() {

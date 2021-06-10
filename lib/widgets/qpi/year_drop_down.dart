@@ -150,34 +150,52 @@ class _YearDropDownState extends State<YearDropDown>
       itemCount: year.sems.length,
       itemBuilder: (_, index) {
         Widget semCard = Container(
-          margin: EdgeInsets.only(top: 16.0),
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          margin: EdgeInsets.only(top: 16),
+          padding: EdgeInsets.only(right: 16),
           height: 56, // original 55
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: AppColors.PRIMARY_ALT,
+            color: Colors.white,
             boxShadow: [AppEffects.SHADOW],
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // line
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.SECONDARY_MAIN,
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                ),
+                width: 10,
+                height: 56,
+                margin: EdgeInsets.only(right: 16),
+              ),
+
+              // text
               Expanded(
                 child: Text(
                   year.sems[index].semString,
                   style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: AppColors.GRAY_LIGHT[2],
+                      color: AppColors.GRAY_DARK[0],
                       fontWeight: FontWeight.w500),
                 ),
               ),
+
+              // qpi
               _SmallQPIView(
                 qpi: year.sems[index].semestralQPI,
                 showBackground: false,
+                reverseColor: true,
               ),
+
+              // icon
               InkWell(
                 child: Icon(
                   year.sems[index].isSemestralQPI
                       ? Icons.more_vert
                       : Icons.chevron_right_rounded,
-                  color: AppColors.GRAY_LIGHT[0],
+                  color: AppColors.GRAY_DARK[2],
                   size: 36.0,
                 ),
                 onTap: () {
@@ -256,9 +274,14 @@ class _YearDropDownState extends State<YearDropDown>
 
 class _SmallQPIView extends StatelessWidget {
   final bool showBackground;
+  final bool reverseColor;
   final double qpi;
 
-  _SmallQPIView({@required this.qpi, this.showBackground = true});
+  _SmallQPIView({
+    @required this.qpi,
+    this.showBackground = true,
+    this.reverseColor = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +296,10 @@ class _SmallQPIView extends StatelessWidget {
         child: Text(
           '${qpi.toStringAsFixed(2)}',
           style: Theme.of(context).textTheme.headline6.copyWith(
-              color: AppColors.GRAY_LIGHT[2], fontWeight: FontWeight.w500),
+              color: reverseColor
+                  ? AppColors.GRAY_DARK[1]
+                  : AppColors.GRAY_LIGHT[2],
+              fontWeight: FontWeight.w500),
         ),
       ),
     );

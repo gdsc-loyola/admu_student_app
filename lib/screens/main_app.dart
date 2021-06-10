@@ -1,7 +1,11 @@
+import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/widgets/modals/alert.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
+import 'package:admu_student_app/screens/enlistment/enlistment_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
@@ -9,6 +13,7 @@ import 'package:admu_student_app/screens/schedule/schedule_page.dart';
 import 'package:admu_student_app/screens/add_class.dart';
 import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/widgets/drawer_widget.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -48,6 +53,64 @@ class _MainPageState extends State<MainPage> {
       return Container();
   }
 
+  List<Widget> _getAppBarActions() {
+    if (_currentIndex == 0) return [];
+
+    VoidCallback onPressed = () {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) {
+          if (_currentIndex == 1)
+            return AddTaskPage(date: _calDate);
+          else if (_currentIndex == 2)
+            return AddClassPage();
+          else if (_currentIndex == 3)
+            return AddQPIPage();
+          else
+            return Container();
+        },
+      ));
+    };
+
+    IconButton addButton = IconButton(
+      icon: Icon(Icons.add_rounded),
+      onPressed: onPressed,
+    );
+
+    List<Widget> actions = [];
+
+    if (_currentIndex == 1)
+      actions.add(IconButton(
+        icon: Icon(Icons.ac_unit),
+        onPressed: () {}, // push to undated tasks
+      ));
+
+    if (_currentIndex == 2) {
+      actions.add(IconButton(
+        icon: Icon(Icons.ac_unit),
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => EnlistmentPage())),
+      ));
+
+      actions.add(IconButton(
+        icon: Icon(CupertinoIcons.delete),
+        onPressed: _onDeleteSchedules,
+      ));
+    }
+
+    actions.add(addButton);
+
+    return actions;
+  }
+
+  void _onDeleteSchedules() async {
+    await AlertModal.showAlert(
+      context,
+      header: 'Delete schedule?',
+      onAccept: () =>
+          Provider.of<ClassSchedule>(context, listen: false).deleteSchedules(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,27 +123,7 @@ class _MainPageState extends State<MainPage> {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        actions: _currentIndex == 0
-            ? []
-            : [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) {
-                        if (_currentIndex == 1)
-                          return AddTaskPage(date: _calDate);
-                        else if (_currentIndex == 2)
-                          return AddClassPage();
-                        else if (_currentIndex == 3)
-                          return AddQPIPage();
-                        else
-                          return Container();
-                      },
-                    ));
-                  },
-                  icon: Icon(Icons.add_rounded),
-                ),
-              ],
+        actions: _getAppBarActions(),
       ),
       body: _buildBody(),
       drawer: DrawerWidget(),

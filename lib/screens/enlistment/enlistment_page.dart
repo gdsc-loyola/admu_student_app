@@ -88,7 +88,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                   style: Theme.of(context)
                       .textTheme
                       .headline4
-                      .copyWith(color: AppColors.GRAY_DARK[0]),
+                      .copyWith(color: AppColors.PRIMARY_MAIN),
                 ),
                 Spacer(),
                 Container(

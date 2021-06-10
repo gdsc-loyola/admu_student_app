@@ -7,7 +7,6 @@ import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/widgets/home/event_card_preview.dart';
-import 'package:admu_student_app/widgets/home/notification_card.dart';
 import 'package:admu_student_app/widgets/home/pomodoro.dart';
 
 class HomePage extends StatefulWidget {
@@ -113,7 +112,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(height: 22), // 22? or 24?
+          SizedBox(height: 32),
 
           // pomodoro button
           Pomodoro(),
