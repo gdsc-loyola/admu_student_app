@@ -83,9 +83,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   InkWell(
                     onTap: () {
                       (_currentPage == _pages.length - 1)
-                          ? _controller.previousPage(
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeInOutQuint)
+                          ? _controller.jumpToPage(0)
                           : _controller.jumpToPage(6);
                     },
                     child: AnimatedContainer(
@@ -220,20 +218,24 @@ class SliderPage extends StatelessWidget {
           ),
           Text(
             title,
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(color: AppColors.GRAY_DARK[0]),
           ),
           SizedBox(
             height: 20,
           ),
-          Text(
-            description,
-            style: TextStyle(
-              height: 1.5,
-              fontWeight: FontWeight.normal,
-              fontSize: 14,
-              letterSpacing: 0.7,
+          Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Text(
+              description,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: AppColors.GRAY_DARK[2]),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
           Spacer()
         ],
