@@ -109,6 +109,8 @@ class _AddQPIPageState extends State<AddQPIPage> {
         qpiController: _qpiCtrl,
         selected: _semNum,
         onValueChange: _onSemChange,
+        color: _courseColor,
+        onColorChange: _onColorChange,
       ),
       CourseAddQPI(
         yearController: _yearCtrl,

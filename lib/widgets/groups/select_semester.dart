@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-// import 'package:admu_student_app/models/add_qpi_notifier.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class SelectSemesterGroup extends StatefulWidget {
+  final String label;
   final int selected;
   final Function(int) onValueChange;
 
   SelectSemesterGroup({
+    this.label = 'Semester',
     this.selected,
     this.onValueChange,
   });
@@ -45,14 +45,17 @@ class _SelectSemesterGroupState extends State<SelectSemesterGroup> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // label
         Text(
-          'Semester',
+          widget.label,
           style: Theme.of(context)
               .textTheme
               .bodyText1
               .copyWith(color: AppColors.GRAY_LIGHT[2]),
         ),
         SizedBox(height: 8),
+
+        // buttons
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

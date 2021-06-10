@@ -42,52 +42,21 @@ class CourseAddQPI extends StatelessWidget {
           // Row for Text Fields
           Row(
             children: [
-              // Text Field at the Left
+              // year
               Expanded(
                 child: InputGroup(
-                  'Year Level',
+                  'Year Level*',
                   yearController,
                   hint: '1',
                   length: 1,
                 ),
               ),
               SizedBox(width: 20),
-              // DropDown at the Right
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Letter Grade',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
-                    ),
-                    SizedBox(height: 8),
-                    GradeDropDown(
-                      selected: gradeVal,
-                      onValueChange: onGradeChange,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          // 2nd row of widgets
-          Row(
-            children: [
-              Expanded(
-                child: InputGroup(
-                  'Units',
-                  unitsController,
-                  hint: '3',
-                ),
-              ),
-              SizedBox(width: 20),
+
+              // semester
               Expanded(
                 child: SelectSemesterGroup(
+                  label: 'Semester*',
                   selected: sem,
                   onValueChange: onSemChange,
                 ),
@@ -95,21 +64,68 @@ class CourseAddQPI extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16),
+
+          // 2nd row of widgets
           Row(
             children: [
+              // course
               Expanded(
                 child: InputGroup(
-                  'Course Code',
+                  'Course Code*',
                   codeController,
                   hint: 'COURSE101',
                 ),
               ),
               SizedBox(width: 20),
+
+              // empty
               Expanded(child: Container()),
             ],
           ),
           SizedBox(height: 16),
+
+          Row(
+            children: [
+              // letter grade
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // label
+                    Text(
+                      'Letter Grade*',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                    ),
+                    SizedBox(height: 8),
+
+                    // dropdown
+                    GradeDropDown(
+                      selected: gradeVal,
+                      onValueChange: onGradeChange,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 20),
+
+              // units
+              Expanded(
+                child: InputGroup(
+                  'Units*',
+                  unitsController,
+                  hint: '3',
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+
+          // color
           SelectColor(
+            label: 'Color Code*',
             color: color,
             onColorChange: onColorChange,
           ),
