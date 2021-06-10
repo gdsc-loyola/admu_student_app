@@ -104,7 +104,7 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
           child: Container(
             decoration: BoxDecoration(
               color: AppColors.GRAY_LIGHT[2],
-              borderRadius: BorderRadius.all(Radius.circular(4)),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             height: 56,
             padding: EdgeInsets.all(16),
@@ -124,20 +124,21 @@ class _SelectDateGroupState extends State<SelectDateGroup> {
                 ),
 
                 // clear
-                InkWell(
-                  child: Icon(
-                    CupertinoIcons.clear_circled_solid,
-                    color: AppColors.GRAY_LIGHT[0],
-                    size: 26,
+                if (_date != null)
+                  InkWell(
+                    child: Icon(
+                      CupertinoIcons.clear_circled_solid,
+                      color: AppColors.GRAY_LIGHT[0],
+                      size: 26,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _date = null;
+                        if (widget.onDateChange != null)
+                          widget.onDateChange(_date);
+                      });
+                    },
                   ),
-                  onTap: () {
-                    setState(() {
-                      _date = null;
-                      if (widget.onDateChange != null)
-                        widget.onDateChange(_date);
-                    });
-                  },
-                ),
               ],
             ),
           ),

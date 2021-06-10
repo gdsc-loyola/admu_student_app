@@ -102,7 +102,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
           child: Container(
             decoration: BoxDecoration(
               color: AppColors.GRAY_LIGHT[2],
-              borderRadius: BorderRadius.all(Radius.circular(4)),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             height: 56,
             padding: EdgeInsets.all(16),
@@ -121,20 +121,21 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                 ),
 
                 // clear
-                InkWell(
-                  child: Icon(
-                    CupertinoIcons.clear_circled_solid,
-                    color: AppColors.GRAY_LIGHT[0],
-                    size: 26,
+                if (_time != null)
+                  InkWell(
+                    child: Icon(
+                      CupertinoIcons.clear_circled_solid,
+                      color: AppColors.GRAY_LIGHT[0],
+                      size: 26,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _time = null;
+                        if (widget.onTimeChange != null)
+                          widget.onTimeChange(_time);
+                      });
+                    },
                   ),
-                  onTap: () {
-                    setState(() {
-                      _time = null;
-                      if (widget.onTimeChange != null)
-                        widget.onTimeChange(_time);
-                    });
-                  },
-                ),
               ],
             ),
           ),
