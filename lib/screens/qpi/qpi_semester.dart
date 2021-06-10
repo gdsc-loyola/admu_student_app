@@ -78,6 +78,7 @@ class _SemesterPageState extends State<SemesterPage> {
         padding: EdgeInsets.fromLTRB(16.0, 40.0, 24.0, 32.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // semester text
             Text(
@@ -180,13 +181,18 @@ class _SemesterPageState extends State<SemesterPage> {
 
             // editing text
             if (_isEditing)
-              Text(
-                _selected > 0 ? '$_selected Class Selected' : 'Select Classes',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: _selected > 0
-                        ? AppColors.SECONDARY_MAIN
-                        : AppColors.GRAY_DARK[1]),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  _selected > 0
+                      ? '$_selected Class Selected'
+                      : 'Select Classes',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: _selected > 0
+                          ? AppColors.SECONDARY_MAIN
+                          : AppColors.GRAY_DARK[1]),
+                ),
               ),
           ],
         ),
@@ -195,11 +201,11 @@ class _SemesterPageState extends State<SemesterPage> {
           ? FloatingActionButton(
               onPressed: () => _onDelete(context, courses),
               child: Icon(
-                // Icons.delete_outline_rounded, // change icon
                 CupertinoIcons.delete, // incorrect icon
                 size: 36,
                 color: AppColors.GRAY_LIGHT[2],
               ),
+              backgroundColor: AppColors.SECONDARY_MAIN,
             )
           : Container(),
     );
