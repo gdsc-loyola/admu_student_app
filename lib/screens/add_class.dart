@@ -71,6 +71,16 @@ class _AddClassPageState extends State<AddClassPage> {
     }
   }
 
+  @override
+  void dispose() {
+    _codeCtrl.dispose();
+    _sectionCtrl.dispose();
+    _yearCtrl.dispose();
+    _profCtrl.dispose();
+
+    super.dispose();
+  }
+
   void _onSemesterChange(int val) {
     setState(() {
       _semNum = val;

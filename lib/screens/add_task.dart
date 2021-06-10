@@ -58,6 +58,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
     }
   }
 
+  @override
+  void dispose() {
+    _eventCtrl.dispose();
+    _tagCtrl.dispose();
+    _agendaCtrl.dispose();
+
+    super.dispose();
+  }
+
   Future<bool> _onBack() async {
     if (_shouldPop) return true;
 

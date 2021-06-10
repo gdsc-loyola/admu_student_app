@@ -126,6 +126,16 @@ class _AddQPIPageState extends State<AddQPIPage> {
     selected = widget.selected > 2 ? 0 : widget.selected;
   }
 
+  @override
+  void dispose() {
+    _yearCtrl.dispose();
+    _qpiCtrl.dispose();
+    _unitsCtrl.dispose();
+    _codeCtrl.dispose();
+
+    super.dispose();
+  }
+
   void _onColorChange(Color color) {
     setState(() {
       _courseColor = color;
