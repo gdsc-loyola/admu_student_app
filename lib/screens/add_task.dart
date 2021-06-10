@@ -55,6 +55,26 @@ class _AddTaskPageState extends State<AddTaskPage> {
         _endTime = TimeOfDay(
             hour: widget.event.end.hour, minute: widget.event.end.minute);
       }
+    } else if (widget.date != null) {
+      if (widget.date.minute % 5 == 0) {
+        _startDate = widget.date;
+        _startTime =
+            TimeOfDay(hour: widget.date.hour, minute: widget.date.minute);
+
+        DateTime useEnd = widget.date.add(Duration(hours: 1));
+        _endDate = useEnd;
+        _endTime = TimeOfDay(hour: useEnd.hour, minute: useEnd.minute);
+      } else {
+        DateTime useStart =
+            widget.date.add(Duration(minutes: 5 - (widget.date.minute % 5)));
+
+        _startDate = useStart;
+        _startTime = TimeOfDay(hour: useStart.hour, minute: useStart.minute);
+
+        DateTime useEnd = useStart.add(Duration(hours: 1));
+        _endDate = useEnd;
+        _endTime = TimeOfDay(hour: useEnd.hour, minute: useEnd.minute);
+      }
     }
   }
 
@@ -194,102 +214,105 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
         ],
       ),
-      body: Container(
-        height: double.infinity,
+      backgroundColor: AppColors.PRIMARY_MAIN,
+      body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(16, 32, 16, 32),
-        color: AppColors.PRIMARY_MAIN,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // header
-              Text(
-                '${widget.isEditing ? 'Edit' : 'Add'} Event',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .copyWith(color: AppColors.GRAY_LIGHT[2]),
-              ),
-              SizedBox(height: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // header
+            Text(
+              '${widget.isEditing ? 'Edit' : 'Add'} Event',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(color: AppColors.GRAY_LIGHT[2]),
+            ),
+            SizedBox(height: 40),
 
-              // event
-              Row(
-                children: [
-                  Expanded(child: InputGroup('Event', _eventCtrl)),
-                ],
-              ),
-              SizedBox(height: 16),
+            // name
+            Row(
+              children: [
+                Expanded(child: InputGroup('Event*', _eventCtrl)),
+              ],
+            ),
+            SizedBox(height: 16),
 
-              // start
-              Row(
-                children: [
-                  Expanded(
-                    child: SelectDateGroup(
-                      'Start',
-                      date: _startDate,
-                      onDateChange: _onStartDateChange,
-                    ),
+            // start
+            Row(
+              children: [
+                // date
+                Expanded(
+                  child: SelectDateGroup(
+                    'Start',
+                    date: _startDate,
+                    onDateChange: _onStartDateChange,
                   ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: SelectTimeGroup(
-                      '',
-                      time: _startTime,
-                      onTimeChange: _onStartTimeChange,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-
-              // end
-              Row(
-                children: [
-                  Expanded(
-                    child: SelectDateGroup(
-                      'End',
-                      date: _endDate,
-                      onDateChange: _onEndDateChange,
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: SelectTimeGroup(
-                      'End',
-                      time: _endTime,
-                      onTimeChange: _onEndTimeChange,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-
-              // tags
-              Row(
-                children: [
-                  Expanded(child: InputGroup('Tags', _tagCtrl)),
-                ],
-              ),
-              SizedBox(height: 16),
-
-              // agenda
-              Row(
-                children: [
-                  Expanded(child: InputGroup('Agenda', _agendaCtrl)),
-                ],
-              ),
-              SizedBox(height: 48),
-
-              if (widget.isEditing)
-                CustomButton(
-                  ButtonSize.medium,
-                  'Delete Event',
-                  AppColors.SECONDARY_MAIN,
-                  AppColors.GRAY_LIGHT[2],
-                  _onDelete,
                 ),
-            ],
-          ),
+                SizedBox(width: 8),
+
+                // time
+                Expanded(
+                  child: SelectTimeGroup(
+                    '',
+                    time: _startTime,
+                    onTimeChange: _onStartTimeChange,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+
+            // end
+            Row(
+              children: [
+                // date
+                Expanded(
+                  child: SelectDateGroup(
+                    'End',
+                    date: _endDate,
+                    onDateChange: _onEndDateChange,
+                  ),
+                ),
+                SizedBox(width: 8),
+
+                // time
+                Expanded(
+                  child: SelectTimeGroup(
+                    'End',
+                    time: _endTime,
+                    onTimeChange: _onEndTimeChange,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+
+            // tags
+            Row(
+              children: [
+                Expanded(child: InputGroup('Tags', _tagCtrl)),
+              ],
+            ),
+            SizedBox(height: 16),
+
+            // agenda
+            Row(
+              children: [
+                Expanded(child: InputGroup('Agenda', _agendaCtrl)),
+              ],
+            ),
+            SizedBox(height: 48),
+
+            if (widget.isEditing)
+              CustomButton(
+                ButtonSize.medium,
+                'Delete Event',
+                AppColors.SECONDARY_MAIN,
+                AppColors.GRAY_LIGHT[2],
+                _onDelete,
+              ),
+          ],
         ),
       ),
     );

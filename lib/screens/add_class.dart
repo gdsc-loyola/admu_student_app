@@ -50,7 +50,7 @@ class _AddClassPageState extends State<AddClassPage> {
 
     if (widget.subject != null) {
       _codeCtrl.text = widget.subject.code;
-      // _sectionCtrl.text = widget.subject.code;
+      _sectionCtrl.text = widget.subject.section;
       _yearCtrl.text = '${widget.subject.yearNum}';
       _profCtrl.text = '${widget.subject.profName}';
 
@@ -228,11 +228,13 @@ class _AddClassPageState extends State<AddClassPage> {
             // course code and section
             Row(
               children: [
-                // Text Field at the Left
-                Expanded(child: InputGroup('Course Code', _codeCtrl)),
-                SizedBox(width: 20),
-                // Text at the Right
-                Expanded(child: InputGroup('Section', _sectionCtrl)),
+                // course code
+                Expanded(child: InputGroup('Course Code*', _codeCtrl)),
+                if (widget.inEnlistment) SizedBox(width: 20),
+
+                // section
+                if (widget.inEnlistment)
+                  Expanded(child: InputGroup('Section*', _sectionCtrl)),
               ],
             ),
             SizedBox(height: 24),
@@ -240,12 +242,14 @@ class _AddClassPageState extends State<AddClassPage> {
             // year level and sem
             Row(
               children: [
-                // Text Field at the Left
-                Expanded(child: InputGroup('Year Level', _yearCtrl)),
+                // year
+                Expanded(child: InputGroup('Year Level*', _yearCtrl)),
                 SizedBox(width: 20),
-                // Text at the Right
+
+                // sem
                 Expanded(
                   child: SelectSemesterGroup(
+                    label: 'Semester*',
                     selected: _semNum,
                     onValueChange: _onSemesterChange,
                   ),
@@ -255,28 +259,38 @@ class _AddClassPageState extends State<AddClassPage> {
             SizedBox(height: 24),
 
             // select color
-            SelectColor(color: _color, onColorChange: _onColorChange),
+            SelectColor(
+              label: 'Color Code*',
+              color: _color,
+              onColorChange: _onColorChange,
+            ),
             SizedBox(height: 24),
 
             // days
-            SelectDaysGroup(selected: _days, onChange: _onDaysChange),
+            SelectDaysGroup(
+              label: 'Date*',
+              selected: _days,
+              onChange: _onDaysChange,
+            ),
             SizedBox(height: 24),
 
             // start and end time
             Row(
               children: [
-                // Row for Time Selectors
+                // start
                 Expanded(
                   child: SelectTimeGroup(
-                    'Start',
+                    'Start*',
                     time: _timeStart,
                     onTimeChange: _onStartTimeChange,
                   ),
                 ),
                 SizedBox(width: 20),
+
+                // end
                 Expanded(
                   child: SelectTimeGroup(
-                    'End',
+                    'End*',
                     time: _timeEnd,
                     onTimeChange: _onEndTimeChange,
                   ),
@@ -284,12 +298,10 @@ class _AddClassPageState extends State<AddClassPage> {
               ],
             ),
 
+            if (widget.inEnlistment) SizedBox(height: 24),
             // professor in enlistment
-            widget.inEnlistment
-                ? Expanded(
-                    child: InputGroup('Name of Professor', _profCtrl),
-                  )
-                : SizedBox(),
+            if (widget.inEnlistment)
+              InputGroup('Name of Professor', _profCtrl),
 
             SizedBox(height: 48),
             // delete button

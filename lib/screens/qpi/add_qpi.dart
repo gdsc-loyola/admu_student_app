@@ -28,7 +28,7 @@ class AddQPIPage extends StatefulWidget {
   final int selected;
 
   AddQPIPage({
-    this.yearNum = 1,
+    this.yearNum,
     this.semNum = 1,
     this.year,
     this.semester,
@@ -304,7 +304,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
               child: Text('Done',
                   style: Theme.of(context)
                       .textTheme
-                      .headline6
+                      .bodyText1
                       .copyWith(color: AppColors.GRAY_LIGHT[2])),
             ),
           ),
@@ -348,7 +348,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
             if (widget.isEditing)
               CustomButton(
                 ButtonSize.medium,
-                'Delete',
+                'Delete ${titles[selected]} QPI',
                 AppColors.SECONDARY_MAIN,
                 AppColors.GRAY_LIGHT[2],
                 _onDelete,

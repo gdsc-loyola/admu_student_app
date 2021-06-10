@@ -14,6 +14,7 @@ class AlertModal {
     String declineText = 'Nah, just kidding!',
     VoidCallback onAccept,
     VoidCallback onDecline,
+    bool showDecline = true,
   }) async {
     await showGeneralDialog(
       context: context,
@@ -27,6 +28,7 @@ class AlertModal {
             declineText: declineText,
             onAccept: onAccept,
             onDecline: onDecline,
+            showDecline: showDecline,
           ),
         );
       },
@@ -45,6 +47,8 @@ class _AlertModal extends StatelessWidget {
   final VoidCallback onAccept;
   final VoidCallback onDecline;
 
+  final bool showDecline;
+
   _AlertModal({
     this.iconData,
     this.header,
@@ -53,6 +57,7 @@ class _AlertModal extends StatelessWidget {
     this.declineText,
     this.onAccept,
     this.onDecline,
+    this.showDecline,
   });
 
   @override
@@ -62,7 +67,7 @@ class _AlertModal extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-      padding: EdgeInsets.fromLTRB(16, 56, 16, 56),
+      padding: EdgeInsets.fromLTRB(32, 56, 32, 56), // old hor: 16
       margin: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -99,20 +104,22 @@ class _AlertModal extends StatelessWidget {
             },
             shadows: [AppEffects.SHADOW],
           ),
-          SizedBox(height: 16),
+
+          if (showDecline) SizedBox(height: 16),
 
           // reject
-          CustomButton(
-            ButtonSize.medium,
-            declineText,
-            AppColors.GRAY_DARK[1], // temporary?
-            AppColors.GRAY_DARK[1],
-            () {
-              if (onDecline != null) onDecline();
-              Navigator.of(context).pop();
-            },
-            outlined: true,
-          ),
+          if (showDecline)
+            CustomButton(
+              ButtonSize.medium,
+              declineText,
+              AppColors.GRAY_DARK[1], // temporary?
+              AppColors.GRAY_DARK[1],
+              () {
+                if (onDecline != null) onDecline();
+                Navigator.of(context).pop();
+              },
+              outlined: true,
+            ),
         ],
       ),
     );

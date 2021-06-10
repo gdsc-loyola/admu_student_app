@@ -60,6 +60,19 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
           color: AppColors.GRAY_LIGHT[2],
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add_rounded),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => AddClassPage(
+                  isEditing: true,
+                  inEnlistment: true,
+                ),
+              ));
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(16, 40, 16, 32), // 32?
@@ -83,14 +96,15 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Classes',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .copyWith(color: AppColors.PRIMARY_MAIN),
+                Expanded(
+                  child: Text(
+                    'Classes',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        .copyWith(color: AppColors.PRIMARY_MAIN),
+                  ),
                 ),
-                Spacer(),
                 Container(
                   decoration: BoxDecoration(
                       color: AppColors.PRIMARY_LIGHT.withOpacity(0.2),
@@ -117,21 +131,6 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                         ),
                       ),
                     ),
-                  ),
-                ),
-
-                // add button
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => AddClassPage(
-                                isEditing: true,
-                                inEnlistment: true,
-                              )));
-                    },
                   ),
                 ),
               ],

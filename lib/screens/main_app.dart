@@ -1,9 +1,8 @@
-import 'package:admu_student_app/models/class_schedule.dart';
-import 'package:admu_student_app/widgets/modals/alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/enlistment/enlistment_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
@@ -12,6 +11,7 @@ import 'package:admu_student_app/screens/qpi/qpi_page.dart';
 import 'package:admu_student_app/screens/schedule/schedule_page.dart';
 import 'package:admu_student_app/screens/add_class.dart';
 import 'package:admu_student_app/screens/add_task.dart';
+import 'package:admu_student_app/widgets/modals/alert.dart';
 import 'package:admu_student_app/widgets/drawer_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +24,6 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
 
   DateTime _calDate;
-  int _schedYearNum;
-  int _schedSemNum;
 
   @override
   void initState() {
@@ -59,9 +57,14 @@ class _MainPageState extends State<MainPage> {
     VoidCallback onPressed = () {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (_) {
-          if (_currentIndex == 1)
-            return AddTaskPage(date: _calDate);
-          else if (_currentIndex == 2)
+          if (_currentIndex == 1) {
+            if (_calDate.year == DateTime.now().year &&
+                _calDate.month == DateTime.now().month &&
+                _calDate.day == DateTime.now().day)
+              return AddTaskPage(date: DateTime.now());
+            else
+              return AddTaskPage(date: _calDate);
+          } else if (_currentIndex == 2)
             return AddClassPage();
           else if (_currentIndex == 3)
             return AddQPIPage();
