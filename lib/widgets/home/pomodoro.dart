@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-
 import 'package:admu_student_app/screens/home/pomodoro_page.dart';
 
 class Pomodoro extends StatelessWidget {
@@ -10,7 +9,7 @@ class Pomodoro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 104,
+      height: 96,
       alignment: Alignment.center,
       child: ListTile(
         leading: Image.asset("assets/tomato.png"),
@@ -34,11 +33,9 @@ class Pomodoro extends StatelessWidget {
         },
       ),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.SECONDARY_MAIN,
-        ),
+        border: Border.all(color: AppColors.SECONDARY_MAIN),
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
     );
   }
