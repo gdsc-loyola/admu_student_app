@@ -29,14 +29,14 @@ class CalendarEvents extends ChangeNotifier {
     Event(
       name: 'Share secret code',
       agenda: 'Code code code',
-      start: DateTime.now().add(Duration(days: 1)),
-      end: DateTime.now(),
+      start: DateTime.now(),
+      end: DateTime.now().add(Duration(days: 1)),
     ),
     Event(
       name: 'Write INTACT journal',
       tags: 'INTACT, Acads',
-      start: DateTime.now().add(Duration(days: 3)),
-      end: DateTime.now(),
+      start: DateTime.now(),
+      end: DateTime.now().add(Duration(days: 3)),
     ),
   ];
   List<Event> _events = [];
@@ -47,14 +47,16 @@ class CalendarEvents extends ChangeNotifier {
     List<Event> filtered = [];
 
     for (Event e in _events) {
-      if (e.start == null) continue;
-      if (e.start.year == date.year && e.start.month == date.month)
+      if (e.start != null &&
+          e.start.year == date.year &&
+          e.start.month == date.month)
         filtered.add(e);
+      else if (e.end != null &&
+          e.end.year == date.year &&
+          e.end.month == date.month) filtered.add(e);
     }
 
-    // might be better to use database query
-
-    filtered.sort((a, b) => a.start.day.compareTo(b.start.day));
+    filtered.sort((a, b) => a.compareTo(b));
     return filtered;
   }
 
@@ -62,15 +64,18 @@ class CalendarEvents extends ChangeNotifier {
     List<Event> filtered = [];
 
     for (Event e in _events) {
-      if (e.start == null) continue;
-      if (e.start.year == date.year &&
+      if (e.start != null &&
+          e.start.year == date.year &&
           e.start.month == date.month &&
-          e.start.day == date.day) filtered.add(e);
+          e.start.day == date.day)
+        filtered.add(e);
+      else if (e.end != null &&
+          e.end.year == date.year &&
+          e.end.month == date.month &&
+          e.end.day == date.day) filtered.add(e);
     }
 
-    // might be better to use database query
-
-    filtered.sort((a, b) => a.start.hour.compareTo(b.start.day));
+    filtered.sort((a, b) => a.compareTo(b));
     return filtered;
   }
 
@@ -329,14 +334,10 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
     // edit from database
 
     if (kIsWeb) {
-      for (Event e in _events) {
-        if (e == event) {
-          e.isDone = isDone;
+      event.isDone = isDone;
 
-          _updateList();
-          return;
-        }
-      }
+      _updateList();
+      return;
     }
 
     int updated = await (await CentralDatabaseHelper.instance.database).update(

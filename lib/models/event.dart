@@ -40,6 +40,22 @@ class Event {
     );
   }
 
+  String getReadableTime() {
+    if (start != null && end != null) {
+      if (start.year == end.year &&
+          start.month == end.month &&
+          start.day == end.day)
+        return '${getReadableStartTime()}\nto\n${getReadableEndTime()}';
+      else
+        return 'Starts\n${start.month}/${start.day} ${getReadableStartTime()}\n\nEnds\n${end.month}/${end.day} ${getReadableEndTime()}';
+    } else if (start == null && end != null)
+      return 'Ends\n${getReadableEndTime()}';
+    else if (start != null && end != null)
+      return 'Starts\n${getReadableStartTime()}';
+    else
+      return '';
+  }
+
   String getReadableStartTime() =>
       (start.hour < 12 ? (start.hour == 0 ? 12 : start.hour) : start.hour - 12)
           .toString()
@@ -55,4 +71,21 @@ class Event {
       ':' +
       end.minute.toString().padLeft(2, '0') +
       (end.hour < 12 ? ' AM' : ' PM');
+
+  int compareTo(Event other) {
+    DateTime a, b;
+
+    if (start != null)
+      a = start;
+    else if (end != null) a = end;
+
+    if (other.start != null)
+      b = other.start;
+    else if (other.end != null) b = other.end;
+
+    if (a == null) return -1;
+    if (b == null) return 1;
+
+    return a.compareTo(b);
+  }
 }

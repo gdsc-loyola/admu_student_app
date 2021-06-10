@@ -80,8 +80,10 @@ class _CalendarMonthState extends State<CalendarMonth> {
       // find if day has events
       bool hasEvent = false;
       for (Event e in events) {
-        if (e.start == null) continue;
-        if (e.start.day == dt.day) {
+        if (e.start != null && e.start.day == dt.day) {
+          hasEvent = true;
+          break;
+        } else if (e.end != null && e.end.day == dt.day) {
           hasEvent = true;
           break;
         }

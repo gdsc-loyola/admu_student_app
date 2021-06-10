@@ -243,7 +243,7 @@ class _AddClassPageState extends State<AddClassPage> {
             Row(
               children: [
                 // year
-                Expanded(child: InputGroup('Year Level*', _yearCtrl)),
+                Expanded(child: InputGroup('Year Level*', _yearCtrl, length: 1,)),
                 SizedBox(width: 20),
 
                 // sem

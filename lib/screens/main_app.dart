@@ -52,7 +52,14 @@ class _MainPageState extends State<MainPage> {
   }
 
   List<Widget> _getAppBarActions() {
-    if (_currentIndex == 0) return [];
+    if (_currentIndex == 0) {
+      int numNotifs = 1;
+
+      if (numNotifs == 0)
+        return [];
+      else
+        return [];
+    }
 
     VoidCallback onPressed = () {
       Navigator.of(context).push(MaterialPageRoute(
