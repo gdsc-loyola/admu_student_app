@@ -34,6 +34,29 @@ class AlertModal {
       },
     );
   }
+
+  static Future<void> showError(
+    BuildContext context,
+    String message, {
+    String header = 'Invalid Input',
+  }) async {
+    await showAlert(
+      context,
+      iconData: Icons.error_outline_rounded,
+      header: header,
+      description: 'Please try again and make sure that $message',
+      acceptText: 'Got it!',
+      showDecline: false,
+    );
+  }
+
+  static Future<void> showIncompleteError(BuildContext context) async {
+    await showError(
+      context,
+      'all required fields (*) are filled!',
+      header: 'Incomplete Input',
+    );
+  }
 }
 
 class _AlertModal extends StatelessWidget {

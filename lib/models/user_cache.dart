@@ -13,6 +13,8 @@ class UserCache {
   static bool enlistment = true;
   static bool lsDirectory = true;
 
+  static List<int> pomodoroTimers = [60 * 5, 60 * 25, 60 * 15];
+
   static void load() async {
     //
   }

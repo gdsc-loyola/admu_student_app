@@ -17,9 +17,7 @@ class PomodoroPage extends StatefulWidget {
 }
 
 class _PomodoroPageState extends State<PomodoroPage> {
-  bool shortSelected = true;
-  bool pomodoroSelected = false;
-  bool longSelected = false;
+  int _selected = 0;
 
   String buttontitle = 'Start';
   bool isPressed = false;
@@ -79,7 +77,6 @@ class _PomodoroPageState extends State<PomodoroPage> {
       context,
       description: 'Exit Pomodoro? Your timer will reset.',
       onAccept: () {
-//         Navigator.of(context).pop();
         willPop = true;
       },
     );
@@ -164,38 +161,32 @@ class _PomodoroPageState extends State<PomodoroPage> {
                     height: 39,
                     child: PomodoroButtonRow(() {
                       setState(() {
-                        shortSelected = true;
-                        pomodoroSelected = false;
-                        longSelected = false;
+                        _selected = 0;
                         isPressed = false;
                         buttontitle = "Start";
 
                         pauseTimer();
-                        _start = 300;
+                        _start = UserCache.pomodoroTimers[0];
                       });
                     }, () {
                       setState(() {
-                        shortSelected = false;
-                        pomodoroSelected = true;
-                        longSelected = false;
+                        _selected = 1;
                         isPressed = false;
                         buttontitle = "Start";
 
                         pauseTimer();
-                        _start = 1500;
+                        _start = UserCache.pomodoroTimers[1];
                       });
                     }, () {
                       setState(() {
-                        shortSelected = false;
-                        pomodoroSelected = false;
-                        longSelected = true;
+                        _selected = 2;
                         isPressed = false;
                         buttontitle = "Start";
 
                         pauseTimer();
-                        _start = 900;
+                        _start = UserCache.pomodoroTimers[2];
                       });
-                    }),
+                    }, selected: _selected),
                   ),
 
                   // Container for Timer
@@ -255,13 +246,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                                 isPressed = false;
                                 buttontitle = 'Start';
 
-                                shortSelected
-                                    ? _start = 300
-                                    : pomodoroSelected
-                                        ? _start = 1500
-                                        : longSelected
-                                            ? _start = 900
-                                            : _start = 0;
+                                _start = UserCache.pomodoroTimers[_selected];
                               });
                             },
                             outlined: true,

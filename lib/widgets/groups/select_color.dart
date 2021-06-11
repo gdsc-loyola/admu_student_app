@@ -176,7 +176,7 @@ class _SelectColorState extends State<SelectColor> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Color Code',
+          widget.label,
           style: Theme.of(context)
               .textTheme
               .bodyText1

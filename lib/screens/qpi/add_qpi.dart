@@ -1,3 +1,4 @@
+import 'package:admu_student_app/constants/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -170,14 +171,39 @@ class _AddQPIPageState extends State<AddQPIPage> {
     return willPop;
   }
 
-  void _onSave() {
-    // no error handling
+  void _onSave() async {
+    if (_yearCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+    if (!AppUtils.isPositiveInteger(_yearCtrl.text))
+      return await AlertModal.showError(
+          context, 'your number digit is not a decimal or a negative value.');
     int yearNum = int.parse(_yearCtrl.text);
+
+    if (_unitsCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+    if (!AppUtils.isPositiveInteger(_unitsCtrl.text))
+      return await AlertModal.showError(
+          context, 'your number digit is not a decimal or a negative value.');
     int units = int.parse(_unitsCtrl.text);
+
+    if (_codeCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
     String code = _codeCtrl.text;
 
+    double qpi;
+    if (selected == 0 || selected == 1) {
+      if (_qpiCtrl.text.isEmpty)
+        return await AlertModal.showIncompleteError(context);
+      if (!AppUtils.isNonNegativeNumeric(_qpiCtrl.text))
+        return await AlertModal.showError(
+            context, 'your number digit is not a negative value.');
+      qpi = double.parse(_qpiCtrl.text);
+    }
+
+    if (selected == 2 && _courseColor == null)
+      return await AlertModal.showIncompleteError(context);
+
     if (selected == 0) {
-      double qpi = double.parse(_qpiCtrl.text);
       if (widget.isEditing) {
         Provider.of<AcademicRecords>(context, listen: false).editYearlyQPI(
           widget.year,
@@ -197,7 +223,6 @@ class _AddQPIPageState extends State<AddQPIPage> {
         CustomSnackBar.showSnackBar(context, 'Year QPI added!');
       }
     } else if (selected == 1) {
-      double qpi = double.parse(_qpiCtrl.text);
       if (widget.isEditing) {
         Provider.of<AcademicRecords>(context, listen: false).editSemestralQPI(
           widget.yearNum,
