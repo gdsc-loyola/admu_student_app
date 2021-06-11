@@ -57,6 +57,10 @@ class App extends StatelessWidget {
           bodyText2: GoogleFonts.dmSans(fontSize: 14.0),
           caption: GoogleFonts.dmSans(fontSize: 14.0),
         ),
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(
+          backgroundColor: AppColors.PRIMARY_MAIN,
+          brightness: Brightness.dark,
+        ),
         primaryColor: AppColors.PRIMARY_MAIN,
         primarySwatch: Colors.blue,
       ),

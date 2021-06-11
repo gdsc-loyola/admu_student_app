@@ -317,6 +317,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
         leading: IconButton(
           icon: Icon(Icons.close_rounded),
           onPressed: _onBack,
+          iconSize: 32,
         ),
         actions: [
           Padding(

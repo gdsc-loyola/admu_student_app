@@ -60,6 +60,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
           icon: Icon(Icons.arrow_back_ios_rounded),
           color: AppColors.GRAY_LIGHT[2],
           onPressed: () => Navigator.of(context).pop(),
+          iconSize: 32,
         ),
         actions: [
           IconButton(
@@ -67,11 +68,11 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => AddClassPage(
-                  isEditing: true,
                   inEnlistment: true,
                 ),
               ));
             },
+            iconSize: 32,
           ),
         ],
       ),

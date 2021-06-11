@@ -36,6 +36,8 @@ class _DirectoryPageState extends State<DirectoryPage> {
   @override
   void dispose() {
     _searchCtrl.dispose();
+
+    super.dispose();
   }
 
   void _showHowTo() async {
@@ -118,11 +120,12 @@ class _DirectoryPageState extends State<DirectoryPage> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop(), 
+          iconSize: 32,
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+        padding: EdgeInsets.fromLTRB(16, 40, 16, 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

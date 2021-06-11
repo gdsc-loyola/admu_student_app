@@ -17,6 +17,7 @@ class NotificationsPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
           onPressed: () => Navigator.pop(context),
+          iconSize: 32,
         ),
         title: Text(
           'Reminders',

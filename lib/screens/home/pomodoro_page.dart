@@ -122,6 +122,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
           onPressed: () async {
             if (await _onBack()) Navigator.of(context).pop();
           },
+          iconSize: 32,
         ),
       ),
       body: Column(

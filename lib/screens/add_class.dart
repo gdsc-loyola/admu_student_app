@@ -216,6 +216,7 @@ class _AddClassPageState extends State<AddClassPage> {
         leading: IconButton(
           icon: Icon(Icons.close_rounded),
           onPressed: _onBack,
+          iconSize: 32,
         ),
         actions: [
           Padding(
