@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
+import 'package:admu_student_app/screens/home/notifications_page.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
 import 'package:admu_student_app/screens/schedule/schedule_page.dart';
@@ -59,6 +60,21 @@ class _MainPageState extends State<MainPage> {
             icon: Icon(Icons.menu_rounded),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
+        ),
+        title: Row(
+          children: [
+            Spacer(),
+            _currentIndex == 0
+                ? IconButton(
+                    icon: Icon(Icons.notifications),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NotificationsPage()));
+                    })
+                : SizedBox()
+          ],
         ),
         actions: _currentIndex == 0
             ? []
