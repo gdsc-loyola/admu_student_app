@@ -197,14 +197,17 @@ class _AddClassPageState extends State<AddClassPage> {
           onPressed: _onBack,
         ),
         actions: [
-          TextButton(
-            onPressed: _onSave,
-            child: Text(
-              'Done',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.white),
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: TextButton(
+              onPressed: _onSave,
+              child: Text(
+                'Done',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.GRAY_LIGHT[2],
+                    ),
+              ),
             ),
           ),
         ],
@@ -243,7 +246,12 @@ class _AddClassPageState extends State<AddClassPage> {
             Row(
               children: [
                 // year
-                Expanded(child: InputGroup('Year Level*', _yearCtrl, length: 1,)),
+                Expanded(
+                    child: InputGroup(
+                  'Year Level*',
+                  _yearCtrl,
+                  length: 1,
+                )),
                 SizedBox(width: 20),
 
                 // sem
@@ -300,8 +308,7 @@ class _AddClassPageState extends State<AddClassPage> {
 
             if (widget.inEnlistment) SizedBox(height: 24),
             // professor in enlistment
-            if (widget.inEnlistment)
-              InputGroup('Name of Professor', _profCtrl),
+            if (widget.inEnlistment) InputGroup('Name of Professor', _profCtrl),
 
             SizedBox(height: 48),
             // delete button

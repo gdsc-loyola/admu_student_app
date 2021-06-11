@@ -202,14 +202,17 @@ class _AddTaskPageState extends State<AddTaskPage> {
           onPressed: _onBack,
         ),
         actions: [
-          TextButton(
-            onPressed: _onSave,
-            child: Text(
-              'Done',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: AppColors.GRAY_LIGHT[2]),
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: TextButton(
+              onPressed: _onSave,
+              child: Text(
+                'Done',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.GRAY_LIGHT[2],
+                    ),
+              ),
             ),
           ),
         ],

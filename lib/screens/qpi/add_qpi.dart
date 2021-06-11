@@ -298,14 +298,16 @@ class _AddQPIPageState extends State<AddQPIPage> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+            padding: EdgeInsets.only(right: 16),
             child: TextButton(
               onPressed: _onSave,
-              child: Text('Done',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: AppColors.GRAY_LIGHT[2])),
+              child: Text(
+                'Done',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.GRAY_LIGHT[2],
+                    ),
+              ),
             ),
           ),
         ],
