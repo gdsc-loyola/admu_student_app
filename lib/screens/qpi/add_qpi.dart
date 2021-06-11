@@ -186,7 +186,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
           context, 'your number digit is not a decimal or a negative value.');
     int units = int.parse(_unitsCtrl.text);
 
-    if (_codeCtrl.text.isEmpty)
+    if (selected == 2 && _codeCtrl.text.isEmpty)
       return await AlertModal.showIncompleteError(context);
     String code = _codeCtrl.text;
 
