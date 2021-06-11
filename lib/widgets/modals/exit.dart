@@ -8,8 +8,7 @@ class ExitModal {
   static Future<void> showExit(
     BuildContext context, {
     IconData iconData = Icons.logout,
-    String header = 'Exit?',
-    String description = '',
+    String description = 'Exit?',
     String acceptText = 'Exit',
     String declineText = 'Nah, just kidding!',
     VoidCallback onAccept,
@@ -21,7 +20,6 @@ class ExitModal {
           return Center(
             child: _ExitModal(
               iconData: iconData,
-              header: header,
               description: description,
               acceptText: acceptText,
               declineText: declineText,
@@ -36,7 +34,6 @@ class ExitModal {
 class _ExitModal extends StatelessWidget {
   final IconData iconData;
 
-  final String header;
   final String description;
   final String acceptText;
   final String declineText;
@@ -46,7 +43,6 @@ class _ExitModal extends StatelessWidget {
 
   _ExitModal({
     this.iconData,
-    this.header,
     this.description,
     this.acceptText,
     this.declineText,
@@ -70,20 +66,11 @@ class _ExitModal extends StatelessWidget {
           Icon(iconData, color: AppColors.ACCENTS[0], size: 64),
           SizedBox(height: 16),
 
-          // header
-          Text(
-            header,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline4.copyWith(
-                color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
-          ),
-          SizedBox(height: 16),
-
           // text
           Text(
             description,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1.copyWith(
+            style: Theme.of(context).textTheme.headline4.copyWith(
                 color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 16),

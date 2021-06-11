@@ -138,7 +138,7 @@ class LoginPage extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
+                              Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                     builder: (_) => UserCache.onboarding
                                         ? OnboardingPage()

@@ -91,14 +91,14 @@ class _SelectColorState extends State<SelectColor> {
                     },
                     shadows: [AppEffects.SHADOW],
                   ),
-                  SizedBox(height: 16),
-                  CustomButton(
-                    ButtonSize.medium, // ?
-                    'Cancel',
-                    AppColors.GRAY_DARK[2],
-                    AppColors.GRAY_DARK[0],
-                    () => Navigator.of(context).pop(),
-                  ),
+                  // SizedBox(height: 16),
+                  // CustomButton(
+                  //   ButtonSize.medium, // ?
+                  //   'Cancel',
+                  //   AppColors.GRAY_DARK[2],
+                  //   AppColors.GRAY_DARK[0],
+                  //   () => Navigator.of(context).pop(),
+                  // ),
                 ],
               ),
             ),

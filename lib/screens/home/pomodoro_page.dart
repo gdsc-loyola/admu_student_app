@@ -6,6 +6,7 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/widgets/home/pomodoro_button_row.dart';
+import 'package:admu_student_app/widgets/modals/exit.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:admu_student_app/widgets/help_button.dart';
@@ -69,6 +70,23 @@ class _PomodoroPageState extends State<PomodoroPage> {
     }
   }
 
+  Future<bool> _onBack() async {
+    if (_timer == null || !_timer.isActive) return true;
+
+    bool willPop = false;
+
+    await ExitModal.showExit(
+      context,
+      description: 'Exit Pomodoro? Your timer will reset.',
+      onAccept: () {
+//         Navigator.of(context).pop();
+        willPop = true;
+      },
+    );
+
+    return willPop;
+  }
+
   @override
   void dispose() {
     if (_timer != null) _timer.cancel();
@@ -98,13 +116,15 @@ class _PomodoroPageState extends State<PomodoroPage> {
       return "$twoDigitMinutes:$twoDigitSeconds";
     }
 
-    return Scaffold(
+    Scaffold scaffold = Scaffold(
       backgroundColor: AppColors.PRIMARY_ALT,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () async {
+            if (await _onBack()) Navigator.of(context).pop();
+          },
         ),
       ),
       body: Column(
@@ -208,7 +228,9 @@ class _PomodoroPageState extends State<PomodoroPage> {
                             AppColors.GRAY_LIGHT[2],
                             () {
                               setState(() {
-                                isPressed ? isPressed = false : isPressed = true;
+                                isPressed
+                                    ? isPressed = false
+                                    : isPressed = true;
                                 isPressed
                                     ? buttontitle = 'Pause'
                                     : buttontitle = 'Start';
@@ -254,6 +276,11 @@ class _PomodoroPageState extends State<PomodoroPage> {
           ),
         ],
       ),
+    );
+
+    return WillPopScope(
+      onWillPop: _onBack,
+      child: scaffold,
     );
   }
 }
