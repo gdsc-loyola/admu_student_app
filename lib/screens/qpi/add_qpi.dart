@@ -175,15 +175,13 @@ class _AddQPIPageState extends State<AddQPIPage> {
     if (_yearCtrl.text.isEmpty)
       return await AlertModal.showIncompleteError(context);
     if (!AppUtils.isPositiveInteger(_yearCtrl.text))
-      return await AlertModal.showError(
-          context, 'your number digit is not a decimal or a negative value.');
+      return await AlertModal.showDecimalOrNegativeError(context);
     int yearNum = int.parse(_yearCtrl.text);
 
     if (_unitsCtrl.text.isEmpty)
       return await AlertModal.showIncompleteError(context);
     if (!AppUtils.isPositiveInteger(_unitsCtrl.text))
-      return await AlertModal.showError(
-          context, 'your number digit is not a decimal or a negative value.');
+      return await AlertModal.showDecimalOrNegativeError(context);
     int units = int.parse(_unitsCtrl.text);
 
     if (selected == 2 && _codeCtrl.text.isEmpty)
@@ -195,8 +193,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
       if (_qpiCtrl.text.isEmpty)
         return await AlertModal.showIncompleteError(context);
       if (!AppUtils.isNonNegativeNumeric(_qpiCtrl.text))
-        return await AlertModal.showError(
-            context, 'your number digit is not a negative value.');
+        return await AlertModal.showNegativeError(context);
       qpi = double.parse(_qpiCtrl.text);
     }
 

@@ -50,6 +50,26 @@ class AlertModal {
     );
   }
 
+  static Future<void> showNegativeError(
+    BuildContext context, [
+    String type = 'number input',
+  ]) async {
+    await showError(
+      context,
+      'your $type is not a negative value.',
+    );
+  }
+
+  static Future<void> showDecimalOrNegativeError(
+    BuildContext context, [
+    String type = 'number input',
+  ]) async {
+    await showError(
+      context,
+      'your $type is not a decimal or a negative value.',
+    );
+  }
+
   static Future<void> showIncompleteError(BuildContext context) async {
     await showError(
       context,
