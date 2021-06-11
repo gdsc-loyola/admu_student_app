@@ -33,6 +33,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Beadle',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.GRAY_LIGHT[2],
         fontFamily: GoogleFonts.dmSans().fontFamily,

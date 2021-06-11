@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
@@ -57,19 +58,26 @@ class _SelectColorState extends State<SelectColor> {
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
+              padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  MaterialPicker(
-                    pickerColor: newColor,
-                    onColorChanged: (Color c) {
+                  ColorPicker(
+                    color: newColor,
+                    onChanged: (Color c) {
                       newColor = c;
                     },
                   ),
+                  // MaterialPicker(
+                  //   pickerColor: newColor,
+                  //   onColorChanged: (Color c) {
+                  //     newColor = c;
+                  //   },
+                  // ),
                   SizedBox(height: 8),
                   CustomButton(
                     ButtonSize.medium, // ?
-                    'Select',
+                    'Save Color',
                     AppColors.PRIMARY_MAIN,
                     AppColors.GRAY_LIGHT[2],
                     () {

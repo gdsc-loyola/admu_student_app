@@ -55,46 +55,48 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> _getAppBarActions() {
     if (_currentIndex == 0) {
-      int numNotifs = Provider.of<NotificationCenter>(context).notifs.length;
+      // int numNotifs = Provider.of<NotificationCenter>(context).notifs.length;
+      int numNotifs = Provider.of<NotificationCenter>(context).getNumUnread();
 
-      IconButton bell = IconButton(
-        icon: Icon(Icons.notifications),
-        onPressed: () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => NotificationsPage())),
-      );
+      Widget icon;
 
       if (numNotifs == 0)
-        return [bell];
+        icon = Icon(Icons.notifications);
       else
-        return [bell];
-        /*return [
-          Stack(
-            children: [
-              Positioned.fill(child: bell),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.ACCENTS[0],
-                  ),
-                  width: 18,
-                  height: 18,
-                  child: Center(
-                    child: Text(
-                      '$numNotifs',
-                      style: Theme.of(context).textTheme.caption.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.GRAY_LIGHT[2],
-                          ),
-                    ),
+        icon = Stack(
+          children: [
+            Icon(Icons.notifications_outlined),
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.ACCENTS[0],
+                ),
+                width: 18,
+                height: 18,
+                child: Center(
+                  child: Text(
+                    '$numNotifs',
+                    style: Theme.of(context).textTheme.caption.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.GRAY_LIGHT[2],
+                        ),
                   ),
                 ),
               ),
-            ],
-          )
-        ];*/
+            ),
+          ],
+        );
+
+      return [
+        IconButton(
+          icon: icon,
+          onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => NotificationsPage())),
+          iconSize: 36,
+        ),
+      ];
     }
 
     VoidCallback onPressed = () {
@@ -120,6 +122,7 @@ class _MainPageState extends State<MainPage> {
     IconButton addButton = IconButton(
       icon: Icon(Icons.add_rounded),
       onPressed: onPressed,
+      iconSize: 36,
     );
 
     List<Widget> actions = [];
@@ -128,6 +131,7 @@ class _MainPageState extends State<MainPage> {
       actions.add(IconButton(
         icon: Icon(Icons.ac_unit),
         onPressed: () {}, // push to undated tasks
+        iconSize: 36,
       ));
 
     if (_currentIndex == 2) {
@@ -135,11 +139,13 @@ class _MainPageState extends State<MainPage> {
         icon: Icon(Icons.note_outlined),
         onPressed: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => EnlistmentPage())),
+        iconSize: 36,
       ));
 
       actions.add(IconButton(
         icon: Icon(CupertinoIcons.delete),
         onPressed: _onDeleteSchedules,
+        iconSize: 36,
       ));
     }
 
@@ -167,6 +173,7 @@ class _MainPageState extends State<MainPage> {
           builder: (context) => IconButton(
             icon: Icon(Icons.menu_rounded),
             onPressed: () => Scaffold.of(context).openDrawer(),
+            iconSize: 36,
           ),
         ),
         actions: _getAppBarActions(),

@@ -55,8 +55,6 @@ class NotificationCenter extends ChangeNotifier {
   static String getReadableDate(Notif notif) {
     Duration diff = DateTime.now().difference(notif.date);
 
-    print(diff);
-
     if (diff < Duration(minutes: 1))
       return 'Now';
     else if (diff < Duration(hours: 1))
@@ -68,6 +66,15 @@ class NotificationCenter extends ChangeNotifier {
   }
 
   List<Notif> get notifs => _notifs;
+
+  int getNumUnread() {
+    int count = 0;
+    for (Notif n in _notifs) {
+      if (!n.isRead) count++;
+    }
+
+    return count;
+  }
 
   void addNotification(Notif notif) {
     _notifs.add(notif);

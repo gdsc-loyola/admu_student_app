@@ -71,7 +71,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    if (_timer != null) _timer.cancel();
     super.dispose();
   }
 

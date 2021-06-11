@@ -166,7 +166,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                 // preview sched
                 CustomButton(
                   ButtonSize.short,
-                  'Add to Schedule',
+                  'Preview Schedule',
                   AppColors.SECONDARY_MAIN,
                   AppColors.SECONDARY_MAIN,
                   () {},
