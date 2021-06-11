@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/user_cache.dart';
+import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/widgets/schedule/schedule_timetable.dart';
 import 'package:admu_student_app/widgets/help_button.dart';
 
@@ -11,37 +14,56 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
-  int _yearNum = 1;
-  int _semNum = 2;
+  @override
+  void initState() {
+    super.initState();
+
+    if (UserCache.schedule) {
+      UserCache.schedule = false;
+      UserCache.save();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) => _showHowTo());
+    }
+  }
+
+  void _showHowTo() async {
+    await HelpModal.showHelp(
+      context,
+      title: 'Class Schedule',
+      strings: [
+        '1',
+        '2',
+        '3',
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> scheds =
-        Provider.of<ClassSchedule>(context).getSchedules();
+    Map<String, int> latestSched =
+        Provider.of<ClassSchedule>(context).getLatestScheduleDetails();
 
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+      padding: EdgeInsets.fromLTRB(16, 40, 16, 32),
       child: Column(
         children: [
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: scheds.length,
-            itemBuilder: (_, index) {
-              return InkWell(
-                onTap: () {
-                  setState(() {
-                    _yearNum = scheds[index]['yearNum'];
-                    _semNum = scheds[index]['semNum'];
-                  });
-                },
-                child: Text(scheds[index]['scheduleName']),
-              );
-            },
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  'Class Schedule',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      .copyWith(color: AppColors.GRAY_DARK[0]),
+                ),
+              ),
+              HelpButton(onTap: _showHowTo),
+            ],
           ),
-          Expanded(
-            child: ScheduleTimetable(yearNum: _yearNum, semNum: _semNum),
-          ),
+          SizedBox(height: 24),
+          Expanded(child: ScheduleTimetable(latestSched)),
         ],
       ),
     );

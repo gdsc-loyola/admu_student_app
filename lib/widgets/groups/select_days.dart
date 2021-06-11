@@ -4,10 +4,11 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class SelectDaysGroup extends StatefulWidget {
+  final String label;
   final List<bool> selected;
   final Function(List<bool>) onChange;
 
-  SelectDaysGroup({this.selected, this.onChange});
+  SelectDaysGroup({this.label = 'Date', this.selected, this.onChange});
 
   @override
   _SelectDaysGroupState createState() => _SelectDaysGroupState();
@@ -40,7 +41,7 @@ class _SelectDaysGroupState extends State<SelectDaysGroup> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Date',
+          widget.label,
           style: Theme.of(context)
               .textTheme
               .bodyText1

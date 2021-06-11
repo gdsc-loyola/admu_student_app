@@ -28,7 +28,7 @@ class AddQPIPage extends StatefulWidget {
   final int selected;
 
   AddQPIPage({
-    this.yearNum = 1,
+    this.yearNum,
     this.semNum = 1,
     this.year,
     this.semester,
@@ -43,6 +43,8 @@ class AddQPIPage extends StatefulWidget {
 }
 
 class _AddQPIPageState extends State<AddQPIPage> {
+  bool _shouldPop = false;
+
   TextEditingController _yearCtrl = TextEditingController();
   TextEditingController _qpiCtrl = TextEditingController();
   TextEditingController _unitsCtrl = TextEditingController();
@@ -107,6 +109,8 @@ class _AddQPIPageState extends State<AddQPIPage> {
         qpiController: _qpiCtrl,
         selected: _semNum,
         onValueChange: _onSemChange,
+        color: _courseColor,
+        onColorChange: _onColorChange,
       ),
       CourseAddQPI(
         yearController: _yearCtrl,
@@ -122,6 +126,16 @@ class _AddQPIPageState extends State<AddQPIPage> {
     ];
 
     selected = widget.selected > 2 ? 0 : widget.selected;
+  }
+
+  @override
+  void dispose() {
+    _yearCtrl.dispose();
+    _qpiCtrl.dispose();
+    _unitsCtrl.dispose();
+    _codeCtrl.dispose();
+
+    super.dispose();
   }
 
   void _onColorChange(Color color) {
@@ -142,7 +156,21 @@ class _AddQPIPageState extends State<AddQPIPage> {
     });
   }
 
-  void _onSave() async {
+  Future<bool> _onBack() async {
+    if (_shouldPop) return true;
+
+    bool willPop = false;
+
+    await AlertModal.showAlert(context,
+        header: 'Discard changes?', acceptText: 'Discard', onAccept: () {
+      Navigator.of(context).pop();
+      willPop = true;
+    });
+
+    return willPop;
+  }
+
+  void _onSave() {
     // no error handling
     int yearNum = int.parse(_yearCtrl.text);
     int units = int.parse(_unitsCtrl.text);
@@ -222,6 +250,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
       }
     }
 
+    _shouldPop = true;
     Navigator.of(context).pop();
   }
 
@@ -252,15 +281,21 @@ class _AddQPIPageState extends State<AddQPIPage> {
       CustomSnackBar.showSnackBar(context, 'Class QPI deleted!');
     }
 
+    _shouldPop = true;
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Scaffold scaffold = Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        elevation: 0,
         automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.close_rounded),
+          onPressed: _onBack,
+        ),
         actions: [
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
@@ -269,20 +304,15 @@ class _AddQPIPageState extends State<AddQPIPage> {
               child: Text('Done',
                   style: Theme.of(context)
                       .textTheme
-                      .headline6
+                      .bodyText1
                       .copyWith(color: AppColors.GRAY_LIGHT[2])),
             ),
           ),
         ],
-        title: IconButton(
-          icon: Icon(Icons.close_rounded),
-          onPressed: () => Navigator.pop(context),
-        ),
-        elevation: 0,
       ),
       backgroundColor: AppColors.PRIMARY_MAIN,
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 48.0), // bot 96
+        padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 32.0), // bot 96
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -311,19 +341,26 @@ class _AddQPIPageState extends State<AddQPIPage> {
               });
             }, selected, widget.isEditing),
             SizedBox(height: 24),
-            screens[selected],
-            SizedBox(height: 56),
-            widget.isEditing
-                ? LongButton(
-                    'Delete',
-                    AppColors.SECONDARY_MAIN,
-                    AppColors.GRAY_LIGHT[2],
-                    _onDelete,
-                  )
-                : Container(),
+
+            screens[selected], // tab, replace with pageview?
+
+            SizedBox(height: 48), // padding
+            if (widget.isEditing)
+              CustomButton(
+                ButtonSize.medium,
+                'Delete ${titles[selected]} QPI',
+                AppColors.SECONDARY_MAIN,
+                AppColors.GRAY_LIGHT[2],
+                _onDelete,
+              ),
           ],
         ),
       ),
+    );
+
+    return WillPopScope(
+      onWillPop: _onBack,
+      child: scaffold,
     );
   }
 }

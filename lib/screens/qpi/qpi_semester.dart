@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,10 +32,10 @@ class _SemesterPageState extends State<SemesterPage> {
     super.initState();
   }
 
-  void _onDelete(BuildContext context, List<Course> courses) async {
+  void _onDelete(BuildContext context, List<Course> courses) {
     for (int i = _cSelected.length - 1; i >= 0; i--) {
       if (_cSelected[i]) {
-        await Provider.of<AcademicRecords>(context, listen: false)
+        Provider.of<AcademicRecords>(context, listen: false)
             .deleteCourse(widget.yearNum, widget.semNum, courses[i].courseCode);
       }
     }
@@ -74,9 +75,10 @@ class _SemesterPageState extends State<SemesterPage> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16.0, 48.0, 24.0, 16.0),
+        padding: EdgeInsets.fromLTRB(16.0, 40.0, 24.0, 32.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // semester text
             Text(
@@ -88,11 +90,13 @@ class _SemesterPageState extends State<SemesterPage> {
                   .copyWith(color: AppColors.GRAY_DARK[0]),
             ),
             SizedBox(height: 24.0),
+
             // semester qpi
             QPIView(
                 value: Provider.of<AcademicRecords>(context, listen: false)
                     .getSemestralQPI(widget.yearNum, widget.semNum)),
             SizedBox(height: 48.0),
+
             // classes, select, and add course
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,7 +109,7 @@ class _SemesterPageState extends State<SemesterPage> {
                       .copyWith(color: AppColors.GRAY_DARK[0]),
                 ),
                 Spacer(),
-                GestureDetector(
+                InkWell(
                   onTap: () {
                     setState(() {
                       _isEditing = !_isEditing;
@@ -149,6 +153,7 @@ class _SemesterPageState extends State<SemesterPage> {
               ],
             ),
             SizedBox(height: 24),
+
             // courses
             ListView.builder(
               shrinkWrap: true,
@@ -173,18 +178,22 @@ class _SemesterPageState extends State<SemesterPage> {
                     }),
               ),
             ),
-            _isEditing
-                ? Text(
-                    _selected > 0
-                        ? '$_selected Class Selected'
-                        : 'Select Classes',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: _selected > 0
-                            ? AppColors.SECONDARY_MAIN
-                            : AppColors.GRAY_DARK[1]),
-                  )
-                : Container(), // todo
+
+            // editing text
+            if (_isEditing)
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  _selected > 0
+                      ? '$_selected Class Selected'
+                      : 'Select Classes',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      color: _selected > 0
+                          ? AppColors.SECONDARY_MAIN
+                          : AppColors.GRAY_DARK[1]),
+                ),
+              ),
           ],
         ),
       ),
@@ -192,10 +201,11 @@ class _SemesterPageState extends State<SemesterPage> {
           ? FloatingActionButton(
               onPressed: () => _onDelete(context, courses),
               child: Icon(
-                Icons.delete_outline_rounded,
+                CupertinoIcons.delete, // incorrect icon
                 size: 36,
                 color: AppColors.GRAY_LIGHT[2],
               ),
+              backgroundColor: AppColors.SECONDARY_MAIN,
             )
           : Container(),
     );

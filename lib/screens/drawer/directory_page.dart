@@ -15,7 +15,7 @@ class DirectoryPage extends StatefulWidget {
 class _DirectoryPageState extends State<DirectoryPage> {
   bool _isSearching = false;
 
-  TextEditingController searchCtrl = TextEditingController();
+  TextEditingController _searchCtrl = TextEditingController();
 
   int _selected = 0;
 
@@ -30,7 +30,12 @@ class _DirectoryPageState extends State<DirectoryPage> {
       WidgetsBinding.instance.addPostFrameCallback((_) => _showHowTo());
     }
 
-    searchCtrl.addListener(_updateList);
+    _searchCtrl.addListener(_updateList);
+  }
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
   }
 
   void _showHowTo() async {
@@ -47,8 +52,10 @@ class _DirectoryPageState extends State<DirectoryPage> {
 
   void _updateList() {
     setState(() {
-      if (searchCtrl.text.isNotEmpty) _isSearching = true;
-      else _isSearching = false;
+      if (_searchCtrl.text.isNotEmpty)
+        _isSearching = true;
+      else
+        _isSearching = false;
     });
   }
 
@@ -100,7 +107,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> data;
     if (_isSearching)
-      data = LSDirectory.getFiltered(searchCtrl.text);
+      data = LSDirectory.getFiltered(_searchCtrl.text);
     else
       data = LSDirectory.getFiltered('');
 
@@ -148,31 +155,34 @@ class _DirectoryPageState extends State<DirectoryPage> {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                     height: 48, // ?
-                    child: Center(child:TextField(
-                      controller: searchCtrl,
-                      keyboardType: TextInputType.multiline,
-                      onTap: () {
-                        setState(() {
-                          if (!_isSearching) _selected = 0;
-                          _isSearching = true;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        // prefixIcon: Icon(Icons.search),
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                        hintText: 'Search',
-                        hintStyle: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            .copyWith(color: AppColors.GRAY_DARK[2]),
-                        counterText: "", // Disables maxLength showing in Field
+                    child: Center(
+                      child: TextField(
+                        controller: _searchCtrl,
+                        keyboardType: TextInputType.multiline,
+                        onTap: () {
+                          setState(() {
+                            if (!_isSearching) _selected = 0;
+                            _isSearching = true;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          // prefixIcon: Icon(Icons.search),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                          hintText: 'Search',
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: AppColors.GRAY_DARK[2]),
+                          counterText:
+                              "", // Disables maxLength showing in Field
+                        ),
                       ),
-                    ),),
+                    ),
                   ),
                 ),
 
@@ -184,7 +194,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                           setState(() {
                             _isSearching = false;
                             _selected = 0;
-                            searchCtrl.text = '';
+                            _searchCtrl.text = '';
                           });
                         },
                         child: Text(
@@ -213,12 +223,16 @@ class _DirectoryPageState extends State<DirectoryPage> {
                     itemBuilder: (_, index) {
                       List<Widget> emails = [];
 
-                      Map<String, dynamic> officeData = data[_selected - 1]['offices'][index].cast<String, dynamic>();
-                      List<String> rawEmails = officeData['emails'].cast<String>();
+                      Map<String, dynamic> officeData = data[_selected - 1]
+                              ['offices'][index]
+                          .cast<String, dynamic>();
+                      List<String> rawEmails =
+                          officeData['emails'].cast<String>();
 
                       for (String e in rawEmails)
                         emails.add(
-                          Text('Email: $e',
+                          Text(
+                            'Email: $e',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1

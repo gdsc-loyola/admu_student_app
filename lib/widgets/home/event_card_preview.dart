@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 class HomeEventCard extends StatefulWidget {
@@ -43,12 +46,15 @@ class _HomeEventCardState extends State<HomeEventCard> {
           children: [
             Padding(
               child: CircularCheckMark(
-                  isDone: _isDone,
-                  onTap: () {
-                    setState(() {
-                      _isDone = !_isDone;
-                    });
-                  }),
+                isDone: _isDone,
+                onTap: () {
+                  Provider.of<CalendarEvents>(context, listen: false)
+                      .setEventDone(widget.event, !widget.event.isDone);
+                  setState(() {
+                    _isDone = !_isDone;
+                  });
+                },
+              ),
               padding: EdgeInsets.only(right: 12.0), // original 13
             ),
             Expanded(
@@ -82,7 +88,12 @@ class _HomeEventCardState extends State<HomeEventCard> {
 
     return InkWell(
       onTap: () {
-        print('on tap prv');
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => AddTaskPage(
+            event: widget.event,
+            isEditing: true,
+          ),
+        ));
       },
       child: card,
     );

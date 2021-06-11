@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:web_scraper/web_scraper.dart';
+// import 'package:http/http.dart' as http;
+// import 'package:web_scraper/web_scraper.dart';
 
 import 'package:admu_student_app/models/central_database.dart';
 import 'package:admu_student_app/models/event.dart';
@@ -29,14 +29,14 @@ class CalendarEvents extends ChangeNotifier {
     Event(
       name: 'Share secret code',
       agenda: 'Code code code',
-      start: DateTime.now().add(Duration(days: 1)),
-      end: DateTime.now(),
+      start: DateTime.now(),
+      end: DateTime.now().add(Duration(days: 1)),
     ),
     Event(
       name: 'Write INTACT journal',
       tags: 'INTACT, Acads',
-      start: DateTime.now().add(Duration(days: 3)),
-      end: DateTime.now(),
+      start: DateTime.now(),
+      end: DateTime.now().add(Duration(days: 3)),
     ),
   ];
   List<Event> _events = [];
@@ -47,14 +47,16 @@ class CalendarEvents extends ChangeNotifier {
     List<Event> filtered = [];
 
     for (Event e in _events) {
-      if (e.start == null) continue;
-      if (e.start.year == date.year && e.start.month == date.month)
+      if (e.start != null &&
+          e.start.year == date.year &&
+          e.start.month == date.month)
         filtered.add(e);
+      else if (e.end != null &&
+          e.end.year == date.year &&
+          e.end.month == date.month) filtered.add(e);
     }
 
-    // might be better to use database query
-
-    filtered.sort((a, b) => a.start.day.compareTo(b.start.day));
+    filtered.sort((a, b) => a.compareTo(b));
     return filtered;
   }
 
@@ -62,15 +64,32 @@ class CalendarEvents extends ChangeNotifier {
     List<Event> filtered = [];
 
     for (Event e in _events) {
-      if (e.start == null) continue;
-      if (e.start.year == date.year &&
+      if (e.start != null &&
+          e.start.year == date.year &&
           e.start.month == date.month &&
-          e.start.day == date.day) filtered.add(e);
+          e.start.day == date.day)
+        filtered.add(e);
+      else if (e.end != null &&
+          e.end.year == date.year &&
+          e.end.month == date.month &&
+          e.end.day == date.day) filtered.add(e);
     }
 
-    // might be better to use database query
+    filtered.sort((a, b) => a.compareTo(b));
+    return filtered;
+  }
 
-    filtered.sort((a, b) => a.start.hour.compareTo(b.start.day));
+  List<Event> getUndatedEvents() {
+    List<Event> filtered = [];
+
+    for (Event e in _events) {
+      if (e.start == null && e.end == null)
+        filtered.add(e);
+      else if (e.start != null && e.start.year == 0)
+        filtered.add(e);
+      else if (e.end != null && e.end.year == 0) filtered.add(e);
+    }
+
     return filtered;
   }
 
@@ -235,7 +254,7 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
     _updateList();
   }
 
-  void editEvent(int id, Event event, String name, String agenda, String tags,
+  void editEvent(Event event, String name, String agenda, String tags,
       DateTime start, DateTime end, bool isDone) async {
     // edit from database
     // key ID
@@ -265,7 +284,7 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
     int updated = await (await CentralDatabaseHelper.instance.database).update(
       CentralDatabaseHelper.tableName_events,
       {
-        CentralDatabaseHelper.id: id,
+        CentralDatabaseHelper.id: event.id,
         CentralDatabaseHelper.year: start == null ? null : start.year,
         CentralDatabaseHelper.month: start == null ? null : start.month,
         CentralDatabaseHelper.day: start == null ? null : start.day,
@@ -281,7 +300,7 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
         CentralDatabaseHelper.isDone: isDone ? 1 : 0,
       },
       where: '${CentralDatabaseHelper.id} = ?',
-      whereArgs: [id],
+      whereArgs: [event.id],
     );
 
     print('edited $updated event(s)');
@@ -289,7 +308,7 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
     _updateList();
   }
 
-  void deleteEvent(int id, Event e) async {
+  void deleteEvent(Event e) async {
     // delete from database
     // key ID
 
@@ -303,7 +322,7 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
     int deleted = await (await CentralDatabaseHelper.instance.database).delete(
       CentralDatabaseHelper.tableName_events,
       where: '${CentralDatabaseHelper.id} = ?',
-      whereArgs: [id],
+      whereArgs: [e.id],
     );
 
     print('deleted $deleted event(s)');
@@ -315,15 +334,40 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
     // edit from database
 
     if (kIsWeb) {
-      for (Event e in _events) {
-        if (e == event) {
-          e.isDone = isDone;
+      event.isDone = isDone;
 
-          _updateList();
-          return;
-        }
-      }
+      _updateList();
+      return;
     }
+
+    int updated = await (await CentralDatabaseHelper.instance.database).update(
+      CentralDatabaseHelper.tableName_events,
+      {
+        CentralDatabaseHelper.id: event.id,
+        CentralDatabaseHelper.year:
+            event.start == null ? null : event.start.year,
+        CentralDatabaseHelper.month:
+            event.start == null ? null : event.start.month,
+        CentralDatabaseHelper.day: event.start == null ? null : event.start.day,
+        CentralDatabaseHelper.yearEnd:
+            event.end == null ? null : event.end.year,
+        CentralDatabaseHelper.monthEnd:
+            event.end == null ? null : event.end.month,
+        CentralDatabaseHelper.dayEnd: event.end == null ? null : event.end.day,
+        CentralDatabaseHelper.name: event.name,
+        CentralDatabaseHelper.agenda: event.agenda,
+        CentralDatabaseHelper.tags: event.tags,
+        CentralDatabaseHelper.start:
+            event.start == null ? '' : event.start.toIso8601String(),
+        CentralDatabaseHelper.end:
+            event.end == null ? '' : event.end.toIso8601String(),
+        CentralDatabaseHelper.isDone: event.isDone ? 0 : 1,
+      },
+      where: '${CentralDatabaseHelper.id} = ?',
+      whereArgs: [event.id],
+    );
+
+    print('updated $updated in events');
   }
 
   void _updateList() async {

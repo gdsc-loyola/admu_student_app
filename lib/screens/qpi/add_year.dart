@@ -20,22 +20,23 @@ class YearAddQPI extends StatelessWidget {
         children: [
           Row(
             children: [
-              // Text Field at the Left
+              // year
               Expanded(
                 child: InputGroup(
-                  'Year Level',
+                  'Year Level*',
                   yearController,
                   hint: '1',
                   length: 1,
                 ),
               ),
               SizedBox(width: 20),
-              // Text at the Right
+
+              // units
               Expanded(
                 child: InputGroup(
-                  'Yearly QPI',
-                  qpiController,
-                  hint: '4.0',
+                  'Units*',
+                  unitsController,
+                  hint: '3',
                 ),
               ),
             ],
@@ -43,14 +44,17 @@ class YearAddQPI extends StatelessWidget {
           SizedBox(height: 16),
           Row(
             children: [
+              // qpi
               Expanded(
                 child: InputGroup(
-                  'Units',
-                  unitsController,
-                  hint: '3',
+                  'Yearly QPI*',
+                  qpiController,
+                  hint: '4.00',
                 ),
               ),
               SizedBox(width: 20),
+
+              // empty
               Expanded(child: Container()),
             ],
           ),

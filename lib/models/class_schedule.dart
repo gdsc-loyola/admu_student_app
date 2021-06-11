@@ -41,14 +41,20 @@ class ClassSchedule extends ChangeNotifier {
         1400, 0, ''),
     Subject('ENLIT 12', '', 1, 2, 4, AppColors.ACCENTS[3].value, 101010, 1400,
         1500, 0, ''),
-    Subject('CSCI 152', '', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1400,
-        1500, 0, ''),
+    Subject('CSCI 152', 'A', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1400,
+        1500, 1, 'Prof A'),
+    Subject('CSCI 152', 'B', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1500,
+        1600, 1, 'Prof B'),
+    Subject('CSCI 152', 'C', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1600,
+        1700, 1, 'Prof C'),
+    Subject('PHYED', 'A', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1400,
+        1500, 1, 'Prof A'),
+    Subject('PHYED', 'B', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1500,
+        1600, 1, 'Prof B'),
+    Subject('PHYED', 'C', 2, 0, 0, AppColors.ACCENTS[0].value, 101010, 1600,
+        1700, 1, 'Prof C'),
   ];
   List<Subject> _subjects = [];
-
-  List<String> getScheduleNames() {
-    return [];
-  }
 
   List<Map<String, dynamic>> getSchedules() {
     // schedule name
@@ -91,6 +97,8 @@ class ClassSchedule extends ChangeNotifier {
     int end = 00;
 
     for (Subject s in _subjects) {
+      if (s.inEnlistment) continue;
+
       if (s.yearNum == yearNum && s.semNum == semNum) {
         if (s.qtrNum == 0 || s.qtrNum == qtrNum) {
           // check schedule
@@ -116,6 +124,67 @@ class ClassSchedule extends ChangeNotifier {
       'end': end == 0 ? 17 : end, // ceil
       'subjects': data,
     };
+  }
+
+  Map<String, int> getLatestScheduleDetails() {
+    int yr = 0;
+    int sem = 0;
+    int qtr = 0;
+
+    for (Subject s in _subjects) {
+      if (s.inEnlistment) continue;
+
+      if (s.yearNum < yr) continue;
+
+      if (s.yearNum == yr && s.semNum > sem) sem = s.semNum;
+      if (s.yearNum > yr) {
+        yr = s.yearNum;
+        sem = s.semNum;
+      }
+    }
+
+    return {
+      'yearNum': yr,
+      'semNum': sem,
+      'q': qtr,
+    };
+  }
+
+  void deleteSchedules() async {
+    print('todo');
+  }
+
+  List<Map<String, dynamic>> getEnlistmentSubjects() {
+    List<Map<String, dynamic>> grouped = [];
+
+    List<Subject> raw = [];
+
+    for (Subject s in _subjects) {
+      if (s.inEnlistment) raw.add(s);
+    }
+
+    raw.sort((a, b) => a.code.toLowerCase().compareTo(b.code.toLowerCase()));
+
+    // code, subjects
+    raw.forEach((sub) {
+      bool hasGroup = false;
+      for (Map m in grouped) {
+        if (m['code'].toLowerCase() == sub.code.toLowerCase()) {
+          hasGroup = true;
+          m['subjects'].add(sub);
+          break;
+        }
+      }
+
+      if (!hasGroup) {
+        grouped.add({
+          'code': sub.code,
+          'subjects': [sub],
+        });
+      }
+    });
+
+    return grouped;
   }
 
   ClassSchedule() {

@@ -29,6 +29,8 @@ class AddClassPage extends StatefulWidget {
 }
 
 class _AddClassPageState extends State<AddClassPage> {
+  bool _shouldPop = false;
+
   TextEditingController _codeCtrl = TextEditingController();
   TextEditingController _sectionCtrl = TextEditingController();
   TextEditingController _yearCtrl = TextEditingController();
@@ -48,7 +50,7 @@ class _AddClassPageState extends State<AddClassPage> {
 
     if (widget.subject != null) {
       _codeCtrl.text = widget.subject.code;
-      // _sectionCtrl.text = widget.subject.code;
+      _sectionCtrl.text = widget.subject.section;
       _yearCtrl.text = '${widget.subject.yearNum}';
       _profCtrl.text = '${widget.subject.profName}';
 
@@ -67,6 +69,16 @@ class _AddClassPageState extends State<AddClassPage> {
 
       _color = widget.subject.color;
     }
+  }
+
+  @override
+  void dispose() {
+    _codeCtrl.dispose();
+    _sectionCtrl.dispose();
+    _yearCtrl.dispose();
+    _profCtrl.dispose();
+
+    super.dispose();
   }
 
   void _onSemesterChange(int val) {
@@ -97,6 +109,24 @@ class _AddClassPageState extends State<AddClassPage> {
     setState(() {
       _color = c;
     });
+  }
+
+  Future<bool> _onBack() async {
+    if (_shouldPop) return true;
+
+    bool willPop = false;
+
+    await AlertModal.showAlert(
+      context,
+      header: 'Discard changes?',
+      acceptText: 'Discard',
+      onAccept: () {
+        Navigator.of(context).pop();
+        willPop = true;
+      },
+    );
+
+    return willPop;
   }
 
   void _onSave() {
@@ -135,6 +165,7 @@ class _AddClassPageState extends State<AddClassPage> {
       CustomSnackBar.showSnackBar(context, 'Class added!');
     }
 
+    _shouldPop = true;
     Navigator.of(context).pop();
   }
 
@@ -148,6 +179,7 @@ class _AddClassPageState extends State<AddClassPage> {
 
         CustomSnackBar.showSnackBar(context, 'Class deleted!');
 
+        _shouldPop = true;
         Navigator.of(context).pop();
       },
     );
@@ -155,34 +187,30 @@ class _AddClassPageState extends State<AddClassPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Scaffold scaffold = Scaffold(
       backgroundColor: AppColors.PRIMARY_MAIN,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-                icon: Icon(Icons.close_rounded),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
-            TextButton(
-              onPressed: _onSave,
-              child: Text(
-                'Done',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    .copyWith(color: Colors.white),
-              ),
-            )
-          ],
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.close_rounded),
+          onPressed: _onBack,
         ),
+        actions: [
+          TextButton(
+            onPressed: _onSave,
+            child: Text(
+              'Done',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16, 48, 16, 48),
+        padding: EdgeInsets.fromLTRB(16, 32, 16, 32),
         child: Column(
           children: [
             // header
@@ -200,11 +228,13 @@ class _AddClassPageState extends State<AddClassPage> {
             // course code and section
             Row(
               children: [
-                // Text Field at the Left
-                Expanded(child: InputGroup('Course Code', _codeCtrl)),
-                SizedBox(width: 20),
-                // Text at the Right
-                Expanded(child: InputGroup('Section', _sectionCtrl)),
+                // course code
+                Expanded(child: InputGroup('Course Code*', _codeCtrl)),
+                if (widget.inEnlistment) SizedBox(width: 20),
+
+                // section
+                if (widget.inEnlistment)
+                  Expanded(child: InputGroup('Section*', _sectionCtrl)),
               ],
             ),
             SizedBox(height: 24),
@@ -212,12 +242,14 @@ class _AddClassPageState extends State<AddClassPage> {
             // year level and sem
             Row(
               children: [
-                // Text Field at the Left
-                Expanded(child: InputGroup('Year Level', _yearCtrl)),
+                // year
+                Expanded(child: InputGroup('Year Level*', _yearCtrl, length: 1,)),
                 SizedBox(width: 20),
-                // Text at the Right
+
+                // sem
                 Expanded(
                   child: SelectSemesterGroup(
+                    label: 'Semester*',
                     selected: _semNum,
                     onValueChange: _onSemesterChange,
                   ),
@@ -227,28 +259,38 @@ class _AddClassPageState extends State<AddClassPage> {
             SizedBox(height: 24),
 
             // select color
-            SelectColor(color: _color, onColorChange: _onColorChange),
+            SelectColor(
+              label: 'Color Code*',
+              color: _color,
+              onColorChange: _onColorChange,
+            ),
             SizedBox(height: 24),
 
             // days
-            SelectDaysGroup(selected: _days, onChange: _onDaysChange),
+            SelectDaysGroup(
+              label: 'Date*',
+              selected: _days,
+              onChange: _onDaysChange,
+            ),
             SizedBox(height: 24),
 
             // start and end time
             Row(
               children: [
-                // Row for Time Selectors
+                // start
                 Expanded(
                   child: SelectTimeGroup(
-                    'Start',
+                    'Start*',
                     time: _timeStart,
                     onTimeChange: _onStartTimeChange,
                   ),
                 ),
                 SizedBox(width: 20),
+
+                // end
                 Expanded(
                   child: SelectTimeGroup(
-                    'End',
+                    'End*',
                     time: _timeEnd,
                     onTimeChange: _onEndTimeChange,
                   ),
@@ -256,25 +298,29 @@ class _AddClassPageState extends State<AddClassPage> {
               ],
             ),
 
+            if (widget.inEnlistment) SizedBox(height: 24),
             // professor in enlistment
-            widget.inEnlistment
-                ? Expanded(
-                    child: InputGroup('Name of Professor', _profCtrl),
-                  )
-                : SizedBox(),
+            if (widget.inEnlistment)
+              InputGroup('Name of Professor', _profCtrl),
 
+            SizedBox(height: 48),
             // delete button
-            widget.isEditing
-                ? LongButton(
-                    'Delete Class',
-                    AppColors.SECONDARY_MAIN,
-                    AppColors.GRAY_LIGHT[2],
-                    _onDelete,
-                  )
-                : SizedBox()
+            if (widget.isEditing)
+              CustomButton(
+                ButtonSize.medium,
+                'Delete Class',
+                AppColors.SECONDARY_MAIN,
+                AppColors.GRAY_LIGHT[2],
+                _onDelete,
+              ),
           ],
         ),
       ),
+    );
+
+    return WillPopScope(
+      onWillPop: _onBack,
+      child: scaffold,
     );
   }
 }

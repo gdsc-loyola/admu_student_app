@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
+import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 class EventCard extends StatefulWidget {
@@ -43,16 +46,22 @@ class _EventCardState extends State<EventCard> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // check mark
             Padding(
               child: CircularCheckMark(
-                  isDone: _isDone,
-                  onTap: () {
-                    setState(() {
-                      _isDone = !_isDone;
-                    });
-                  }),
+                isDone: _isDone,
+                onTap: () {
+                  Provider.of<CalendarEvents>(context, listen: false)
+                      .setEventDone(widget.event, !widget.event.isDone);
+                  setState(() {
+                    _isDone = !_isDone;
+                  });
+                },
+              ),
               padding: EdgeInsets.only(right: 20.0),
             ),
+
+            // column
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,12 +122,50 @@ class _EventCardState extends State<EventCard> {
                             ),
                           ],
                         ),
+                  // tags
+                  /*(widget.event.tags == null || widget.event.tags.isEmpty)
+                      ? Container()
+                      : ListView(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 24.0),
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color:
+                                    AppColors.SECONDARY_LIGHT.withOpacity(0.5),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4.0)),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  widget.event.tags,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.SECONDARY_MAIN),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),*/
                 ],
               ),
             ),
+
+            // time
             Padding(
               padding: EdgeInsets.only(left: 16.0),
-              child: Column(
+              child: Text(
+                widget.event.getReadableTime(),
+                style: _timeStyle,
+                textAlign: TextAlign.center,
+              ),
+              /*child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:
@@ -135,7 +182,7 @@ class _EventCardState extends State<EventCard> {
                               style: _timeStyle,
                             ),
                           ],
-              ),
+              ),*/
             ),
           ],
         ),
@@ -144,7 +191,12 @@ class _EventCardState extends State<EventCard> {
 
     return InkWell(
       onTap: () {
-        print('on tap');
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => AddTaskPage(
+            event: widget.event,
+            isEditing: true,
+          ),
+        ));
       },
       child: card,
     );

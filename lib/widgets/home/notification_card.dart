@@ -42,8 +42,8 @@ class NotificationCard extends StatelessWidget {
               color: AppColors.SECONDARY_MAIN,
               borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
-            height: 4,
-            width: 32,
+            height: 32,
+            width: 4,
           ),
           SizedBox(width: 10),
 

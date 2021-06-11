@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/widgets/groups/input_group.dart';
+import 'package:admu_student_app/widgets/groups/select_color.dart';
 import 'package:admu_student_app/widgets/groups/select_semester.dart';
 
 class SemesterAddQPI extends StatelessWidget {
@@ -11,12 +12,17 @@ class SemesterAddQPI extends StatelessWidget {
   final int selected;
   final Function(int) onValueChange;
 
+  final Color color;
+  final Function(Color) onColorChange;
+
   SemesterAddQPI({
     @required this.yearController,
     @required this.qpiController,
     @required this.unitsController,
     this.selected,
     this.onValueChange,
+    this.color,
+    this.onColorChange,
   });
 
   @override
@@ -28,30 +34,33 @@ class SemesterAddQPI extends StatelessWidget {
           // Row for Text Fields
           Row(
             children: [
-              // Text Field at the Left
+              // year
               Expanded(
                 child: InputGroup(
-                  'Year Level',
+                  'Year Level*',
                   yearController,
                   hint: '1',
                   length: 1,
                 ),
               ),
               SizedBox(width: 20),
-              // Text at the Right
+
+              // sem
               Expanded(
-                child: InputGroup(
-                  'Semestral QPI',
-                  qpiController,
-                  hint: '4.0',
+                child: SelectSemesterGroup(
+                  label: 'Semester*',
+                  selected: selected,
+                  onValueChange: onValueChange,
                 ),
               ),
             ],
           ),
           SizedBox(height: 16),
+
           // 2nd row of widgets
           Row(
             children: [
+              // units
               Expanded(
                 child: InputGroup(
                   'Units',
@@ -60,13 +69,24 @@ class SemesterAddQPI extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 20),
+
+              // qpi
               Expanded(
-                child: SelectSemesterGroup(
-                  selected: selected,
-                  onValueChange: onValueChange,
+                child: InputGroup(
+                  'Semestral QPI',
+                  qpiController,
+                  hint: '4.00',
                 ),
               ),
             ],
+          ),
+          SizedBox(height: 16),
+
+          // color
+          SelectColor(
+            label: 'Color Code*',
+            color: color,
+            onColorChange: onColorChange,
           ),
         ],
       ),

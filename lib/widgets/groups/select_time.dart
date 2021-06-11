@@ -99,107 +99,45 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
         // buttons
         InkWell(
           onTap: () => _onTap(context),
-          child: Row(
-            children: [
-              // time
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.GRAY_LIGHT[2],
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                  ),
-                  height: 56,
-                  child: Center(
-                    child: Text(
-                      _time == null
-                          ? '12:00'
-                          : '${_time.hour > 12 ? (_time.hour - 12) : (_time.hour == 0 ? 12 : _time.hour)}:${_time.minute.toString().padLeft(2, '0')}',
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: _time == null
-                              ? AppColors.GRAY_DARK[2]
-                              : AppColors.GRAY_DARK[0]),
-                    ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.GRAY_LIGHT[2],
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+            height: 56,
+            padding: EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    _time == null
+                        ? '0:00 AM / PM'
+                        : '${_time.hour > 12 ? (_time.hour - 12) : (_time.hour == 0 ? 12 : _time.hour)}:${_time.minute.toString().padLeft(2, '0')} ${_time.hour > 12 ? 'PM' : 'AM'}',
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: _time == null
+                            ? AppColors.GRAY_DARK[2]
+                            : AppColors.GRAY_DARK[0]),
                   ),
                 ),
-              ),
-              SizedBox(width: 4), // width?
-              // AM PM
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.GRAY_LIGHT[2],
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                ),
-                width: 100,
-                height: 56,
-                padding: EdgeInsets.all(4), // original 3,3,3,5
-                child: Row(
-                  children: [
-                    // AM
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        color: AppColors.GRAY_LIGHT[2],
-                        boxShadow: _time == null || (_time.hour >= 12)
-                            ? []
-                            : [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.12),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 3),
-                                ),
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.04),
-                                  blurRadius: 1,
-                                  offset: Offset(0, 3),
-                                ),
-                              ],
-                      ),
-                      width: 46,
-                      child: Center(
-                        child: Text(
-                          'AM',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: _time == null || (_time.hour >= 12)
-                                  ? AppColors.GRAY_DARK[2]
-                                  : AppColors.GRAY_DARK[0]),
-                        ),
-                      ),
+
+                // clear
+                if (_time != null)
+                  InkWell(
+                    child: Icon(
+                      CupertinoIcons.clear_circled_solid,
+                      color: AppColors.GRAY_LIGHT[0],
+                      size: 26,
                     ),
-                    // PM
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        color: AppColors.GRAY_LIGHT[2],
-                        boxShadow: _time == null || (_time.hour >= 12)
-                            ? [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.12),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 3),
-                                ),
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.04),
-                                  blurRadius: 1,
-                                  offset: Offset(0, 3),
-                                ),
-                              ]
-                            : [],
-                      ),
-                      width: 46,
-                      child: Center(
-                        child: Text(
-                          'PM',
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: _time == null || (_time.hour >= 12)
-                                  ? AppColors.GRAY_DARK[0]
-                                  : AppColors.GRAY_DARK[2]),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                    onTap: () {
+                      setState(() {
+                        _time = null;
+                        if (widget.onTimeChange != null)
+                          widget.onTimeChange(_time);
+                      });
+                    },
+                  ),
+              ],
+            ),
           ),
         ),
       ],

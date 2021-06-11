@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:admu_student_app/widgets/enlistment/enlistment_class.dart';
-import 'package:admu_student_app/widgets/qpi/course_widget.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/models/user_cache.dart';
+import 'package:admu_student_app/widgets/enlistment/enlistment_class.dart';
+import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/screens/add_class.dart';
+import 'package:admu_student_app/widgets/buttons.dart';
+import 'package:admu_student_app/widgets/help_button.dart';
 
 class EnlistmentPage extends StatefulWidget {
   @override
@@ -11,146 +17,154 @@ class EnlistmentPage extends StatefulWidget {
 }
 
 class _EnlistmentPageState extends State<EnlistmentPage> {
+  bool _isSelecting = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (UserCache.enlistment) {
+      UserCache.enlistment = false;
+      UserCache.save();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) => _showHowTo());
+    }
+  }
+
+  void _showHowTo() async {
+    await HelpModal.showHelp(
+      context,
+      title: 'Enlistment',
+      strings: [
+        '1',
+        '2',
+        '3',
+      ],
+    );
+  }
+
+  void _onSelect(Subject s) {
+    print(s.code);
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> groupedSubjs =
+        Provider.of<ClassSchedule>(context).getEnlistmentSubjects();
+
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        padding: EdgeInsets.fromLTRB(16, 48, 16, 29),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_rounded),
+          color: AppColors.GRAY_LIGHT[2],
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add_rounded),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => AddClassPage(
+                  isEditing: true,
+                  inEnlistment: true,
+                ),
+              ));
+            },
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(16, 40, 16, 32), // 32?
         child: Column(
           children: [
+            // header
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Enlistment Preparer',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .copyWith(color: AppColors.GRAY_DARK[0])),
-                CircleAvatar(
-                  radius: 13.5,
-                  backgroundColor: AppColors.PRIMARY_MAIN,
-                  child: Center(
-                    child: Text(
-                      '?',
+                Expanded(
+                  child: Text('Enlistment Preparer',
                       style: Theme.of(context)
                           .textTheme
-                          .headline5
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                )
+                          .headline4
+                          .copyWith(color: AppColors.GRAY_DARK[0])),
+                ),
+                HelpButton(onTap: _showHowTo),
               ],
             ),
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 35, 0, 24),
-              child: Row(
-                children: [
-                  Text(
+            SizedBox(height: 24), // ?
+            // header 2
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
                     'Classes',
                     style: Theme.of(context)
                         .textTheme
                         .headline4
-                        .copyWith(color: AppColors.GRAY_DARK[0]),
+                        .copyWith(color: AppColors.PRIMARY_MAIN),
                   ),
-                  Spacer(),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: AppColors.PRIMARY_LIGHT.withOpacity(0.2),
-                        borderRadius: BorderRadius.all(Radius.circular(100))),
-                    child: InkWell(
-                      onTap: () {},
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                      child: Ink(
-                        child: Container(
-                          height: 24,
-                          width: 72,
-                          child: Center(
-                            child: Text(
-                              'Select',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4
-                                  .copyWith(
-                                      fontSize: 14,
-                                      color: AppColors.PRIMARY_MAIN),
-                            ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.PRIMARY_LIGHT.withOpacity(0.2),
+                      borderRadius: BorderRadius.all(Radius.circular(100))),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        _isSelecting = !_isSelecting;
+                      });
+                    },
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    child: Ink(
+                      child: Container(
+                        height: 24,
+                        width: 72,
+                        child: Center(
+                          child: Text(
+                            _isSelecting ? 'Cancel' : 'Select',
+                            style: Theme.of(context).textTheme.caption.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.PRIMARY_MAIN),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child:
-                          IconButton(icon: Icon(Icons.add), onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => AddClassPage(isEditing: true, inEnlistment: true,)));
-                    }))
-                ],
-              ),
-            ),
-            // Container for scrollable portion of the screen
-            Container(
-              height: MediaQuery.of(context).size.height/2.5,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 50,
-                      width: 50,
-                      color: Colors.red,
-                    ),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      color: Colors.blue,
-                    ),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      color: Colors.red,
-                    ),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      color: Colors.blue,
-                    ),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      color: Colors.red,
-                    ),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      color: Colors.blue,
-                    )
-                  ],
                 ),
-              ),
+              ],
             ),
-            Spacer(),
-            Container(
-              height: 64,
-              width: 224,
-              decoration: BoxDecoration(
-                  color: AppColors.SECONDARY_MAIN.withOpacity(0.5),
-                  borderRadius: BorderRadius.all(Radius.circular(4))),
-              child: TextButton(
-                onPressed: () {
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(builder: (_) => EnlistmentClassesPage()),
-                  // );
-                },
-                child: Text(
-                  'Create Schedule',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: Colors.white, fontSize: 20),
-                ),
-              ),
+
+            // list of subjs
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: groupedSubjs.length,
+              itemBuilder: (_, index) {
+                Widget card = EnlistmentClassCard(
+                  code: groupedSubjs[index]['code'],
+                  subjects: groupedSubjs[index]['subjects'],
+                  isSelecting: _isSelecting,
+                  onSelect: (i) =>
+                      _onSelect(groupedSubjs[index]['subjects'][i]),
+                );
+
+                return Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: card,
+                );
+              },
+            ),
+            SizedBox(height: 48),
+
+            // create schedule
+            CustomButton(
+              ButtonSize.medium,
+              'Create Schedule',
+              AppColors.SECONDARY_MAIN,
+              AppColors.GRAY_LIGHT[2],
+              () {},
             ),
           ],
         ),
