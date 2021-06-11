@@ -138,12 +138,18 @@ class LoginPage extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (_) => UserCache.onboarding
-                                        ? OnboardingPage()
-                                        : MainPage()),
-                              );
+                              if (UserCache.onboarding) {
+                                UserCache.onboarding = false;
+                                UserCache.save();
+
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (_) => OnboardingPage()),
+                                );
+                              } else
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (_) => MainPage()),
+                                );
                             },
                             child: Text(
                               'Continue as Guest',

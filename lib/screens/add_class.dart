@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_utils.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
 import 'package:admu_student_app/widgets/groups/input_group.dart';
@@ -129,8 +130,28 @@ class _AddClassPageState extends State<AddClassPage> {
     return willPop;
   }
 
-  void _onSave() {
+  void _onSave() async {
+    if (_yearCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+    if (!AppUtils.isPositiveInteger(_yearCtrl.text))
+      return await AlertModal.showDecimalOrNegativeError(context);
     int yearNum = int.parse(_yearCtrl.text);
+
+    if (_codeCtrl.text.isEmpty ||
+        _color == null ||
+        _timeStart == null ||
+        _timeEnd == null) return await AlertModal.showIncompleteError(context);
+
+    if (widget.inEnlistment && _sectionCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+
+    int counter = 0;
+    for (bool b in _days) counter += b ? 1 : 0;
+    if (counter == 0)
+      return await AlertModal.showIncompleteError(context);
+
+    if (!AppUtils.timeIsBefore(_timeStart, _timeEnd))
+      return await AlertModal.showInverseTimeError(context);
 
     if (widget.isEditing) {
       Provider.of<ClassSchedule>(context, listen: false).editSubject(
@@ -143,7 +164,7 @@ class _AddClassPageState extends State<AddClassPage> {
         _days,
         _timeStart,
         _timeEnd,
-        false, // in enlistment
+        widget.inEnlistment, // in enlistment
         _profCtrl.text,
       );
 
@@ -158,7 +179,7 @@ class _AddClassPageState extends State<AddClassPage> {
         _days,
         _timeStart,
         _timeEnd,
-        false, // in enlistment
+        widget.inEnlistment, // in enlistment
         _profCtrl.text,
       );
 

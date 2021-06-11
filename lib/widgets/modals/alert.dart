@@ -77,6 +77,13 @@ class AlertModal {
       header: 'Incomplete Input',
     );
   }
+
+  static Future<void> showInverseTimeError(BuildContext context) async {
+    await showError(
+      context,
+      'your start time is earlier than your end time.',
+    );
+  }
 }
 
 class _AlertModal extends StatelessWidget {

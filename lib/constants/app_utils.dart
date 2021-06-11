@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AppUtils {
   static bool isNumeric(String s) {
     if (s == null) return false;
@@ -28,6 +30,20 @@ class AppUtils {
     int val = int.tryParse(s);
 
     if (val != null && val > 0)
+      return true;
+    else
+      return false;
+  }
+
+  static bool timeIsBefore(TimeOfDay a, TimeOfDay b) {
+    if (a.hour * 100 + a.minute < b.hour * 100 + b.minute)
+      return true;
+    else
+      return false;
+  }
+
+  static bool timeIsBeforeOrAfter(TimeOfDay a, TimeOfDay b) {
+    if (a.hour * 100 + a.minute <= b.hour * 100 + b.minute)
       return true;
     else
       return false;

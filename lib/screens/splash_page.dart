@@ -6,6 +6,7 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/screens/login_page.dart';
 import 'package:admu_student_app/screens/main_app.dart';
+import 'package:admu_student_app/screens/onboarding_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -30,11 +31,26 @@ class StartState extends State<SplashPage> {
   }
 
   route() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ));
+    if (UserCache.login) {
+      UserCache.login = false;
+      UserCache.save();
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ));
+    } else if (UserCache.onboarding) {
+      UserCache.onboarding = false;
+      UserCache.save();
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => OnboardingPage()),
+      );
+    } else
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => MainPage()),
+      );
   }
 
   initScreen(BuildContext context) {

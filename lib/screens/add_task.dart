@@ -1,3 +1,4 @@
+import 'package:admu_student_app/constants/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -105,9 +106,22 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return willPop;
   }
 
-  void _onSave() {
+  void _onSave() async {
     DateTime fStart = _checkDateTime(_startDate, _startTime);
-    DateTime fEnd = _checkDateTime(_endDate, _endTime);
+    DateTime fEnd = _checkDateTime(_endDate, _endTime, true);
+
+    if (_eventCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+
+    if (fStart != null && fEnd != null) {
+      if ((fStart.year == 0 && fEnd.year != 0) ||
+          (fStart.year != 0 && fEnd.year == 0))
+        return await AlertModal.showError(
+            context, 'your start and end times are both correct.');
+
+      if (fStart.isAfter(fEnd))
+        return await AlertModal.showInverseTimeError(context);
+    }
 
     if (widget.isEditing) {
       Provider.of<CalendarEvents>(context, listen: false).editEvent(
@@ -156,14 +170,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
     Navigator.of(context).pop();
   }
 
-  DateTime _checkDateTime(DateTime dt, TimeOfDay td) {
+  DateTime _checkDateTime(DateTime dt, TimeOfDay td,
+      [bool isEnd = false]) {
     if (dt != null && td != null)
       return DateTime(dt.year, dt.month, dt.day, td.hour, td.minute);
     else if (dt == null && td != null)
       return DateTime(0, 1, 1, td.hour, td.minute);
-    else if (dt != null && td == null)
-      return dt;
-    else
+    else if (dt != null && td == null) {
+      if (!isEnd) return DateTime(dt.year, dt.month, dt.day);
+      else return DateTime(dt.year, dt.month, dt.day, 23, 59);
+    } else
       return null;
   }
 
