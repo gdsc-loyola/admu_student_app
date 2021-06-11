@@ -54,10 +54,14 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> _getAppBarActions() {
     if (_currentIndex == 0) {
-      int numNotifs = 1;
+      int numNotifs = 0;
 
       if (numNotifs == 0)
-        return [];
+        return [IconButton(
+          icon: Icon(Icons.notifications),
+          onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => NotificationsPage())),
+        )];
       else
         return [];
     }
@@ -88,13 +92,6 @@ class _MainPageState extends State<MainPage> {
     );
 
     List<Widget> actions = [];
-
-    if (_currentIndex == 0)
-      actions.add(IconButton(
-        icon: Icon(Icons.notifications),
-        onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => NotificationsPage())),
-      });
 
     if (_currentIndex == 1)
       actions.add(IconButton(
@@ -141,6 +138,7 @@ class _MainPageState extends State<MainPage> {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
+        actions: _getAppBarActions(),
       ),
       body: _buildBody(),
       drawer: DrawerWidget(),
