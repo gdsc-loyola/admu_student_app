@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/notification_center.dart';
 import 'package:admu_student_app/models/notification.dart';
 
@@ -60,6 +61,7 @@ class NotificationCard extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: widgets,
     );
   }
@@ -70,23 +72,25 @@ class NotificationCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: notif.isRead ? AppColors.GRAY_LIGHT[2] : Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(8)),
+        boxShadow: [AppEffects.SHADOW],
       ),
       height: 135,
       child: Stack(
         children: [
           // unread indicator
-          Positioned(
-            top: 12,
-            right: 12,
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.SECONDARY_MAIN,
-                shape: BoxShape.circle,
+          if (!notif.isRead)
+            Positioned(
+              top: 12,
+              right: 12,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.SECONDARY_MAIN,
+                  shape: BoxShape.circle,
+                ),
+                height: 12,
+                width: 12,
               ),
-              height: 12,
-              width: 12,
             ),
-          ),
 
           // time
           Positioned(
@@ -116,6 +120,7 @@ class NotificationCard extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
+                      color: AppColors.PRIMARY_MAIN,
                     ),
                     width: 55,
                     height: 55,

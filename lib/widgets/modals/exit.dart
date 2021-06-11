@@ -4,39 +4,36 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
-class AlertModal {
-  static Future<void> showAlert(
+class ExitModal {
+  static Future<void> showExit(
     BuildContext context, {
-    IconData iconData = Icons.warning_rounded,
-    String header = 'Delete?',
-    String description = 'You will not be able to recover this.',
-    String acceptText = 'Delete',
+    IconData iconData = Icons.logout,
+    String header = 'Exit?',
+    String description = '',
+    String acceptText = 'Exit',
     String declineText = 'Nah, just kidding!',
     VoidCallback onAccept,
     VoidCallback onDecline,
-    bool showDecline = true,
   }) async {
     await showGeneralDialog(
-      context: context,
-      pageBuilder: (context, _, __) {
-        return Center(
-          child: _AlertModal(
-            iconData: iconData,
-            header: header,
-            description: description,
-            acceptText: acceptText,
-            declineText: declineText,
-            onAccept: onAccept,
-            onDecline: onDecline,
-            showDecline: showDecline,
-          ),
-        );
-      },
-    );
+        context: context,
+        pageBuilder: (contet, _, __) {
+          return Center(
+            child: _ExitModal(
+              iconData: iconData,
+              header: header,
+              description: description,
+              acceptText: acceptText,
+              declineText: declineText,
+              onAccept: onAccept,
+              onDecline: onDecline,
+            ),
+          );
+        });
   }
 }
 
-class _AlertModal extends StatelessWidget {
+class _ExitModal extends StatelessWidget {
   final IconData iconData;
 
   final String header;
@@ -47,9 +44,7 @@ class _AlertModal extends StatelessWidget {
   final VoidCallback onAccept;
   final VoidCallback onDecline;
 
-  final bool showDecline;
-
-  _AlertModal({
+  _ExitModal({
     this.iconData,
     this.header,
     this.description,
@@ -57,7 +52,6 @@ class _AlertModal extends StatelessWidget {
     this.declineText,
     this.onAccept,
     this.onDecline,
-    this.showDecline,
   });
 
   @override
@@ -67,23 +61,23 @@ class _AlertModal extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-      padding: EdgeInsets.fromLTRB(32, 56, 32, 56), // old hor: 16
+      padding: EdgeInsets.fromLTRB(32, 64, 32, 56), // old hor: 16
       margin: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // icon
-          Icon(iconData, color: AppColors.ERROR_MAIN, size: 64),
-          SizedBox(height: 8),
+          Icon(iconData, color: AppColors.ACCENTS[0], size: 64),
+          SizedBox(height: 16),
 
           // header
           Text(
             header,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline5.copyWith(
+            style: Theme.of(context).textTheme.headline4.copyWith(
                 color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 16),
 
           // text
           Text(
@@ -92,7 +86,7 @@ class _AlertModal extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyText1.copyWith(
                 color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 16),
 
           // accept
           CustomButton(
@@ -106,22 +100,20 @@ class _AlertModal extends StatelessWidget {
             },
             shadows: [AppEffects.SHADOW],
           ),
-
-          if (showDecline) SizedBox(height: 16),
+          SizedBox(height: 16),
 
           // reject
-          if (showDecline)
-            CustomButton(
-              ButtonSize.medium,
-              declineText,
-              AppColors.GRAY_DARK[1], // temporary?
-              AppColors.GRAY_DARK[1],
-              () {
-                if (onDecline != null) onDecline();
-                Navigator.of(context).pop();
-              },
-              outlined: true,
-            ),
+          CustomButton(
+            ButtonSize.medium,
+            declineText,
+            AppColors.GRAY_DARK[1], // temporary?
+            AppColors.GRAY_DARK[1],
+            () {
+              if (onDecline != null) onDecline();
+              Navigator.of(context).pop();
+            },
+            outlined: true,
+          ),
         ],
       ),
     );

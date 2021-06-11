@@ -10,7 +10,7 @@ class NotificationCenter extends ChangeNotifier {
       'Hi from Beadle! I\'m so glad to have you here. Hope you enjoy!',
       'Hello',
       DateTime.now(),
-      true,
+      false,
     ),
     Notif(
       2,
@@ -18,15 +18,15 @@ class NotificationCenter extends ChangeNotifier {
       'You missed this...',
       'Testing 1',
       DateTime.now().subtract(Duration(minutes: 25)),
-      true,
+      false,
     ),
     Notif(
       1,
       'Enlistment is near!',
       '',
-      '',
+      'Enlistment!',
       DateTime.now().subtract(Duration(hours: 5)),
-      false,
+      true,
     ),
     Notif(
       0,
@@ -34,7 +34,7 @@ class NotificationCenter extends ChangeNotifier {
       'Hi from Beadle! I\'m so glad to have you here. Hope you enjoy!',
       '',
       DateTime.now().subtract(Duration(days: 25)),
-      false,
+      true,
     ),
   ];
 
@@ -53,7 +53,9 @@ class NotificationCenter extends ChangeNotifier {
   }
 
   static String getReadableDate(Notif notif) {
-    Duration diff = notif.date.difference(DateTime.now());
+    Duration diff = DateTime.now().difference(notif.date);
+
+    print(diff);
 
     if (diff < Duration(minutes: 1))
       return 'Now';

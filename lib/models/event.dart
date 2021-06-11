@@ -57,7 +57,7 @@ class Event {
   }
 
   String getReadableStartTime() =>
-      (start.hour < 12 ? (start.hour == 0 ? 12 : start.hour) : start.hour - 12)
+      (start.hour <= 12 ? (start.hour == 0 ? 12 : start.hour) : start.hour - 12)
           .toString()
           .padLeft(2, '0') +
       ':' +
@@ -65,7 +65,7 @@ class Event {
       (start.hour < 12 ? ' AM' : ' PM');
 
   String getReadableEndTime() =>
-      (end.hour < 12 ? (end.hour == 0 ? 12 : end.hour) : end.hour - 12)
+      (end.hour <= 12 ? (end.hour == 0 ? 12 : end.hour) : end.hour - 12)
           .toString()
           .padLeft(2, '0') +
       ':' +

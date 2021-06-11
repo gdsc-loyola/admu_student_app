@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/notification_center.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/enlistment/enlistment_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
@@ -54,16 +55,46 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> _getAppBarActions() {
     if (_currentIndex == 0) {
-      int numNotifs = 0;
+      int numNotifs = Provider.of<NotificationCenter>(context).notifs.length;
+
+      IconButton bell = IconButton(
+        icon: Icon(Icons.notifications),
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => NotificationsPage())),
+      );
 
       if (numNotifs == 0)
-        return [IconButton(
-          icon: Icon(Icons.notifications),
-          onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => NotificationsPage())),
-        )];
+        return [bell];
       else
-        return [];
+        return [bell];
+        /*return [
+          Stack(
+            children: [
+              Positioned.fill(child: bell),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.ACCENTS[0],
+                  ),
+                  width: 18,
+                  height: 18,
+                  child: Center(
+                    child: Text(
+                      '$numNotifs',
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.GRAY_LIGHT[2],
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ];*/
     }
 
     VoidCallback onPressed = () {
@@ -101,7 +132,7 @@ class _MainPageState extends State<MainPage> {
 
     if (_currentIndex == 2) {
       actions.add(IconButton(
-        icon: Icon(Icons.ac_unit),
+        icon: Icon(Icons.note_outlined),
         onPressed: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => EnlistmentPage())),
       ));

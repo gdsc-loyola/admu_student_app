@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
 import 'package:admu_student_app/models/user_cache.dart';
@@ -159,13 +160,32 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
             SizedBox(height: 48),
 
             // create schedule
-            CustomButton(
-              ButtonSize.medium,
-              'Create Schedule',
-              AppColors.SECONDARY_MAIN,
-              AppColors.GRAY_LIGHT[2],
-              () {},
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // preview sched
+                CustomButton(
+                  ButtonSize.short,
+                  'Add to Schedule',
+                  AppColors.SECONDARY_MAIN,
+                  AppColors.SECONDARY_MAIN,
+                  () {},
+                  outlined: true,
+                ),
+                SizedBox(width: 16),
+
+                // add to sched
+                CustomButton(
+                  ButtonSize.short,
+                  'Add to Schedule',
+                  AppColors.SECONDARY_MAIN,
+                  AppColors.GRAY_LIGHT[2],
+                  () {},
+                  shadows: [AppEffects.SHADOW],
+                ),
+              ],
             ),
+
           ],
         ),
       ),
