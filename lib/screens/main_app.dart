@@ -6,6 +6,7 @@ import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/enlistment/enlistment_page.dart';
 import 'package:admu_student_app/screens/home/home_page.dart';
+import 'package:admu_student_app/screens/home/notifications_page.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
 import 'package:admu_student_app/screens/schedule/schedule_page.dart';
@@ -88,6 +89,13 @@ class _MainPageState extends State<MainPage> {
 
     List<Widget> actions = [];
 
+    if (_currentIndex == 0)
+      actions.add(IconButton(
+        icon: Icon(Icons.notifications),
+        onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => NotificationsPage())),
+      });
+
     if (_currentIndex == 1)
       actions.add(IconButton(
         icon: Icon(Icons.ac_unit),
@@ -133,7 +141,6 @@ class _MainPageState extends State<MainPage> {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        actions: _getAppBarActions(),
       ),
       body: _buildBody(),
       drawer: DrawerWidget(),
