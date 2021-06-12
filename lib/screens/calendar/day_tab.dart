@@ -94,14 +94,39 @@ class _DayTabState extends State<DayTab> {
         SizedBox(
           height: 36,
         ),
-        Center(
-          child: Text(
-            '${AppStrings.MONTHS[_date.month - 1]} ${_date.year}',
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .copyWith(color: AppColors.GRAY_DARK[0]),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+                icon: Icon(Icons.arrow_back_ios_outlined),
+                onPressed: () {
+                  setState(() {
+                    // minus date
+                    _date = DateTime(_date.year, _date.month - 1, 1);
+
+                    if (widget.onDateChange != null) widget.onDateChange(_date);
+                  });
+                }),
+            Center(
+              child: Text(
+                '${AppStrings.MONTHS[_date.month - 1]} ${_date.year}',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(color: AppColors.GRAY_DARK[0]),
+              ),
+            ),
+            IconButton(
+                icon: Icon(Icons.arrow_forward_ios_outlined),
+                onPressed: () {
+                  setState(() {
+                    // add date
+                    _date = DateTime(_date.year, _date.month + 1, 1);
+
+                    if (widget.onDateChange != null) widget.onDateChange(_date);
+                  });
+                })
+          ],
         ),
         SizedBox(height: 27),
         // testing
