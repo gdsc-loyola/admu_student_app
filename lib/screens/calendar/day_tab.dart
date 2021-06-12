@@ -46,9 +46,11 @@ class _DayTabState extends State<DayTab> {
       return '${AppStrings.DAYS[_date.weekday - 1]}, ${AppStrings.MONTHS[_date.month - 1]} ${_date.day}';
   }
   
+ // Tests
+
   dynamic _getDates() {
   // Take the input year, month number, and pass it inside DateTime()
-  var now = DateTime(2020, 7);
+  var now = DateTime.now();
   
   // Getting the total number of days of the month
   var totalDays = daysInMonth(now);
@@ -61,7 +63,7 @@ class _DayTabState extends State<DayTab> {
 
 dynamic _getNow() {
   var now = DateTime.now();
-  return now.day;
+  return now.day - 1;
 }
 
 // this returns the last date of the month using DateTime
@@ -97,37 +99,23 @@ int daysInMonth(DateTime date){
         // testing
         SizedBox(
           height:
-              112, // this should be the height of the time card (the purple box)
+              112, 
           child: PageView.builder(
               controller: _pageCtrl,
-              itemCount: _getDates().length, // example only
+              itemCount: _getDates().length, 
               itemBuilder: (_, index) {
                 return Container(
                   // replace with the time card
                   color: AppColors.PRIMARY_MAIN,
                   width: 72,
                   height: 112,
-                  // decoration:
-                  //     BoxDecoration(borderRadius: BorderRadius.circular(16)),
                   margin: EdgeInsets.symmetric(
-                      horizontal: 25), // space between two cards divided by two
-                  child: Center(child: Text('$index')),
+                      horizontal: 25), 
+                  child: Center(child: Text('${index + 1}')),
                 );
               }),
         ),
-        // Calendar Widget
-        // CalendarMonth(
-        //   date: _date,
-        //   onDateChange: (DateTime date) {
-        //     setState(() {
-        //       _date = date;
-        //     });
-
-        //     if (widget.onDateChange != null) widget.onDateChange(_date);
-        //   },
-        // ),
         SizedBox(height: 16),
-        // to get the string of the date (Ex. Tuesday, June 15)
         Text(
           _getDateString(),
           style: Theme.of(context)
@@ -136,7 +124,6 @@ int daysInMonth(DateTime date){
               .copyWith(color: AppColors.PRIMARY_ALT),
         ),
         SizedBox(height: 8),
-        // list of events
         ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
