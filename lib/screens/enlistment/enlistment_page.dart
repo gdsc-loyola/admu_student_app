@@ -7,7 +7,9 @@ import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/widgets/enlistment/enlistment_class.dart';
+import 'package:admu_student_app/widgets/modals/alert.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
+import 'package:admu_student_app/screens/enlistment/preview_schedule.dart';
 import 'package:admu_student_app/screens/add_class.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:admu_student_app/widgets/help_button.dart';
@@ -18,6 +20,8 @@ class EnlistmentPage extends StatefulWidget {
 }
 
 class _EnlistmentPageState extends State<EnlistmentPage> {
+  List<int> _subIndices;
+
   bool _isSelecting = false;
 
   @override
@@ -44,14 +48,84 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
     );
   }
 
-  void _onSelect(Subject s) {
-    print(s.code);
+  void _onSelect(int mainIndex, int subIndex) {
+    //Subject s) {
+
+    _subIndices[mainIndex] = subIndex;
+  }
+
+  void _onPreviewSchedule(List<Map<String, dynamic>> grouped) {
+    List<Subject> forSched = [];
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => PreviewSchedule(forSched)));
+  }
+
+  void _onAddSchedule(List<Map<String, dynamic>> grouped) async {
+    // show dialog
+    await AlertModal.showAlert(
+      context,
+      iconData: Icons.access_time_rounded,
+      iconColor: AppColors.SECONDARY_MAIN,
+      header: 'Add to your schedule?',
+      description: null,
+      acceptText: 'Confirm',
+      onAccept: () {
+        Provider.of<ClassSchedule>(context, listen: false)
+            .addEnlistmentSchedule(grouped, _subIndices);
+
+        // show dialog
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) {
+            return Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                ),
+                padding: EdgeInsets.fromLTRB(32, 32, 32, 88),
+                margin: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        icon: Icon(Icons.close_rounded),
+                        iconSize: 36,
+                        color: AppColors.GRAY_DARK[0],
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                    Icon(
+                      Icons.check_circle_outline_rounded,
+                      color: AppColors.SUCCESS_MAIN,
+                      size: 75,
+                    ),
+                    Text('Hooray! Added to your schedule.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(color: AppColors.GRAY_DARK[0])),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> groupedSubjs =
         Provider.of<ClassSchedule>(context).getEnlistmentSubjects();
+
+    if (_subIndices == null)
+      _subIndices = List.generate(groupedSubjs.length, (i) => -1);
 
     return Scaffold(
       appBar: AppBar(
@@ -149,7 +223,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                   subjects: groupedSubjs[index]['subjects'],
                   isSelecting: _isSelecting,
                   onSelect: (i) =>
-                      _onSelect(groupedSubjs[index]['subjects'][i]),
+                      _onSelect(index, groupedSubjs[index]['subjects'][i]),
                 );
 
                 return Padding(
@@ -170,7 +244,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                   'Preview Schedule',
                   AppColors.SECONDARY_MAIN,
                   AppColors.SECONDARY_MAIN,
-                  () {},
+                  () => _onPreviewSchedule(groupedSubjs),
                   outlined: true,
                 ),
                 SizedBox(width: 16),
@@ -181,12 +255,11 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
                   'Add to Schedule',
                   AppColors.SECONDARY_MAIN,
                   AppColors.GRAY_LIGHT[2],
-                  () {},
+                  () => _onAddSchedule(groupedSubjs),
                   shadows: [AppEffects.SHADOW],
                 ),
               ],
             ),
-
           ],
         ),
       ),

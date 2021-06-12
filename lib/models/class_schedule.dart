@@ -90,28 +90,44 @@ class ClassSchedule extends ChangeNotifier {
     return maps;
   }
 
-  Map<String, dynamic> getSubjects(int yearNum, int semNum, int qtrNum) {
+  Map<String, dynamic> getSubjects(int yearNum, int semNum, int qtrNum,
+      [List<Subject> subjs]) {
     List<List<Subject>> data = [[], [], [], [], [], []];
 
     int start = 24;
     int end = 00;
 
-    for (Subject s in _subjects) {
-      if (s.inEnlistment) continue;
+    if (subjs == null) {
+      for (Subject s in _subjects) {
+        if (s.inEnlistment) continue;
 
-      if (s.yearNum == yearNum && s.semNum == semNum) {
-        if (s.qtrNum == 0 || s.qtrNum == qtrNum) {
-          // check schedule
-          for (int i = 0; i < data.length; i++) {
-            if (s.days[i]) data[i].add(s); // add reference
+        if (s.yearNum == yearNum && s.semNum == semNum) {
+          if (s.qtrNum == 0 || s.qtrNum == qtrNum) {
+            // check schedule
+            for (int i = 0; i < data.length; i++) {
+              if (s.days[i]) data[i].add(s); // add reference
+            }
+
+            // if earlier than start
+            if (s.start < start * 100) start = (s.start / 100).floor();
+
+            // if later than end
+            if (s.end > end * 100) end = (s.end / 100).ceil();
           }
-
-          // if earlier than start
-          if (s.start < start * 100) start = (s.start / 100).floor();
-
-          // if later than end
-          if (s.end > end * 100) end = (s.end / 100).ceil();
         }
+      }
+    } else {
+      for (Subject s in subjs) {
+        // check schedule
+        for (int i = 0; i < data.length; i++) {
+          if (s.days[i]) data[i].add(s); // add reference
+        }
+
+        // if earlier than start
+        if (s.start < start * 100) start = (s.start / 100).floor();
+
+        // if later than end
+        if (s.end > end * 100) end = (s.end / 100).ceil();
       }
     }
 
@@ -151,7 +167,48 @@ class ClassSchedule extends ChangeNotifier {
   }
 
   void deleteSchedules() async {
-    print('todo');
+    if (kIsWeb) {
+      for (int i = _subjects.length - 1; i >= 0; i--) {
+        if (!_subjects[i].inEnlistment) _subjects.removeAt(i);
+      }
+
+      _updateList();
+      return;
+    }
+
+    int deleted = await (await CentralDatabaseHelper.instance.database).delete(
+      CentralDatabaseHelper.tableName_schedule,
+      where: '${CentralDatabaseHelper.inEnlistment} = ?',
+      whereArgs: [0],
+    );
+
+    print('deleted $deleted in entire sched');
+
+    _updateList();
+  }
+
+  Map<String, int> getEnlistmentScheduleDetails() {
+    int yr = 0;
+    int sem = 0;
+    int qtr = 0;
+
+    for (Subject s in _subjects) {
+      if (!s.inEnlistment) continue;
+
+      if (s.yearNum < yr) continue;
+
+      if (s.yearNum == yr && s.semNum > sem) sem = s.semNum;
+      if (s.yearNum > yr) {
+        yr = s.yearNum;
+        sem = s.semNum;
+      }
+    }
+
+    return {
+      'yearNum': yr,
+      'semNum': sem,
+      'q': qtr,
+    };
   }
 
   List<Map<String, dynamic>> getEnlistmentSubjects() {
@@ -178,6 +235,7 @@ class ClassSchedule extends ChangeNotifier {
 
       if (!hasGroup) {
         grouped.add({
+          'color': sub.color,
           'code': sub.code,
           'subjects': [sub],
         });
@@ -185,6 +243,21 @@ class ClassSchedule extends ChangeNotifier {
     });
 
     return grouped;
+  }
+
+  void addEnlistmentSchedule(
+    List<Map<String, dynamic>> grouped,
+    List<int> indices,
+  ) async {
+    if (kIsWeb) {
+      for (int i = 0; i < indices.length; i++) {
+        if (indices[i] == -1) continue;
+
+        grouped[i]['subjects'][indices[i]].inEnlistment = false;
+      }
+
+      // delete other
+    }
   }
 
   ClassSchedule() {

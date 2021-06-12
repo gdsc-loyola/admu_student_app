@@ -63,7 +63,7 @@ class _ExitModal extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           // icon
-          Icon(iconData, color: AppColors.ACCENTS[0], size: 64),
+          Icon(iconData, color: AppColors.PRIMARY_MAIN, size: 64),
           SizedBox(height: 16),
 
           // text

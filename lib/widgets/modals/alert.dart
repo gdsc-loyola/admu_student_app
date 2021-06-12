@@ -8,12 +8,14 @@ class AlertModal {
   static Future<void> showAlert(
     BuildContext context, {
     IconData iconData = Icons.warning_rounded,
+    Color iconColor = AppColors.ERROR_MAIN,
     String header = 'Delete?',
     String description = 'You will not be able to recover this.',
     String acceptText = 'Delete',
     String declineText = 'Nah, just kidding!',
     VoidCallback onAccept,
     VoidCallback onDecline,
+    Color acceptColor = AppColors.ERROR_MAIN,
     bool showDecline = true,
   }) async {
     await showGeneralDialog(
@@ -22,12 +24,14 @@ class AlertModal {
         return Center(
           child: _AlertModal(
             iconData: iconData,
+            iconColor: iconColor,
             header: header,
             description: description,
             acceptText: acceptText,
             declineText: declineText,
             onAccept: onAccept,
             onDecline: onDecline,
+            acceptColor: acceptColor,
             showDecline: showDecline,
           ),
         );
@@ -88,6 +92,7 @@ class AlertModal {
 
 class _AlertModal extends StatelessWidget {
   final IconData iconData;
+  final Color iconColor;
 
   final String header;
   final String description;
@@ -97,16 +102,20 @@ class _AlertModal extends StatelessWidget {
   final VoidCallback onAccept;
   final VoidCallback onDecline;
 
+  final Color acceptColor;
+
   final bool showDecline;
 
   _AlertModal({
     this.iconData,
+    this.iconColor,
     this.header,
     this.description,
     this.acceptText,
     this.declineText,
     this.onAccept,
     this.onDecline,
+    this.acceptColor,
     this.showDecline,
   });
 
@@ -117,13 +126,13 @@ class _AlertModal extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
-      padding: EdgeInsets.fromLTRB(32, 56, 32, 56), // old hor: 16
+      padding: EdgeInsets.fromLTRB(16, 56, 16, 56),
       margin: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // icon
-          Icon(iconData, color: AppColors.ERROR_MAIN, size: 64),
+          Icon(iconData, color: iconColor, size: 75),
           SizedBox(height: 8),
 
           // header
@@ -136,19 +145,21 @@ class _AlertModal extends StatelessWidget {
           SizedBox(height: 8),
 
           // text
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
-          ),
-          SizedBox(height: 40),
+          if (description != null || description.isNotEmpty)
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
+            ),
+          if (description != null || description.isNotEmpty)
+            SizedBox(height: 40),
 
           // accept
           CustomButton(
             ButtonSize.medium,
             acceptText,
-            AppColors.ERROR_MAIN,
+            acceptColor,
             AppColors.GRAY_LIGHT[2],
             () {
               if (onAccept != null) onAccept();

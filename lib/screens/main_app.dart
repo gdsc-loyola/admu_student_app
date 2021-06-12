@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/notification_center.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
@@ -54,6 +55,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   List<Widget> _getAppBarActions() {
+    // home
     if (_currentIndex == 0) {
       int numNotifs = Provider.of<NotificationCenter>(context).getNumUnread();
 
@@ -130,24 +132,65 @@ class _MainPageState extends State<MainPage> {
 
     List<Widget> actions = [];
 
-    if (_currentIndex == 1)
+    // cal
+    if (_currentIndex == 1) {
+      int numUndated =
+          Provider.of<CalendarEvents>(context).getUndatedEvents().length;
+
+      Widget icon;
+
+      if (numUndated == 0)
+        icon = Icon(Icons.inventory_2_outlined);
+      else
+        icon = Stack(
+          children: [
+            Center(child: Icon(Icons.inventory_2_outlined)),
+            Align(
+              alignment: Alignment.topRight,
+              child: SizedOverflowBox(
+                size: Size(14, 14),
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.ACCENTS[0],
+                  ),
+                  width: 18,
+                  height: 18,
+                  child: Center(
+                    child: Text(
+                      '$numUndated',
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.GRAY_LIGHT[2],
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+
       actions.add(IconButton(
-        icon: Icon(Icons.ac_unit),
+        icon: icon,
         onPressed: () {}, // push to undated tasks
         iconSize: 32,
       ));
+    }
 
+    // sched
     if (_currentIndex == 2) {
+      actions.add(IconButton(
+        icon: Icon(CupertinoIcons.delete),
+        onPressed: _onDeleteSchedules,
+        iconSize: 32,
+      ));
+
       actions.add(IconButton(
         icon: Icon(Icons.note_alt_outlined),
         onPressed: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => EnlistmentPage())),
-        iconSize: 32,
-      ));
-
-      actions.add(IconButton(
-        icon: Icon(CupertinoIcons.delete),
-        onPressed: _onDeleteSchedules,
         iconSize: 32,
       ));
     }

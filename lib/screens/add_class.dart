@@ -254,12 +254,24 @@ class _AddClassPageState extends State<AddClassPage> {
             Row(
               children: [
                 // course code
-                Expanded(child: InputGroup('Course Code*', _codeCtrl)),
+                Expanded(
+                  child: InputGroup(
+                    'Course Code*',
+                    _codeCtrl,
+                    hint: 'COURSE101',
+                  ),
+                ),
                 if (widget.inEnlistment) SizedBox(width: 20),
 
                 // section
                 if (widget.inEnlistment)
-                  Expanded(child: InputGroup('Section*', _sectionCtrl)),
+                  Expanded(
+                    child: InputGroup(
+                      'Section*',
+                      _sectionCtrl,
+                      hint: 'A',
+                    ),
+                  ),
               ],
             ),
             SizedBox(height: 24),
@@ -273,6 +285,7 @@ class _AddClassPageState extends State<AddClassPage> {
                   'Year Level*',
                   _yearCtrl,
                   length: 1,
+                  hint: '1',
                 )),
                 SizedBox(width: 20),
 

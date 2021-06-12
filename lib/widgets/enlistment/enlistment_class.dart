@@ -69,8 +69,10 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
       }
     }
 
-    if (counter == 6) return 'Daily';
-    else return str;
+    if (counter == 6)
+      return 'Daily';
+    else
+      return str;
   }
 
   void _handleTap() {
@@ -181,11 +183,14 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
                           // section
                           Container(
                             decoration: BoxDecoration(
-                              color: widget.subjects[index].color.withOpacity(0.25),
-                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                              color: widget.subjects[index].color
+                                  .withOpacity(0.25),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
                             ),
                             height: 24,
-                            padding: EdgeInsets.symmetric(horizontal: 16), // temp
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 16), // temp
                             child: Center(
                               child: Text(
                                   'Section ${widget.subjects[index].section}',
@@ -202,11 +207,14 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
                           // days
                           Container(
                             decoration: BoxDecoration(
-                              color: widget.subjects[index].color.withOpacity(0.25),
-                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                              color: widget.subjects[index].color
+                                  .withOpacity(0.25),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
                             ),
                             height: 24,
-                            padding: EdgeInsets.symmetric(horizontal: 16), // temp
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 16), // temp
                             child: Center(
                               child: Text(
                                   _getScheduleString(widget.subjects[index]),

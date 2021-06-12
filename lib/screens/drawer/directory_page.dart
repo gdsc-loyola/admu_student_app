@@ -107,11 +107,12 @@ class _DirectoryPageState extends State<DirectoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> data;
-    if (_isSearching)
+    List<Map<String, dynamic>> data =
+      LSDirectory.getFiltered(_searchCtrl.text, _isSearching);
+/*    if (_isSearching)
       data = LSDirectory.getFiltered(_searchCtrl.text);
     else
-      data = LSDirectory.getFiltered('');
+      data = LSDirectory.getFiltered('');*/
 
     if (_selected > data.length) _selected = 0;
 
@@ -120,7 +121,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.of(context).pop(), 
+          onPressed: () => Navigator.of(context).pop(),
           iconSize: 32,
         ),
       ),
@@ -215,7 +216,45 @@ class _DirectoryPageState extends State<DirectoryPage> {
             SizedBox(height: 16),
 
             // dropdown of groups
-            _buildGroupDropdown(data),
+            if (!_isSearching) _buildGroupDropdown(data),
+
+            if (_isSearching)
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (_, index) {
+                  List<Widget> emails = [];
+
+                  for (String e in data[index]['emails'].cast<String>())
+                    emails.add(
+                      Text(
+                        'Email: $e',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: AppColors.GRAY_DARK[0]),
+                      ),
+                    );
+
+                  return Container(
+                    margin: EdgeInsets.only(top: 24),
+                    child: CustomDropDown(
+                      title: Padding(
+                        padding: EdgeInsets.only(left: 16),
+                        child: Text('${data[index]['name']}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(color: AppColors.GRAY_DARK[0])),
+                      ),
+                      childrenPadding: EdgeInsets.fromLTRB(32, 16, 16, 16),
+                      expandedAlignment: Alignment.centerLeft,
+                      children: emails,
+                    ),
+                  );
+                },
+              ),
 
             // offices
             _selected != 0

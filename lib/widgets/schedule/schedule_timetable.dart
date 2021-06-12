@@ -10,7 +10,9 @@ import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 class ScheduleTimetable extends StatelessWidget {
   final Map<String, int> schedInfo;
 
-  ScheduleTimetable(this.schedInfo);
+  final List<Subject> subjects;
+
+  ScheduleTimetable(this.schedInfo, {this.subjects});
 
   final List<String> DAYS = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 
@@ -140,7 +142,10 @@ class ScheduleTimetable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> data = Provider.of<ClassSchedule>(context).getSubjects(
-        schedInfo['yearNum'], schedInfo['semNum'], schedInfo['qtrNum']);
+        schedInfo['yearNum'],
+        schedInfo['semNum'],
+        schedInfo['qtrNum'],
+        subjects);
 
     return Stack(
       children: [
