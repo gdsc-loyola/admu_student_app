@@ -1,3 +1,4 @@
+import 'package:admu_student_app/models/event.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/models/notification.dart';
@@ -8,33 +9,9 @@ class NotificationCenter extends ChangeNotifier {
       0,
       'Welcome, Atenean!',
       'Hi from Beadle! I\'m so glad to have you here. Hope you enjoy!',
-      'Hello',
+      '',
       DateTime.now(),
       false,
-    ),
-    Notif(
-      2,
-      '',
-      'You missed this...',
-      'Testing QWERTYQWERTYQWERTYQWERTYQWERTY',
-      DateTime.now().subtract(Duration(minutes: 25)),
-      false,
-    ),
-    Notif(
-      1,
-      'Enlistment is near!',
-      '',
-      'Enlistment!',
-      DateTime.now().subtract(Duration(hours: 5)),
-      true,
-    ),
-    Notif(
-      0,
-      'Welcome, Atenean!',
-      'Hi from Beadle! I\'m so glad to have you here. Hope you enjoy!',
-      '',
-      DateTime.now().subtract(Duration(days: 25)),
-      true,
     ),
   ];
 
@@ -82,6 +59,28 @@ class NotificationCenter extends ChangeNotifier {
     save();
 
     notifyListeners();
+  }
+
+  void addEnlistmentNotification() {
+    addNotification(Notif(
+      1,
+      '',
+      'Enlistment is coming! You may use our enlistment preparer in the side menu to get ready.',
+      '',
+      DateTime.now(),
+      false,
+    ));
+  }
+
+  void addUnfinishedNotification(Event e) {
+    addNotification(Notif(
+      2,
+      '',
+      'Oh no, you missed this task. You got this, buddy!',
+      e.name,
+      DateTime.now(),
+      false,
+    ));
   }
 
   void setReadAll() {

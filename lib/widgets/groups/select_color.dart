@@ -118,7 +118,7 @@ class _SelectColorState extends State<SelectColor> {
   @override
   Widget build(BuildContext context) {
     bool shouldShrink =
-        MediaQuery.of(context).size.width - 16 * 2 < 56 * 6 + 8 * 5;
+        MediaQuery.of(context).size.width - 16 * 2 < 56 * 5 + 8 * 4;
 
     Row row = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,18 +157,18 @@ class _SelectColorState extends State<SelectColor> {
           shrink: shouldShrink,
           onTap: () => _onSelect(context, 4),
         ),
-        SizedBox(width: 8),
-        _CustomIcon(
-          icon: Icon(
-            Icons.add_rounded,
-            color: AppColors.GRAY_LIGHT[0],
-            size: 36,
-          ),
-          isSelected: _selected == 5,
-          bgColor: _selected == 5 ? _color : AppColors.GRAY_LIGHT[2],
-          shrink: shouldShrink,
-          onTap: () => _onSelect(context, 5),
-        ),
+        // SizedBox(width: 8),
+        // _CustomIcon(
+        //   icon: Icon(
+        //     Icons.add_rounded,
+        //     color: AppColors.GRAY_LIGHT[0],
+        //     size: 36,
+        //   ),
+        //   isSelected: _selected == 5,
+        //   bgColor: _selected == 5 ? _color : AppColors.GRAY_LIGHT[2],
+        //   shrink: shouldShrink,
+        //   onTap: () => _onSelect(context, 5),
+        // ),
       ],
     );
 

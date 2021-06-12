@@ -12,6 +12,8 @@ class Event {
   bool isDone;
   bool inAcademicCalendar;
 
+  bool notified = false;
+
   Event({
     this.id,
     @required this.name,
@@ -21,6 +23,7 @@ class Event {
     this.end,
     this.isDone = false,
     this.inAcademicCalendar = false,
+    this.notified = false,
   });
 
   factory Event.fromMap(Map map) {
@@ -37,6 +40,7 @@ class Event {
           : null,
       isDone: map[CentralDatabaseHelper.isDone] == 1,
       inAcademicCalendar: map[CentralDatabaseHelper.inAcademicCalendar] == 1,
+      notified: map[CentralDatabaseHelper.notified] == 1,
     );
   }
 

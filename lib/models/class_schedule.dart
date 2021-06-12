@@ -300,9 +300,7 @@ class ClassSchedule extends ChangeNotifier {
   }
 
   ClassSchedule() {
-    if (kIsWeb) {
-      _subjects.addAll(_sampleData);
-    }
+    // if (kIsWeb) _subjects.addAll(_sampleData);
 
     _updateList();
   }

@@ -83,11 +83,11 @@ class SemesterAddQPI extends StatelessWidget {
           SizedBox(height: 16),
 
           // color
-          SelectColor(
-            label: 'Color Code*',
-            color: color,
-            onColorChange: onColorChange,
-          ),
+          // SelectColor(
+          //   label: 'Color Code*',
+          //   color: color,
+          //   onColorChange: onColorChange,
+          // ),
         ],
       ),
     );

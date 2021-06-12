@@ -23,14 +23,15 @@ void main() {
   ));
 
   // load - after runApp to avoid errors
-  LSDirectory.load();
-  UserCache.load();
 }
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    LSDirectory.load();
+    UserCache.load(context);
+
     MaterialApp app = MaterialApp(
       title: 'Beadle',
       debugShowCheckedModeBanner: false,
@@ -58,9 +59,9 @@ class App extends StatelessWidget {
           caption: GoogleFonts.dmSans(fontSize: 14.0),
         ),
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
-          backgroundColor: AppColors.PRIMARY_MAIN,
-          brightness: Brightness.dark,
-        ),
+              backgroundColor: AppColors.PRIMARY_MAIN,
+              brightness: Brightness.dark,
+            ),
         primaryColor: AppColors.PRIMARY_MAIN,
         primarySwatch: Colors.blue,
       ),

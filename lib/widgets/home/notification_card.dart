@@ -117,13 +117,29 @@ class NotificationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // icon
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.PRIMARY_MAIN,
-                    ),
-                    width: 55,
-                    height: 55,
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.PRIMARY_MAIN,
+                        ),
+                        width: 55,
+                        height: 55,
+                      ),
+                      if (notif.iconType == 1)
+                        Image.asset(
+                          'assets/icons/notification_window.png',
+                          width: 55,
+                          height: 55,
+                        ),
+                      if (notif.iconType == 2)
+                        Image.asset(
+                          'assets/icons/notification_note.png',
+                          width: 55,
+                          height: 55,
+                        ),
+                    ],
                   ),
                   SizedBox(width: 16),
 
