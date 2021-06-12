@@ -11,13 +11,15 @@ import 'package:admu_student_app/widgets/circular_check_mark.dart';
 const Duration _kExpand = Duration(milliseconds: 200);
 
 class EnlistmentClassCard extends StatefulWidget {
+  final Color color;
   final String code;
   final List<Subject> subjects;
   final bool isSelecting;
-  final Function(int) onSelect;
+  final Function(Subject) onSelect;
 
   const EnlistmentClassCard({
     Key key,
+    @required this.color,
     @required this.code,
     @required this.subjects,
     this.isSelecting = false,
@@ -110,7 +112,7 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
                 style: Theme.of(context)
                     .textTheme
                     .headline4
-                    .copyWith(color: AppColors.GRAY_DARK[0])),
+                    .copyWith(color: widget.color)),
           ),
           SizedBox(width: 8), // temporary padding
 
@@ -244,9 +246,7 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
 
               // edit
               IconButton(
-                icon: Icon(
-                  Icons.more_vert_rounded,
-                ),
+                icon: Icon(Icons.more_vert_rounded),
                 iconSize: 36,
                 color: AppColors.GRAY_LIGHT[0],
                 onPressed: () => Navigator.of(context).push(
@@ -270,10 +270,18 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
             children: [
               if (widget.isSelecting)
                 CircularCheckMark(
-                    isDone: false,
-                    onTap: () {
-                      if (widget.onSelect != null) widget.onSelect(index);
-                    }),
+                  isDone: widget.subjects[index].selectedInEnlistment,
+                  onTap: () {
+                    for (Subject s in widget.subjects)
+                      s.selectedInEnlistment = false;
+                    widget.subjects[index].selectedInEnlistment = true;
+
+                    if (widget.onSelect != null)
+                      widget.onSelect(widget.subjects[index]);
+
+                    setState(() {});
+                  },
+                ),
 
               // card
               Expanded(

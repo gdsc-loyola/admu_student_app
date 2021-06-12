@@ -145,14 +145,14 @@ class _AlertModal extends StatelessWidget {
           SizedBox(height: 8),
 
           // text
-          if (description != null || description.isNotEmpty)
+          if (description != null && description.isNotEmpty)
             Text(
               description,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1.copyWith(
                   color: AppColors.GRAY_DARK[0], fontWeight: FontWeight.w500),
             ),
-          if (description != null || description.isNotEmpty)
+          if (description != null && description.isNotEmpty)
             SizedBox(height: 40),
 
           // accept
@@ -162,8 +162,8 @@ class _AlertModal extends StatelessWidget {
             acceptColor,
             AppColors.GRAY_LIGHT[2],
             () {
-              if (onAccept != null) onAccept();
               Navigator.of(context).pop();
+              if (onAccept != null) onAccept();
             },
             shadows: [AppEffects.SHADOW],
           ),
@@ -178,8 +178,8 @@ class _AlertModal extends StatelessWidget {
               AppColors.GRAY_DARK[1], // temporary?
               AppColors.GRAY_DARK[1],
               () {
-                if (onDecline != null) onDecline();
                 Navigator.of(context).pop();
+                if (onDecline != null) onDecline();
               },
               outlined: true,
             ),

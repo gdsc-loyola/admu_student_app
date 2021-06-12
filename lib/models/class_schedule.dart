@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/central_database.dart';
 import 'package:admu_student_app/models/subject.dart';
+import 'package:sqflite/sqflite.dart';
 
 class ClassSchedule extends ChangeNotifier {
   final List<Subject> _sampleData = [
@@ -132,8 +133,13 @@ class ClassSchedule extends ChangeNotifier {
     }
 
     // sort each list by starting hour
-    for (int i = 0; i < data.length; i++)
+    for (int i = 0; i < data.length; i++) {
       data[i].sort((a, b) => a.start.compareTo(b.start));
+
+      for (int j = data[i].length - 1; j > 0; j--) {
+        if (data[i][j].start < data[i][j - 1].end) data[i].removeAt(j);
+      }
+    }
 
     return {
       'start': start == 24 ? 7 : start, // floor
@@ -245,19 +251,52 @@ class ClassSchedule extends ChangeNotifier {
     return grouped;
   }
 
-  void addEnlistmentSchedule(
-    List<Map<String, dynamic>> grouped,
-    List<int> indices,
-  ) async {
-    if (kIsWeb) {
-      for (int i = 0; i < indices.length; i++) {
-        if (indices[i] == -1) continue;
+  void addEnlistmentSchedule() async {
+    int updated = 0;
 
-        grouped[i]['subjects'][indices[i]].inEnlistment = false;
+    Database db;
+    if (!kIsWeb) db = await CentralDatabaseHelper.instance.database;
+
+    for (Subject s in _subjects) {
+      if (s.inEnlistment && s.selectedInEnlistment) {
+        if (kIsWeb)
+          s.inEnlistment = false;
+        else {
+          updated += await db.update(
+            CentralDatabaseHelper.tableName_schedule,
+            {CentralDatabaseHelper.inEnlistment: 0},
+            where:
+                '${CentralDatabaseHelper.inEnlistment} = ? AND ${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ? AND ${CentralDatabaseHelper.section} = ?',
+            whereArgs: [
+              1,
+              s.yearNum,
+              s.semNum,
+              s.code,
+              s.section,
+            ],
+          );
+        }
       }
-
-      // delete other
     }
+
+    int deleted = 0;
+
+    // delete other
+    if (kIsWeb) {
+      for (int i = _subjects.length - 1; i >= 0; i--) {
+        if (_subjects[i].inEnlistment) _subjects.removeAt(i);
+      }
+    } else {
+      deleted = await db.delete(
+        CentralDatabaseHelper.tableName_schedule,
+        where: '${CentralDatabaseHelper.inEnlistment} = ?',
+        whereArgs: [1],
+      );
+    }
+
+    print('updated $updated, deleted $deleted');
+
+    _updateList();
   }
 
   ClassSchedule() {
