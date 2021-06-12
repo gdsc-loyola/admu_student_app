@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:admu_student_app/constants/app_colors.dart';
 
+import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/user_cache.dart';
+import 'package:admu_student_app/screens/main_app.dart';
 import 'package:admu_student_app/screens/onboarding_page.dart';
 
 class LoginPage extends StatelessWidget {
@@ -20,18 +22,21 @@ class LoginPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage('onboarding.png'),
+                      backgroundImage: AssetImage('assets/onboarding.png'),
                       radius: 100,
                     ),
                     Text(
                       'Welcome to Beadle!',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline4.copyWith(color: Colors.black),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(color: Colors.black),
                     ),
                     // Container for Buttons
                     Container(
                       height: 136,
-                      width: 264,
+                      // width: 264,
                       // Column for Buttons
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,8 +52,8 @@ class LoginPage extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Image(
-                                      image: AssetImage('google.png'),
+                                    Image.asset(
+                                      'assets/logo/google.png',
                                       width: 24,
                                       height: 24,
                                     ),
@@ -86,8 +91,8 @@ class LoginPage extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Image(
-                                      image: AssetImage('apple.png'),
+                                    Image.asset(
+                                      'assets/logo/apple.png',
                                       width: 24,
                                       height: 24,
                                     ),
@@ -118,29 +123,43 @@ class LoginPage extends StatelessWidget {
                     ),
                     // Container for Bottom Text
                     Container(
-                      width: 144,
-                      height: 52,
+                      // width: 144,
+                      // height: 52,
                       // Column for Bottom Text
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                          'No account?',
-                          style: Theme.of(context).textTheme.caption.copyWith(color: AppColors.GRAY_DARK[2]),
+                            'No account?',
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .copyWith(color: AppColors.GRAY_DARK[2]),
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) => OnboardingPage()),
-                              );
+                              if (UserCache.onboarding) {
+                                UserCache.onboarding = false;
+                                UserCache.save();
+
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (_) => OnboardingPage()),
+                                );
+                              } else
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (_) => MainPage()),
+                                );
                             },
                             child: Text(
                               'Continue as Guest',
-                              style: Theme.of(context).textTheme.bodyText1.copyWith(
-                                color: AppColors.PRIMARY_MAIN,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                    color: AppColors.PRIMARY_MAIN,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           ),
                         ],

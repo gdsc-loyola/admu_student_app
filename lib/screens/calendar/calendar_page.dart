@@ -1,48 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'package:admu_student_app/models/calendar_events.dart';
-import 'package:admu_student_app/models/event.dart';
-import 'package:admu_student_app/widgets/calendar/event_card.dart';
-import 'package:admu_student_app/widgets/calendar/event_card_small.dart';
+import 'package:admu_student_app/screens/calendar/month_tab.dart';
 
 class CalendarPage extends StatefulWidget {
+  final DateTime date;
+  final Function(DateTime) onDateChange;
+
+  CalendarPage({this.date, this.onDateChange});
+
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  DateTime _date;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.date != null)
+      _date = widget.date;
+    else
+      _date = DateTime.now();
+  }
+
+  void _onDateChange(DateTime date) {
+    setState(() {
+      _date = date;
+    });
+
+    if (widget.onDateChange != null) widget.onDateChange(date);
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Event> _events =
-        Provider.of<CalendarEvents>(context, listen: false).events;
-
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0),
+      padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       child: Column(
         children: [
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: _events.length,
-            itemBuilder: (_, index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 8.0),
-                child: SmallEventCard(event: _events[index]),
-              );
-            },
-          ),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: _events.length,
-            itemBuilder: (_, index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 8.0),
-                child: EventCard(event: _events[index]),
-              );
-            },
-          ),
+          MonthTab(date: _date, onDateChange: _onDateChange),
         ],
       ),
     );

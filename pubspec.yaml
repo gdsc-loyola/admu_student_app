@@ -22,13 +22,17 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
+  flutter_colorpicker: ^0.4.0
+  flutter_hsvcolor_picker: ^0.0.1
   google_fonts: ^2.0.0
+  http: ^0.13.3
+  intl: ^0.17.0
   introduction_screen: ^2.1.0
   path_provider: ^2.0.1
   provider: ^5.0.0
   sqflite: ^2.0.0
   unicons: ^2.0.1
-  intl: ^0.17.0
+  web_scraper: ^0.1.4
   
   flutter:
     sdk: flutter
@@ -54,6 +58,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/icons/
+    - assets/logo/
+    - assets/text/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -10,27 +10,27 @@ class AppColors {
   static const Color SECONDARY_LIGHT = Color(0xFFFFB8A6);
 
   static const List<Color> ERROR = [
-    Color(0xFFFF5A5A),
-    Color(0xFFFF7373),
-    Color(0xFFFF8C8C),
+    const Color(0xFFFF5A5A),
+    const Color(0xFFFF7373),
+    const Color(0xFFFF8C8C),
   ];
   static const Color ERROR_MAIN = Color(0xFFFF5A5A);
   static const Color ERROR_ALT = Color(0xFFFF7373);
   static const Color ERROR_LIGHT = Color(0xFFFF8C8C);
 
   static const List<Color> PENDING = [
-    Color(0xFFFFBD5A),
-    Color(0xFFFFCF73),
-    Color(0xFFFFD88C),
+    const Color(0xFFFFBD5A),
+    const Color(0xFFFFCF73),
+    const Color(0xFFFFD88C),
   ];
   static const Color PENDING_MAIN = Color(0xFFFFBD5A);
   static const Color PENDING_ALT = Color(0xFFFFCF73);
   static const Color PENDING_LIGHT = Color(0xFFFFD88C);
 
   static const List<Color> SUCCESS = [
-    Color(0xFF5BC2A7),
-    Color(0xFF71CFB7),
-    Color(0xFF8ED7C4),
+    const Color(0xFF5BC2A7),
+    const Color(0xFF71CFB7),
+    const Color(0xFF8ED7C4),
   ];
   static const Color SUCCESS_MAIN = Color(0xFF5BC2A7);
   static const Color SUCCESS_ALT = Color(0xFF71CFB7);
@@ -41,14 +41,23 @@ class AppColors {
   static const Color GRAY_TRANSPARENT20 = Color(0x33333333);
 
   static const List<Color> GRAY_LIGHT = [
-    Color(0xFFD3D3D9),
-    Color(0xFFE9E9EC),
-    Color(0xFFF8F8F9),
+    const Color(0xFFD3D3D9),
+    const Color(0xFFE9E9EC),
+    const Color(0xFFF8F8F9),
   ];
 
   static const List<Color> GRAY_DARK = [
-    Color(0xFF474747),
-    Color(0xFF7A7A7A),
-    Color(0xFF9E9E9E),
+    const Color(0xFF474747),
+    const Color(0xFF7A7A7A),
+    const Color(0xFF9E9E9E),
+  ];
+
+
+  static const List<Color> ACCENTS = [
+    const Color(0xFFFF8591),
+    const Color(0xFFFFB933),
+    const Color(0xFFA0E7D5),
+    const Color(0xFF86CCFF),
+    const Color(0xFFB99FFF),
   ];
 }

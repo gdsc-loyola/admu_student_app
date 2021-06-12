@@ -1,20 +1,34 @@
 import 'package:intl/intl.dart';
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+<<<<<<< HEAD
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/widgets/calendar/event_card_small.dart';
 import 'package:admu_student_app/widgets/home/empty_state.dart';
+=======
+import 'package:admu_student_app/constants/app_effects.dart';
+import 'package:admu_student_app/models/calendar_events.dart';
+import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/widgets/home/event_card_preview.dart';
+>>>>>>> develop
 import 'package:admu_student_app/widgets/home/pomodoro.dart';
 
 class HomePage extends StatefulWidget {
   final String today = DateFormat.yMMMMEEEEd('en_US').format(DateTime.now());
+<<<<<<< HEAD
   int tasks;
 
   HomePage({Key key, this.tasks = 1}) : super(key: key);
+=======
+
+>>>>>>> develop
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -22,6 +36,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     List<Event> _events =
     Provider.of<CalendarEvents>(context, listen: false).events;
 
@@ -30,43 +45,67 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.all(30.0),
           child: Row(
+=======
+    List<Event> events =
+        Provider.of<CalendarEvents>(context).getEventsByDay(DateTime.now());
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(16, 40, 16, 40),
+      child: Column(
+        children: [
+          // icon and name
+          Row(
+>>>>>>> develop
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Container(
-                  width: 80.0,
-                  height: 80.0,
-                  decoration: new BoxDecoration(
-                    color: AppColors.PRIMARY_LIGHT,
-                    shape: BoxShape.circle,
-                  ),
+              // icon
+              Container(
+                width: 80.0,
+                height: 80.0,
+                decoration: new BoxDecoration(
+                  color: AppColors.PRIMARY_LIGHT,
+                  shape: BoxShape.circle,
                 ),
               ),
-
+              SizedBox(width: 15), // 15?
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // name
                   Text(
                     'Hey, Lorem!',
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: AppColors.GRAY_DARK[0],
+                          fontWeight: FontWeight.w500,
+                        ),
                     textAlign: TextAlign.left,
                   ),
 
+                  // text
                   Text(
                     'Ready to start your day?',
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(color: AppColors.GRAY_DARK[1]),
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          color: AppColors.GRAY_DARK[1],
+                          fontWeight: FontWeight.w500,
+                        ),
                   ),
                 ],
               )
             ],
           ),
-        ),
+          SizedBox(height: 16),
 
-        Text(widget.today,
-        style: Theme.of(context).textTheme.headline5,
-        ),
+          // date
+          Text(
+            widget.today,
+            style: Theme.of(context).textTheme.headline5.copyWith(
+                  color: AppColors.GRAY_DARK[0],
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
+          SizedBox(height: 16),
 
+<<<<<<< HEAD
         //TASKS FOR TODAY
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -90,6 +129,37 @@ class _HomePageState extends State<HomePage> {
                         'For Today: ' + widget.tasks.toString(),
                         style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.PRIMARY_MAIN),
                       )
+=======
+          // tasks
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [AppEffects.SHADOW_FOR_WHITE],
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // text
+                  Text(
+                    'For today: ${events.length}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(color: AppColors.PRIMARY_MAIN),
+                  ),
+                  SizedBox(height: 16),
+
+                  // events
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: events.length,
+                      itemBuilder: (_, index) =>
+                          HomeEventCard(event: events[index]),
+>>>>>>> develop
                     ),
                     ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
@@ -119,13 +189,12 @@ class _HomePageState extends State<HomePage> {
             )
             ),
           ),
-        ),
+          SizedBox(height: 32),
 
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 26, 16, 0),
-          child: Pomodoro(),
-        ),
-      ],
+          // pomodoro button
+          Pomodoro(),
+        ],
+      ),
     );
   }
 }
