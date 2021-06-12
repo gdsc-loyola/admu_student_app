@@ -31,7 +31,7 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    MaterialApp app = MaterialApp(
       title: 'Beadle',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -62,9 +62,18 @@ class App extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         primaryColor: AppColors.PRIMARY_MAIN,
-        primarySwatch: Colors.blue,
+        primarySwatch: AppColors.SECONDARY_MAIN,
       ),
       home: SplashPage(),
+    );
+
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode focus = FocusScope.of(context);
+
+        if (!focus.hasPrimaryFocus) focus.unfocus();
+      },
+      child: app,
     );
   }
 }
