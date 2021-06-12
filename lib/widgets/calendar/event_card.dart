@@ -73,7 +73,7 @@ class _EventCardState extends State<EventCard> {
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: AppColors.GRAY,
+                        color: _isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
                         decoration: _isDone
                             ? TextDecoration.lineThrough
                             : TextDecoration.none,

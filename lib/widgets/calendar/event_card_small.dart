@@ -59,7 +59,7 @@ class _SmallEventCardState extends State<SmallEventCard> {
                 widget.event.name,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: AppColors.GRAY,
+                    color: _isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
                     decoration: _isDone
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
