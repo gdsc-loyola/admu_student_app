@@ -25,7 +25,10 @@ class PreviewSchedule extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: ScheduleTimetable(latestSched, subjects: subjects),
+      body: Container(
+        padding: EdgeInsets.fromLTRB(16, 40, 16, 40),
+        child: ScheduleTimetable(latestSched, subjects: subjects),
+      ),
     );
   }
 }
