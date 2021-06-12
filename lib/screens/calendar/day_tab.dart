@@ -16,8 +16,6 @@ class DayTab extends StatefulWidget {
 
   @override
   _DayTabState createState() => _DayTabState();
-
-  
 }
 
 class _DayTabState extends State<DayTab> {
@@ -42,44 +40,42 @@ class _DayTabState extends State<DayTab> {
         now.day == _date.day)
       return 'Today';
     else
-    // how to get the date strings 
+      // how to get the date strings
       return '${AppStrings.DAYS[_date.weekday - 1]}, ${AppStrings.MONTHS[_date.month - 1]} ${_date.day}';
   }
-  
- // Tests
+
+  // Tests
 
   dynamic _getDates() {
-  // Take the input year, month number, and pass it inside DateTime()
-  var now = DateTime.now();
-  
-  // Getting the total number of days of the month
-  var totalDays = daysInMonth(now);
-  
-  // Stroing all the dates till the last date
-  // since we have found the last date using generate
-  var listOfDates = new List<int>.generate(totalDays, (i) => i + 1);
-  return listOfDates;
-}
+    // Take the input year, month number, and pass it inside DateTime()
+    var now = DateTime.now();
 
-dynamic _getNow() {
-  var now = DateTime.now();
-  return now.day - 1;
-}
+    // Getting the total number of days of the month
+    var totalDays = daysInMonth(now);
+
+    var listOfDates = new List<int>.generate(totalDays, (i) => i + 1);
+    return listOfDates;
+  }
+
+  dynamic _getNow() {
+    var now = DateTime.now();
+    return now.day - 1;
+  }
 
 // this returns the last date of the month using DateTime
-int daysInMonth(DateTime date){
-  var firstDayThisMonth = new DateTime(date.year, date.month, date.day);
-  var firstDayNextMonth = new DateTime(firstDayThisMonth.year, firstDayThisMonth.month + 1, firstDayThisMonth.day);
-  return firstDayNextMonth.difference(firstDayThisMonth).inDays;
-}
+  int daysInMonth(DateTime date) {
+    var firstDayThisMonth = new DateTime(date.year, date.month, date.day);
+    var firstDayNextMonth = new DateTime(firstDayThisMonth.year,
+        firstDayThisMonth.month + 1, firstDayThisMonth.day);
+    return firstDayNextMonth.difference(firstDayThisMonth).inDays;
+  }
 
   @override
   Widget build(BuildContext context) {
-    
     // inside the Widget build, dispose it AND create a new controller - important for screen sizes
     if (_pageCtrl != null) _pageCtrl.dispose();
     _pageCtrl = PageController(
-        initialPage: _getNow(), // the date today 
+        initialPage: _getNow(), // the date today
         viewportFraction: 150 / MediaQuery.of(context).size.width);
     _pageCtrl.addListener(
       () {
@@ -95,22 +91,31 @@ int daysInMonth(DateTime date){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(
+          height: 36,
+        ),
+        Center(
+          child: Text(
+            '${AppStrings.MONTHS[_date.month - 1]} ${_date.year}',
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(color: AppColors.GRAY_DARK[0]),
+          ),
+        ),
         SizedBox(height: 27),
         // testing
         SizedBox(
-          height:
-              112, 
+          height: 112,
           child: PageView.builder(
               controller: _pageCtrl,
-              itemCount: _getDates().length, 
               itemBuilder: (_, index) {
                 return Container(
                   // replace with the time card
                   color: AppColors.PRIMARY_MAIN,
                   width: 72,
                   height: 112,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: 25), 
+                  margin: EdgeInsets.symmetric(horizontal: 25),
                   child: Center(child: Text('${index + 1}')),
                 );
               }),
