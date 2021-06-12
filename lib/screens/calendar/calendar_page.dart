@@ -68,7 +68,7 @@ class _CalendarPageState extends State<CalendarPage> {
                           child: Text(
                             'Month',
                             style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                Theme.of(context).textTheme.headline6.copyWith(
                                       color: isMonth
                                           ? AppColors.SECONDARY_MAIN
                                           : AppColors.GRAY_LIGHT[0],
@@ -85,10 +85,11 @@ class _CalendarPageState extends State<CalendarPage> {
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                            width: 6,
-                            color: isMonth
-                                ? AppColors.GRAY_LIGHT[0]
-                                : AppColors.SECONDARY_MAIN),
+                          width: 6,
+                          color: isMonth
+                              ? AppColors.GRAY_LIGHT[0]
+                              : AppColors.SECONDARY_MAIN,
+                        ),
                       ),
                     ),
                     child: InkWell(
@@ -101,13 +102,13 @@ class _CalendarPageState extends State<CalendarPage> {
                         child: Center(
                           child: Text(
                             'Day',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(
-                                    color: isMonth
-                                        ? AppColors.GRAY_LIGHT[0]
-                                        : AppColors.SECONDARY_MAIN),
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      color: isMonth
+                                          ? AppColors.GRAY_LIGHT[0]
+                                          : AppColors.SECONDARY_MAIN,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                           ),
                         ),
                       ),
