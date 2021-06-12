@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
@@ -19,7 +20,7 @@ class DayTab extends StatefulWidget {
 }
 
 class _DayTabState extends State<DayTab> {
-  DateTime _date;
+  DateTime _date, _dateAll;
   PageController _pageCtrl;
   int _pageCtrlInt;
 
@@ -94,7 +95,7 @@ class _DayTabState extends State<DayTab> {
               : _date = _date;
         });
 
-        (_pageCtrl.page is int) ? print(_date) : print('la lods');
+        (_pageCtrl.page is int) ? print(_date) : print('null');
       },
     );
 
@@ -116,8 +117,14 @@ class _DayTabState extends State<DayTab> {
                   setState(() {
                     // minus date
                     _date = DateTime(_date.year, _date.month - 1, 1);
+                    (_getNow().month == _date.month &&
+                            _getNow().year == _date.year)
+                        ? _date = _getNow()
+                        : _date = DateTime(_date.year, _date.month, 1);
 
                     if (widget.onDateChange != null) widget.onDateChange(_date);
+
+                    _pageCtrl.jumpToPage(_date.day - 1);
                   });
                 }),
             Center(
@@ -135,8 +142,14 @@ class _DayTabState extends State<DayTab> {
                   setState(() {
                     // add date
                     _date = DateTime(_date.year, _date.month + 1, 1);
+                    (_getNow().month == _date.month &&
+                            _getNow().year == _date.year)
+                        ? _date = _getNow()
+                        : _date = DateTime(_date.year, _date.month, 1);
 
                     if (widget.onDateChange != null) widget.onDateChange(_date);
+
+                    _pageCtrl.jumpToPage(_date.day - 1);
                   });
                 })
           ],
@@ -146,18 +159,43 @@ class _DayTabState extends State<DayTab> {
         SizedBox(
           height: 112,
           child: PageView.builder(
-              controller: _pageCtrl,
-              itemCount: _getDates().length,
-              itemBuilder: (_, index) {
-                return Container(
-                  // replace with the time card
-                  color: AppColors.PRIMARY_MAIN,
-                  width: 72,
-                  height: 112,
-                  margin: EdgeInsets.symmetric(horizontal: 25),
-                  child: Center(child: Text('${index + 1}')),
-                );
-              }),
+            controller: _pageCtrl,
+            itemCount: _getDates().length,
+            itemBuilder: (_, index) {
+              _dateAll = DateTime(_date.year, _date.month, index + 1);
+
+              return Container(
+                // replace with the time card
+                width: 72,
+                height: 112,
+                decoration: BoxDecoration(
+                    color: AppColors.PRIMARY_MAIN,
+                    borderRadius: BorderRadius.all(Radius.circular(16))),
+                margin: EdgeInsets.symmetric(horizontal: 25),
+                child: Center(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '${DateFormat('EEE').format(_dateAll).toUpperCase()}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                    ),
+                    Text(
+                      '${DateFormat('dd').format(_dateAll)}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                    ),
+                  ],
+                )),
+              );
+            },
+          ),
         ),
         SizedBox(height: 16),
         Text(
