@@ -42,6 +42,11 @@ class _EventCardState extends State<EventCard> {
         boxShadow: [AppEffects.SHADOW_FOR_WHITE],
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
+      foregroundDecoration: _isDone
+          ? BoxDecoration(
+              color: AppColors.GRAY_LIGHT[2],
+              backgroundBlendMode: BlendMode.softLight)
+          : null,
       child: Center(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,7 +78,8 @@ class _EventCardState extends State<EventCard> {
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: _isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
+                        color:
+                            _isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
                         decoration: _isDone
                             ? TextDecoration.lineThrough
                             : TextDecoration.none,
@@ -161,7 +167,7 @@ class _EventCardState extends State<EventCard> {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                widget.event.getReadableTime(),
+                '${widget.event.start == null ? '' : widget.event.getReadableStartTime()}\nto\n ${widget.event.start == null ? '' : widget.event.getReadableEndTime()}',
                 style: _timeStyle,
                 textAlign: TextAlign.center,
               ),

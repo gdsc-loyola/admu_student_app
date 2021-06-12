@@ -6,7 +6,7 @@ import 'package:admu_student_app/constants/app_strings.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/widgets/calendar/calendar.dart';
-import 'package:admu_student_app/widgets/calendar/event_card_small.dart';
+import 'package:admu_student_app/widgets/calendar/event_card.dart';
 
 class DayTab extends StatefulWidget {
   final DateTime date;
@@ -131,7 +131,7 @@ int daysInMonth(DateTime date){
           itemBuilder: (_, index) {
             return Container(
               margin: EdgeInsets.only(bottom: 8.0),
-              child: SmallEventCard(event: _events[index]),
+              child: EventCard(event: _events[index]),
             );
           },
         ),

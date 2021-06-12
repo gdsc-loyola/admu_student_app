@@ -69,9 +69,7 @@ class _SmallEventCardState extends State<SmallEventCard> {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                widget.event.start == null
-                    ? ''
-                    : widget.event.getReadableStartTime(),
+                '${widget.event.start == null? '': widget.event.getReadableStartTime()} to\n ${widget.event.start == null? '': widget.event.getReadableEndTime()}',
                 style: Theme.of(context)
                     .textTheme
                     .caption
