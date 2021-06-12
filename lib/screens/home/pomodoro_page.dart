@@ -95,9 +95,9 @@ class _PomodoroPageState extends State<PomodoroPage> {
       context,
       title: 'Pomodoro',
       strings: [
-        '1',
-        '2',
-        '3',
+        'Pick a task.',
+        'Start the timer and work until the timer stops.',
+        'Take a short or long break.',
       ],
     );
   }

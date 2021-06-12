@@ -1,4 +1,5 @@
 import 'package:admu_student_app/widgets/custom_drop_down.dart';
+import 'package:admu_student_app/widgets/drawer/office_drop_down.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
@@ -17,7 +18,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
 
   TextEditingController _searchCtrl = TextEditingController();
 
-  int _selected = 0;
+  int _selected = -1;
 
   @override
   void initState() {
@@ -45,9 +46,9 @@ class _DirectoryPageState extends State<DirectoryPage> {
       context,
       title: 'LS Directory',
       strings: [
-        '1',
-        '2',
-        '3',
+        'Pick the school or office the department belongs to.',
+        'Find the department based on the schedules displayed.',
+        'If what you\'re looking for is unavailable, you can go to _',
       ],
     );
   }
@@ -61,60 +62,12 @@ class _DirectoryPageState extends State<DirectoryPage> {
     });
   }
 
-  Widget _buildGroupDropdown(List<Map<String, dynamic>> data) {
-    List<DropdownMenuItem> items = [
-      DropdownMenuItem(
-        child: Text(
-          'Select an office or a department',
-          // style: Theme.of(context).textTheme.bodyText1.copyWith(color: AppColors.GRAY_LIGHT[2]),
-        ),
-        value: 0,
-      ),
-    ];
-
-    int index = 1;
-    for (Map m in data) {
-      items.add(
-        DropdownMenuItem(
-          child: Text(m['title']),
-          value: index,
-        ),
-      );
-      index++;
-    }
-
-    return Container(
-      width: double.infinity,
-      height: 56, // ?
-      padding: EdgeInsets.fromLTRB(32, 16, 16, 16),
-      decoration: BoxDecoration(
-        color: AppColors.PRIMARY_LIGHT, // original MAIN
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton(
-          value: _selected,
-          items: items,
-          onChanged: (val) {
-            setState(() {
-              _selected = val;
-            });
-          },
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> data =
-      LSDirectory.getFiltered(_searchCtrl.text, _isSearching);
-/*    if (_isSearching)
-      data = LSDirectory.getFiltered(_searchCtrl.text);
-    else
-      data = LSDirectory.getFiltered('');*/
+        LSDirectory.getFiltered(_searchCtrl.text, _isSearching);
 
-    if (_selected > data.length) _selected = 0;
+    if (_selected > data.length) _selected = -1;
 
     return Scaffold(
       appBar: AppBar(
@@ -165,7 +118,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                         keyboardType: TextInputType.multiline,
                         onTap: () {
                           setState(() {
-                            if (!_isSearching) _selected = 0;
+                            if (!_isSearching) _selected = -1;
                             _isSearching = true;
                           });
                         },
@@ -197,7 +150,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                         onTap: () {
                           setState(() {
                             _isSearching = false;
-                            _selected = 0;
+                            _selected = -1;
                             _searchCtrl.text = '';
                           });
                         },
@@ -216,7 +169,15 @@ class _DirectoryPageState extends State<DirectoryPage> {
             SizedBox(height: 16),
 
             // dropdown of groups
-            if (!_isSearching) _buildGroupDropdown(data),
+            if (!_isSearching)
+              OfficeDropDown(
+                data,
+                (i) {
+                  setState(() {
+                    _selected = i;
+                  });
+                },
+              ),
 
             if (_isSearching)
               ListView.builder(
@@ -257,15 +218,15 @@ class _DirectoryPageState extends State<DirectoryPage> {
               ),
 
             // offices
-            _selected != 0
+            _selected != -1
                 ? ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: data[_selected - 1]['offices'].length,
+                    itemCount: data[_selected]['offices'].length,
                     itemBuilder: (_, index) {
                       List<Widget> emails = [];
 
-                      Map<String, dynamic> officeData = data[_selected - 1]
+                      Map<String, dynamic> officeData = data[_selected]
                               ['offices'][index]
                           .cast<String, dynamic>();
                       List<String> rawEmails =
