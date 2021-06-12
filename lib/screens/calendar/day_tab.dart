@@ -21,6 +21,7 @@ class DayTab extends StatefulWidget {
 class _DayTabState extends State<DayTab> {
   DateTime _date;
   PageController _pageCtrl;
+  int _pageCtrlInt;
 
   @override
   void initState() {
@@ -48,7 +49,7 @@ class _DayTabState extends State<DayTab> {
 
   dynamic _getDates() {
     // Take the input year, month number, and pass it inside DateTime()
-    var now = DateTime.now();
+    var now = _date;
 
     // Getting the total number of days of the month
     var totalDays = daysInMonth(now);
@@ -59,12 +60,12 @@ class _DayTabState extends State<DayTab> {
 
   dynamic _getNow() {
     var now = DateTime.now();
-    return now.day - 1;
+    return now;
   }
 
 // this returns the last date of the month using DateTime
-  int daysInMonth(DateTime date) {
-    var firstDayThisMonth = new DateTime(date.year, date.month, date.day);
+  int daysInMonth(DateTime _date) {
+    var firstDayThisMonth = new DateTime(_date.year, _date.month, _date.day);
     var firstDayNextMonth = new DateTime(firstDayThisMonth.year,
         firstDayThisMonth.month + 1, firstDayThisMonth.day);
     return firstDayNextMonth.difference(firstDayThisMonth).inDays;
@@ -75,13 +76,25 @@ class _DayTabState extends State<DayTab> {
     // inside the Widget build, dispose it AND create a new controller - important for screen sizes
     if (_pageCtrl != null) _pageCtrl.dispose();
     _pageCtrl = PageController(
-        initialPage: _getNow(), // the date today
+        initialPage:
+            (_getNow().month == _date.month && _getNow().year == _date.year)
+                ? _getNow().day - 1
+                : 0, // the date today
         viewportFraction: 150 / MediaQuery.of(context).size.width);
     _pageCtrl.addListener(
       () {
         // check if _pageCtrl.page is an integer - means that the scrolling has locked into position
         // you can set state here by setting the DateTime variable -- no need to do this one
-        print(_pageCtrl.page);
+        setState(() {
+          (_pageCtrl.page is int)
+              ? _pageCtrlInt = _pageCtrl.page.toInt()
+              : _pageCtrlInt = null;
+          (_pageCtrl.page is int)
+              ? _date = DateTime(_date.year, _date.month, _pageCtrlInt + 1)
+              : _date = _date;
+        });
+
+        (_pageCtrl.page is int) ? print(_date) : print('la lods');
       },
     );
 
@@ -134,6 +147,7 @@ class _DayTabState extends State<DayTab> {
           height: 112,
           child: PageView.builder(
               controller: _pageCtrl,
+              itemCount: _getDates().length,
               itemBuilder: (_, index) {
                 return Container(
                   // replace with the time card
