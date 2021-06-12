@@ -62,7 +62,7 @@ class App extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         primaryColor: AppColors.PRIMARY_MAIN,
-        primarySwatch: AppColors.SECONDARY_MAIN,
+        primarySwatch: Colors.blue,
       ),
       home: SplashPage(),
     );

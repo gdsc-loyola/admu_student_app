@@ -1,4 +1,3 @@
-import 'package:admu_student_app/constants/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -170,15 +169,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
     Navigator.of(context).pop();
   }
 
-  DateTime _checkDateTime(DateTime dt, TimeOfDay td,
-      [bool isEnd = false]) {
+  DateTime _checkDateTime(DateTime dt, TimeOfDay td, [bool isEnd = false]) {
     if (dt != null && td != null)
       return DateTime(dt.year, dt.month, dt.day, td.hour, td.minute);
     else if (dt == null && td != null)
       return DateTime(0, 1, 1, td.hour, td.minute);
     else if (dt != null && td == null) {
-      if (!isEnd) return DateTime(dt.year, dt.month, dt.day);
-      else return DateTime(dt.year, dt.month, dt.day, 23, 59);
+      if (!isEnd)
+        return DateTime(dt.year, dt.month, dt.day);
+      else
+        return DateTime(dt.year, dt.month, dt.day, 23, 59);
     } else
       return null;
   }
@@ -253,7 +253,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
             // name
             Row(
               children: [
-                Expanded(child: InputGroup('Event*', _eventCtrl)),
+                Expanded(
+                  child: InputGroup(
+                    'Event*',
+                    _eventCtrl,
+                    hint: 'What do you have planned?',
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 16),
@@ -299,7 +305,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 // time
                 Expanded(
                   child: SelectTimeGroup(
-                    'End',
+                    '',
                     time: _endTime,
                     onTimeChange: _onEndTimeChange,
                   ),
@@ -311,7 +317,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
             // tags
             Row(
               children: [
-                Expanded(child: InputGroup('Tags', _tagCtrl)),
+                Expanded(
+                  child: InputGroup('Tags', _tagCtrl, hint: 'Tags'),
+                ),
               ],
             ),
             SizedBox(height: 16),
@@ -319,7 +327,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
             // agenda
             Row(
               children: [
-                Expanded(child: InputGroup('Agenda', _agendaCtrl)),
+                Expanded(
+                  child: InputGroup('Agenda', _agendaCtrl,
+                      hint: 'What will be happening?'),
+                ),
               ],
             ),
             SizedBox(height: 48),

@@ -2,7 +2,7 @@ class UserCache {
   // true = first time: open popup or page
   // false: don't open popup or page
   static bool onboarding = true;
-  static bool login = true;
+  static bool login = false;
 
   static bool pomodoro = true;
 

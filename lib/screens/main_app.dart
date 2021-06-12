@@ -139,7 +139,7 @@ class _MainPageState extends State<MainPage> {
 
     if (_currentIndex == 2) {
       actions.add(IconButton(
-        icon: Icon(Icons.note),
+        icon: Icon(Icons.note_alt_outlined),
         onPressed: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => EnlistmentPage())),
         iconSize: 32,
