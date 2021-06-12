@@ -29,7 +29,8 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
   }
 
   void _onTap(BuildContext context) async {
-    if (kIsWeb || !Platform.isIOS) {
+    // if (kIsWeb || !Platform.isIOS) {
+    if (false) {
       // show material
 
       TimeOfDay nTime = await showTimePicker(
@@ -54,19 +55,61 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
       await showCupertinoModalPopup<void>(
         context: context,
         builder: (ctx) {
-          return SizedBox(
+          TimeOfDay cur;
+
+          return Container(
+            color: Colors.white,
             height: 256,
-            child: CupertinoDatePicker(
-              backgroundColor: AppColors.GRAY_LIGHT[2],
-              mode: CupertinoDatePickerMode.time,
-              onDateTimeChanged: (dt) {
-                nTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
-              },
-              initialDateTime: _time == null
-                  ? DateTime(DateTime.now().year, DateTime.now().month,
-                      DateTime.now().day)
-                  : DateTime(DateTime.now().year, DateTime.now().month,
-                      DateTime.now().day, _time.hour, _time.minute),
+            child: Column(
+              children: [
+                // buttons
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // cancel
+                    TextButton(
+                      onPressed: () {
+                        nTime = null;
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Cancel'),
+                    ),
+
+                    // header
+                    Expanded(
+                      child: Center(
+                        child: Text('Time', style: Theme.of(context).textTheme
+                            .bodyText1),
+                      ),
+                    ),
+
+                    // done
+                    TextButton(
+                      onPressed: () {
+                        nTime = cur;
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Done'),
+                    ),
+                  ],
+                ),
+
+                // picker
+                Expanded(child:
+                  CupertinoDatePicker(
+                    // backgroundColor: AppColors.GRAY_LIGHT[2],
+                    mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (dt) {
+                      cur = TimeOfDay(hour: dt.hour, minute: dt.minute);
+                    },
+                    initialDateTime: _time == null
+                        ? DateTime(DateTime.now().year, DateTime.now().month,
+                            DateTime.now().day)
+                        : DateTime(DateTime.now().year, DateTime.now().month,
+                            DateTime.now().day, _time.hour, _time.minute),
+                  ),
+                ),
+              ],
             ),
           );
         },

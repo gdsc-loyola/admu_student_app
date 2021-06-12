@@ -31,9 +31,9 @@ class _SchedulePageState extends State<SchedulePage> {
       context,
       title: 'Class Schedule',
       strings: [
-        '1',
-        '2',
-        '3',
+        'To add your classes, tap the + button at the top right corner.',
+        'You can edit your classes by clicking on it.',
+        'Delete your schedule by clicking on the trash icon.',
       ],
     );
   }

@@ -5,8 +5,11 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_strings.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/widgets/calendar/calendar.dart';
 import 'package:admu_student_app/widgets/calendar/event_card_small.dart';
+import 'package:admu_student_app/widgets/modals/help.dart';
+import 'package:admu_student_app/widgets/help_button.dart';
 
 class MonthTab extends StatefulWidget {
   final DateTime date;
@@ -29,6 +32,25 @@ class _MonthTabState extends State<MonthTab> {
       _date = widget.date;
     else
       _date = DateTime.now();
+
+    if (UserCache.calendar) {
+      UserCache.calendar = false;
+      UserCache.save();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) => _showHowTo());
+    }
+  }
+
+  void _showHowTo() async {
+    await HelpModal.showHelp(
+      context,
+      title: 'Calendar',
+      strings: [
+        '1',
+        '2',
+        '3',
+      ],
+    );
   }
 
   String _getDateString() {
@@ -62,12 +84,20 @@ class _MonthTabState extends State<MonthTab> {
           },
         ),
         SizedBox(height: 16),
-        Text(
-          _getDateString(),
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: AppColors.PRIMARY_ALT),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                _getDateString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(color: AppColors.PRIMARY_ALT),
+              ),
+            ),
+            SizedBox(width: 4),
+            HelpButton(onTap: _showHowTo),
+          ],
         ),
         SizedBox(height: 8),
         ListView.builder(

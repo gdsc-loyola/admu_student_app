@@ -11,13 +11,15 @@ import 'package:admu_student_app/widgets/circular_check_mark.dart';
 const Duration _kExpand = Duration(milliseconds: 200);
 
 class EnlistmentClassCard extends StatefulWidget {
+  final Color color;
   final String code;
   final List<Subject> subjects;
   final bool isSelecting;
-  final Function(int) onSelect;
+  final Function(Subject) onSelect;
 
   const EnlistmentClassCard({
     Key key,
+    @required this.color,
     @required this.code,
     @required this.subjects,
     this.isSelecting = false,
@@ -57,15 +59,22 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
   }
 
   String _getScheduleString(Subject s) {
+    int counter = 0;
     String str = '';
 
     final List<String> days = ['M', 'T', 'W', 'Th', 'F', 'S'];
 
     for (int i = 0; i < s.days.length; i++) {
-      if (s.days[i]) str += days[i];
+      if (s.days[i]) {
+        str += days[i];
+        counter++;
+      }
     }
 
-    return str;
+    if (counter == 6)
+      return 'Daily';
+    else
+      return str;
   }
 
   void _handleTap() {
@@ -103,7 +112,7 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
                 style: Theme.of(context)
                     .textTheme
                     .headline4
-                    .copyWith(color: AppColors.GRAY_DARK[0])),
+                    .copyWith(color: widget.color)),
           ),
           SizedBox(width: 8), // temporary padding
 
@@ -152,64 +161,80 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
               ),
 
               // column
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // prof name
-                  Text(
-                    widget.subjects[index].profName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: AppColors.GRAY),
-                  ),
-                  SizedBox(height: 4),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // prof name
+                    Text(
+                      widget.subjects[index].profName,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(color: AppColors.GRAY),
+                    ),
+                    SizedBox(height: 4),
 
-                  // tags
-                  Row(
-                    children: [
-                      // section
-                      Container(
-                        decoration: BoxDecoration(
-                          color: widget.subjects[index].color.withOpacity(0.25),
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 16), // temp
-                        child: Center(
-                          child: Text(
-                              'Section ${widget.subjects[index].section}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  .copyWith(
-                                      color: widget.subjects[index].color)),
-                        ),
-                      ),
-                      SizedBox(width: 8),
+                    // tags
+                    SizedBox(
+                      height: 24,
+                      child: ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          // section
+                          Container(
+                            decoration: BoxDecoration(
+                              color: widget.subjects[index].color
+                                  .withOpacity(0.25),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                            ),
+                            height: 24,
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 16), // temp
+                            child: Center(
+                              child: Text(
+                                  'Section ${widget.subjects[index].section}',
+                                  // widget.subjects[index].section,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(
+                                          color: widget.subjects[index].color)),
+                            ),
+                          ),
+                          SizedBox(width: 8),
 
-                      // days
-                      Container(
-                        decoration: BoxDecoration(
-                          color: widget.subjects[index].color.withOpacity(0.25),
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 16), // temp
-                        child: Center(
-                          child: Text(
-                              _getScheduleString(widget.subjects[index]),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  .copyWith(
-                                      color: widget.subjects[index].color)),
-                        ),
+                          // days
+                          Container(
+                            decoration: BoxDecoration(
+                              color: widget.subjects[index].color
+                                  .withOpacity(0.25),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                            ),
+                            height: 24,
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 16), // temp
+                            child: Center(
+                              child: Text(
+                                  _getScheduleString(widget.subjects[index]),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(
+                                          color: widget.subjects[index].color)),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
-              Spacer(), // temp?
 
+              SizedBox(width: 8),
               // time
               Text(
                 '${widget.subjects[index].getReadableStartTime()}\n${widget.subjects[index].getReadableEndTime()}',
@@ -221,9 +246,7 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
 
               // edit
               IconButton(
-                icon: Icon(
-                  Icons.more_vert_rounded,
-                ),
+                icon: Icon(Icons.more_vert_rounded),
                 iconSize: 36,
                 color: AppColors.GRAY_LIGHT[0],
                 onPressed: () => Navigator.of(context).push(
@@ -247,10 +270,18 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
             children: [
               if (widget.isSelecting)
                 CircularCheckMark(
-                    isDone: false,
-                    onTap: () {
-                      if (widget.onSelect != null) widget.onSelect(index);
-                    }),
+                  isDone: widget.subjects[index].selectedInEnlistment,
+                  onTap: () {
+                    for (Subject s in widget.subjects)
+                      s.selectedInEnlistment = false;
+                    widget.subjects[index].selectedInEnlistment = true;
+
+                    if (widget.onSelect != null)
+                      widget.onSelect(widget.subjects[index]);
+
+                    setState(() {});
+                  },
+                ),
 
               // card
               Expanded(

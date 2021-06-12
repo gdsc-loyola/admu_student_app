@@ -11,30 +11,31 @@ class LSDirectory {
     _data = jsonDecode(rawJson);
   }
 
-  static List<Map<String, dynamic>> getFiltered(String keyword) {
-    // if (keyword.isEmpty) return (List<Map<String, dynamic>>) _data;
-
+  static List<Map<String, dynamic>> getFiltered(
+    String keyword, [
+    bool isSearching = false,
+  ]) {
     List<Map<String, dynamic>> maps = [];
 
     for (Map cluster in _data) {
       List<Map<String, dynamic>> added = [];
 
       for (Map office in cluster['offices']) {
-        if (keyword.isEmpty) {
+        if (!isSearching) {
           added.add(office);
           continue;
         }
 
         // check name
-        if (office['name'].contains(keyword)) {
-          added.add(office);
+        if (office['name'].toLowerCase().contains(keyword.toLowerCase())) {
+          maps.add(office);
           continue;
         }
 
         // check emails
         for (String email in office['emails']) {
-          if (email.contains(keyword)) {
-            added.add(office);
+          if (email.toLowerCase().contains(keyword.toLowerCase())) {
+            maps.add(office);
             continue;
           }
         }

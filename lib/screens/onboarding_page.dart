@@ -148,7 +148,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   InkWell(
                     onTap: () {
                       (_currentPage == _pages.length - 1)
-                          ? Navigator.push(
+                          ? Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => MainPage(),

@@ -39,8 +39,8 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           color: AppColors.GRAY_LIGHT[2],
-          icon: Icon(Icons.chevron_left_rounded),
-          iconSize: 36,
+          icon: Icon(Icons.arrow_back_ios_rounded),
+          iconSize: 32,
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -48,7 +48,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
           ? Container()
           : SingleChildScrollView(
               physics: BouncingScrollPhysics(),
-              padding: EdgeInsets.fromLTRB(24, 48, 24, 8),
+              padding: EdgeInsets.fromLTRB(24, 40, 24, 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

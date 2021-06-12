@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_utils.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/course.dart';
 import 'package:admu_student_app/models/semester.dart';
@@ -170,14 +171,36 @@ class _AddQPIPageState extends State<AddQPIPage> {
     return willPop;
   }
 
-  void _onSave() {
-    // no error handling
+  void _onSave() async {
+    if (_yearCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+    if (!AppUtils.isPositiveInteger(_yearCtrl.text))
+      return await AlertModal.showDecimalOrNegativeError(context);
     int yearNum = int.parse(_yearCtrl.text);
+
+    if (_unitsCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+    if (!AppUtils.isPositiveInteger(_unitsCtrl.text))
+      return await AlertModal.showDecimalOrNegativeError(context);
     int units = int.parse(_unitsCtrl.text);
+
+    if (selected == 2 && _codeCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
     String code = _codeCtrl.text;
 
+    double qpi;
+    if (selected == 0 || selected == 1) {
+      if (_qpiCtrl.text.isEmpty)
+        return await AlertModal.showIncompleteError(context);
+      if (!AppUtils.isNonNegativeNumeric(_qpiCtrl.text))
+        return await AlertModal.showNegativeError(context);
+      qpi = double.parse(_qpiCtrl.text);
+    }
+
+    if (selected == 2 && _courseColor == null)
+      return await AlertModal.showIncompleteError(context);
+
     if (selected == 0) {
-      double qpi = double.parse(_qpiCtrl.text);
       if (widget.isEditing) {
         Provider.of<AcademicRecords>(context, listen: false).editYearlyQPI(
           widget.year,
@@ -197,7 +220,6 @@ class _AddQPIPageState extends State<AddQPIPage> {
         CustomSnackBar.showSnackBar(context, 'Year QPI added!');
       }
     } else if (selected == 1) {
-      double qpi = double.parse(_qpiCtrl.text);
       if (widget.isEditing) {
         Provider.of<AcademicRecords>(context, listen: false).editSemestralQPI(
           widget.yearNum,
@@ -295,17 +317,20 @@ class _AddQPIPageState extends State<AddQPIPage> {
         leading: IconButton(
           icon: Icon(Icons.close_rounded),
           onPressed: _onBack,
+          iconSize: 32,
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+            padding: EdgeInsets.only(right: 16),
             child: TextButton(
               onPressed: _onSave,
-              child: Text('Done',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: AppColors.GRAY_LIGHT[2])),
+              child: Text(
+                'Done',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.GRAY_LIGHT[2],
+                    ),
+              ),
             ),
           ),
         ],

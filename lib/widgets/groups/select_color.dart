@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_hsvcolor_picker/flutter_hsvcolor_picker.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
@@ -57,19 +58,26 @@ class _SelectColorState extends State<SelectColor> {
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
+              padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  MaterialPicker(
-                    pickerColor: newColor,
-                    onColorChanged: (Color c) {
+                  ColorPicker(
+                    color: newColor,
+                    onChanged: (Color c) {
                       newColor = c;
                     },
                   ),
+                  // MaterialPicker(
+                  //   pickerColor: newColor,
+                  //   onColorChanged: (Color c) {
+                  //     newColor = c;
+                  //   },
+                  // ),
                   SizedBox(height: 8),
                   CustomButton(
                     ButtonSize.medium, // ?
-                    'Select',
+                    'Save Color',
                     AppColors.PRIMARY_MAIN,
                     AppColors.GRAY_LIGHT[2],
                     () {
@@ -83,14 +91,14 @@ class _SelectColorState extends State<SelectColor> {
                     },
                     shadows: [AppEffects.SHADOW],
                   ),
-                  SizedBox(height: 16),
-                  CustomButton(
-                    ButtonSize.medium, // ?
-                    'Cancel',
-                    AppColors.GRAY_DARK[2],
-                    AppColors.GRAY_DARK[0],
-                    () => Navigator.of(context).pop(),
-                  ),
+                  // SizedBox(height: 16),
+                  // CustomButton(
+                  //   ButtonSize.medium, // ?
+                  //   'Cancel',
+                  //   AppColors.GRAY_DARK[2],
+                  //   AppColors.GRAY_DARK[0],
+                  //   () => Navigator.of(context).pop(),
+                  // ),
                 ],
               ),
             ),
@@ -110,7 +118,7 @@ class _SelectColorState extends State<SelectColor> {
   @override
   Widget build(BuildContext context) {
     bool shouldShrink =
-        MediaQuery.of(context).size.width - 16 * 2 < 56 * 6 + 8 * 5;
+        MediaQuery.of(context).size.width - 16 * 2 < 56 * 5 + 8 * 4;
 
     Row row = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,18 +157,18 @@ class _SelectColorState extends State<SelectColor> {
           shrink: shouldShrink,
           onTap: () => _onSelect(context, 4),
         ),
-        SizedBox(width: 8),
-        _CustomIcon(
-          icon: Icon(
-            Icons.add_rounded,
-            color: AppColors.GRAY_LIGHT[0],
-            size: 36,
-          ),
-          isSelected: _selected == 5,
-          bgColor: _selected == 5 ? _color : AppColors.GRAY_LIGHT[2],
-          shrink: shouldShrink,
-          onTap: () => _onSelect(context, 5),
-        ),
+        // SizedBox(width: 8),
+        // _CustomIcon(
+        //   icon: Icon(
+        //     Icons.add_rounded,
+        //     color: AppColors.GRAY_LIGHT[0],
+        //     size: 36,
+        //   ),
+        //   isSelected: _selected == 5,
+        //   bgColor: _selected == 5 ? _color : AppColors.GRAY_LIGHT[2],
+        //   shrink: shouldShrink,
+        //   onTap: () => _onSelect(context, 5),
+        // ),
       ],
     );
 
@@ -168,7 +176,7 @@ class _SelectColorState extends State<SelectColor> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Color Code',
+          widget.label,
           style: Theme.of(context)
               .textTheme
               .bodyText1

@@ -63,6 +63,7 @@ class _HelpModal extends StatelessWidget {
 
           // title
           Text(title,
+              textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .headline4

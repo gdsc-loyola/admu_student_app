@@ -24,6 +24,7 @@ class _AboutPageState extends State<AboutPage> {
           },
           icon: Icon(Icons.arrow_back_ios_rounded),
           color: Colors.white,
+          iconSize: 32,
         ),
       ),
 

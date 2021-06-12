@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_utils.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
 import 'package:admu_student_app/widgets/groups/input_group.dart';
@@ -129,8 +130,28 @@ class _AddClassPageState extends State<AddClassPage> {
     return willPop;
   }
 
-  void _onSave() {
+  void _onSave() async {
+    if (_yearCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+    if (!AppUtils.isPositiveInteger(_yearCtrl.text))
+      return await AlertModal.showDecimalOrNegativeError(context);
     int yearNum = int.parse(_yearCtrl.text);
+
+    if (_codeCtrl.text.isEmpty ||
+        _color == null ||
+        _timeStart == null ||
+        _timeEnd == null) return await AlertModal.showIncompleteError(context);
+
+    if (widget.inEnlistment && _sectionCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+
+    int counter = 0;
+    for (bool b in _days) counter += b ? 1 : 0;
+    if (counter == 0)
+      return await AlertModal.showIncompleteError(context);
+
+    if (!AppUtils.timeIsBefore(_timeStart, _timeEnd))
+      return await AlertModal.showInverseTimeError(context);
 
     if (widget.isEditing) {
       Provider.of<ClassSchedule>(context, listen: false).editSubject(
@@ -143,7 +164,7 @@ class _AddClassPageState extends State<AddClassPage> {
         _days,
         _timeStart,
         _timeEnd,
-        false, // in enlistment
+        widget.inEnlistment, // in enlistment
         _profCtrl.text,
       );
 
@@ -158,7 +179,7 @@ class _AddClassPageState extends State<AddClassPage> {
         _days,
         _timeStart,
         _timeEnd,
-        false, // in enlistment
+        widget.inEnlistment, // in enlistment
         _profCtrl.text,
       );
 
@@ -195,16 +216,20 @@ class _AddClassPageState extends State<AddClassPage> {
         leading: IconButton(
           icon: Icon(Icons.close_rounded),
           onPressed: _onBack,
+          iconSize: 32,
         ),
         actions: [
-          TextButton(
-            onPressed: _onSave,
-            child: Text(
-              'Done',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: Colors.white),
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: TextButton(
+              onPressed: _onSave,
+              child: Text(
+                'Done',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.GRAY_LIGHT[2],
+                    ),
+              ),
             ),
           ),
         ],
@@ -229,12 +254,24 @@ class _AddClassPageState extends State<AddClassPage> {
             Row(
               children: [
                 // course code
-                Expanded(child: InputGroup('Course Code*', _codeCtrl)),
+                Expanded(
+                  child: InputGroup(
+                    'Course Code*',
+                    _codeCtrl,
+                    hint: 'COURSE101',
+                  ),
+                ),
                 if (widget.inEnlistment) SizedBox(width: 20),
 
                 // section
                 if (widget.inEnlistment)
-                  Expanded(child: InputGroup('Section*', _sectionCtrl)),
+                  Expanded(
+                    child: InputGroup(
+                      'Section*',
+                      _sectionCtrl,
+                      hint: 'A',
+                    ),
+                  ),
               ],
             ),
             SizedBox(height: 24),
@@ -243,7 +280,13 @@ class _AddClassPageState extends State<AddClassPage> {
             Row(
               children: [
                 // year
-                Expanded(child: InputGroup('Year Level*', _yearCtrl, length: 1,)),
+                Expanded(
+                    child: InputGroup(
+                  'Year Level*',
+                  _yearCtrl,
+                  length: 1,
+                  hint: '1',
+                )),
                 SizedBox(width: 20),
 
                 // sem
@@ -300,8 +343,7 @@ class _AddClassPageState extends State<AddClassPage> {
 
             if (widget.inEnlistment) SizedBox(height: 24),
             // professor in enlistment
-            if (widget.inEnlistment)
-              InputGroup('Name of Professor', _profCtrl),
+            if (widget.inEnlistment) InputGroup('Name of Professor', _profCtrl),
 
             SizedBox(height: 48),
             // delete button
