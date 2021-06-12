@@ -1,3 +1,4 @@
+import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -100,14 +101,16 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 16),
 
                   // events
-                  Expanded(
+                  events.length > 0
+                      ? Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: events.length,
                       itemBuilder: (_, index) =>
                           HomeEventCard(event: events[index]),
                     ),
-                  ),
+                  )
+                      : EmptyState()
                 ],
               ),
             ),
