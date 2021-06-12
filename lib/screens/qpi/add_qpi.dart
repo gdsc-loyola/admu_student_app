@@ -1,8 +1,8 @@
-import 'package:admu_student_app/constants/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_utils.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/course.dart';
 import 'package:admu_student_app/models/semester.dart';

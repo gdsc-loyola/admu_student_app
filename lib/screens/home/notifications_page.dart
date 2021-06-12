@@ -7,16 +7,26 @@ import 'package:admu_student_app/models/notification.dart';
 import 'package:admu_student_app/widgets/home/notification_card.dart';
 
 class NotificationsPage extends StatelessWidget {
+  Future<void> _onBack(BuildContext context) async {
+    Provider.of<NotificationCenter>(context, listen: false).setReadAll();
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Notif> notifs = Provider.of<NotificationCenter>(context).notifs;
 
-    return Scaffold(
+    Scaffold scaffold = Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            _onBack(context);
+
+            Navigator.of(context).pop();
+          },
           iconSize: 32,
         ),
         title: Text(
@@ -40,6 +50,11 @@ class NotificationsPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+
+    return WillPopScope(
+      onWillPop: () => _onBack(context),
+      child: scaffold,
     );
   }
 }

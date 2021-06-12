@@ -8,24 +8,10 @@ import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
-class EventCard extends StatefulWidget {
+class EventCard extends StatelessWidget {
   final Event event;
 
   EventCard({@required this.event});
-
-  @override
-  _EventCardState createState() => _EventCardState();
-}
-
-class _EventCardState extends State<EventCard> {
-  bool _isDone = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _isDone = widget.event.isDone;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +35,9 @@ class _EventCardState extends State<EventCard> {
             // check mark
             Padding(
               child: CircularCheckMark(
-                isDone: _isDone,
-                onTap: () {
-                  Provider.of<CalendarEvents>(context, listen: false)
-                      .setEventDone(widget.event, !widget.event.isDone);
-                  setState(() {
-                    _isDone = !_isDone;
-                  });
-                },
+                isDone: event.isDone,
+                onTap: () => Provider.of<CalendarEvents>(context, listen: false)
+                    .setEventDone(event, !event.isDone),
               ),
               padding: EdgeInsets.only(right: 20.0),
             ),
@@ -69,22 +50,22 @@ class _EventCardState extends State<EventCard> {
                 children: [
                   // title
                   Text(
-                    widget.event.name,
+                    event.name,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         fontWeight: FontWeight.w500,
                         color: AppColors.GRAY,
-                        decoration: _isDone
+                        decoration: event.isDone
                             ? TextDecoration.lineThrough
                             : TextDecoration.none,
                         decorationThickness: 2.0),
                   ),
                   // agenda
-                  widget.event.agenda.isNotEmpty
+                  event.agenda.isNotEmpty
                       ? Padding(
                           padding: EdgeInsets.only(bottom: 8.0),
                           child: Text(
-                            widget.event.agenda,
+                            event.agenda,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
@@ -95,7 +76,7 @@ class _EventCardState extends State<EventCard> {
                       : Container(),
 
                   // tags
-                  (widget.event.tags == null || widget.event.tags.isEmpty)
+                  (event.tags == null || event.tags.isEmpty)
                       ? Container()
                       : SizedBox(
                           height: 24,
@@ -107,14 +88,14 @@ class _EventCardState extends State<EventCard> {
                                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                                 height: 24,
                                 decoration: BoxDecoration(
-                                  color:
-                                      AppColors.SECONDARY_LIGHT.withOpacity(0.5),
+                                  color: AppColors.SECONDARY_LIGHT
+                                      .withOpacity(0.5),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
                                 ),
                                 child: Center(
                                   child: Text(
-                                    widget.event.tags,
+                                    event.tags,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
                                         .textTheme
@@ -136,7 +117,7 @@ class _EventCardState extends State<EventCard> {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                widget.event.getReadableTime(),
+                event.getReadableTime(),
                 style: _timeStyle,
                 textAlign: TextAlign.center,
               ),
@@ -168,7 +149,7 @@ class _EventCardState extends State<EventCard> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => AddTaskPage(
-            event: widget.event,
+            event: event,
             isEditing: true,
           ),
         ));

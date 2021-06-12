@@ -16,7 +16,7 @@ class NotificationCenter extends ChangeNotifier {
       2,
       '',
       'You missed this...',
-      'Testing 1',
+      'Testing QWERTYQWERTYQWERTYQWERTYQWERTY',
       DateTime.now().subtract(Duration(minutes: 25)),
       false,
     ),
@@ -79,6 +79,13 @@ class NotificationCenter extends ChangeNotifier {
   void addNotification(Notif notif) {
     _notifs.add(notif);
 
+    save();
+
+    notifyListeners();
+  }
+
+  void setReadAll() {
+    for (Notif n in _notifs) n.isRead = true;
     save();
 
     notifyListeners();

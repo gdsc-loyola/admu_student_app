@@ -62,7 +62,7 @@ class _MainPageState extends State<MainPage> {
       Widget icon;
 
       if (numNotifs == 0)
-        icon = Icon(Icons.notifications);
+        icon = Icon(Icons.notifications_none_rounded);
       else
         icon = Stack(
           children: [
