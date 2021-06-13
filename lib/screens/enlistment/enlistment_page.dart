@@ -7,7 +7,9 @@ import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/widgets/enlistment/enlistment_class.dart';
+import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:admu_student_app/widgets/modals/alert.dart';
+import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/screens/enlistment/preview_schedule.dart';
 import 'package:admu_student_app/screens/add_class.dart';
@@ -79,7 +81,8 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
     );
 
     if (added) {
-      showGeneralDialog(
+      CustomSnackBar.showSnackBar(context, 'Added to schedule!');
+      /*showGeneralDialog(
         context: context,
         pageBuilder: (_, __, ___) {
           return Center(
@@ -120,7 +123,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
             ),
           );
         },
-      );
+      );*/
     }
   }
 
@@ -215,24 +218,26 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
             ),
 
             // list of subjs
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: groupedSubjs.length,
-              itemBuilder: (_, index) {
-                Widget card = EnlistmentClassCard(
-                  color: groupedSubjs[index]['color'],
-                  code: groupedSubjs[index]['code'],
-                  subjects: groupedSubjs[index]['subjects'],
-                  isSelecting: _isSelecting,
-                );
+            groupedSubjs.length > 0
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: groupedSubjs.length,
+                  itemBuilder: (_, index) {
+                    Widget card = EnlistmentClassCard(
+                      color: groupedSubjs[index]['color'],
+                      code: groupedSubjs[index]['code'],
+                      subjects: groupedSubjs[index]['subjects'],
+                      isSelecting: _isSelecting,
+                    );
 
-                return Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: card,
-                );
-              },
-            ),
+                    return Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: card,
+                    );
+                  },
+                )
+              : EmptyState(topText: 'No Class Input Yet', bottomText: 'Add your desired classes for enlistment by tapping the + button at the top right corner!'),
             SizedBox(height: 48),
 
             // create schedule

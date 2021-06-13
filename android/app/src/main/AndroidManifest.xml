@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.admu_student_app">
    <application
-        android:label="admu_student_app"
+        android:label="Beadle"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
