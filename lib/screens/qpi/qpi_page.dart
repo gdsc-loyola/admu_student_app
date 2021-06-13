@@ -6,6 +6,7 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/academic_records.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/models/year.dart';
+import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/widgets/qpi/qpi_view.dart';
 import 'package:admu_student_app/widgets/qpi/year_drop_down.dart';
@@ -90,7 +91,7 @@ class _QPIPageState extends State<QPIPage> {
                     );
                   },
                 )
-              : Container(), // replace with empty state
+              : EmptyState(topText: 'No QPI Data Yet', bottomText: 'Add your grades by tapping the + button at the top right corner!'),
 
           // compsat
           Text(

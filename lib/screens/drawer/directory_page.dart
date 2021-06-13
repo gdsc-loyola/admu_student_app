@@ -1,12 +1,12 @@
-import 'package:admu_student_app/widgets/custom_drop_down.dart';
-import 'package:admu_student_app/widgets/drawer/office_drop_down.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/models/ls_directory.dart';
 import 'package:admu_student_app/models/user_cache.dart';
-import 'package:admu_student_app/widgets/modals/help.dart';
+import 'package:admu_student_app/widgets/drawer/office_drop_down.dart';
 import 'package:admu_student_app/widgets/help_button.dart';
+import 'package:admu_student_app/widgets/modals/help.dart';
+import 'package:admu_student_app/widgets/custom_drop_down.dart';
 
 class DirectoryPage extends StatefulWidget {
   @override
@@ -48,7 +48,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
       strings: [
         'Pick the school or office the department belongs to.',
         'Find the department based on the schedules displayed.',
-        'If what you\'re looking for is unavailable, you can go to _',
+        'If what you\'re looking for is unavailable, you can check their own websites and pages.',
       ],
     );
   }
@@ -246,11 +246,14 @@ class _DirectoryPageState extends State<DirectoryPage> {
                       return Container(
                         margin: EdgeInsets.only(top: 24),
                         child: CustomDropDown(
-                          title: Text('${officeData['name']}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(color: AppColors.GRAY_DARK[0])),
+                          title: Padding(
+                            padding: EdgeInsets.only(left: 16),
+                            child: Text('${officeData['name']}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .copyWith(color: AppColors.GRAY_DARK[0])),
+                          ),
                           childrenPadding: EdgeInsets.fromLTRB(32, 16, 16, 16),
                           expandedAlignment: Alignment.centerLeft,
                           children: emails,

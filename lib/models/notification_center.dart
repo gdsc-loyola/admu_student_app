@@ -6,7 +6,7 @@ import 'package:admu_student_app/models/notification.dart';
 class NotificationCenter extends ChangeNotifier {
   List<Notif> _notifs = [
     Notif(
-      0,
+      1,
       'Welcome, Atenean!',
       'Hi from Beadle! I\'m so glad to have you here. Hope you enjoy!',
       '',

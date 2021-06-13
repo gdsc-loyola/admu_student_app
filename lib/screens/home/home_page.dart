@@ -1,4 +1,3 @@
-import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +6,7 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
+import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:admu_student_app/widgets/home/event_card_preview.dart';
 import 'package:admu_student_app/widgets/home/pomodoro.dart';
 
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   // name
                   Text(
-                    'Hey, Lorem!',
+                    'Hey, Buddy!', // temp
                     style: Theme.of(context).textTheme.headline5.copyWith(
                           color: AppColors.GRAY_DARK[0],
                           fontWeight: FontWeight.w500,
@@ -81,37 +81,39 @@ class _HomePageState extends State<HomePage> {
           // tasks
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [AppEffects.SHADOW_FOR_WHITE],
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // text
-                  Text(
-                    'For today: ${events.length}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(color: AppColors.PRIMARY_MAIN),
-                  ),
-                  SizedBox(height: 16),
-
-                  // events
-                  events.length > 0
-                      ? Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: events.length,
-                      itemBuilder: (_, index) =>
-                          HomeEventCard(event: events[index]),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // text
+                    Text(
+                      'For today: ${events.length}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: AppColors.PRIMARY_MAIN),
                     ),
-                  )
-                      : EmptyState()
-                ],
+                    SizedBox(height: 16),
+
+                    // events
+                    events.length > 0
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: events.length,
+                            itemBuilder: (_, index) =>
+                                HomeEventCard(event: events[index]))
+                        : EmptyState(
+                            topText: 'No Events Yet',
+                            bottomText:
+                                'Rest up buddy! You may add events for today using the calendar page.'),
+                  ],
+                ),
               ),
             ),
           ),

@@ -8,6 +8,7 @@ import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/widgets/calendar/calendar.dart';
 import 'package:admu_student_app/widgets/calendar/event_card_small.dart';
+import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/widgets/help_button.dart';
 
@@ -33,12 +34,12 @@ class _MonthTabState extends State<MonthTab> {
     else
       _date = DateTime.now();
 
-    if (UserCache.calendar) {
+    /*if (UserCache.calendar) {
       UserCache.calendar = false;
       UserCache.save();
 
       WidgetsBinding.instance.addPostFrameCallback((_) => _showHowTo());
-    }
+    }*/
   }
 
   void _showHowTo() async {
@@ -46,9 +47,8 @@ class _MonthTabState extends State<MonthTab> {
       context,
       title: 'Calendar',
       strings: [
-        '1',
-        '2',
-        '3',
+        'Select a date to see your events and tasks for that day.',
+        'Add some more by tapping the + button at the top right corner!',
       ],
     );
   }
@@ -96,21 +96,26 @@ class _MonthTabState extends State<MonthTab> {
               ),
             ),
             SizedBox(width: 4),
-            HelpButton(onTap: _showHowTo),
+            // HelpButton(onTap: _showHowTo),
           ],
         ),
         SizedBox(height: 8),
-        ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: _events.length,
-          itemBuilder: (_, index) {
-            return Container(
-              margin: EdgeInsets.only(bottom: 8.0),
-              child: SmallEventCard(event: _events[index]),
-            );
-          },
-        ),
+        _events.length > 0
+            ? ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: _events.length,
+                itemBuilder: (_, index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 8.0),
+                    child: SmallEventCard(event: _events[index]),
+                  );
+                },
+              )
+            : EmptyState(
+                topText: 'No Events Yet',
+                bottomText:
+                    'Create your events by tapping the + button at the top right corner!'),
       ],
     );
   }

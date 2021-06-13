@@ -55,14 +55,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
                 accountName: Text(
-                  'LOREM I. PSUM',
+                  'Student',
                   style: Theme.of(context)
                       .textTheme
                       .headline4
                       .copyWith(color: Colors.white),
                 ),
                 accountEmail: Text(
-                  'lorem.ipsum.@obf.ateneo.edu',
+                  '',
+                  // 'lorem.ipsum.@obf.ateneo.edu',
                   style: Theme.of(context).textTheme.bodyText1.copyWith(
                       color: AppColors.GRAY_LIGHT[0],
                       fontWeight: FontWeight.w100),
@@ -127,10 +128,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
                 child: Text(
                   'About',
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: AppColors.GRAY_DARK[0],
-                        fontSize: 20
-                      ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(color: AppColors.GRAY_DARK[0], fontSize: 20),
                 ),
               ),
               onTap: () {
@@ -141,28 +142,28 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
 
             //LIST TILE 4
-            ListTile(
-              title: Container(
-                padding: EdgeInsets.symmetric(vertical: 18),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: AppColors.GRAY_LIGHT[1]),
-                  ),
-                ),
-                child: Text(
-                  'Log out',
-                  style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: AppColors.GRAY_DARK[0],
-                        fontSize: 20
-                      ),
-                ),
-              ),
-              onTap: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(builder: (_) => FAQsPage()),
-                // );
-              },
-            ),
+            // ListTile(
+            //   title: Container(
+            //     padding: EdgeInsets.symmetric(vertical: 18),
+            //     decoration: BoxDecoration(
+            //       border: Border(
+            //         bottom: BorderSide(color: AppColors.GRAY_LIGHT[1]),
+            //       ),
+            //     ),
+            //     child: Text(
+            //       'Log out',
+            //       style: Theme.of(context).textTheme.bodyText1.copyWith(
+            //             color: AppColors.GRAY_DARK[0],
+            //             fontSize: 20
+            //           ),
+            //     ),
+            //   ),
+            //   onTap: () {
+            //     // Navigator.of(context).push(
+            //     //   MaterialPageRoute(builder: (_) => FAQsPage()),
+            //     // );
+            //   },
+            // ),
 
             Spacer(),
 

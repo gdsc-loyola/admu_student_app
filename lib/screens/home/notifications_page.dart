@@ -7,7 +7,7 @@ import 'package:admu_student_app/models/notification.dart';
 import 'package:admu_student_app/widgets/home/notification_card.dart';
 
 class NotificationsPage extends StatelessWidget {
-  Future<void> _onBack(BuildContext context) async {
+  Future<bool> _onBack(BuildContext context) async {
     Provider.of<NotificationCenter>(context, listen: false).setReadAll();
 
     return true;

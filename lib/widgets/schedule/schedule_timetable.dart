@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
 import 'package:admu_student_app/screens/add_class.dart';
+import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:admu_student_app/widgets/modals/alert.dart';
 import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 
@@ -149,13 +150,15 @@ class ScheduleTimetable extends StatelessWidget {
 
     return Stack(
       children: [
-        // no data, empty state
-
         // background
         Positioned.fill(child: _buildBackground(context, data)),
 
         // foreground, timetable
         Positioned.fill(child: _buildTimetable(context, data)),
+
+        // no data, empty state
+        Center(child: EmptyState(topText: 'No Schedule Yet', bottomText: 'Create your classes by tapping the + button at the top right corner!')),
+
       ],
     );
   }

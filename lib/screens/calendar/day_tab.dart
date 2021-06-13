@@ -6,8 +6,8 @@ import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_strings.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
 import 'package:admu_student_app/models/event.dart';
-import 'package:admu_student_app/widgets/calendar/calendar.dart';
 import 'package:admu_student_app/widgets/calendar/event_card.dart';
+import 'package:admu_student_app/widgets/home/empty_state.dart';
 
 class DayTab extends StatefulWidget {
   final DateTime date;
@@ -95,7 +95,9 @@ class _DayTabState extends State<DayTab> {
               : _date = _date;
         });
 
-        (_pageCtrl.page is int) ? print(_date) : print('null');
+        if (widget.onDateChange != null) widget.onDateChange(_date);
+
+        // (_pageCtrl.page is int) ? print(_date) : print('null');
       },
     );
 
@@ -105,9 +107,7 @@ class _DayTabState extends State<DayTab> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 36,
-        ),
+        SizedBox(height: 36),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -155,6 +155,7 @@ class _DayTabState extends State<DayTab> {
           ],
         ),
         SizedBox(height: 27),
+
         // testing
         SizedBox(
           height: 112,
@@ -164,12 +165,18 @@ class _DayTabState extends State<DayTab> {
             itemBuilder: (_, index) {
               _dateAll = DateTime(_date.year, _date.month, index + 1);
 
+              bool isDate = _date.year == _dateAll.year &&
+                  _date.month == _dateAll.month &&
+                  _date.day == _dateAll.day;
+
               return Container(
                 // replace with the time card
                 width: 72,
                 height: 112,
                 decoration: BoxDecoration(
-                    color: AppColors.PRIMARY_MAIN,
+                    color: isDate
+                        ? AppColors.PRIMARY_MAIN
+                        : AppColors.GRAY_LIGHT[0],
                     borderRadius: BorderRadius.all(Radius.circular(16))),
                 margin: EdgeInsets.symmetric(horizontal: 25),
                 child: Center(
@@ -179,17 +186,17 @@ class _DayTabState extends State<DayTab> {
                   children: [
                     Text(
                       '${DateFormat('EEE').format(_dateAll).toUpperCase()}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: isDate
+                              ? AppColors.GRAY_LIGHT[2]
+                              : AppColors.GRAY_DARK[2]),
                     ),
                     Text(
                       '${DateFormat('dd').format(_dateAll)}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(color: AppColors.GRAY_LIGHT[2]),
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: isDate
+                              ? AppColors.GRAY_LIGHT[2]
+                              : AppColors.GRAY_DARK[2]),
                     ),
                   ],
                 )),
@@ -206,17 +213,22 @@ class _DayTabState extends State<DayTab> {
               .copyWith(color: AppColors.PRIMARY_ALT),
         ),
         SizedBox(height: 8),
-        ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: _events.length,
-          itemBuilder: (_, index) {
-            return Container(
-              margin: EdgeInsets.only(bottom: 8.0),
-              child: EventCard(event: _events[index]),
-            );
-          },
-        ),
+        _events.length > 0
+            ? ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: _events.length,
+                itemBuilder: (_, index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 8.0),
+                    child: EventCard(event: _events[index]),
+                  );
+                },
+              )
+            : EmptyState(
+                topText: 'No Events Yet',
+                bottomText:
+                    'Create your events by tapping the + button at the top right corner!'),
       ],
     );
   }
