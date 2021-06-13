@@ -28,6 +28,11 @@ class EventCard extends StatelessWidget {
         boxShadow: [AppEffects.SHADOW_FOR_WHITE],
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
+      foregroundDecoration: event.isDone
+          ? BoxDecoration(
+              color: AppColors.GRAY_LIGHT[2],
+              backgroundBlendMode: BlendMode.softLight)
+          : null,
       child: Center(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,7 +59,8 @@ class EventCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: AppColors.GRAY,
+                        color:
+                            event.isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
                         decoration: event.isDone
                             ? TextDecoration.lineThrough
                             : TextDecoration.none,
@@ -117,28 +123,10 @@ class EventCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                event.getReadableTime(),
+                '${event.start == null ? '' : event.getReadableStartTime()}\nto\n ${event.start == null ? '' : event.getReadableEndTime()}',
                 style: _timeStyle,
                 textAlign: TextAlign.center,
               ),
-              /*child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:
-                    (widget.event.start == null || widget.event.end == null)
-                        ? []
-                        : [
-                            Text(
-                              widget.event.getReadableStartTime(),
-                              style: _timeStyle,
-                            ),
-                            Text('to', style: _timeStyle),
-                            Text(
-                              widget.event.getReadableEndTime(),
-                              style: _timeStyle,
-                            ),
-                          ],
-              ),*/
             ),
           ],
         ),

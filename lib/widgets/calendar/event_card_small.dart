@@ -40,7 +40,7 @@ class SmallEventCard extends StatelessWidget {
                 event.name,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: AppColors.GRAY,
+                    color: event.isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
                     decoration: event.isDone
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
@@ -50,7 +50,7 @@ class SmallEventCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                event.start == null ? '' : event.getReadableStartTime(),
+                '${event.start == null ? '': event.getReadableStartTime()} to\n ${event.start == null? '': event.getReadableEndTime()}',
                 style: Theme.of(context)
                     .textTheme
                     .caption
