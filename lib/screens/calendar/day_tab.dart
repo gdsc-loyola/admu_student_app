@@ -205,14 +205,14 @@ class _DayTabState extends State<DayTab> {
           ),
         ),
         SizedBox(height: 16),
-        Text(
+        /*Text(
           _getDateString(),
           style: Theme.of(context)
               .textTheme
               .headline6
               .copyWith(color: AppColors.PRIMARY_ALT),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 8),*/
         _events.length > 0
             ? ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
