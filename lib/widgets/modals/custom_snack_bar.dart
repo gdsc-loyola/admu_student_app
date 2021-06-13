@@ -30,13 +30,13 @@ class CustomSnackBar {
           SizedBox(width: 4), // temporary padding
 
           // close button
-          IconButton(
+          /*IconButton(
             iconSize: 22, // 22?
             icon: Icon(Icons.close_rounded),
             onPressed: () =>
                 ScaffoldMessenger.of(context).hideCurrentSnackBar(),
             color: AppColors.GRAY_LIGHT[2],
-          ),
+          ),*/
         ],
       ),
       backgroundColor: AppColors.SECONDARY_MAIN,

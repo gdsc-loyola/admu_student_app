@@ -23,16 +23,18 @@ void main() {
   ));
 
   // load - after runApp to avoid errors
-  LSDirectory.load();
-  UserCache.load();
 }
 
 class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    LSDirectory.load();
+    UserCache.load(context);
+
+    MaterialApp app = MaterialApp(
       title: 'Beadle',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.GRAY_LIGHT[2],
         fontFamily: GoogleFonts.dmSans().fontFamily,
@@ -56,10 +58,23 @@ class App extends StatelessWidget {
           bodyText2: GoogleFonts.dmSans(fontSize: 14.0),
           caption: GoogleFonts.dmSans(fontSize: 14.0),
         ),
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(
+              backgroundColor: AppColors.PRIMARY_MAIN,
+              brightness: Brightness.dark,
+            ),
         primaryColor: AppColors.PRIMARY_MAIN,
         primarySwatch: Colors.blue,
       ),
       home: SplashPage(),
+    );
+
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode focus = FocusScope.of(context);
+
+        if (!focus.hasPrimaryFocus) focus.unfocus();
+      },
+      child: app,
     );
   }
 }

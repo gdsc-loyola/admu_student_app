@@ -36,7 +36,7 @@ class LoginPage extends StatelessWidget {
                     // Container for Buttons
                     Container(
                       height: 136,
-                      width: 264,
+                      // width: 264,
                       // Column for Buttons
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,11 +123,11 @@ class LoginPage extends StatelessWidget {
                     ),
                     // Container for Bottom Text
                     Container(
-                      width: 144,
-                      height: 52,
+                      // width: 144,
+                      // height: 52,
                       // Column for Bottom Text
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'No account?',
@@ -138,12 +138,18 @@ class LoginPage extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) => UserCache.onboarding
-                                        ? OnboardingPage()
-                                        : MainPage()),
-                              );
+                              if (UserCache.onboarding) {
+                                UserCache.onboarding = false;
+                                UserCache.save();
+
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (_) => OnboardingPage()),
+                                );
+                              } else
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (_) => MainPage()),
+                                );
                             },
                             child: Text(
                               'Continue as Guest',

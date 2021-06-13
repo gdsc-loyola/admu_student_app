@@ -95,7 +95,7 @@ class CalendarEvents extends ChangeNotifier {
 
   CalendarEvents() {
     // sample data for testing
-    if (kIsWeb) _events.addAll(_sampleData);
+    // if (kIsWeb) _events.addAll(_sampleData);
 
     _updateList();
 
@@ -239,6 +239,7 @@ dart_sdk.js:7024 Uncaught (in promise) Error: Instance of 'WebScraperException'
         CentralDatabaseHelper.yearEnd: end == null ? null : end.year,
         CentralDatabaseHelper.monthEnd: end == null ? null : end.month,
         CentralDatabaseHelper.dayEnd: end == null ? null : end.day,
+        CentralDatabaseHelper.notified: 0,
         CentralDatabaseHelper.name: name,
         CentralDatabaseHelper.agenda: agenda,
         CentralDatabaseHelper.tags: tags,

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/screens/drawer/about_page.dart';
 import 'package:admu_student_app/screens/drawer/directory_page.dart';
-import 'package:admu_student_app/screens/drawer/faqs_page.dart';
 import 'package:admu_student_app/screens/enlistment/enlistment_page.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -20,9 +19,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         child: Column(
           children: [
             Container(
-              height: 64,
+              // height: 64,
               color: AppColors.PRIMARY_MAIN,
-              padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+              padding: EdgeInsets.fromLTRB(
+                  0, MediaQuery.of(context).padding.top, 16, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -33,7 +33,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                      })
+                      },
+                      iconSize: 32),
                 ],
               ),
             ),

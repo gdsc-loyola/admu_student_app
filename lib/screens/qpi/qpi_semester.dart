@@ -64,7 +64,7 @@ class _SemesterPageState extends State<SemesterPage> {
             );
           },
           icon: Icon(Icons.arrow_back_ios_rounded),
-          color: Colors.white,
+          iconSize: 32,
         ),
         title: Text(
           'Year ${widget.yearNum.toString()}',

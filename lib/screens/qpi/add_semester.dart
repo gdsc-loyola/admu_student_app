@@ -63,7 +63,7 @@ class SemesterAddQPI extends StatelessWidget {
               // units
               Expanded(
                 child: InputGroup(
-                  'Units',
+                  'Units*',
                   unitsController,
                   hint: '3',
                 ),
@@ -73,7 +73,7 @@ class SemesterAddQPI extends StatelessWidget {
               // qpi
               Expanded(
                 child: InputGroup(
-                  'Semestral QPI',
+                  'Semestral QPI*',
                   qpiController,
                   hint: '4.00',
                 ),
@@ -83,11 +83,11 @@ class SemesterAddQPI extends StatelessWidget {
           SizedBox(height: 16),
 
           // color
-          SelectColor(
-            label: 'Color Code*',
-            color: color,
-            onColorChange: onColorChange,
-          ),
+          // SelectColor(
+          //   label: 'Color Code*',
+          //   color: color,
+          //   onColorChange: onColorChange,
+          // ),
         ],
       ),
     );

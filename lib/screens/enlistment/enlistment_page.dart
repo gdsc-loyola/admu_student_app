@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/constants/app_effects.dart';
 import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/subject.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/widgets/enlistment/enlistment_class.dart';
+import 'package:admu_student_app/widgets/modals/alert.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
+import 'package:admu_student_app/screens/enlistment/preview_schedule.dart';
 import 'package:admu_student_app/screens/add_class.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 import 'package:admu_student_app/widgets/help_button.dart';
@@ -36,15 +39,89 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
       context,
       title: 'Enlistment',
       strings: [
-        '1',
-        '2',
-        '3',
+        'To add a class, tap the + button at the top right corner..',
+        'Fill out the required fields and hit done after!',
+        'Tap select and add the confirmed classes to your schedule.',
       ],
     );
   }
 
-  void _onSelect(Subject s) {
-    print(s.code);
+  void _onPreviewSchedule(List<Map<String, dynamic>> grouped) {
+    List<Subject> forSched = [];
+
+    for (Map<String, dynamic> m in grouped) {
+      for(Subject s in m['subjects']) {
+        if(s.selectedInEnlistment) forSched.add(s);
+      }
+    }
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => PreviewSchedule(forSched)));
+  }
+
+  void _onAddSchedule() async {
+    bool added = false;
+
+    // show dialog
+    await AlertModal.showAlert(
+      context,
+      iconData: Icons.access_time_rounded,
+      iconColor: AppColors.SECONDARY_MAIN,
+      header: 'Add to your schedule?',
+      description: null,
+      acceptText: 'Confirm',
+      acceptColor: AppColors.PRIMARY_MAIN,
+      onAccept: () {
+        Provider.of<ClassSchedule>(context, listen: false)
+            .addEnlistmentSchedule();
+        added = true;
+      },
+    );
+
+    if (added) {
+      showGeneralDialog(
+        context: context,
+        pageBuilder: (_, __, ___) {
+          return Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+              padding: EdgeInsets.fromLTRB(32, 32, 32, 88),
+              margin: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Spacer(),
+                      IconButton(
+                        icon: Icon(Icons.close_rounded),
+                        iconSize: 36,
+                        color: AppColors.GRAY_DARK[0],
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ],
+                  ),
+                  Icon(
+                    Icons.check_circle_outline_rounded,
+                    color: AppColors.SUCCESS_MAIN,
+                    size: 75,
+                  ),
+                  Text('Hooray! Added to your schedule.',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(color: AppColors.GRAY_DARK[0])),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -59,6 +136,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
           icon: Icon(Icons.arrow_back_ios_rounded),
           color: AppColors.GRAY_LIGHT[2],
           onPressed: () => Navigator.of(context).pop(),
+          iconSize: 32,
         ),
         actions: [
           IconButton(
@@ -66,11 +144,11 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => AddClassPage(
-                  isEditing: true,
                   inEnlistment: true,
                 ),
               ));
             },
+            iconSize: 32,
           ),
         ],
       ),
@@ -143,11 +221,10 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
               itemCount: groupedSubjs.length,
               itemBuilder: (_, index) {
                 Widget card = EnlistmentClassCard(
+                  color: groupedSubjs[index]['color'],
                   code: groupedSubjs[index]['code'],
                   subjects: groupedSubjs[index]['subjects'],
                   isSelecting: _isSelecting,
-                  onSelect: (i) =>
-                      _onSelect(groupedSubjs[index]['subjects'][i]),
                 );
 
                 return Padding(
@@ -159,12 +236,30 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
             SizedBox(height: 48),
 
             // create schedule
-            CustomButton(
-              ButtonSize.medium,
-              'Create Schedule',
-              AppColors.SECONDARY_MAIN,
-              AppColors.GRAY_LIGHT[2],
-              () {},
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // preview sched
+                CustomButton(
+                  ButtonSize.short,
+                  'Preview Schedule',
+                  AppColors.SECONDARY_MAIN,
+                  AppColors.SECONDARY_MAIN,
+                  () => _onPreviewSchedule(groupedSubjs),
+                  outlined: true,
+                ),
+                SizedBox(width: 16),
+
+                // add to sched
+                CustomButton(
+                  ButtonSize.short,
+                  'Add to Schedule',
+                  AppColors.SECONDARY_MAIN,
+                  AppColors.GRAY_LIGHT[2],
+                  _onAddSchedule,
+                  shadows: [AppEffects.SHADOW],
+                ),
+              ],
             ),
           ],
         ),

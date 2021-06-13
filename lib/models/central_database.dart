@@ -38,6 +38,8 @@ class CentralDatabaseHelper {
   static final isDone = 'is_done';
   static final inAcademicCalendar = 'in_academic_calendar';
 
+  static final notified = 'notified';
+
   // singleton class
   CentralDatabaseHelper._privateConstructor();
   static final CentralDatabaseHelper instance =
@@ -142,6 +144,7 @@ class CentralDatabaseHelper {
       $yearEnd INTEGER,
       $monthEnd INTEGER,
       $dayEnd INTEGER,
+      $notified INTEGER NOT NULL,
       $name TEXT NOT NULL,
       $agenda TEXT,
       $tags TEXT,

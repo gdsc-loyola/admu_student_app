@@ -105,9 +105,22 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return willPop;
   }
 
-  void _onSave() {
+  void _onSave() async {
     DateTime fStart = _checkDateTime(_startDate, _startTime);
-    DateTime fEnd = _checkDateTime(_endDate, _endTime);
+    DateTime fEnd = _checkDateTime(_endDate, _endTime, true);
+
+    if (_eventCtrl.text.isEmpty)
+      return await AlertModal.showIncompleteError(context);
+
+    if (fStart != null && fEnd != null) {
+      if ((fStart.year == 0 && fEnd.year != 0) ||
+          (fStart.year != 0 && fEnd.year == 0))
+        return await AlertModal.showError(
+            context, 'your start and end times are both correct.');
+
+      if (fStart.isAfter(fEnd))
+        return await AlertModal.showInverseTimeError(context);
+    }
 
     if (widget.isEditing) {
       Provider.of<CalendarEvents>(context, listen: false).editEvent(
@@ -156,14 +169,17 @@ class _AddTaskPageState extends State<AddTaskPage> {
     Navigator.of(context).pop();
   }
 
-  DateTime _checkDateTime(DateTime dt, TimeOfDay td) {
+  DateTime _checkDateTime(DateTime dt, TimeOfDay td, [bool isEnd = false]) {
     if (dt != null && td != null)
       return DateTime(dt.year, dt.month, dt.day, td.hour, td.minute);
     else if (dt == null && td != null)
       return DateTime(0, 1, 1, td.hour, td.minute);
-    else if (dt != null && td == null)
-      return dt;
-    else
+    else if (dt != null && td == null) {
+      if (!isEnd)
+        return DateTime(dt.year, dt.month, dt.day);
+      else
+        return DateTime(dt.year, dt.month, dt.day, 23, 59);
+    } else
       return null;
   }
 
@@ -200,16 +216,20 @@ class _AddTaskPageState extends State<AddTaskPage> {
         leading: IconButton(
           icon: Icon(Icons.close_rounded),
           onPressed: _onBack,
+          iconSize: 32,
         ),
         actions: [
-          TextButton(
-            onPressed: _onSave,
-            child: Text(
-              'Done',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: AppColors.GRAY_LIGHT[2]),
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: TextButton(
+              onPressed: _onSave,
+              child: Text(
+                'Done',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.GRAY_LIGHT[2],
+                    ),
+              ),
             ),
           ),
         ],
@@ -233,7 +253,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
             // name
             Row(
               children: [
-                Expanded(child: InputGroup('Event*', _eventCtrl)),
+                Expanded(
+                  child: InputGroup(
+                    'Event*',
+                    _eventCtrl,
+                    hint: 'What do you have planned?',
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 16),
@@ -279,7 +305,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 // time
                 Expanded(
                   child: SelectTimeGroup(
-                    'End',
+                    '',
                     time: _endTime,
                     onTimeChange: _onEndTimeChange,
                   ),
@@ -291,7 +317,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
             // tags
             Row(
               children: [
-                Expanded(child: InputGroup('Tags', _tagCtrl)),
+                Expanded(
+                  child: InputGroup('Tags', _tagCtrl, hint: 'Tags'),
+                ),
               ],
             ),
             SizedBox(height: 16),
@@ -299,7 +327,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
             // agenda
             Row(
               children: [
-                Expanded(child: InputGroup('Agenda', _agendaCtrl)),
+                Expanded(
+                  child: InputGroup('Agenda', _agendaCtrl,
+                      hint: 'What will be happening?'),
+                ),
               ],
             ),
             SizedBox(height: 48),

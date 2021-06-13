@@ -15,6 +15,8 @@ class Subject {
   bool inEnlistment;
   String profName;
 
+  bool selectedInEnlistment = false;
+
   Subject(
     String code,
     String section,

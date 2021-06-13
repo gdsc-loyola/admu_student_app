@@ -35,7 +35,8 @@ class AcademicRecords extends ChangeNotifier {
     ]),
     Year(2, [
       Semester(0, [
-        Course('MATH NSCI TECH ELECTIVE', AppColors.ACCENTS[0].value, 3, 0.0, true),
+        Course('MATH NSCI TECH ELECTIVE', AppColors.ACCENTS[0].value, 3, 0.0,
+            true),
         Course('SocSc 12', AppColors.ACCENTS[1].value, 3, 1.0, true),
         Course('MATH 30.24', 0xFF006060, 3, 2.0, true), // custom test for color
       ]),
@@ -49,7 +50,7 @@ class AcademicRecords extends ChangeNotifier {
 
   AcademicRecords() {
     // sample data for testing
-    if (kIsWeb) _years.addAll(_sampleData);
+    // if (kIsWeb) _years.addAll(_sampleData);
 
     _updateList();
   }

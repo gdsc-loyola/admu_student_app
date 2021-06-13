@@ -12,6 +12,8 @@ class Event {
   bool isDone;
   bool inAcademicCalendar;
 
+  bool notified = false;
+
   Event({
     this.id,
     @required this.name,
@@ -21,6 +23,7 @@ class Event {
     this.end,
     this.isDone = false,
     this.inAcademicCalendar = false,
+    this.notified = false,
   });
 
   factory Event.fromMap(Map map) {
@@ -37,6 +40,7 @@ class Event {
           : null,
       isDone: map[CentralDatabaseHelper.isDone] == 1,
       inAcademicCalendar: map[CentralDatabaseHelper.inAcademicCalendar] == 1,
+      notified: map[CentralDatabaseHelper.notified] == 1,
     );
   }
 
@@ -57,7 +61,7 @@ class Event {
   }
 
   String getReadableStartTime() =>
-      (start.hour < 12 ? (start.hour == 0 ? 12 : start.hour) : start.hour - 12)
+      (start.hour <= 12 ? (start.hour == 0 ? 12 : start.hour) : start.hour - 12)
           .toString()
           .padLeft(2, '0') +
       ':' +
@@ -65,7 +69,7 @@ class Event {
       (start.hour < 12 ? ' AM' : ' PM');
 
   String getReadableEndTime() =>
-      (end.hour < 12 ? (end.hour == 0 ? 12 : end.hour) : end.hour - 12)
+      (end.hour <= 12 ? (end.hour == 0 ? 12 : end.hour) : end.hour - 12)
           .toString()
           .padLeft(2, '0') +
       ':' +

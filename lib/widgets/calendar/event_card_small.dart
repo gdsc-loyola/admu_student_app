@@ -8,24 +8,10 @@ import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
-class SmallEventCard extends StatefulWidget {
+class SmallEventCard extends StatelessWidget {
   final Event event;
 
   SmallEventCard({@required this.event});
-
-  @override
-  _SmallEventCardState createState() => _SmallEventCardState();
-}
-
-class _SmallEventCardState extends State<SmallEventCard> {
-  bool _isDone = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _isDone = widget.event.isDone;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +29,19 @@ class _SmallEventCardState extends State<SmallEventCard> {
           children: [
             Padding(
               child: CircularCheckMark(
-                isDone: _isDone,
-                onTap: () {
-                  Provider.of<CalendarEvents>(context, listen: false)
-                      .setEventDone(widget.event, !widget.event.isDone);
-                  setState(() {
-                    _isDone = !_isDone;
-                  });
-                },
+                isDone: event.isDone,
+                onTap: () => Provider.of<CalendarEvents>(context, listen: false)
+                    .setEventDone(event, !event.isDone),
               ),
               padding: EdgeInsets.only(right: 12.0),
             ),
             Expanded(
               child: Text(
-                widget.event.name,
+                event.name,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: _isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
-                    decoration: _isDone
+                    color: event.isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
+                    decoration: event.isDone
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
                     decorationThickness: 2.0),
@@ -69,7 +50,7 @@ class _SmallEventCardState extends State<SmallEventCard> {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                '${widget.event.start == null? '': widget.event.getReadableStartTime()} to\n ${widget.event.start == null? '': widget.event.getReadableEndTime()}',
+                '${event.start == null ? '': event.getReadableStartTime()} to\n ${event.start == null? '': event.getReadableEndTime()}',
                 style: Theme.of(context)
                     .textTheme
                     .caption
@@ -85,7 +66,7 @@ class _SmallEventCardState extends State<SmallEventCard> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => AddTaskPage(
-            event: widget.event,
+            event: event,
             isEditing: true,
           ),
         ));

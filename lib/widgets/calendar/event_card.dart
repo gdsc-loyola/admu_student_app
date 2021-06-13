@@ -8,24 +8,10 @@ import 'package:admu_student_app/models/event.dart';
 import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
-class EventCard extends StatefulWidget {
+class EventCard extends StatelessWidget {
   final Event event;
 
   EventCard({@required this.event});
-
-  @override
-  _EventCardState createState() => _EventCardState();
-}
-
-class _EventCardState extends State<EventCard> {
-  bool _isDone = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _isDone = widget.event.isDone;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +28,7 @@ class _EventCardState extends State<EventCard> {
         boxShadow: [AppEffects.SHADOW_FOR_WHITE],
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
-      foregroundDecoration: _isDone
+      foregroundDecoration: event.isDone
           ? BoxDecoration(
               color: AppColors.GRAY_LIGHT[2],
               backgroundBlendMode: BlendMode.softLight)
@@ -54,14 +40,9 @@ class _EventCardState extends State<EventCard> {
             // check mark
             Padding(
               child: CircularCheckMark(
-                isDone: _isDone,
-                onTap: () {
-                  Provider.of<CalendarEvents>(context, listen: false)
-                      .setEventDone(widget.event, !widget.event.isDone);
-                  setState(() {
-                    _isDone = !_isDone;
-                  });
-                },
+                isDone: event.isDone,
+                onTap: () => Provider.of<CalendarEvents>(context, listen: false)
+                    .setEventDone(event, !event.isDone),
               ),
               padding: EdgeInsets.only(right: 20.0),
             ),
@@ -74,23 +55,23 @@ class _EventCardState extends State<EventCard> {
                 children: [
                   // title
                   Text(
-                    widget.event.name,
+                    event.name,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         fontWeight: FontWeight.w500,
                         color:
-                            _isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
-                        decoration: _isDone
+                            event.isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
+                        decoration: event.isDone
                             ? TextDecoration.lineThrough
                             : TextDecoration.none,
                         decorationThickness: 2.0),
                   ),
                   // agenda
-                  widget.event.agenda.isNotEmpty
+                  event.agenda.isNotEmpty
                       ? Padding(
                           padding: EdgeInsets.only(bottom: 8.0),
                           child: Text(
-                            widget.event.agenda,
+                            event.agenda,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
@@ -99,66 +80,41 @@ class _EventCardState extends State<EventCard> {
                           ),
                         )
                       : Container(),
+
                   // tags
-                  (widget.event.tags == null || widget.event.tags.isEmpty)
+                  (event.tags == null || event.tags.isEmpty)
                       ? Container()
-                      : Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 24.0),
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color:
-                                    AppColors.SECONDARY_LIGHT.withOpacity(0.5),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4.0)),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  widget.event.tags,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption
-                                      .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.SECONDARY_MAIN),
+                      : SizedBox(
+                          height: 24,
+                          child: ListView(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: AppColors.SECONDARY_LIGHT
+                                      .withOpacity(0.5),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4.0)),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    event.tags,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.SECONDARY_MAIN),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                  // tags
-                  /*(widget.event.tags == null || widget.event.tags.isEmpty)
-                      ? Container()
-                      : ListView(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 24.0),
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color:
-                                    AppColors.SECONDARY_LIGHT.withOpacity(0.5),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4.0)),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  widget.event.tags,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption
-                                      .copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.SECONDARY_MAIN),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),*/
                 ],
               ),
             ),
@@ -167,28 +123,10 @@ class _EventCardState extends State<EventCard> {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                '${widget.event.start == null ? '' : widget.event.getReadableStartTime()}\nto\n ${widget.event.start == null ? '' : widget.event.getReadableEndTime()}',
+                '${event.start == null ? '' : event.getReadableStartTime()}\nto\n ${event.start == null ? '' : event.getReadableEndTime()}',
                 style: _timeStyle,
                 textAlign: TextAlign.center,
               ),
-              /*child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:
-                    (widget.event.start == null || widget.event.end == null)
-                        ? []
-                        : [
-                            Text(
-                              widget.event.getReadableStartTime(),
-                              style: _timeStyle,
-                            ),
-                            Text('to', style: _timeStyle),
-                            Text(
-                              widget.event.getReadableEndTime(),
-                              style: _timeStyle,
-                            ),
-                          ],
-              ),*/
             ),
           ],
         ),
@@ -199,7 +137,7 @@ class _EventCardState extends State<EventCard> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => AddTaskPage(
-            event: widget.event,
+            event: event,
             isEditing: true,
           ),
         ));
