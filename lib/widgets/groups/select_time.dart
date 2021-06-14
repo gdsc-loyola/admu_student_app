@@ -29,8 +29,8 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
   }
 
   void _onTap(BuildContext context) async {
-    // if (kIsWeb || !Platform.isIOS) {
-    if (false) {
+    if (kIsWeb || !Platform.isIOS) {
+    // if (false) { // testing
       // show material
 
       TimeOfDay nTime = await showTimePicker(
