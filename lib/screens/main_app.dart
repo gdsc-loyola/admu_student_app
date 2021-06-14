@@ -1,3 +1,4 @@
+import 'package:admu_student_app/screens/calendar/undated_tasks_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -174,7 +175,8 @@ class _MainPageState extends State<MainPage> {
 
       actions.add(IconButton(
         icon: icon,
-        onPressed: () {}, // push to undated tasks
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => UndatedTasksPage())), // push to undated tasks
         iconSize: 32,
       ));
     }
