@@ -1,3 +1,4 @@
+import 'package:admu_student_app/screens/add_task.dart';
 import 'package:admu_student_app/screens/enlistment/enlistment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class _UndatedTasksPageState extends State<UndatedTasksPage> {
             icon: Icon(Icons.add_rounded),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => EnlistmentPage(),
+                builder: (_) => AddTaskPage(),
               ));
             },
             iconSize: 32,
