@@ -106,8 +106,10 @@ class _HomePageState extends State<HomePage> {
                         ? ListView.builder(
                             shrinkWrap: true,
                             itemCount: events.length,
-                            itemBuilder: (_, index) =>
-                                HomeEventCard(event: events[index]))
+                            itemBuilder: (_, index) => HomeEventCard(
+                                  event: events[index],
+                                  onMark: () => setState(() {}),
+                                ))
                         : EmptyState(
                             topText: 'No Events Yet',
                             bottomText:

@@ -108,7 +108,10 @@ class _MonthTabState extends State<MonthTab> {
                 itemBuilder: (_, index) {
                   return Container(
                     margin: EdgeInsets.only(bottom: 8.0),
-                    child: SmallEventCard(event: _events[index]),
+                    child: SmallEventCard(
+                      event: _events[index],
+                      onMark: () => setState(() {}),
+                    ),
                   );
                 },
               )

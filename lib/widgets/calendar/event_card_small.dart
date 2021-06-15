@@ -10,8 +10,9 @@ import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 class SmallEventCard extends StatelessWidget {
   final Event event;
+  final VoidCallback onMark;
 
-  SmallEventCard({@required this.event});
+  SmallEventCard({@required this.event, this.onMark});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,12 @@ class SmallEventCard extends StatelessWidget {
             Padding(
               child: CircularCheckMark(
                 isDone: event.isDone,
-                onTap: () => Provider.of<CalendarEvents>(context, listen: false)
-                    .setEventDone(event, !event.isDone),
+                onTap: () {
+                  Provider.of<CalendarEvents>(context, listen: false)
+                      .setEventDone(event, !event.isDone);
+
+                  if (onMark != null) onMark();
+                },
               ),
               padding: EdgeInsets.only(right: 12.0),
             ),
@@ -40,7 +45,8 @@ class SmallEventCard extends StatelessWidget {
                 event.name,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyText1.copyWith(
-                    color: event.isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
+                    color:
+                        event.isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
                     decoration: event.isDone
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
@@ -50,7 +56,7 @@ class SmallEventCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                '${event.start == null ? '': event.getReadableStartTime()} to\n ${event.start == null? '': event.getReadableEndTime()}',
+                '${event.start == null ? '' : event.getReadableStartTime()} to\n ${event.start == null ? '' : event.getReadableEndTime()}',
                 style: Theme.of(context)
                     .textTheme
                     .caption

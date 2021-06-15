@@ -10,8 +10,9 @@ import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
+  final VoidCallback onMark;
 
-  EventCard({@required this.event});
+  EventCard({@required this.event, this.onMark});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +42,12 @@ class EventCard extends StatelessWidget {
             Padding(
               child: CircularCheckMark(
                 isDone: event.isDone,
-                onTap: () => Provider.of<CalendarEvents>(context, listen: false)
-                    .setEventDone(event, !event.isDone),
+                onTap: () {
+                  Provider.of<CalendarEvents>(context, listen: false)
+                      .setEventDone(event, !event.isDone);
+
+                  if (onMark != null) onMark();
+                },
               ),
               padding: EdgeInsets.only(right: 20.0),
             ),
@@ -59,8 +64,9 @@ class EventCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         fontWeight: FontWeight.w500,
-                        color:
-                            event.isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
+                        color: event.isDone
+                            ? AppColors.GRAY_DARK[2]
+                            : AppColors.GRAY,
                         decoration: event.isDone
                             ? TextDecoration.lineThrough
                             : TextDecoration.none,

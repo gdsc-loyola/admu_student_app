@@ -221,7 +221,10 @@ class _DayTabState extends State<DayTab> {
                 itemBuilder: (_, index) {
                   return Container(
                     margin: EdgeInsets.only(bottom: 8.0),
-                    child: EventCard(event: _events[index]),
+                    child: EventCard(
+                      event: _events[index],
+                      onMark: () => setState(() {}),
+                    ),
                   );
                 },
               )
