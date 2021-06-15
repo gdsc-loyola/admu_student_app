@@ -21,6 +21,16 @@ class EventCard extends StatelessWidget {
         .caption
         .copyWith(color: AppColors.GRAY_DARK[2]);
 
+    String timeText = '';
+
+    if (event.start != null && event.end == null)
+      timeText = 'Starts\n${event.getReadableStartTime()}';
+    else if (event.start == null && event.end != null)
+      timeText = 'Ends\n${event.getReadableEndTime()}';
+    else if (event.start != null && event.end != null)
+      timeText =
+          '${event.getReadableStartTime()}\nto\n ${event.getReadableEndTime()}';
+
     Widget card = Container(
       height: 120, // original 123
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -129,7 +139,7 @@ class EventCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                '${event.start == null ? '' : event.getReadableStartTime()}\nto\n ${event.start == null ? '' : event.getReadableEndTime()}',
+                timeText,
                 style: _timeStyle,
                 textAlign: TextAlign.center,
               ),
