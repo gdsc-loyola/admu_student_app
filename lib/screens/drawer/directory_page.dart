@@ -48,7 +48,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
       strings: [
         'Pick the school or office the department belongs to.',
         'Find the department based on the schedules displayed.',
-        'If what you\'re looking for is unavailable, you can check their own websites and pages.',
+        'If what you\'re looking for is unavailable, you can check the official online ADMU LS Directory spreadsheet.',
       ],
     );
   }
