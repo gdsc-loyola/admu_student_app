@@ -10,8 +10,9 @@ import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
+  final VoidCallback onMark;
 
-  EventCard({@required this.event});
+  EventCard({@required this.event, this.onMark});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,16 @@ class EventCard extends StatelessWidget {
         .textTheme
         .caption
         .copyWith(color: AppColors.GRAY_DARK[2]);
+
+    String timeText = '';
+
+    if (event.start != null && event.end == null)
+      timeText = 'Starts\n${event.getReadableStartTime()}';
+    else if (event.start == null && event.end != null)
+      timeText = 'Ends\n${event.getReadableEndTime()}';
+    else if (event.start != null && event.end != null)
+      timeText =
+          '${event.getReadableStartTime()}\nto\n ${event.getReadableEndTime()}';
 
     Widget card = Container(
       height: 120, // original 123
@@ -41,8 +52,12 @@ class EventCard extends StatelessWidget {
             Padding(
               child: CircularCheckMark(
                 isDone: event.isDone,
-                onTap: () => Provider.of<CalendarEvents>(context, listen: false)
-                    .setEventDone(event, !event.isDone),
+                onTap: () {
+                  Provider.of<CalendarEvents>(context, listen: false)
+                      .setEventDone(event, !event.isDone);
+
+                  if (onMark != null) onMark();
+                },
               ),
               padding: EdgeInsets.only(right: 20.0),
             ),
@@ -59,8 +74,9 @@ class EventCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         fontWeight: FontWeight.w500,
-                        color:
-                            event.isDone ? AppColors.GRAY_DARK[2] : AppColors.GRAY,
+                        color: event.isDone
+                            ? AppColors.GRAY_DARK[2]
+                            : AppColors.GRAY,
                         decoration: event.isDone
                             ? TextDecoration.lineThrough
                             : TextDecoration.none,
@@ -123,7 +139,7 @@ class EventCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                '${event.start == null ? '' : event.getReadableStartTime()}\nto\n ${event.start == null ? '' : event.getReadableEndTime()}',
+                timeText,
                 style: _timeStyle,
                 textAlign: TextAlign.center,
               ),

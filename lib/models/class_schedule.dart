@@ -98,6 +98,8 @@ class ClassSchedule extends ChangeNotifier {
     int start = 24;
     int end = 00;
 
+    bool isEmpty = true;
+
     if (subjs == null) {
       for (Subject s in _subjects) {
         if (s.inEnlistment) continue;
@@ -106,7 +108,10 @@ class ClassSchedule extends ChangeNotifier {
           if (s.qtrNum == 0 || s.qtrNum == qtrNum) {
             // check schedule
             for (int i = 0; i < data.length; i++) {
-              if (s.days[i]) data[i].add(s); // add reference
+              if (s.days[i]) {
+                data[i].add(s); // add reference
+                isEmpty = false;
+              }
             }
 
             // if earlier than start
@@ -121,7 +126,10 @@ class ClassSchedule extends ChangeNotifier {
       for (Subject s in subjs) {
         // check schedule
         for (int i = 0; i < data.length; i++) {
-          if (s.days[i]) data[i].add(s); // add reference
+          if (s.days[i]) {
+            data[i].add(s); // add reference
+            isEmpty = false;
+          }
         }
 
         // if earlier than start
@@ -145,6 +153,7 @@ class ClassSchedule extends ChangeNotifier {
       'start': start == 24 ? 7 : start, // floor
       'end': end == 0 ? 17 : end, // ceil
       'subjects': data,
+      'isEmpty': isEmpty,
     };
   }
 
@@ -441,8 +450,14 @@ class ClassSchedule extends ChangeNotifier {
         CentralDatabaseHelper.inEnlistment: inEnlistment ? 1 : 0,
         CentralDatabaseHelper.professor: profName,
       },
-      where: '',
-      whereArgs: [],
+      where:
+          '${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ? AND ${CentralDatabaseHelper.inEnlistment} = ?',
+      whereArgs: [
+        subj.yearNum,
+        subj.semNum,
+        subj.code,
+        subj.inEnlistment ? 1 : 0,
+      ],
     );
 
     print('updated $updated in schedule');

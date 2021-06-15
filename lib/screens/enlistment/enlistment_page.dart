@@ -41,7 +41,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
       context,
       title: 'Enlistment',
       strings: [
-        'To add a class, tap the + button at the top right corner..',
+        'To add a class, tap the + button at the top right corner.',
         'Fill out the required fields and hit done after!',
         'Tap select and add the confirmed classes to your schedule.',
       ],

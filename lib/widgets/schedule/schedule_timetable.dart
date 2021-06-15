@@ -157,8 +157,8 @@ class ScheduleTimetable extends StatelessWidget {
         Positioned.fill(child: _buildTimetable(context, data)),
 
         // no data, empty state
-        Center(child: EmptyState(topText: 'No Schedule Yet', bottomText: 'Create your classes by tapping the + button at the top right corner!')),
-
+        if (data['isEmpty'])
+          Center(child: EmptyState(topText: 'No Schedule Yet', bottomText: 'Create your classes by tapping the + button at the top right corner!')),
       ],
     );
   }

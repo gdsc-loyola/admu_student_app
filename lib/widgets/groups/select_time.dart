@@ -155,7 +155,7 @@ class _SelectTimeGroupState extends State<SelectTimeGroup> {
                   child: Text(
                     _time == null
                         ? '0:00 AM / PM'
-                        : '${_time.hour > 12 ? (_time.hour - 12) : (_time.hour == 0 ? 12 : _time.hour)}:${_time.minute.toString().padLeft(2, '0')} ${_time.hour > 12 ? 'PM' : 'AM'}',
+                        : '${_time.hour > 12 ? (_time.hour - 12) : (_time.hour == 0 ? 12 : _time.hour)}:${_time.minute.toString().padLeft(2, '0')} ${_time.hour >= 12 ? 'PM' : 'AM'}',
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: _time == null
                             ? AppColors.GRAY_DARK[2]
