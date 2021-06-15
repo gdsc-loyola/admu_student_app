@@ -81,13 +81,13 @@ class _HomePageState extends State<HomePage> {
           // tasks
           Expanded(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [AppEffects.SHADOW_FOR_WHITE],
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: SingleChildScrollView(
+                padding: EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
