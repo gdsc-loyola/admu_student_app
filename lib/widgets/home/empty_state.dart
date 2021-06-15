@@ -23,7 +23,7 @@ class EmptyState extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
             child: Image.asset(
-              "onboarding.png",
+              "assets/onboarding.png",
               width: 86,
               height: 86,
             ),
