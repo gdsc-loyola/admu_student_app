@@ -56,7 +56,8 @@ class SmallEventCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Text(
-                '${event.start == null ? '' : event.getReadableStartTime()} to\n ${event.start == null ? '' : event.getReadableEndTime()}',
+                '${event.start == null ? '' : event.getReadableStartTime()}${event.start != null && event.end != null ? ' to\n' : ''}${event.end == null ? '' : event.getReadableEndTime()}',
+                textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .caption
