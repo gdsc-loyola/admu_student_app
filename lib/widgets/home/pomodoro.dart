@@ -25,7 +25,8 @@ class Pomodoro extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyText1,
         ),
         horizontalTitleGap: 23.28,
-        contentPadding: EdgeInsets.only(left: 37.04, right: 89.94),
+        contentPadding:
+            EdgeInsets.symmetric(horizontal: 32), // original 37.04 89.94
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => PomodoroPage()),
