@@ -74,30 +74,29 @@ class _DayTabState extends State<DayTab> {
 
   @override
   Widget build(BuildContext context) {
-    // inside the Widget build, dispose it AND create a new controller - important for screen sizes
     if (_pageCtrl != null) _pageCtrl.dispose();
     _pageCtrl = PageController(
-        initialPage:
-            (_getNow().month == _date.month && _getNow().year == _date.year)
-                ? _getNow().day - 1
-                : 0, // the date today
+        initialPage: _date.day - 1,
+            // (_getNow().month == _date.month && _getNow().year == _date.year)
+            //     ? _getNow().day - 1
+            //     : 0, // the date today
         viewportFraction: 150 / MediaQuery.of(context).size.width);
     _pageCtrl.addListener(
       () {
-        // check if _pageCtrl.page is an integer - means that the scrolling has locked into position
-        // you can set state here by setting the DateTime variable -- no need to do this one
         setState(() {
-          (_pageCtrl.page is int)
-              ? _pageCtrlInt = _pageCtrl.page.toInt()
-              : _pageCtrlInt = null;
-          (_pageCtrl.page is int)
-              ? _date = DateTime(_date.year, _date.month, _pageCtrlInt + 1)
-              : _date = _date;
+          _pageCtrlInt = _pageCtrl.page.round();
+
+          _date = DateTime(_date.year, _date.month, _pageCtrlInt + 1);
+
+          // (_pageCtrl.page is int)
+          //     ? _pageCtrlInt = _pageCtrl.page.toInt()
+          //     : _pageCtrlInt = null;
+          // (_pageCtrl.page is int)
+          //     ? _date = DateTime(_date.year, _date.month, _pageCtrlInt + 1)
+          //     : _date = _date;
         });
 
         if (widget.onDateChange != null) widget.onDateChange(_date);
-
-        // (_pageCtrl.page is int) ? print(_date) : print('null');
       },
     );
 
