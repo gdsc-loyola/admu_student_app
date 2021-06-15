@@ -441,8 +441,14 @@ class ClassSchedule extends ChangeNotifier {
         CentralDatabaseHelper.inEnlistment: inEnlistment ? 1 : 0,
         CentralDatabaseHelper.professor: profName,
       },
-      where: '',
-      whereArgs: [],
+      where:
+          '${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ? AND ${CentralDatabaseHelper.inEnlistment} = ?',
+      whereArgs: [
+        subj.yearNum,
+        subj.semNum,
+        subj.code,
+        subj.inEnlistment ? 1 : 0,
+      ],
     );
 
     print('updated $updated in schedule');
