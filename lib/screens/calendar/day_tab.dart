@@ -230,7 +230,8 @@ class _DayTabState extends State<DayTab> {
             : EmptyState(
                 topText: 'No Events Yet',
                 bottomText:
-                    'Create your events by tapping the + button at the top right corner!'),
+                    'Create your events by tapping the + button at the top right corner!'
+        ),
       ],
     );
   }
