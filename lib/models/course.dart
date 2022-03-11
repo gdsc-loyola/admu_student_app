@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/models/central_database.dart';
 
 class Course {
+  int id;
   String courseCode;
   Color color;
   int units;
   double qpi;
   bool isIncludedInQPI;
 
-  Course(String courseCode, int color, int units, double qpi,
+  Course(int id, String courseCode, int color, int units, double qpi,
       bool isIncludedInQPI) {
+    this.id = id;
     this.courseCode = courseCode;
     this.color = Color(color);
     this.units = units;
@@ -39,6 +41,7 @@ class Course {
 
   factory Course.fromMap(Map map) {
     return Course(
+      map[CentralDatabaseHelper.id],
       map[CentralDatabaseHelper.code],
       map[CentralDatabaseHelper.color],
       map[CentralDatabaseHelper.units],

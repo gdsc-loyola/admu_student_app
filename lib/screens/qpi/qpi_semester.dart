@@ -35,8 +35,11 @@ class _SemesterPageState extends State<SemesterPage> {
   void _onDelete(BuildContext context, List<Course> courses) {
     for (int i = _cSelected.length - 1; i >= 0; i--) {
       if (_cSelected[i]) {
-        Provider.of<AcademicRecords>(context, listen: false)
-            .deleteCourse(widget.yearNum, widget.semNum, courses[i].courseCode);
+        Provider.of<AcademicRecords>(context, listen: false).deleteCourse(
+            courses[i].id,
+            widget.yearNum,
+            widget.semNum,
+            courses[i].courseCode);
       }
     }
 

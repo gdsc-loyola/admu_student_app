@@ -16,6 +16,8 @@ import 'package:admu_student_app/widgets/button_row.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class AddQPIPage extends StatefulWidget {
+  final int id;
+
   final int yearNum;
   final int semNum;
 
@@ -29,6 +31,7 @@ class AddQPIPage extends StatefulWidget {
   final int selected;
 
   AddQPIPage({
+    this.id = 0,
     this.yearNum,
     this.semNum = 1,
     this.year,
@@ -244,6 +247,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
     } else if (selected == 2) {
       if (widget.isEditing) {
         Provider.of<AcademicRecords>(context, listen: false).editCourse(
+          widget.id,
           widget.yearNum,
           widget.semNum,
           widget.course,
@@ -299,7 +303,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
       CustomSnackBar.showSnackBar(context, 'Semester QPI deleted!');
     } else if (selected == 2) {
       Provider.of<AcademicRecords>(context, listen: false).deleteCourse(
-          widget.yearNum, widget.semNum, widget.course.courseCode);
+          widget.id, widget.yearNum, widget.semNum, widget.course.courseCode);
       CustomSnackBar.showSnackBar(context, 'Class QPI deleted!');
     }
 

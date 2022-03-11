@@ -12,33 +12,34 @@ class AcademicRecords extends ChangeNotifier {
   final List<Year> _sampleData = [
     Year(1, [
       Semester(1, [
-        Course('CSCI 20', AppColors.ACCENTS[0].value, 3, 0.0, true),
-        Course('CSCI 21', AppColors.ACCENTS[1].value, 3, 1.0, true),
-        Course('ENGL 11', AppColors.ACCENTS[2].value, 3, 2.0, true),
-        Course('FILI 12', AppColors.ACCENTS[3].value, 3, 2.5, true),
-        Course('INTACT 11', AppColors.ACCENTS[4].value, 0, 0.0, false),
-        Course('MATH 10', AppColors.ACCENTS[0].value, 3, 3.0, true),
-        Course('MATH 21', AppColors.ACCENTS[1].value, 3, 3.5, true),
-        Course('PHYED 111', AppColors.ACCENTS[2].value, 2, 4.0, false),
+        Course(0, 'CSCI 20', AppColors.ACCENTS[0].value, 3, 0.0, true),
+        Course(0, 'CSCI 21', AppColors.ACCENTS[1].value, 3, 1.0, true),
+        Course(0, 'ENGL 11', AppColors.ACCENTS[2].value, 3, 2.0, true),
+        Course(0, 'FILI 12', AppColors.ACCENTS[3].value, 3, 2.5, true),
+        Course(0, 'INTACT 11', AppColors.ACCENTS[4].value, 0, 0.0, false),
+        Course(0, 'MATH 10', AppColors.ACCENTS[0].value, 3, 3.0, true),
+        Course(0, 'MATH 21', AppColors.ACCENTS[1].value, 3, 3.5, true),
+        Course(0, 'PHYED 111', AppColors.ACCENTS[2].value, 2, 4.0, false),
       ]),
       Semester(2, [
-        Course('CSCI 22', AppColors.ACCENTS[0].value, 3, 4.0, false),
-        Course('ENLIT 12', AppColors.ACCENTS[1].value, 3, 4.0, false),
-        Course('FILI 11', AppColors.ACCENTS[2].value, 3, 4.0, false),
-        Course('HISTO 11', AppColors.ACCENTS[3].value, 3, 4.0, false),
-        Course('INTACT 12', AppColors.ACCENTS[4].value, 0, 0.0, false),
-        Course('MATH 30.23', AppColors.ACCENTS[0].value, 3, 4.0, false),
-        Course('PHYED 143', AppColors.ACCENTS[1].value, 2, 4.0, false),
-        Course('SocSc 11', AppColors.ACCENTS[2].value, 3, 4.0, false),
-        Course('THEO 11', AppColors.ACCENTS[3].value, 3, 4.0, false),
+        Course(0, 'CSCI 22', AppColors.ACCENTS[0].value, 3, 4.0, false),
+        Course(0, 'ENLIT 12', AppColors.ACCENTS[1].value, 3, 4.0, false),
+        Course(0, 'FILI 11', AppColors.ACCENTS[2].value, 3, 4.0, false),
+        Course(0, 'HISTO 11', AppColors.ACCENTS[3].value, 3, 4.0, false),
+        Course(0, 'INTACT 12', AppColors.ACCENTS[4].value, 0, 0.0, false),
+        Course(0, 'MATH 30.23', AppColors.ACCENTS[0].value, 3, 4.0, false),
+        Course(0, 'PHYED 143', AppColors.ACCENTS[1].value, 2, 4.0, false),
+        Course(0, 'SocSc 11', AppColors.ACCENTS[2].value, 3, 4.0, false),
+        Course(0, 'THEO 11', AppColors.ACCENTS[3].value, 3, 4.0, false),
       ]),
     ]),
     Year(2, [
       Semester(0, [
-        Course('MATH NSCI TECH ELECTIVE', AppColors.ACCENTS[0].value, 3, 0.0,
+        Course(0, 'MATH NSCI TECH ELECTIVE', AppColors.ACCENTS[0].value, 3, 0.0,
             true),
-        Course('SocSc 12', AppColors.ACCENTS[1].value, 3, 1.0, true),
-        Course('MATH 30.24', 0xFF006060, 3, 2.0, true), // custom test for color
+        Course(0, 'SocSc 12', AppColors.ACCENTS[1].value, 3, 1.0, true),
+        Course(
+            0, 'MATH 30.24', 0xFF006060, 3, 2.0, true), // custom test for color
       ]),
       Semester.fromSem(1, 20, 3.5),
     ]),
@@ -340,7 +341,7 @@ class AcademicRecords extends ChangeNotifier {
   ) async {
     if (kIsWeb) {
       bool foundYear = false;
-      Course newCourse = Course(code, color, units, qpi, isIncludedInQPI);
+      Course newCourse = Course(0, code, color, units, qpi, isIncludedInQPI);
 
       for (Year y in _years) {
         if (y.yearNum == yearNum) {
@@ -386,6 +387,7 @@ class AcademicRecords extends ChangeNotifier {
   }
 
   void editCourse(
+    int id,
     int oldYearNum,
     int oldSemNum,
     Course course,
@@ -420,6 +422,7 @@ class AcademicRecords extends ChangeNotifier {
     int updated = await (await CentralDatabaseHelper.instance.database).update(
       CentralDatabaseHelper.tableName_courses,
       {
+        CentralDatabaseHelper.id: id,
         CentralDatabaseHelper.code: code,
         CentralDatabaseHelper.year: newYearNum,
         CentralDatabaseHelper.sem: newSemNum,
@@ -429,8 +432,9 @@ class AcademicRecords extends ChangeNotifier {
         CentralDatabaseHelper.isIncludedInQPI: (isIncludedInQPI ? 1 : 0),
       },
       where:
-          '${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ?',
+          '${CentralDatabaseHelper.id} = ? AND ${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ?',
       whereArgs: [
+        id,
         oldYearNum,
         oldSemNum,
         course.courseCode,
@@ -442,7 +446,7 @@ class AcademicRecords extends ChangeNotifier {
     _updateList();
   }
 
-  void deleteCourse(int yearNum, int semNum, String code) async {
+  void deleteCourse(int id, int yearNum, int semNum, String code) async {
     if (kIsWeb) {
       for (Year y in _years) {
         if (y.yearNum == yearNum) {
@@ -465,8 +469,9 @@ class AcademicRecords extends ChangeNotifier {
     int deleted = await (await CentralDatabaseHelper.instance.database).delete(
       CentralDatabaseHelper.tableName_courses,
       where:
-          '${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ?',
+          '${CentralDatabaseHelper.id} = ? AND ${CentralDatabaseHelper.year} = ? AND ${CentralDatabaseHelper.sem} = ? AND ${CentralDatabaseHelper.code} = ?',
       whereArgs: [
+        id,
         yearNum,
         semNum,
         code,
