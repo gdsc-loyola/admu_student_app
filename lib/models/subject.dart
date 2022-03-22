@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:admu_student_app/models/central_database.dart';
 
 class Subject {
+  int id;
   String code;
   String section;
   int yearNum;
@@ -18,6 +19,7 @@ class Subject {
   bool selectedInEnlistment = false;
 
   Subject(
+    int id,
     String code,
     String section,
     int yearNum,
@@ -30,6 +32,7 @@ class Subject {
     int inEnlistment,
     String profName,
   ) {
+    this.id = id;
     this.code = code;
     this.section = section;
     this.yearNum = yearNum;
@@ -80,6 +83,7 @@ class Subject {
 
   factory Subject.fromMap(Map map) {
     return Subject(
+      map[CentralDatabaseHelper.id],
       map[CentralDatabaseHelper.code],
       map[CentralDatabaseHelper.section],
       map[CentralDatabaseHelper.year],

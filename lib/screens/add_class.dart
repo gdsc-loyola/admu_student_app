@@ -15,11 +15,14 @@ import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 import 'package:admu_student_app/widgets/buttons.dart';
 
 class AddClassPage extends StatefulWidget {
+  final int id;
+
   final Subject subject;
   final bool inEnlistment;
   final bool isEditing;
 
   AddClassPage({
+    this.id = 0,
     this.inEnlistment = false,
     this.isEditing = false,
     this.subject,
@@ -147,14 +150,14 @@ class _AddClassPageState extends State<AddClassPage> {
 
     int counter = 0;
     for (bool b in _days) counter += b ? 1 : 0;
-    if (counter == 0)
-      return await AlertModal.showIncompleteError(context);
+    if (counter == 0) return await AlertModal.showIncompleteError(context);
 
     if (!AppUtils.timeIsBefore(_timeStart, _timeEnd))
       return await AlertModal.showInverseTimeError(context);
 
     if (widget.isEditing) {
       Provider.of<ClassSchedule>(context, listen: false).editSubject(
+        widget.id,
         widget.subject,
         _codeCtrl.text,
         _sectionCtrl.text,
