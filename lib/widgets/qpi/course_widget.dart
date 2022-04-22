@@ -93,8 +93,11 @@ class CourseCard extends StatelessWidget {
             color: AppColors.GRAY_LIGHT[0],
             onPressed: () {
               // edit course
+              print('editing course id ${course.id}');
+
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => AddQPIPage(
+                        id: course.id,
                         yearNum: yearNum,
                         semNum: semNum,
                         course: course,

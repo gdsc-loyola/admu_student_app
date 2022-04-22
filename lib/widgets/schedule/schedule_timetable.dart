@@ -158,7 +158,11 @@ class ScheduleTimetable extends StatelessWidget {
 
         // no data, empty state
         if (data['isEmpty'])
-          Center(child: EmptyState(topText: 'No Schedule Yet', bottomText: 'Create your classes by tapping the + button at the top right corner!')),
+          Center(
+              child: EmptyState(
+                  topText: 'No Schedule Yet',
+                  bottomText:
+                      'Create your classes by tapping the + button at the top right corner!')),
       ],
     );
   }
@@ -207,6 +211,7 @@ class _SubjectBlock extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => AddClassPage(
               isEditing: true,
+              id: subject.id,
               subject: subject,
             ),
           ),
