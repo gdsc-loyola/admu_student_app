@@ -3,9 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/models/academic_records.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
-import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/ls_directory.dart';
 import 'package:admu_student_app/models/notification_center.dart';
 import 'package:admu_student_app/models/user_cache.dart';
@@ -14,9 +13,8 @@ import 'package:admu_student_app/screens/splash_page.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => AcademicRecords()),
+      ChangeNotifierProvider(create: (_) => AllCourses()),
       ChangeNotifierProvider(create: (_) => CalendarEvents()),
-      ChangeNotifierProvider(create: (_) => ClassSchedule()),
       ChangeNotifierProvider(create: (_) => NotificationCenter()),
     ],
     child: App(),

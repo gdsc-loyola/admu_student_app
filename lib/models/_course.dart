@@ -5,8 +5,8 @@ import 'package:admu_student_app/models/central_database.dart';
 class Course {
   int id;
 
-  // int yearNum;
-  // int semNum;
+  int yearNum;
+  int semNum;
 
   String code;
   String section;
@@ -29,6 +29,8 @@ class Course {
   // default constructor
   Course(
     int id,
+    int yearNum,
+    int semNum,
     String code,
     String section,
     int color,
@@ -43,6 +45,9 @@ class Course {
     bool isIncludedInQPI,
   ) {
     this.id = id;
+
+    this.yearNum = yearNum;
+    this.semNum = semNum;
 
     this.code = code;
     this.section = section;
@@ -71,8 +76,8 @@ class Course {
   factory Course.fromMap(Map map) {
     return Course(
       map[CentralDatabaseHelper.id],
-      // map[CentralDatabaseHelper.year],
-      // map[CentralDatabaseHelper.sem],
+      map[CentralDatabaseHelper.year],
+      map[CentralDatabaseHelper.sem],
       map[CentralDatabaseHelper.code],
       map[CentralDatabaseHelper.section],
       map[CentralDatabaseHelper.color],

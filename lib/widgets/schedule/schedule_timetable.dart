@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:admu_student_app/models/class_schedule.dart';
-import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
+import 'package:admu_student_app/models/_course.dart';
 import 'package:admu_student_app/screens/add_class.dart';
 import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:admu_student_app/widgets/modals/alert.dart';
@@ -11,7 +11,7 @@ import 'package:admu_student_app/widgets/modals/custom_snack_bar.dart';
 class ScheduleTimetable extends StatelessWidget {
   final Map<String, int> schedInfo;
 
-  final List<Subject> subjects;
+  final List<Course> subjects;
 
   ScheduleTimetable(this.schedInfo, {this.subjects});
 
@@ -83,14 +83,14 @@ class ScheduleTimetable extends StatelessWidget {
       );
 
       // build schedule
-      List<Subject> subjs = data['subjects'][i];
+      List<Course> subjs = data['subjects'][i];
       for (int j = 0; j < subjs.length; j++) {
         // colWidgets.add();
         if (j == 0) {
           // add spacer before first class
 
-          int minsbw = ClassSchedule.getMinutesBetween(
-              data['start'] * 100, subjs[j].start);
+          int minsbw =
+              AllCourses.getMinutesBetween(data['start'] * 100, subjs[j].start);
 
           if (minsbw > 0)
             colWidgets.add(Flexible(flex: minsbw, child: Container()));
@@ -98,14 +98,14 @@ class ScheduleTimetable extends StatelessWidget {
           // spacer between classes
 
           int minsbw =
-              ClassSchedule.getMinutesBetween(subjs[j - 1].end, subjs[j].start);
+              AllCourses.getMinutesBetween(subjs[j - 1].end, subjs[j].start);
 
           if (minsbw > 0)
             colWidgets.add(Flexible(flex: minsbw, child: Container()));
         }
 
         int duration =
-            ClassSchedule.getMinutesBetween(subjs[j].start, subjs[j].end);
+            AllCourses.getMinutesBetween(subjs[j].start, subjs[j].end);
 
         if (duration > 0)
           colWidgets.add(
@@ -118,7 +118,7 @@ class ScheduleTimetable extends StatelessWidget {
 
       // add space between last subject and end
       if (subjs.length > 0) {
-        int lastmin = ClassSchedule.getMinutesBetween(
+        int lastmin = AllCourses.getMinutesBetween(
             subjs[subjs.length - 1].end, (data['end'] + 1) * 100);
 
         if (lastmin > 0)
@@ -142,7 +142,7 @@ class ScheduleTimetable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = Provider.of<ClassSchedule>(context).getSubjects(
+    Map<String, dynamic> data = Provider.of<AllCourses>(context).getSubjects(
         schedInfo['yearNum'],
         schedInfo['semNum'],
         schedInfo['qtrNum'],
@@ -169,7 +169,7 @@ class ScheduleTimetable extends StatelessWidget {
 }
 
 class _SubjectBlock extends StatelessWidget {
-  final Subject subject;
+  final Course subject;
 
   _SubjectBlock(this.subject);
 
@@ -199,8 +199,8 @@ class _SubjectBlock extends StatelessWidget {
           context,
           header: 'Delete ${subject.code}?',
           onAccept: () {
-            Provider.of<ClassSchedule>(context, listen: false)
-                .deleteSubject(subject);
+            Provider.of<AllCourses>(context, listen: false).deleteCourse(
+                subject.id, subject.yearNum, subject.semNum, subject.code);
 
             CustomSnackBar.showSnackBar(context, 'Class deleted!');
           },
@@ -212,7 +212,7 @@ class _SubjectBlock extends StatelessWidget {
             builder: (_) => AddClassPage(
               isEditing: true,
               id: subject.id,
-              subject: subject,
+              course: subject,
             ),
           ),
         );

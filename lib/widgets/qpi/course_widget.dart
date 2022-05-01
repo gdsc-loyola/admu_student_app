@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
-import 'package:admu_student_app/models/course.dart';
+import 'package:admu_student_app/models/_course.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
@@ -51,7 +51,7 @@ class CourseCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${course.courseCode}',
+              Text('${course.code}',
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme

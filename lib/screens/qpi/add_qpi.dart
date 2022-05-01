@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_utils.dart';
-import 'package:admu_student_app/models/academic_records.dart';
-import 'package:admu_student_app/models/course.dart';
-import 'package:admu_student_app/models/semester.dart';
-import 'package:admu_student_app/models/year.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
+import 'package:admu_student_app/models/_course.dart';
+import 'package:admu_student_app/models/_semester.dart';
+import 'package:admu_student_app/models/_year.dart';
 import 'package:admu_student_app/screens/qpi/add_course.dart';
 import 'package:admu_student_app/screens/qpi/add_semester.dart';
 import 'package:admu_student_app/screens/qpi/add_year.dart';
@@ -83,7 +83,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
     }
     if (widget.course != null) {
       _unitsCtrl.text = '${widget.course.units}';
-      _codeCtrl.text = widget.course.courseCode;
+      _codeCtrl.text = widget.course.code;
 
       _courseColor = widget.course.color;
 
@@ -205,7 +205,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
 
     if (selected == 0) {
       if (widget.isEditing) {
-        Provider.of<AcademicRecords>(context, listen: false).editYearlyQPI(
+        Provider.of<AllCourses>(context, listen: false).editYearlyQPI(
           widget.year,
           yearNum,
           units,
@@ -214,7 +214,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
 
         CustomSnackBar.showSnackBar(context, 'Year QPI edited!');
       } else {
-        Provider.of<AcademicRecords>(context, listen: false).addYearlyQPI(
+        Provider.of<AllCourses>(context, listen: false).addYearlyQPI(
           yearNum,
           units,
           qpi,
@@ -224,7 +224,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
       }
     } else if (selected == 1) {
       if (widget.isEditing) {
-        Provider.of<AcademicRecords>(context, listen: false).editSemestralQPI(
+        Provider.of<AllCourses>(context, listen: false).editSemestralQPI(
           widget.yearNum,
           widget.semester,
           yearNum,
@@ -235,7 +235,7 @@ class _AddQPIPageState extends State<AddQPIPage> {
 
         CustomSnackBar.showSnackBar(context, 'Semester QPI edited!');
       } else {
-        Provider.of<AcademicRecords>(context, listen: false).addSemestralQPI(
+        Provider.of<AllCourses>(context, listen: false).addSemestralQPI(
           yearNum,
           _semNum,
           units,
@@ -246,15 +246,28 @@ class _AddQPIPageState extends State<AddQPIPage> {
       }
     } else if (selected == 2) {
       if (widget.isEditing) {
-        Provider.of<AcademicRecords>(context, listen: false).editCourse(
+        Provider.of<AllCourses>(context, listen: false).editCourse(
           widget.id,
           widget.yearNum,
           widget.semNum,
-          widget.course,
+          widget.course.code,
           yearNum,
           _semNum,
           code,
+          widget.course.section,
           _courseColor.value,
+          widget.course.days,
+          TimeOfDay(
+            hour: (widget.course.start / 100).floor(),
+            minute: widget.course.start % 100,
+          ),
+          TimeOfDay(
+            hour: (widget.course.end / 100).floor(),
+            minute: widget.course.end % 100,
+          ),
+          widget.course.inEnlistment,
+          widget.course.profName,
+          widget.course.notes,
           units,
           GRADES[_gradeVal - 1],
           true, // no handling
@@ -262,11 +275,18 @@ class _AddQPIPageState extends State<AddQPIPage> {
 
         CustomSnackBar.showSnackBar(context, 'Class QPI edited!');
       } else {
-        Provider.of<AcademicRecords>(context, listen: false).addCourse(
+        Provider.of<AllCourses>(context, listen: false).addCourse(
           yearNum,
           _semNum,
           code,
+          '',
           _courseColor.value,
+          [false, false, false, false, false, false],
+          null,
+          null,
+          false,
+          '',
+          '',
           units,
           GRADES[_gradeVal - 1],
           true, // no handling for non-included
@@ -294,16 +314,16 @@ class _AddQPIPageState extends State<AddQPIPage> {
     if (!toDelete) return;
 
     if (selected == 0) {
-      Provider.of<AcademicRecords>(context, listen: false)
+      Provider.of<AllCourses>(context, listen: false)
           .deleteYearlyQPI(widget.yearNum);
       CustomSnackBar.showSnackBar(context, 'Year QPI deleted!');
     } else if (selected == 1) {
-      Provider.of<AcademicRecords>(context, listen: false)
+      Provider.of<AllCourses>(context, listen: false)
           .deleteSemestralQPI(widget.yearNum, widget.semester.semNum);
       CustomSnackBar.showSnackBar(context, 'Semester QPI deleted!');
     } else if (selected == 2) {
-      Provider.of<AcademicRecords>(context, listen: false).deleteCourse(
-          widget.id, widget.yearNum, widget.semNum, widget.course.courseCode);
+      Provider.of<AllCourses>(context, listen: false).deleteCourse(
+          widget.id, widget.yearNum, widget.semNum, widget.course.code);
       CustomSnackBar.showSnackBar(context, 'Class QPI deleted!');
     }
 

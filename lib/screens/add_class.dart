@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_utils.dart';
-import 'package:admu_student_app/models/class_schedule.dart';
-import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
+import 'package:admu_student_app/models/_course.dart';
 import 'package:admu_student_app/widgets/groups/input_group.dart';
 import 'package:admu_student_app/widgets/groups/select_color.dart';
 import 'package:admu_student_app/widgets/groups/select_days.dart';
@@ -17,7 +17,7 @@ import 'package:admu_student_app/widgets/buttons.dart';
 class AddClassPage extends StatefulWidget {
   final int id;
 
-  final Subject subject;
+  final Course course;
   final bool inEnlistment;
   final bool isEditing;
 
@@ -25,7 +25,7 @@ class AddClassPage extends StatefulWidget {
     this.id = 0,
     this.inEnlistment = false,
     this.isEditing = false,
-    this.subject,
+    this.course,
   });
 
   @override
@@ -52,26 +52,26 @@ class _AddClassPageState extends State<AddClassPage> {
   void initState() {
     super.initState();
 
-    if (widget.subject != null) {
-      _codeCtrl.text = widget.subject.code;
-      _sectionCtrl.text = widget.subject.section;
-      _yearCtrl.text = '${widget.subject.yearNum}';
-      _profCtrl.text = '${widget.subject.profName}';
+    if (widget.course != null) {
+      _codeCtrl.text = widget.course.code;
+      _sectionCtrl.text = widget.course.section;
+      _yearCtrl.text = '${widget.course.yearNum}';
+      _profCtrl.text = '${widget.course.profName}';
 
-      _semNum = widget.subject.semNum;
+      _semNum = widget.course.semNum;
 
-      _days = widget.subject.days;
+      _days = widget.course.days;
 
       _timeStart = TimeOfDay(
-        hour: widget.subject.start ~/ 100,
-        minute: widget.subject.start % 100,
+        hour: widget.course.start ~/ 100,
+        minute: widget.course.start % 100,
       );
       _timeEnd = TimeOfDay(
-        hour: widget.subject.end ~/ 100,
-        minute: widget.subject.end % 100,
+        hour: widget.course.end ~/ 100,
+        minute: widget.course.end % 100,
       );
 
-      _color = widget.subject.color;
+      _color = widget.course.color;
     }
   }
 
@@ -156,34 +156,44 @@ class _AddClassPageState extends State<AddClassPage> {
       return await AlertModal.showInverseTimeError(context);
 
     if (widget.isEditing) {
-      Provider.of<ClassSchedule>(context, listen: false).editSubject(
-        widget.id,
-        widget.subject,
-        _codeCtrl.text,
-        _sectionCtrl.text,
+      Provider.of<AllCourses>(context, listen: false).editCourse(
+        widget.course.id,
+        widget.course.yearNum,
+        widget.course.semNum,
+        widget.course.code,
         yearNum,
         _semNum,
-        _color,
+        _codeCtrl.text,
+        _sectionCtrl.text,
+        _color.value,
         _days,
         _timeStart,
         _timeEnd,
         widget.inEnlistment, // in enlistment
         _profCtrl.text,
+        widget.course.notes,
+        widget.course.units,
+        widget.course.qpi,
+        widget.course.inEnlistment,
       );
 
       CustomSnackBar.showSnackBar(context, 'Class edited!');
     } else {
-      Provider.of<ClassSchedule>(context, listen: false).addSubject(
-        _codeCtrl.text,
-        _sectionCtrl.text,
+      Provider.of<AllCourses>(context, listen: false).addCourse(
         yearNum,
         _semNum,
-        _color,
+        _codeCtrl.text,
+        _sectionCtrl.text,
+        _color.value,
         _days,
         _timeStart,
         _timeEnd,
         widget.inEnlistment, // in enlistment
         _profCtrl.text,
+        '', // TODO no notes field
+        0, // TODO no units field
+        0.0, // TODO no qpi field
+        false, // TODO no isIncludedInQPI field
       );
 
       CustomSnackBar.showSnackBar(context, 'Class added!');
@@ -196,10 +206,13 @@ class _AddClassPageState extends State<AddClassPage> {
   void _onDelete() async {
     await AlertModal.showAlert(
       context,
-      header: 'Delete ${widget.subject.code}?',
+      header: 'Delete ${widget.course.code}?',
       onAccept: () {
-        Provider.of<ClassSchedule>(context, listen: false)
-            .deleteSubject(widget.subject);
+        Provider.of<AllCourses>(context, listen: false).deleteCourse(
+            widget.course.id,
+            widget.course.yearNum,
+            widget.course.semNum,
+            widget.course.code);
 
         CustomSnackBar.showSnackBar(context, 'Class deleted!');
 

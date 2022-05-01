@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/models/academic_records.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
+import 'package:admu_student_app/models/_year.dart';
 import 'package:admu_student_app/models/user_cache.dart';
-import 'package:admu_student_app/models/year.dart';
 import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/widgets/qpi/qpi_view.dart';
@@ -44,7 +44,7 @@ class _QPIPageState extends State<QPIPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Year> years = Provider.of<AcademicRecords>(context).years;
+    List<Year> years = Provider.of<AllCourses>(context).years;
 
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 32.0),
@@ -67,7 +67,7 @@ class _QPIPageState extends State<QPIPage> {
             ],
           ),
           SizedBox(height: 24.0),
-          QPIView(value: Provider.of<AcademicRecords>(context).cumulativeQPI),
+          QPIView(value: Provider.of<AllCourses>(context).cumulativeQPI),
           SizedBox(height: 48.0),
           Text(
             'QPI Overview',
@@ -91,7 +91,10 @@ class _QPIPageState extends State<QPIPage> {
                     );
                   },
                 )
-              : EmptyState(topText: 'No QPI Data Yet', bottomText: 'Add your grades by tapping the + button at the top right corner!'),
+              : EmptyState(
+                  topText: 'No QPI Data Yet',
+                  bottomText:
+                      'Add your grades by tapping the + button at the top right corner!'),
 
           // compsat
           Text(
