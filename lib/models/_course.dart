@@ -89,7 +89,7 @@ class Course {
       map[CentralDatabaseHelper.notes],
       map[CentralDatabaseHelper.units],
       map[CentralDatabaseHelper.qpi],
-      map[CentralDatabaseHelper.isIncludedInQPI],
+      map[CentralDatabaseHelper.isIncludedInQPI] == 1,
     );
   }
 
