@@ -2,42 +2,55 @@ import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/models/central_database.dart';
 
-class Subject {
+class Course {
   int id;
-  String code;
-  String section;
+
   int yearNum;
   int semNum;
-  int qtrNum;
+
+  String code;
+  String section;
   Color color;
+
   List<bool> days;
   int start;
   int end;
+
   bool inEnlistment;
   String profName;
+  String notes;
+
+  int units;
+  double qpi;
+  bool isIncludedInQPI;
 
   bool selectedInEnlistment = false;
 
-  Subject(
+  // default constructor
+  Course(
     int id,
-    String code,
-    String section,
     int yearNum,
     int semNum,
-    int qtrNum,
+    String code,
+    String section,
     int color,
     int days,
     int start,
     int end,
     int inEnlistment,
     String profName,
+    String notes,
+    int units,
+    double qpi,
+    bool isIncludedInQPI,
   ) {
     this.id = id;
-    this.code = code;
-    this.section = section;
+
     this.yearNum = yearNum;
     this.semNum = semNum;
-    this.qtrNum = qtrNum;
+
+    this.code = code;
+    this.section = section;
     this.color = Color(color);
 
     this.days = [];
@@ -49,53 +62,55 @@ class Subject {
 
     this.inEnlistment = inEnlistment == 1;
     this.profName = profName;
+    this.notes = notes;
+
+    this.units = units;
+    this.qpi = qpi;
+    this.isIncludedInQPI = isIncludedInQPI;
   }
 
-  Subject.fromData(
-    String code,
-    String section,
-    int yearNum,
-    int semNum,
-    int qtrNum,
-    Color color,
-    List<bool> days,
-    TimeOfDay start,
-    TimeOfDay end,
-    bool inEnlistment,
-    String profName,
-  ) {
-    this.code = code;
-    this.section = section;
+  // web constructor
+  Course.fromData() {}
 
-    this.yearNum = yearNum;
-    this.semNum = semNum;
-    this.qtrNum = qtrNum;
-
-    this.color = color;
-    this.days = days;
-
-    this.start = (start.hour * 100) + (start.minute);
-    this.end = (end.hour * 100) + (end.minute);
-
-    this.inEnlistment = inEnlistment;
-    this.profName = profName;
-  }
-
-  factory Subject.fromMap(Map map) {
-    return Subject(
+  // constructor from map
+  factory Course.fromMap(Map map) {
+    return Course(
       map[CentralDatabaseHelper.id],
-      map[CentralDatabaseHelper.code],
-      map[CentralDatabaseHelper.section],
       map[CentralDatabaseHelper.year],
       map[CentralDatabaseHelper.sem],
-      map[CentralDatabaseHelper.quarter],
+      map[CentralDatabaseHelper.code],
+      map[CentralDatabaseHelper.section],
       map[CentralDatabaseHelper.color],
       map[CentralDatabaseHelper.days],
       map[CentralDatabaseHelper.start],
       map[CentralDatabaseHelper.end],
       map[CentralDatabaseHelper.inEnlistment],
       map[CentralDatabaseHelper.professor],
+      map[CentralDatabaseHelper.notes],
+      map[CentralDatabaseHelper.units],
+      map[CentralDatabaseHelper.qpi],
+      map[CentralDatabaseHelper.isIncludedInQPI] == 1,
     );
+  }
+
+  // getter for letter grade
+  String get letterGrade {
+    if (qpi == 4.0)
+      return 'A';
+    else if (qpi == 3.5)
+      return 'B+';
+    else if (qpi == 3.0)
+      return 'B';
+    else if (qpi == 2.5)
+      return 'C+';
+    else if (qpi == 2.0)
+      return 'C';
+    else if (qpi == 1.0)
+      return 'D';
+    else if (qpi == 0.0)
+      return 'F';
+    else
+      return '?';
   }
 
   String getReadableStartTime() {

@@ -3,7 +3,8 @@ import 'package:flutter/widgets.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
-import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
+import 'package:admu_student_app/models/_course.dart';
 import 'package:admu_student_app/screens/add_class.dart';
 import 'package:admu_student_app/widgets/circular_check_mark.dart';
 
@@ -13,9 +14,9 @@ const Duration _kExpand = Duration(milliseconds: 200);
 class EnlistmentClassCard extends StatefulWidget {
   final Color color;
   final String code;
-  final List<Subject> subjects;
+  final List<Course> subjects;
   final bool isSelecting;
-  final Function(Subject) onSelect;
+  final Function(Course) onSelect;
 
   const EnlistmentClassCard({
     Key key,
@@ -58,7 +59,7 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
     super.dispose();
   }
 
-  String _getScheduleString(Subject s) {
+  String _getScheduleString(Course s) {
     int counter = 0;
     String str = '';
 
@@ -252,7 +253,7 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (_) => AddClassPage(
-                            subject: widget.subjects[index],
+                            course: widget.subjects[index],
                             isEditing: true,
                             inEnlistment: true,
                           )),
@@ -272,7 +273,7 @@ class _EnlistmentClassCardState extends State<EnlistmentClassCard>
                 CircularCheckMark(
                   isDone: widget.subjects[index].selectedInEnlistment,
                   onTap: () {
-                    for (Subject s in widget.subjects)
+                    for (Course s in widget.subjects)
                       s.selectedInEnlistment = false;
                     widget.subjects[index].selectedInEnlistment = true;
 

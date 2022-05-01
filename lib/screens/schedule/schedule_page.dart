@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
-import 'package:admu_student_app/models/class_schedule.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/widgets/schedule/schedule_timetable.dart';
@@ -41,7 +41,7 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     Map<String, int> latestSched =
-        Provider.of<ClassSchedule>(context).getLatestScheduleDetails();
+        Provider.of<AllCourses>(context).getLatestScheduleDetails();
 
     return Container(
       padding: EdgeInsets.fromLTRB(16, 40, 16, 32),

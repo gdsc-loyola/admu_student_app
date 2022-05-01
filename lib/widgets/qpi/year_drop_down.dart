@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
-import 'package:admu_student_app/models/academic_records.dart';
-import 'package:admu_student_app/models/semester.dart';
-import 'package:admu_student_app/models/year.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
+import 'package:admu_student_app/models/_semester.dart';
+import 'package:admu_student_app/models/_year.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_semester.dart';
 
@@ -246,8 +246,8 @@ class _YearDropDownState extends State<YearDropDown>
     final bool closed = !_isExpanded && _controller.isDismissed;
     final bool shouldRemoveChildren = closed;
 
-    Year year = Provider.of<AcademicRecords>(context, listen: false)
-        .getYear(widget.yearNum);
+    Year year =
+        Provider.of<AllCourses>(context, listen: false).getYear(widget.yearNum);
 
     final Widget result = Offstage(
         child: TickerMode(

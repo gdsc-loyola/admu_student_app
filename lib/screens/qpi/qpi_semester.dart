@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 
-import 'package:admu_student_app/models/academic_records.dart';
-import 'package:admu_student_app/models/course.dart';
-import 'package:admu_student_app/models/semester.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
+import 'package:admu_student_app/models/_course.dart';
+import 'package:admu_student_app/models/_semester.dart';
 import 'package:admu_student_app/screens/qpi/add_qpi.dart';
 import 'package:admu_student_app/screens/qpi/qpi_page.dart';
 import 'package:admu_student_app/widgets/qpi/course_widget.dart';
@@ -35,11 +35,8 @@ class _SemesterPageState extends State<SemesterPage> {
   void _onDelete(BuildContext context, List<Course> courses) {
     for (int i = _cSelected.length - 1; i >= 0; i--) {
       if (_cSelected[i]) {
-        Provider.of<AcademicRecords>(context, listen: false).deleteCourse(
-            courses[i].id,
-            widget.yearNum,
-            widget.semNum,
-            courses[i].courseCode);
+        Provider.of<AllCourses>(context, listen: false).deleteCourse(
+            courses[i].id, widget.yearNum, widget.semNum, courses[i].code);
       }
     }
 
@@ -50,10 +47,10 @@ class _SemesterPageState extends State<SemesterPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Course> courses = Provider.of<AcademicRecords>(context)
+    List<Course> courses = Provider.of<AllCourses>(context)
         .getCourses(widget.yearNum, widget.semNum);
 
-    Semester sem = Provider.of<AcademicRecords>(context, listen: false)
+    Semester sem = Provider.of<AllCourses>(context, listen: false)
         .getSemester(widget.yearNum, widget.semNum);
 
     return Scaffold(
@@ -96,7 +93,7 @@ class _SemesterPageState extends State<SemesterPage> {
 
             // semester qpi
             QPIView(
-                value: Provider.of<AcademicRecords>(context, listen: false)
+                value: Provider.of<AllCourses>(context, listen: false)
                     .getSemestralQPI(widget.yearNum, widget.semNum)),
             SizedBox(height: 48.0),
 

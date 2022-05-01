@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
 import 'package:admu_student_app/models/calendar_events.dart';
-import 'package:admu_student_app/models/class_schedule.dart';
 import 'package:admu_student_app/models/notification_center.dart';
 import 'package:admu_student_app/screens/calendar/calendar_page.dart';
 import 'package:admu_student_app/screens/enlistment/enlistment_page.dart';
@@ -175,8 +175,8 @@ class _MainPageState extends State<MainPage> {
 
       actions.add(IconButton(
         icon: icon,
-        onPressed: () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => UndatedTasksPage())), // push to undated tasks
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => UndatedTasksPage())), // push to undated tasks
         iconSize: 32,
       ));
     }
@@ -207,7 +207,7 @@ class _MainPageState extends State<MainPage> {
       context,
       header: 'Delete schedule?',
       onAccept: () =>
-          Provider.of<ClassSchedule>(context, listen: false).deleteSchedules(),
+          Provider.of<AllCourses>(context, listen: false).deleteAllData(),
     );
   }
 

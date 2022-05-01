@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:admu_student_app/constants/app_effects.dart';
-import 'package:admu_student_app/models/class_schedule.dart';
-import 'package:admu_student_app/models/subject.dart';
+import 'package:admu_student_app/models/_all_courses.dart';
+import 'package:admu_student_app/models/_course.dart';
 import 'package:admu_student_app/models/user_cache.dart';
 import 'package:admu_student_app/widgets/enlistment/enlistment_class.dart';
 import 'package:admu_student_app/widgets/home/empty_state.dart';
@@ -49,11 +49,11 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
   }
 
   void _onPreviewSchedule(List<Map<String, dynamic>> grouped) {
-    List<Subject> forSched = [];
+    List<Course> forSched = [];
 
     for (Map<String, dynamic> m in grouped) {
-      for(Subject s in m['subjects']) {
-        if(s.selectedInEnlistment) forSched.add(s);
+      for (Course s in m['subjects']) {
+        if (s.selectedInEnlistment) forSched.add(s);
       }
     }
 
@@ -74,8 +74,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
       acceptText: 'Confirm',
       acceptColor: AppColors.PRIMARY_MAIN,
       onAccept: () {
-        Provider.of<ClassSchedule>(context, listen: false)
-            .addEnlistmentSchedule();
+        Provider.of<AllCourses>(context, listen: false).addEnlistmentSchedule();
         added = true;
       },
     );
@@ -130,7 +129,7 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> groupedSubjs =
-        Provider.of<ClassSchedule>(context).getEnlistmentSubjects();
+        Provider.of<AllCourses>(context).getEnlistmentSubjects();
 
     return Scaffold(
       appBar: AppBar(
@@ -219,25 +218,28 @@ class _EnlistmentPageState extends State<EnlistmentPage> {
 
             // list of subjs
             groupedSubjs.length > 0
-              ? ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: groupedSubjs.length,
-                  itemBuilder: (_, index) {
-                    Widget card = EnlistmentClassCard(
-                      color: groupedSubjs[index]['color'],
-                      code: groupedSubjs[index]['code'],
-                      subjects: groupedSubjs[index]['subjects'],
-                      isSelecting: _isSelecting,
-                    );
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: groupedSubjs.length,
+                    itemBuilder: (_, index) {
+                      Widget card = EnlistmentClassCard(
+                        color: groupedSubjs[index]['color'],
+                        code: groupedSubjs[index]['code'],
+                        subjects: groupedSubjs[index]['subjects'],
+                        isSelecting: _isSelecting,
+                      );
 
-                    return Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: card,
-                    );
-                  },
-                )
-              : EmptyState(topText: 'No Class Input Yet', bottomText: 'Add your desired classes for enlistment by tapping the + button at the top right corner!'),
+                      return Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: card,
+                      );
+                    },
+                  )
+                : EmptyState(
+                    topText: 'No Class Input Yet',
+                    bottomText:
+                        'Add your desired classes for enlistment by tapping the + button at the top right corner!'),
             SizedBox(height: 48),
 
             // create schedule

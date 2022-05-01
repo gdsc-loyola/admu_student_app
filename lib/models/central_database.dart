@@ -27,6 +27,7 @@ class CentralDatabaseHelper {
   static final end = 'end';
   static final inEnlistment = 'in_enlistment';
   static final professor = 'professor';
+  static final notes = 'notes';
   static final month = 'month';
   static final day = 'day';
   static final yearEnd = 'year_end';
@@ -82,7 +83,6 @@ class CentralDatabaseHelper {
   void _onCreateDatabase(Database db, int ver) async {
     print('creating database...');
     await createCoursesTable(db, ver);
-    await createSchedulesTable(db, ver);
     await createEventsTable(db, ver);
     print('created database');
   }
@@ -96,37 +96,21 @@ class CentralDatabaseHelper {
     await db.execute('''
       CREATE TABLE $tableName_courses(
       $id INTEGER PRIMARY KEY AUTOINCREMENT,
-      $code TEXT NOT NULL,
       $year INTEGER NOT NULL,
       $sem INTEGER,
-      $color INTEGER,
-      $units INTEGER NOT NULL,
-      $qpi REAL NOT NULL,
-      $isIncludedInQPI INTEGER NOT NULL )
-      ''');
-  }
-
-  Future createSchedulesTable(Database db, int ver) async {
-    // if (db == null) db = await database;
-
-    // await (await CentralDatabaseHelper.instance.database)
-    //     .execute('DROP TABLE IF EXISTS $tableName_schedule');
-
-    await db.execute('''
-      CREATE TABLE $tableName_schedule(
-      $id INTEGER PRIMARY KEY AUTOINCREMENT,
       $code TEXT NOT NULL,
       $section TEXT,
-      $year INTEGER NOT NULL,
-      $sem INTEGER NOT NULL,
-      $quarter INTEGER,
-      $color INTEGER NOT NULL,
-      $days INTEGER NOT NULL,
-      $start INTEGER NOT NULL,
-      $end INTEGER NOT NULL,
-      $inEnlistment INTEGER NOT NULL,
-      $professor TEXT)
-    ''');
+      $color INTEGER,
+      $days INTEGER,
+      $start INTEGER,
+      $end INTEGER,
+      $inEnlistment INTEGER,
+      $professor TEXT,
+      $notes TEXT,
+      $units INTEGER,
+      $qpi REAL,
+      $isIncludedInQPI INTEGER)
+      ''');
   }
 
   Future createEventsTable(Database db, int ver) async {
