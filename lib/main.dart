@@ -35,26 +35,26 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.GRAY_LIGHT[2],
-        fontFamily: GoogleFonts.dmSans().fontFamily,
+        fontFamily: GoogleFonts.asap().fontFamily,
         textTheme: TextTheme(
-          headline4: GoogleFonts.dmSans(
+          headline4: GoogleFonts.asap(
             fontSize: 32.0,
             fontWeight: FontWeight.bold,
             height: 1.0,
           ),
-          headline5: GoogleFonts.dmSans(
+          headline5: GoogleFonts.asap(
             fontSize: 24.0,
             fontWeight: FontWeight.bold,
             height: 1.0,
           ),
-          headline6: GoogleFonts.dmSans(
+          headline6: GoogleFonts.asap(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
             height: 1.0,
           ),
-          bodyText1: GoogleFonts.dmSans(fontSize: 16.0),
-          bodyText2: GoogleFonts.dmSans(fontSize: 14.0),
-          caption: GoogleFonts.dmSans(fontSize: 14.0),
+          bodyText1: GoogleFonts.asap(fontSize: 16.0),
+          bodyText2: GoogleFonts.asap(fontSize: 14.0),
+          caption: GoogleFonts.asap(fontSize: 14.0),
         ),
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
               backgroundColor: AppColors.PRIMARY_MAIN,
