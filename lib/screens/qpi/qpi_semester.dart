@@ -185,13 +185,17 @@ class _SemesterPageState extends State<SemesterPage> {
                 alignment: Alignment.center,
                 child: Text(
                   _selected > 0
-                      ? '$_selected Class Selected'
+                      ? (_selected > 1
+                          ? '$_selected Classes Selected'
+                          : '$_selected Class Selected')
                       : 'Select Classes',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText1.copyWith(
-                      color: _selected > 0
-                          ? AppColors.SECONDARY_MAIN
-                          : AppColors.GRAY_DARK[1]),
+                        color: _selected > 0
+                            ? AppColors.SECONDARY_MAIN
+                            : AppColors.GRAY_DARK[1],
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
           ],
