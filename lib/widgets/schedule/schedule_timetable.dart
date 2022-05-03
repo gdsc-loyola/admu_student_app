@@ -1,3 +1,4 @@
+import 'package:admu_student_app/widgets/modals/delete.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -193,16 +194,13 @@ class _SubjectBlock extends StatelessWidget {
       ),
     );
 
-    return GestureDetector(
+    return InkWell(
       onLongPress: () async {
-        await AlertModal.showAlert(
+        await DeleteModal.showAlert(
           context,
-          header: 'Delete ${subject.code}?',
-          onAccept: () {
+          () {
             Provider.of<AllCourses>(context, listen: false).deleteCourse(
                 subject.id, subject.yearNum, subject.semNum, subject.code);
-
-            CustomSnackBar.showSnackBar(context, 'Class deleted!');
           },
         );
       },
