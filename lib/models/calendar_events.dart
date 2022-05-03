@@ -95,7 +95,7 @@ class CalendarEvents extends ChangeNotifier {
 
   CalendarEvents() {
     // sample data for testing
-    // if (kIsWeb) _events.addAll(_sampleData);
+    if (kIsWeb) _events.addAll(_sampleData);
 
     _updateList();
 

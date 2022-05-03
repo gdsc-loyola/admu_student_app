@@ -5,6 +5,8 @@ class AppColors {
   static const Color PRIMARY_ALT = Color(0xFF9873FF);
   static const Color PRIMARY_LIGHT = Color(0xFFAB8CFF);
 
+  static const Color PRIMARY_MAIN_TRANSPARENT50 = Color(0x80855AFF);
+
   static const Color SECONDARY_MAIN = Color(0xFFFF8E73);
   static const Color SECONDARY_ALT = Color(0xFFFFA38C);
   static const Color SECONDARY_LIGHT = Color(0xFFFFB8A6);
@@ -39,6 +41,7 @@ class AppColors {
   static const Color GRAY = Color(0xFF333333);
   static const Color GRAY_TRANSPARENT = Color(0x1A333333);
   static const Color GRAY_TRANSPARENT20 = Color(0x33333333);
+  static const Color GRAY_TRANSPARENT50 = Color(0x80333333);
 
   static const List<Color> GRAY_LIGHT = [
     const Color(0xFFD3D3D9),
@@ -51,7 +54,6 @@ class AppColors {
     const Color(0xFF7A7A7A),
     const Color(0xFF9E9E9E),
   ];
-
 
   static const List<Color> ACCENTS = [
     const Color(0xFFFF8591),

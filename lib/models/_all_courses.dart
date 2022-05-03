@@ -15,29 +15,6 @@ class AllCourses extends ChangeNotifier {
       [
         Semester.fromSem(1, 18, 3.75),
         Semester.fromSem(2, 21, 75 / 21),
-        // Semester(
-        //   2,
-        //   [
-        //     Course(0, 'CSCI 22', '', AppColors.ACCENTS[0].value, 010100, 0900,
-        //         1100, 0, '', '', 3, 4.0, true),
-        //     Course(0, 'ENLIT 12', '', AppColors.ACCENTS[1].value, 101010, 1400,
-        //         1500, 0, '', '', 3, 4.0, true),
-        //     Course(0, 'FILI 11', '', AppColors.ACCENTS[2].value, 010100, 1400,
-        //         1530, 0, '', '', 3, 4.0, true),
-        //     Course(0, 'HISTO 11', '', AppColors.ACCENTS[3].value, 101010, 0900,
-        //         1000, 0, '', '', 3, 4.0, true),
-        //     Course(0, 'INTACT 12', '', AppColors.ACCENTS[4].value, 100000, 1000,
-        //         1100, 0, '', '', 0, 0.0, false),
-        //     Course(0, 'MATH 30.23', '', AppColors.ACCENTS[0].value, 010100,
-        //         1230, 1400, 0, '', '', 3, 4.0, false),
-        //     Course(0, 'PHYED 143', '', AppColors.ACCENTS[1].value, 101000, 1300,
-        //         1400, 0, '', '', 2, 4.0, false),
-        //     Course(0, 'SocSc 11', '', AppColors.ACCENTS[2].value, 101010, 0900,
-        //         1000, 0, '', '', 3, 4.0, false),
-        //     Course(0, 'THEO 11', '', AppColors.ACCENTS[3].value, 101010, 1100,
-        //         1200, 0, '', '', 3, 4.0, false),
-        //   ],
-        // ),
       ],
     ),
     Year(
@@ -877,6 +854,20 @@ class AllCourses extends ChangeNotifier {
   // update internal list
   void _updateList() async {
     if (kIsWeb) {
+      for (int i = _years.length - 1; i >= 0; i--) {
+        for (int j = _years[i].sems.length - 1; j >= 0; j--) {
+          if (_years[i].sems[j].isSemestralQPI) continue;
+          if (_years[i].sems[j].courses.length == 0) {
+            _years[i].sems.removeAt(j);
+          }
+        }
+
+        if (_years[i].isYearlyQPI) continue;
+        if (_years[i].sems.length == 0) {
+          _years.removeAt(i);
+        }
+      }
+
       _sortAll();
       notifyListeners();
       return;
