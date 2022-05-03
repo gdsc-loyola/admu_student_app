@@ -854,6 +854,20 @@ class AllCourses extends ChangeNotifier {
   // update internal list
   void _updateList() async {
     if (kIsWeb) {
+      for (int i = _years.length - 1; i >= 0; i--) {
+        for (int j = _years[i].sems.length - 1; j >= 0; j--) {
+          if (_years[i].sems[j].isSemestralQPI) continue;
+          if (_years[i].sems[j].courses.length == 0) {
+            _years[i].sems.removeAt(j);
+          }
+        }
+
+        if (_years[i].isYearlyQPI) continue;
+        if (_years[i].sems.length == 0) {
+          _years.removeAt(i);
+        }
+      }
+
       _sortAll();
       notifyListeners();
       return;
