@@ -14,6 +14,8 @@ class HelpModal {
   }) async {
     showGeneralDialog(
       context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       pageBuilder: (context, _, __) {
         return Center(
           child: _HelpModal(

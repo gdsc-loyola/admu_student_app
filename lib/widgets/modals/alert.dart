@@ -20,6 +20,8 @@ class AlertModal {
   }) async {
     await showGeneralDialog(
       context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       pageBuilder: (context, _, __) {
         return Center(
           child: _AlertModal(
@@ -128,6 +130,7 @@ class _AlertModal extends StatelessWidget {
       ),
       padding: EdgeInsets.fromLTRB(16, 56, 16, 56),
       margin: EdgeInsets.all(16),
+      width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
