@@ -77,13 +77,24 @@ class CompactEventCard extends StatelessWidget {
                           color: event.isDone
                               ? AppColors.GRAY_TRANSPARENT50
                               : AppColors.GRAY,
-                          decoration: event.isDone
-                              ? TextDecoration.lineThrough
-                              : TextDecoration.none,
-                          decorationThickness: 2.0,
+                          // decoration: event.isDone
+                          //     ? TextDecoration.lineThrough
+                          //     : TextDecoration.none,
+                          // decorationThickness: 2.0,
                         ),
                   ),
-                  SizedBox(height: 4),
+                  event.agenda.isNotEmpty ? SizedBox(height: 4) : Container(),
+
+                  // agenda
+                  event.agenda.isNotEmpty
+                      ? Text(
+                          event.agenda,
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: AppColors.GRAY_DARK[1],
+                              ),
+                        )
+                      : Container(),
+                  SizedBox(height: 8),
 
                   // details
                   Row(
