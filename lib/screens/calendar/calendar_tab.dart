@@ -12,17 +12,17 @@ import 'package:admu_student_app/widgets/home/empty_state.dart';
 import 'package:admu_student_app/widgets/modals/help.dart';
 import 'package:admu_student_app/widgets/help_button.dart';
 
-class MonthTab extends StatefulWidget {
+class CalendarTab extends StatefulWidget {
   final DateTime date;
   final Function(DateTime) onDateChange;
 
-  MonthTab({this.date, this.onDateChange});
+  CalendarTab({this.date, this.onDateChange});
 
   @override
-  _MonthTabState createState() => _MonthTabState();
+  _CalendarTabState createState() => _CalendarTabState();
 }
 
-class _MonthTabState extends State<MonthTab> {
+class _CalendarTabState extends State<CalendarTab> {
   DateTime _date;
 
   @override

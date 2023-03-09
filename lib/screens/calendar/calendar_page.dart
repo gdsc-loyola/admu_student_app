@@ -1,9 +1,8 @@
 import 'package:admu_student_app/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import 'package:admu_student_app/screens/calendar/month_tab.dart';
-import 'package:admu_student_app/screens/calendar/day_tab.dart';
-import 'package:admu_student_app/screens/calendar/undated_tasks_page.dart';
+import 'package:admu_student_app/screens/calendar/calendar_tab.dart';
+import 'package:admu_student_app/screens/calendar/tasks_tab.dart';
 
 class CalendarPage extends StatefulWidget {
   final DateTime date;
@@ -67,7 +66,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       child: Ink(
                         child: Center(
                           child: Text(
-                            'Month',
+                            'Calendar',
                             style:
                                 Theme.of(context).textTheme.headline6.copyWith(
                                       color: isMonth
@@ -102,7 +101,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       child: Ink(
                         child: Center(
                           child: Text(
-                            'Day',
+                            'Tasks',
                             style:
                                 Theme.of(context).textTheme.headline6.copyWith(
                                       color: isMonth
@@ -123,8 +122,8 @@ class _CalendarPageState extends State<CalendarPage> {
               child: Column(
                 children: [
                   isMonth
-                      ? MonthTab(date: _date, onDateChange: _onDateChange)
-                      : DayTab(date: _date, onDateChange: _onDateChange)
+                      ? CalendarTab(date: _date, onDateChange: _onDateChange)
+                      : TasksTab(date: _date, onDateChange: _onDateChange)
                 ],
               ),
             )

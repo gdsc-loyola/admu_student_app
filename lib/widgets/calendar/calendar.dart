@@ -126,7 +126,12 @@ class _CalendarMonthState extends State<CalendarMonth> {
                     style: Theme.of(context).textTheme.caption.copyWith(
                         color: dt.day == _date.day
                             ? AppColors.GRAY_LIGHT[2]
-                            : AppColors.GRAY_DARK[0], fontWeight: (dt.year == DateTime.now().year) && (dt.month == DateTime.now().month) && (dt.day == DateTime.now().day) ? FontWeight.bold : FontWeight.normal),
+                            : AppColors.GRAY_DARK[0],
+                        fontWeight: (dt.year == DateTime.now().year) &&
+                                (dt.month == DateTime.now().month) &&
+                                (dt.day == DateTime.now().day)
+                            ? FontWeight.bold
+                            : FontWeight.normal),
                   ),
                 ),
               ),
@@ -181,8 +186,9 @@ class _CalendarMonthState extends State<CalendarMonth> {
     List<Event> events =
         Provider.of<CalendarEvents>(context).getEventsByMonth(_date);
 
-    return Ink(
-      // height: 382,
+    return Material(
+        child: Ink(
+      // height: 382
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         color: Colors.white,
@@ -212,7 +218,6 @@ class _CalendarMonthState extends State<CalendarMonth> {
                   setState(() {
                     // minus date
                     _date = DateTime(_date.year, _date.month - 1, 1);
-
                     if (widget.onDateChange != null) widget.onDateChange(_date);
                   });
                 },
@@ -225,7 +230,6 @@ class _CalendarMonthState extends State<CalendarMonth> {
                   setState(() {
                     // add date
                     _date = DateTime(_date.year, _date.month + 1, 1);
-
                     if (widget.onDateChange != null) widget.onDateChange(_date);
                   });
                 },
@@ -240,6 +244,6 @@ class _CalendarMonthState extends State<CalendarMonth> {
           _buildDates(context, events),
         ],
       ),
-    );
+    ));
   }
 }
