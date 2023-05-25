@@ -39,6 +39,9 @@ class _AddClassPageState extends State<AddClassPage> {
   TextEditingController _sectionCtrl = TextEditingController();
   TextEditingController _yearCtrl = TextEditingController();
   TextEditingController _profCtrl = TextEditingController();
+  TextEditingController _locationCtrl = TextEditingController();
+  TextEditingController _profinfoCtrl = TextEditingController();
+  TextEditingController _notesCtrl = TextEditingController();  
 
   int _semNum = 1;
 
@@ -57,6 +60,8 @@ class _AddClassPageState extends State<AddClassPage> {
       _sectionCtrl.text = widget.course.section;
       _yearCtrl.text = '${widget.course.yearNum}';
       _profCtrl.text = '${widget.course.profName}';
+
+      _notesCtrl.text = widget.course.notes;
 
       _semNum = widget.course.semNum;
 
@@ -356,6 +361,70 @@ class _AddClassPageState extends State<AddClassPage> {
                 ),
               ],
             ),
+            SizedBox(height: 24),
+
+            //
+
+            // location
+            Row(
+              children: [
+                Expanded(
+                  child: InputGroup(
+                    'Location (optional)',
+                    _locationCtrl,
+                    hint: 'CTC 103',
+                  ),
+                ),
+                if (widget.inEnlistment) SizedBox(width: 24),
+              ],
+            ),
+            SizedBox(height: 24),
+
+            // professor
+            Row(
+              children: [
+                Expanded(
+                  child: InputGroup(
+                    'Professor Name (optional)',
+                    _profCtrl,
+                    hint: 'Smith, Jones',
+                  ),
+                ),
+                if (widget.inEnlistment) SizedBox(width: 20),
+              ],
+            ),
+            SizedBox(height: 24),
+
+            // professor contact
+            Row(
+              children: [
+                Expanded(
+                  child: InputGroup(
+                    'Professor Contact Information (optional)',
+                    _profinfoCtrl,
+                    hint: 'johnsmith@ateneo.edu',
+                  ),
+                ),
+                if (widget.inEnlistment) SizedBox(width: 20),
+              ],
+            ),
+            SizedBox(height: 24),
+
+            // notes
+            Row(
+              children: [
+                // course code
+                Expanded(
+                  child: InputGroup(
+                    'Notes (optional)',
+                    _notesCtrl,
+                    hint: 'On-site every Monday',
+                  ),
+                ),
+                if (widget.inEnlistment) SizedBox(width: 20),
+              ],
+            ),
+            SizedBox(height: 24),
 
             if (widget.inEnlistment) SizedBox(height: 24),
             // professor in enlistment
