@@ -151,77 +151,92 @@ class _TasksTabState extends State<TasksTab> {
                 _date.month == _dateAll.month &&
                 _date.day == _dateAll.day;
             return Container(
-                child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Container(
-                    child: Provider.of<CalendarEvents>(context)
-                                .getEventsByDay(_dateAll)
-                                .length >
-                            0
-                        ? Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    '${DateFormat('EEE').format(_dateAll)}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline5
-                                        .copyWith(
-                                            color: isDate
-                                                ? AppColors.PRIMARY_MAIN
-                                                : AppColors.GRAY_DARK[0]),
-                                  ),
-                                  Container(
-                                      padding: const EdgeInsets.all(5.0),
-                                      decoration: BoxDecoration(
-                                        color: isDate
-                                            ? AppColors.PRIMARY_MAIN
-                                            : Colors.transparent,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Text(
-                                        '${DateFormat('dd').format(_dateAll)}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5
-                                            .copyWith(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Container(
+                      child: Provider.of<CalendarEvents>(context)
+                                  .getEventsByDay(_dateAll)
+                                  .length >
+                              0
+                          ? Row(
+                              children: [
+                                Container(
+                                  width:
+                                      60, // Adjust the width to your desired value
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          '${DateFormat('EEE').format(_dateAll)}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5
+                                              .copyWith(
                                                 color: isDate
-                                                    ? AppColors.GRAY_LIGHT[2]
-                                                    : AppColors.GRAY_DARK[0]),
-                                      )),
-                                ],
-                              )
-                            ],
-                          )
-                        : Container(),
+                                                    ? AppColors.PRIMARY_MAIN
+                                                    : AppColors.GRAY_DARK[0],
+                                              ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.0),
+                                      Container(
+                                        padding: const EdgeInsets.all(5.0),
+                                        decoration: BoxDecoration(
+                                          color: isDate
+                                              ? AppColors.PRIMARY_MAIN
+                                              : Colors.transparent,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Align(
+                                          child: Text(
+                                            '${DateFormat('dd').format(_dateAll)}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5
+                                                .copyWith(
+                                                  color: isDate
+                                                      ? AppColors.GRAY_LIGHT[2]
+                                                      : AppColors.GRAY_DARK[0],
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container(),
+                    ),
                   ),
-                ),
-                Expanded(
+                  Expanded(
                     child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: Provider.of<CalendarEvents>(context)
-                      .getEventsByDay(_dateAll)
-                      .length,
-                  itemBuilder: (_, index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 8.0),
-                      child: CompactEventCard(
-                        event: Provider.of<CalendarEvents>(context)
-                            .getEventsByDay(_dateAll)[index],
-                        onMark: () => setState(() {}),
-                      ),
-                    );
-                  },
-                ))
-              ],
-            ));
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: Provider.of<CalendarEvents>(context)
+                          .getEventsByDay(_dateAll)
+                          .length,
+                      itemBuilder: (_, index) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 8.0),
+                          child: CompactEventCard(
+                            event: Provider.of<CalendarEvents>(context)
+                                .getEventsByDay(_dateAll)[index],
+                            onMark: () => setState(() {}),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
           },
         )),
         SizedBox(height: 16),
